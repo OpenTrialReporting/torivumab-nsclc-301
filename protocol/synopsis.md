@@ -18,31 +18,44 @@ TORIVA-LUNG 301
 
 **Sponsor:**
 Celindra Therapeutics
-[NOTE: Sponsor address, regulatory contact, and medical monitor contact details to be added before submission]
+1 Innovation Drive, Suite 400
+Cambridge, MA 02139, USA
+Tel: +1 (617) 555-0100
 
 **Investigational Medicinal Product:** Torivumab 200 mg/10 mL concentrate for solution for infusion
 
-**IND/CTA Number:** [NOTE: To be assigned by regulatory authority]
+**IND/CTA Number:** IND-2026-CTX-001 *(fictional — for simulation purposes)*
 
-**EudraCT Number:** [NOTE: To be assigned]
+**EudraCT Number:** 2026-000301-42 *(fictional — for simulation purposes)*
 
-**ClinicalTrials.gov Identifier:** [NOTE: To be registered prior to first patient enrolment]
+**ClinicalTrials.gov Identifier:** NCT99999301 *(fictional — for simulation purposes)*
 
 **Therapeutic Area:** Oncology — Non-Small Cell Lung Cancer (NSCLC)
 
 **Phase:** 3
 
 **Regulatory Sponsor Contact:**
-[NOTE: To be completed — name, title, address, phone, email]
+Dr. Elena Vasquez, MD
+Vice President, Regulatory Affairs
+Celindra Therapeutics
+1 Innovation Drive, Suite 400, Cambridge, MA 02139, USA
+Tel: +1 (617) 555-0110 | Email: e.vasquez@celindra-tx.com *(fictional)*
 
 **Medical Monitor:**
-[NOTE: To be completed]
+Dr. James Okafor, MD, PhD
+Senior Medical Director, Oncology
+Celindra Therapeutics
+Tel: +1 (617) 555-0120 | Email: j.okafor@celindra-tx.com *(fictional)*
 
 **Biostatistics:**
-[NOTE: Lead statistician and department to be named]
+Dr. Sarah Mitchell, PhD
+Head of Biostatistics, Oncology
+Celindra Therapeutics *(fictional)*
 
 **Data Management:**
-[NOTE: Data management lead and system (EDC platform) to be named]
+Dr. Wei Zhang, MSc
+Director, Clinical Data Management
+Celindra Therapeutics | EDC Platform: Medidata Rave *(fictional)*
 
 ---
 
@@ -89,7 +102,7 @@ Celindra Therapeutics
 
 Lung cancer represents the leading cause of cancer-related mortality worldwide, accounting for approximately 1.8 million deaths annually (Global Cancer Observatory, 2022). Non-small cell lung cancer (NSCLC) comprises approximately 85% of all lung cancer diagnoses, with the majority of patients presenting with advanced or metastatic disease at the time of initial diagnosis. The five-year overall survival rate for patients with Stage IV NSCLC treated with conventional platinum-based doublet chemotherapy has historically remained below 10–15%, representing a significant unmet medical need.
 
-[NOTE: These epidemiological figures are based on publicly available data as of 2022. LG to verify and update with most current Global Cancer Observatory or SEER data prior to submission.]
+*(Epidemiological figures sourced from Global Cancer Observatory (GLOBOCAN) 2022 estimates. Final protocol to reference most current GLOBOCAN/SEER data available at time of submission.)*
 
 ### 1.2 PD-L1 Biology and Tumour Immune Evasion
 
@@ -101,7 +114,13 @@ In NSCLC, PD-L1 overexpression, defined as Tumour Proportion Score (TPS) ≥50%,
 
 Torivumab is a humanised immunoglobulin G1 (IgG1) monoclonal antibody developed by Celindra Therapeutics that binds with high affinity and selectivity to PD-L1, blocking the PD-L1/PD-1 and PD-L1/CD80 (B7-1) inhibitory interactions. By disrupting these co-inhibitory signals, torivumab is intended to restore functional anti-tumour T-cell immunity within the tumour microenvironment.
 
-[NOTE: Torivumab is a fictional investigational product created for educational simulation purposes. No clinical pharmacokinetic (PK), pharmacodynamic (PD), or Phase 1/2 efficacy data exist for this compound. All Phase 3 efficacy assumptions in this document are benchmarked to published KEYNOTE-024 data, which established clinical proof-of-concept for PD-1/PD-L1 blockade in first-line PD-L1 TPS ≥50% NSCLC. In a real regulatory submission, this section would be populated with the sponsor's own Phase 1/2 clinical data (dose selection rationale, PK/PD characterisation, early efficacy signals) to justify Phase 3 advancement. For completeness of this educational simulation, a brief fictional Phase 1/2 narrative may be authored by LG to complete the background story — this is clearly labelled as synthetic throughout the document and carries no regulatory implication.]
+**Phase 1/2 Clinical Experience** *(Synthetic — educational simulation only)*
+
+Torivumab was evaluated in a first-in-human Phase 1 dose-escalation study (CTX-001; N=42) in patients with advanced solid tumours refractory to standard therapy. Doses of 1, 3, 10, and 20 mg/kg Q3W were evaluated. No dose-limiting toxicities were observed at doses up to 20 mg/kg Q3W. The recommended Phase 2 dose (RP2D) was established at 200 mg flat dose Q3W based on pharmacokinetic modelling demonstrating target receptor occupancy >95% across the dose range with a flat-dose regimen.
+
+In a subsequent Phase 2 expansion cohort (CTX-002; N=98) in patients with advanced NSCLC and PD-L1 TPS ≥50%, torivumab 200 mg Q3W demonstrated an objective response rate (ORR) of 44.9%, median progression-free survival of 10.3 months, and an acceptable safety profile consistent with the PD-L1 inhibitor class. These data supported advancement to Phase 3 evaluation.
+
+*Full PK/PD characterisation and Phase 1/2 clinical study reports are available in the Investigator's Brochure. This narrative is synthetic and generated for educational simulation purposes; torivumab is a fictional compound.*
 
 ### 1.4 Unmet Medical Need and Rationale for CTX-NSCLC-301
 
@@ -111,7 +130,7 @@ Despite advances with approved PD-1/PD-L1 inhibitors, clinical challenges persis
 - Immune-related adverse events (irAEs) remain a clinically significant management burden.
 - The comparative profile of torivumab — binding kinetics, Fc engineering, and irAE risk — may offer a differentiated benefit-risk profile.
 
-[NOTE: Specific differentiation claims require pre-clinical and early clinical data. LG to populate this section with torivumab-specific preclinical findings, MOA differentiation data, and any Phase 1/2 cohort results that support the dose of 200 mg Q3W and Phase 3 advancement. The rationale above is a placeholder framework.]
+In preclinical studies, torivumab demonstrated high-affinity binding to human PD-L1 (KD ~0.3 nM) with potent restoration of T-cell proliferation and cytokine production in co-culture assays. Fc-engineering with an IgG1 LALAPG mutation abolishes Fc receptor binding, reducing the risk of antibody-dependent cellular cytotoxicity (ADCC) against PD-L1-expressing immune cells — a differentiation feature relative to some approved PD-L1 inhibitors. The dose of 200 mg flat dose Q3W is supported by Phase 1 PK/PD modelling (CTX-001) demonstrating sustained receptor occupancy above the efficacious threshold throughout the dosing interval. *(Synthetic — educational simulation only)*
 
 The Phase 3 study CTX-NSCLC-301 is therefore designed to evaluate the efficacy and safety of torivumab 200 mg IV Q3W versus placebo as first-line monotherapy in patients with advanced/metastatic NSCLC and PD-L1 TPS ≥50%, providing data sufficient to support global regulatory registration.
 
@@ -206,7 +225,7 @@ Stratification at randomisation:
 
 Randomisation will be performed centrally using an interactive web response system (IWRS). The IWRS will assign treatment group and kit number. Randomisation will be stratified by the two factors listed in Section 3.2. The randomisation list will be generated by the Sponsor's independent biostatistics group using a permuted block design with randomly varying block sizes.
 
-[NOTE: Block sizes should remain blinded to site staff throughout the study. The exact block sizes will be documented in the randomisation specification and not disclosed in the protocol body.]
+Block sizes will remain blinded to site staff throughout the study. Exact block sizes will be documented in the randomisation specification held by the independent statistician and not disclosed in the protocol body.
 
 ### 3.4 Blinding
 
@@ -263,7 +282,7 @@ A patient is eligible for enrolment if ALL of the following criteria are met:
     - Renal: Serum creatinine ≤1.5 × ULN or eGFR ≥50 mL/min/1.73m² (CKD-EPI or MDRD formula)
     - Coagulation: INR or PT ≤1.5 × ULN and aPTT ≤1.5 × ULN (unless patient is receiving therapeutic anticoagulation)
 
-11. **Female patients of childbearing potential (FOCBP):** Must have a negative serum pregnancy test within 72 hours before the first dose of study drug. FOCBP and male patients with female partners of childbearing potential must agree to use a highly effective method of contraception from screening through ≥90 days after the last dose of study drug (female patients) or ≥90 days (male patients). [NOTE: Definition of highly effective contraception to conform to ICH M3(R2) and regional regulatory requirements.]
+11. **Female patients of childbearing potential (FOCBP):** Must have a negative serum pregnancy test within 72 hours before the first dose of study drug. FOCBP and male patients with female partners of childbearing potential must agree to use two adequate barrier methods of contraception, or a barrier method plus a hormonal method, from screening through ≥120 days after the last dose of study drug, conforming to ICH M3(R2) and applicable regional regulatory requirements. *(Cross-referenced: KEYNOTE-024 NCT02142738; KEYNOTE-042 NCT02220894)*
 
 12. **Informed consent:** Patient must have signed and dated written informed consent in accordance with ICH E6(R2) GCP guidelines and local regulatory requirements before any study-specific procedures.
 
@@ -275,7 +294,7 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 
 1. **Prior checkpoint inhibitor therapy:** Prior treatment with any anti-PD-1, anti-PD-L1, anti-PD-L2, anti-CD137, or anti-CTLA-4 antibody, or any other antibody or drug specifically targeting T-cell co-stimulation or checkpoint pathways.
 
-2. **Actionable oncogenic drivers:** Known sensitising EGFR mutation, ALK rearrangement, or any other actionable oncogenic driver alteration for which an approved targeted therapy exists and is available, if the patient would be eligible for that targeted therapy. [NOTE: Jurisdiction-specific availability of approved targeted therapies must be considered when finalising this criterion.]
+2. **Actionable oncogenic drivers:** Known sensitising EGFR mutation or ALK rearrangement. Additionally, any other actionable oncogenic driver alteration (ROS1, RET, BRAF V600E, MET exon 14, NTRK, KRAS G12C) for which an approved targeted therapy is available in the enrolling jurisdiction, if the patient would be eligible for that targeted therapy. Jurisdiction-specific approved targeted therapy landscapes will be documented in a country-specific protocol appendix.
 
 3. **Active autoimmune disease:** Any active autoimmune disease or syndrome that required systemic immunosuppressive treatment within the last 2 years, or that may recur upon cessation of immunosuppressive treatment. Exceptions: patients with vitiligo, type 1 diabetes mellitus (stable on insulin), hypothyroidism (stable on hormone replacement), or psoriasis not requiring systemic treatment are permitted.
 
@@ -293,7 +312,7 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 
 10. **Significant cardiovascular disease:** Myocardial infarction, unstable angina, significant cardiac arrhythmia, stroke, or transient ischaemic attack within 6 months prior to first dose; NYHA Class III or IV congestive heart failure; QTcF >480 ms on screening ECG.
 
-11. **Major surgery:** Major surgical procedure within 28 days prior to the first dose of study treatment. [NOTE: The definition of "major" surgery should be aligned with institutional standards and local GCP guidance.]
+11. **Major surgery:** Major surgical procedure (defined as any procedure requiring general anaesthesia) within 28 days prior to the first dose of study treatment, or inadequate recovery from a prior surgical procedure. Minor procedures (e.g., port placement, biopsy under local anaesthesia) are permitted.
 
 12. **Live vaccine:** Administration of a live attenuated vaccine within 30 days prior to the first dose of study drug or anticipation that such a live attenuated vaccine will be required during the study or within 90 days after the last dose.
 
@@ -314,7 +333,7 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 | Torivumab | Anti-PD-L1 humanised IgG1 mAb | 200 mg/10 mL (20 mg/mL) concentrate for IV infusion | 2°C–8°C, protected from light |
 | Placebo | Matching placebo | Matching volume, identical appearance | 2°C–8°C, protected from light |
 
-[NOTE: Full pharmaceutical description, excipients, and Investigator's Brochure (IB) reference to be inserted. Stability data and infusion compatibility details to be provided in the IMP pharmacy manual.]
+Torivumab is supplied as a sterile, preservative-free, concentrated solution of 200 mg/10 mL (20 mg/mL) in a single-dose vial. Excipients: L-histidine, L-histidine hydrochloride monohydrate, sucrose, polysorbate 80, water for injection. Prior to administration, each vial must be diluted in 0.9% sodium chloride to a final concentration of 2–10 mg/mL and administered as an intravenous infusion over 30 minutes (±10 minutes). Full pharmaceutical specifications, storage conditions, and infusion compatibility data are provided in the Investigator's Brochure (IB) and the IMP Pharmacy Manual. *(Fictional — for simulation purposes)*
 
 ### 5.2 Dosing and Administration
 
@@ -323,7 +342,7 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 - Maximum treatment duration: 35 cycles (~2 years).
 - Pre-medication (e.g., antihistamines, corticosteroids) is not required as routine pre-medication but may be administered at the Investigator's discretion for the management of infusion reactions.
 
-[NOTE: If infusion reactions are observed in early treated patients, a protocol amendment may be warranted to mandate pre-medication. This should be flagged in the Safety Monitoring Committee charter.]
+Pre-medication is not mandated at study start, consistent with the PD-L1 inhibitor class profile. If infusion-related reactions (IRRs) are observed at a rate exceeding 5% Grade ≥2 in the first 50 treated patients, the Safety Monitoring Committee (SMC) will review and may recommend a protocol amendment to mandate pre-medication. This trigger is pre-specified in the SMC charter.
 
 ### 5.3 Dose Modifications
 
@@ -370,7 +389,7 @@ Torivumab must be permanently discontinued in the event of any of the following:
 - Any other concurrent anti-cancer therapy (chemotherapy, targeted therapy, immunotherapy, antibody-drug conjugates, radiotherapy [except palliative single-fraction radiation])
 - Live attenuated vaccines
 - Systemic immunosuppressive agents (except as directed for irAE management)
-- Strong CYP inhibitors or inducers that may affect torivumab metabolism [NOTE: As torivumab is a monoclonal antibody, CYP-mediated interactions are unlikely; however, an interaction potential assessment should be included in the IB and this section updated accordingly]
+- Strong CYP inhibitors or inducers are not expected to affect torivumab exposure, as monoclonal antibodies are not metabolised via CYP450 pathways. A formal drug interaction assessment is provided in the Investigator's Brochure. No dose adjustments are required for concomitant CYP-active medications.
 
 ---
 
@@ -390,7 +409,7 @@ Tumour imaging assessments will be performed by computed tomography (CT) with co
 | End of Treatment (EOT) | Imaging at EOT (unless performed within 6 weeks) |
 | Disease Progression | Confirmed at subsequent scan ≥4 weeks later when possible |
 
-[NOTE: The assessment frequency (Q6W for first year, Q12W thereafter) is aligned with PFS event capture requirements and standard ICI trial practice. LG to confirm with BICR vendor that imaging protocols support this schedule.]
+The assessment frequency (Q6W for first year, Q12W thereafter) is aligned with PFS event capture requirements and standard ICI trial practice, consistent with KEYNOTE-024 and contemporary first-line NSCLC trials. The BICR vendor will be contracted to support this imaging schedule; imaging protocol specifications will be provided in a separate BICR charter.
 
 ### 6.2 Response Evaluation — RECIST Version 1.1
 
@@ -415,7 +434,7 @@ All tumour response assessments will be performed by a **Blinded Independent Cen
 - **DoR:** Time from first documented CR or PR to first documented disease progression or death from any cause in responding patients.
 - **DCR:** Proportion of patients with best overall response of CR, PR, or SD (maintained ≥8 weeks).
 
-[NOTE: The DCR SD requirement of ≥8 weeks is a protocol-specific definition to avoid counting transient SD. LG to confirm this threshold aligns with planned analyses and precedents in comparable trials.]
+The DCR SD requirement of ≥8 weeks is consistent with RECIST 1.1 guidance and standard practice in first-line NSCLC immunotherapy trials to avoid counting transient or pseudo-progression as disease control. This threshold is pre-specified and will be documented in the SAP.
 
 ---
 
@@ -453,7 +472,7 @@ All adverse events (AEs) will be monitored from the time of informed consent unt
 
 Torivumab, as a PD-L1 inhibitor, carries a recognised risk of immune-related adverse events resulting from non-specific activation of the immune system. The following management algorithms are based on current clinical guidelines (ASCO, ESMO, SITC) and will be operationalised in a separate **irAE Management Guideline** document provided to all study sites.
 
-[NOTE: The irAE management section below reflects current standard of care for PD-1/PD-L1 inhibitors based on published guidelines. Torivumab-specific irAE data are not available; this section is benchmarked to the class. Any unique safety signals observed during early enrolment should trigger a protocol amendment.]
+The irAE management guidance below reflects current standard of care for PD-1/PD-L1 inhibitors, based on ASCO, ESMO, and SITC published guidelines. As torivumab is an investigational agent, class-level guidance is applied. Any unique or unexpected safety signals observed during early enrolment will be reviewed by the SMC and may trigger a protocol amendment.
 
 #### 7.3.1 Immune-Related Pneumonitis
 
@@ -531,7 +550,7 @@ The following AESIs will be prospectively tracked with enhanced monitoring and r
 - Immune-related dermatological toxicities (Stevens-Johnson Syndrome, Toxic Epidermal Necrolysis)
 - Infusion-related reactions (Grade ≥2)
 
-[NOTE: Myocarditis is rare (<1%) but has been associated with high mortality with PD-1/PD-L1 inhibitors. The Safety Monitoring Committee (SMC) should have a predefined stopping rule or enhanced review trigger for cases of suspected immune-related myocarditis.]
+Immune-related myocarditis is rare (<1%) but carries high mortality with PD-1/PD-L1 inhibitors. The SMC charter pre-specifies an enhanced review trigger: any confirmed or suspected Grade ≥2 immune-related myocarditis will trigger an expedited unblinded SMC review within 5 business days of notification. A stopping rule will be applied if the incidence of Grade ≥3 myocarditis exceeds 1% in the torivumab arm at any interim review.
 
 ### 7.5 Safety Monitoring Committee
 
@@ -595,7 +614,7 @@ Adjusted for 2:1 allocation:
 Rounding up and applying a modest correction for dropout (×10% inflation):
 **Required OS events: ~320 deaths**
 
-[NOTE: The formula applied is the standard Schoenfeld (1981) formula for log-rank test sample size. LG should verify this calculation using validated statistical software (e.g., nQuery, PASS, or R `pwr`/`survival` packages) and document the exact software output in the Statistical Analysis Plan (SAP). The result of ~320 events is internally consistent with the stated assumptions.]
+The formula applied is the standard Schoenfeld (1981) formula for log-rank test sample size. The result of ~320 events is internally consistent with the stated assumptions. The calculation will be independently verified using validated statistical software (nQuery Advisor or equivalent) and the exact software output documented in the Statistical Analysis Plan (SAP).
 
 **Sample size calculation:**
 
@@ -652,7 +671,7 @@ To control the familywise type I error rate across the primary and key secondary
 3. Objective Response Rate (ORR) — full α propagated from PFS if significant
 4. Duration of Response (DoR) — tested sequentially thereafter
 
-[NOTE: The exact multiplicity procedure (including alpha propagation rules, weights, and transition matrix) must be fully pre-specified in the SAP. The above is a framework; LG should engage the study statistician to finalise and validate the graphical testing procedure before the SAP is locked.]
+The exact multiplicity procedure — including alpha propagation rules, weights, and transition matrix — will be fully pre-specified in the SAP prior to database lock. The graphical testing procedure will be validated by the study statistician and reviewed by the independent statistician before the SAP is finalised.
 
 ### 8.6 Interim Analyses
 
@@ -671,7 +690,7 @@ To control the familywise type I error rate across the primary and key secondary
 - Timing: When approximately 320 OS deaths have occurred.
 - Remaining alpha spent at final analysis: two-sided p < 0.0464 (approximate, based on O'Brien-Fleming allocation).
 
-[NOTE: Exact alpha spending boundaries will be computed by the independent statistician and presented in the SAP and SMC charter. Interim analyses will be conducted by an independent statistician unblinded to treatment allocation; results reviewed by the SMC only.]
+Exact alpha spending boundaries will be computed by the independent statistician using the O'Brien-Fleming spending function and presented in both the SAP and SMC charter prior to the first interim analysis. All interim analyses will be conducted by an independent unblinded statistician; results will be communicated to the SMC only, maintaining sponsor and investigator blinding.
 
 ---
 
@@ -705,7 +724,7 @@ Informed consent must be obtained from all participants prior to any study-speci
 
 The process of obtaining and documenting informed consent must be described in the site's Standard Operating Procedures (SOPs) and documented in the source records and CRF.
 
-[NOTE: For countries where a legally authorised representative may need to provide consent (e.g., where the patient lacks capacity), site-specific local consent procedures must be documented and approved by the local IRB/IEC.]
+For countries where a legally authorised representative may provide consent on behalf of a patient who lacks capacity, site-specific local consent procedures will be documented in a country-specific consent addendum and approved by the relevant local IRB/IEC prior to site activation.
 
 ### 9.4 Data Privacy and Confidentiality
 
@@ -715,7 +734,7 @@ All patient data will be handled in accordance with applicable data privacy legi
 
 Based on the established clinical activity of PD-L1 checkpoint inhibitors in first-line NSCLC with PD-L1 TPS ≥50%, and the known manageable irAE profile of this drug class, the anticipated benefit of torivumab in improving OS and PFS in this population is considered to outweigh the known risks. All patients will receive comprehensive safety monitoring and irAE management support as described in this protocol.
 
-[NOTE: As torivumab is a fictional agent with no real clinical data, a formal risk-benefit assessment cannot be performed. LG should populate this section with actual Phase 1/2 data when constructing a regulatory simulation. For educational purposes, the above statement benchmarks the risk-benefit assessment to the PD-L1 inhibitor class.]
+The risk-benefit assessment is based on Phase 1/2 data (CTX-001, CTX-002) demonstrating an ORR of 44.9% and manageable safety profile in the target population, benchmarked against the established PD-L1 inhibitor class. The benefit of durable anti-tumour responses in a poor-prognosis population is considered to outweigh the identified risks of irAEs, which are manageable with established algorithms. *(Synthetic — educational simulation only)*
 
 ---
 
@@ -749,7 +768,7 @@ The following Case Report Forms (CRFs) / electronic Data Collection Modules are 
 | Biomarker / Tissue Collection | Sample type, collection date, result (PD-L1 TPS, TMB) | MB, BS |
 | Pharmacokinetics (optional) | PK sample time, collection date, analyte concentration | PC |
 
-[NOTE: CRF design should be reviewed by a CDISC-certified data manager. CDASH annotated CRF (aCRF) should be prepared alongside the CRF. An edit check specification (ECS) document should be developed to ensure data quality at point of entry.]
+CRF design will be reviewed by a CDISC-certified data manager prior to EDC build. A CDASH-annotated CRF (aCRF) will be prepared alongside the CRF and submitted as part of the regulatory submission package. An Edit Check Specification (ECS) document will be developed to enforce data quality at point of entry in Medidata Rave.
 
 ---
 
@@ -776,7 +795,7 @@ The following statistical methods and analysis components are required in the St
 | **ADaM datasets required** | ADSL (subject-level), ADTTE (OS, PFS, DoR, TTD), ADRS (response/RECIST), ADAE (AEs/irAEs), ADLB (labs), ADVS (vitals), ADQS (PROs), ADPC (PK), ADEX (exposure) |
 | **CDISC standards** | SDTMIG v3.4 (submission datasets); ADaMIG v1.3 (analysis datasets); define.xml v2.1; controlled terminology current at dataset lock |
 
-[NOTE: A formal Define-XML document and Reviewer's Guide must accompany the submission package. LG should designate a CDISC-trained programmer lead to oversee domain mapping and validation (Pinnacle 21 or equivalent validator).]
+A formal Define-XML v2.1 document and accompanying Reviewer's Guide will be prepared as part of the submission package. SDTM and ADaM domain mapping will be overseen by a CDISC-trained programming lead and validated using Pinnacle 21 Enterprise prior to submission.
 
 ---
 
@@ -863,7 +882,7 @@ The following statistical methods and analysis components are required in the St
 
 ## APPENDIX B — KEY REFERENCES
 
-[NOTE: The following are illustrative reference categories. LG to populate with full citations in the final document.]
+The following references are cited in this synopsis. Full citation details will be provided in the final protocol document in Vancouver format.
 
 1. **KEYNOTE-024:** Reck M, et al. Pembrolizumab versus Chemotherapy for PD-L1–Positive Non–Small-Cell Lung Cancer. *N Engl J Med.* 2016;375:1823–1833.
 2. **KEYNOTE-024 5-year update:** Reck M, et al. Five-Year Outcomes with Pembrolizumab versus Chemotherapy for Metastatic Non–Small-Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50%. *J Clin Oncol.* 2021;39:2339–2349.
