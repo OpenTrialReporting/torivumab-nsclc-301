@@ -245,11 +245,11 @@ A patient is eligible for enrolment if ALL of the following criteria are met:
 
 3. **Stage:** Stage IIIB (not amenable to curative-intent chemoradiation), Stage IIIC, or Stage IV disease per AJCC 8th Edition staging.
 
-4. **Line of therapy:** No prior systemic anti-cancer therapy for advanced/metastatic disease. [NOTE: Prior adjuvant or neoadjuvant chemotherapy or chemoradiation completed ≥12 months before first dose is permitted; prior adjuvant ICI therapy completed ≥6 months before first dose may be permitted — LG to align with regulatory guidance at time of submission.]
+4. **Line of therapy:** No prior systemic anti-cancer therapy for advanced/metastatic disease. Prior adjuvant or neoadjuvant chemotherapy or chemoradiation completed ≥6 months before diagnosis of metastatic disease is permitted. Prior adjuvant ICI therapy is not permitted. *(Cross-referenced: KEYNOTE-024 NCT02142738; KEYNOTE-042 NCT02220894)*
 
-5. **PD-L1 expression:** PD-L1 TPS ≥50% as determined by a validated IHC assay (22C3 pharmDx or equivalent sponsor-approved companion diagnostic [CDx] assay) at a certified central or local laboratory. [NOTE: The specific validated CDx assay must be confirmed with the regulatory authority and locked prior to protocol finalisation. Discordance between local and central laboratory results: protocol must specify which result governs eligibility — recommend central laboratory result governs.]
+5. **PD-L1 expression:** PD-L1 TPS ≥50% as determined by the 22C3 pharmDx IHC assay (Dako/Agilent) at a certified central laboratory. Central laboratory result governs eligibility in all cases of discordance with local laboratory results. A newly obtained formalin-fixed tumour tissue biopsy from a site not previously irradiated is required; archival tissue is acceptable only if obtained after the diagnosis of metastatic disease. *(Cross-referenced: KEYNOTE-024 NCT02142738)*
 
-6. **Molecular testing:** Absence of sensitising EGFR mutations (including exon 19 deletions and exon 21 L858R substitutions and other known activating mutations) and ALK gene rearrangements, as determined by a validated assay. [NOTE: Testing for ROS1, KRAS G12C, MET exon 14, RET, BRAF V600E, and NTRK should also be performed to characterise the population and guide post-progression therapy, even if not formal exclusion criteria. Discuss with regulatory authority whether additional actionable alterations should be formal exclusion criteria.]
+6. **Molecular testing:** Absence of sensitising EGFR mutations (including exon 19 deletions and exon 21 L858R substitutions and other known activating mutations) and ALK gene rearrangements, as determined by a validated assay. Testing for ROS1, KRAS G12C, MET exon 14 skipping, RET rearrangements, BRAF V600E, and NTRK fusions must also be performed for all patients to characterise the population and guide post-progression therapy. These alterations are not formal exclusion criteria but must be documented at baseline in the eCRF. *(Cross-referenced: KEYNOTE-024 NCT02142738; contemporary NSCLC trial standard)*
 
 7. **Measurable disease:** At least one measurable lesion per RECIST 1.1 criteria (≥10 mm in longest diameter by CT scan, or ≥15 mm in short axis for lymph nodes).
 
@@ -281,15 +281,15 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 
 4. **Active systemic corticosteroid use:** Systemic corticosteroid therapy at a dose equivalent to >10 mg prednisone daily or any other immunosuppressive medication within 7 days prior to the first dose of study treatment. Inhaled, topical, and physiologic replacement doses are permitted.
 
-5. **Brain metastases:** Untreated symptomatic brain metastases or leptomeningeal disease. Patients with treated brain metastases are eligible if clinically stable (no progression on imaging for ≥4 weeks post-treatment), off systemic corticosteroids (or on stable dose ≤10 mg prednisone equivalent/day) for ≥2 weeks before first dose, and neurologically stable. [NOTE: LG to confirm this aligns with current regulatory and clinical guidance, as criteria for treated brain metastases have evolved.]
+5. **Brain metastases:** Untreated symptomatic brain metastases or leptomeningeal disease. Patients with treated brain metastases are eligible if clinically stable (no progression on imaging for ≥4 weeks post-treatment), off systemic corticosteroids (or on stable dose ≤10 mg prednisone equivalent/day) for ≥2 weeks before first dose, and neurologically stable. *(Cross-referenced: KEYNOTE-024 NCT02142738 — untreated CNS metastases excluded; treated and stable brain metastases permitted, consistent with current ICI trial standard)*
 
 6. **Prior malignancy:** Active or history of another primary malignancy within 3 years prior to study enrolment, except for adequately treated basal cell or squamous cell skin cancer, in situ cervical cancer, or other cancers from which the patient has been disease-free for ≥3 years and is not receiving treatment.
 
-7. **Active infections:** Uncontrolled, serious active infection requiring systemic therapy. Active tuberculosis (TB) or known history of TB, including latent TB not on treatment per institutional guidelines. [NOTE: HIV status: patients with well-controlled HIV (CD4 ≥350 cells/µL, undetectable viral load, on stable ART) may be considered for inclusion — LG to make a definitive policy decision and include specific eligibility language if HIV-positive patients are to be included.]
+7. **Active infections:** Uncontrolled, serious active infection requiring systemic therapy. Active tuberculosis (TB) or known history of TB. Known history of HIV is an exclusion criterion. Known active Hepatitis B or C is an exclusion criterion. *(Cross-referenced: KEYNOTE-024 NCT02142738; KEYNOTE-042 NCT02220894 — both exclude known HIV history and active HBV/HCV)*
 
 8. **Interstitial lung disease (ILD):** History of (non-infectious) pneumonitis that required steroids, or current pneumonitis, or known history of interstitial lung disease.
 
-9. **Prior thoracic radiation:** Prior chest radiotherapy with a lung V20 >35% within 26 weeks prior to enrolment, or any prior radiation therapy to the lung requiring systemic steroid treatment. [NOTE: This criterion is intended to reduce the risk of radiation-recall pneumonitis. LG to review current regulatory precedents and adjust radiation constraints if needed.]
+9. **Prior thoracic radiation:** Prior thoracic radiation therapy >30 Gy within 6 months prior to first dose of study drug. *(Cross-referenced: KEYNOTE-024 NCT02142738; KEYNOTE-042 NCT02220894 — both use >30 Gy within 6 months as threshold)*
 
 10. **Significant cardiovascular disease:** Myocardial infarction, unstable angina, significant cardiac arrhythmia, stroke, or transient ischaemic attack within 6 months prior to first dose; NYHA Class III or IV congestive heart failure; QTcF >480 ms on screening ECG.
 
@@ -615,7 +615,7 @@ Required sample size = Events required / Overall event probability = 320 / 0.70 
 
 Inflated for 10% dropout: 457 / 0.90 ≈ 508 patients
 
-[NOTE: The planned sample size of 450 corresponds to the event-driven requirement of ~320 deaths. The actuarial calculation above yields ~508 with conservative dropout; however, in practice the study is **event-driven** — enrolment may be extended if needed to reach 320 events. LG should decide whether to (a) fix enrolment at 450 and allow study timeline to flex, or (b) set a minimum of 450 with upward adjustment permitted. The 450 figure is pragmatic and consistent with a 2:1 ratio yielding 300:150. Recommend SAP specifies that the DSMB will confirm event-driven analysis triggers. This is a key item for LG review.]
+The planned enrolment target of 450 subjects is fixed. This study is **event-driven**: enrolment will be capped at 450 subjects (300 torivumab : 150 placebo), and the study timeline will flex as required to accumulate the 320 OS events needed to trigger the primary analysis. If event accumulation is slower than projected, the follow-up period will be extended accordingly. The DSMB will confirm event-driven analysis triggers at each interim review. This approach is consistent with standard Phase 3 oncology trial design and aligned with the KEYNOTE-024 precedent.
 
 **Final planned sample size: 450 subjects (300 torivumab : 150 placebo)**
 
