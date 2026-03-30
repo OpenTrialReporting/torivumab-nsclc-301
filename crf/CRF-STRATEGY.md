@@ -120,7 +120,7 @@ SCREENING                  TREATMENT                              FOLLOW-UP
 | **MH** | Medical History | Prior medical conditions, prior therapy | Baseline |
 | **SU** | Substance Use (Tobacco) | Smoking status | Baseline |
 | **VS** | Vital Signs (Horizontal format) | BP, HR, temperature, respiration | Every visit |
-| **LB** | Laboratory Test Results (Local) | Chemistry, hematology, urinalysis | Baseline, Weeks 1-3 of each cycle, EOT |
+| **LB** | Laboratory Test Results (Local) | **Clinical labs** (chemistry, hematology, urinalysis) + **Baseline biomarkers** (PD-L1 TPS, mutations, TMB) | Baseline (biomarkers), Weeks 1-3 of each cycle (clinical), EOT |
 | **PE** | Physical Examination | General PE findings, ECOG status | Baseline + EOT |
 | **DD** | Death Details | Cause of death, circumstances (if applicable) | Post-mortem |
 
@@ -159,6 +159,86 @@ Each form SHALL include:
 | **Validation Rules** | Range checks, required fields, conditional logic (if applicable) |
 | **Visit Windows** | ±X days from scheduled visit |
 | **Query Notes** | Space for data clarification queries (DM to sites) |
+
+### Biomarker Testing (LB Domain) — Protocol Alignment
+
+**Per protocol Section 4.2 (Eligibility)**, all patients require baseline molecular testing:
+- **PD-L1 TPS:** ≥50% by 22C3 pharmDx IHC assay (central lab)
+- **EGFR mutations:** Absence of sensitising mutations (exon 19 deletions, exon 21 L858R, other activating mutations)
+- **ALK rearrangement:** Absence of ALK fusions
+- **Other mutations (testing required):** ROS1, KRAS G12C, MET exon 14 skipping, RET rearrangements, BRAF V600E, NTRK fusions
+- **TMB (optional):** If available from genomic panel
+
+**CRF Implementation:**
+Biomarker results collected on **LB (Laboratory Test Results) form**, treating molecular findings as laboratory data:
+
+```
+FORM: Laboratory Test Results — Baseline Biomarkers (LB)
+Visit: Baseline (Screening or Day 1, before randomisation)
+Assessment Window: ±7 days from randomisation
+
+Biomarker Fields (LB domain):
+├── LBTESTCD = PD-L1_TPS
+│   ├── LBTEST = "PD-L1 Tumour Proportion Score"
+│   ├── LBORRES = [0-100] (numeric percentage)
+│   ├── LBSTRESC = [≥50%, <50%] (categorical for eligibility)
+│   ├── LBSTNRHI = 100
+│   └── Notes: 22C3 pharmDx assay, central lab result
+│
+├── LBTESTCD = EGFR_MUT
+│   ├── LBTEST = "EGFR Mutation Status"
+│   ├── LBORRES = [Wild-type, L858R, Exon 19 deletion, Other activating, Unknown]
+│   └── Notes: Sensitising mutations are exclusion criteria
+│
+├── LBTESTCD = ALK_REARR
+│   ├── LBTEST = "ALK Gene Rearrangement"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: ALK positive = exclusion criterion
+│
+├── LBTESTCD = ROS1_REARR
+│   ├── LBTEST = "ROS1 Gene Rearrangement"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; not formal exclusion, but documented for post-progression therapy
+│
+├── LBTESTCD = KRAS_G12C
+│   ├── LBTEST = "KRAS G12C Mutation"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; documented for subgroup analysis
+│
+├── LBTESTCD = MET_EX14
+│   ├── LBTEST = "MET Exon 14 Skipping"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; not formal exclusion
+│
+├── LBTESTCD = RET_REARR
+│   ├── LBTEST = "RET Gene Rearrangement"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; not formal exclusion
+│
+├── LBTESTCD = BRAF_V600E
+│   ├── LBTEST = "BRAF V600E Mutation"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; not formal exclusion
+│
+├── LBTESTCD = NTRK_FUSE
+│   ├── LBTEST = "NTRK Gene Fusion"
+│   ├── LBORRES = [Positive, Negative, Not tested, Unknown]
+│   └── Notes: Required; not formal exclusion
+│
+└── LBTESTCD = TMB
+    ├── LBTEST = "Tumour Mutational Burden (per Mb)"
+    ├── LBORRES = [numeric value, e.g., 12.5]
+    ├── LBSTRESC = [High (≥10), Low (<10), Unknown]
+    └── Notes: Optional if genomic panel used; exploratory analysis
+```
+
+**Rationale for LB domain:**
+- CDISC standard: molecular biomarkers = laboratory findings, not demographics
+- Enables direct SDTM traceability (LB → ADLB for biomarker subgroup analyses)
+- Clinical labs (chemistry, hematology) also on LB; no domain proliferation
+- Aligns with CDISC Oncology Examples Document (2024)
+
+---
 
 ### Example Form Structure (Adverse Events)
 ```
