@@ -34,18 +34,28 @@ Collect raw trial data at clinical sites that will be transformed into SDTM doma
 ## 3. CDASH Standards & Reference
 
 ### Versions (LOCKED)
-| Standard | Version | Reference |
-|----------|---------|-----------|
-| CDASH Model | v1.1 | OpenClinica Form Library (2022 release) |
-| CDASHIG | v2.1 | Based on SDTMIG v3.2 (backward compatible with v3.4) |
-| CDISC CT | 2024-03 | Latest submission values |
-| Response Criteria | RECIST 1.1 | CDISC Oncology Disease Response Supplement (2023) |
+| Standard | Version | Alignment | Released |
+|----------|---------|-----------|----------|
+| **CDASH Model** | **v1.1** | Cumulative; backward compatible with all SDTMIG versions | 2019 |
+| **CDASHIG** | **v2.1** | References SDTMIG v3.2 but compatible with SDTMIG v3.4 | Nov 2019 |
+| **SDTMIG** (our target) | **v3.4** | Referenced for SDTM domain structure | Nov 2021 |
+| **ADaMIG** (our target) | **v1.3** | Referenced for ADaM derivation | 2023 |
+| **CDISC CT** | **2024-03** | Latest submission values (SDTM & ADaM) | 2024 |
+| **Response Criteria** | **RECIST 1.1** | CDISC Oncology Disease Response Supplement | 2023 |
 
-### Rationale
-- CDASH v1.1 is the mature standard for data collection
-- OpenClinica Form Library provides ready-to-use, tested templates
-- CDASHIG v2.1 designed to map seamlessly to SDTMIG (our target)
-- RECIST 1.1 aligns with protocol oncology requirements
+### Rationale & Traceability
+- **CDASH v1.1 cumulative model:** Builds on all prior releases; backward compatible means CDASHIG v2.1 forms can map to both SDTMIG v3.2 AND v3.4 without loss
+- **CDASHIG v2.1 to SDTMIG v3.4 mapping:** CDASH variable names match SDTM (e.g., AETERM → AETERM, AEDECOD → AEDECOD). This traceability holds across SDTMIG versions.
+- **Direct CRF → SDTM → ADaM pipeline:**
+  ```
+  CDASHIG v2.1 (collection)
+       ↓
+  SDTMIG v3.4 (tabulation)
+       ↓
+  ADaMIG v1.3 (analysis)
+  ```
+- **OpenClinica Form Library:** Provides ready-to-use CDASH v1.1 templates; backward compatible with our SDTMIG v3.4 target
+- **RECIST 1.1:** Aligns with protocol oncology requirements; supported in CDISC Disease Response Supplement (2023)
 
 ### Reference Source
 OpenClinica CDASH Form Library: https://docs.openclinica.com/oc4/building-forms-and-studies/cdash-crf-library/
