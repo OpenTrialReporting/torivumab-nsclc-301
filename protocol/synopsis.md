@@ -1,3 +1,17 @@
+# ⚠️ FICTIONAL EDUCATIONAL PROTOCOL — NOT FOR REGULATORY USE
+
+---
+
+**THIS IS A COMPLETELY FICTIONAL PROTOCOL CREATED FOR EDUCATIONAL PURPOSES ONLY.**
+
+**DO NOT submit to any regulatory authority, do NOT register on ClinicalTrials.gov, do NOT use for clinical investigation.**
+
+**All identifiers (protocol number, IND, EudraCT, NCT) are fictional and non-functional. Celindra Therapeutics, torivumab, and all trial details are fictional.**
+
+**This document is for learning clinical trial design, CDISC standards, and pharmaverse stack development only.**
+
+---
+
 # CLINICAL TRIAL PROTOCOL SYNOPSIS
 
 ---
@@ -10,7 +24,7 @@ A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti
 **Short Title:**
 TORIVA-LUNG 301
 
-**Protocol Number:** CTX-NSCLC-301
+**Protocol Number:** SIMULATED-TORIVUMAB-2026 *(FICTIONAL EDUCATIONAL PROTOCOL — Do NOT use for any regulatory submission)*
 
 **Protocol Version:** 1.0
 
@@ -24,11 +38,11 @@ Tel: +1 (617) 555-0100
 
 **Investigational Medicinal Product:** Torivumab 200 mg/10 mL concentrate for solution for infusion
 
-**IND/CTA Number:** IND-2026-CTX-001 *(fictional — for simulation purposes)*
+**IND/CTA Number:** IND-SIM-2026-99999 *(FICTIONAL — Educational simulation only. Do NOT use for any regulatory submission.)*
 
-**EudraCT Number:** 2026-000301-42 *(fictional — for simulation purposes)*
+**EudraCT Number:** 9999-999999-99 *(FICTIONAL — Educational simulation only. Do NOT use for any regulatory submission.)*
 
-**ClinicalTrials.gov Identifier:** NCT99999301 *(fictional — for simulation purposes)*
+**ClinicalTrials.gov Identifier:** NCT99999999 *(FICTIONAL — Educational simulation only. Do NOT use for registration.)*
 
 **Therapeutic Area:** Oncology — Non-Small Cell Lung Cancer (NSCLC)
 
@@ -59,8 +73,30 @@ Celindra Therapeutics | EDC Platform: Medidata Rave *(fictional)*
 
 ---
 
-> **CONFIDENTIALITY NOTICE**
-> This document contains confidential information belonging to Celindra Therapeutics. It is provided to the recipient for use solely in connection with study CTX-NSCLC-301. Unauthorised review, use, disclosure, or distribution is prohibited. This is a synthetic/educational document generated for training and simulation purposes; torivumab is a fictional investigational product.
+> ⚠️ **CRITICAL LEGAL NOTICE — FICTIONAL EDUCATIONAL DOCUMENT**
+> 
+> This protocol is a **COMPLETELY FICTIONAL** educational simulation created for learning and training purposes only. 
+>
+> **DO NOT use for:**
+> - Any regulatory submission (FDA, EMA, PMDA, or any national authority)
+> - Any clinical trial registration (ClinicalTrials.gov, EudraCT, etc.)
+> - Any actual clinical investigation
+> - Patient care or medical decision-making
+>
+> **All identifiers are fictional and non-functional:**
+> - Protocol number: SIMULATED-TORIVUMAB-2026 (NOT a real protocol)
+> - IND number: IND-SIM-2026-99999 (NOT a real IND)
+> - EudraCT: 9999-999999-99 (NOT a real EudraCT)
+> - NCT: NCT99999999 (NOT a real trial identifier)
+>
+> **Fictional elements:**
+> - Celindra Therapeutics (fictional sponsor)
+> - Torivumab (fictional drug compound)
+> - All investigators, contacts, and trial data (fictional)
+>
+> **Purpose:** Educational reference for protocol structure, CDISC standards, and pharmaverse stack development.
+>
+> **Liability:** This document carries no legal standing. Any use for actual regulatory or clinical purposes is prohibited and may result in legal liability. See file header disclaimer.
 
 ---
 
@@ -68,8 +104,8 @@ Celindra Therapeutics | EDC Platform: Medidata Rave *(fictional)*
 
 | Parameter | Details |
 |---|---|
-| **Study Title** | TORIVA-LUNG 301: Torivumab vs Placebo, First-Line Advanced NSCLC, PD-L1 TPS ≥50% |
-| **Protocol Number** | CTX-NSCLC-301 |
+| **Study Title** | [FICTIONAL] TORIVA-LUNG: Torivumab vs Placebo, First-Line Advanced NSCLC, PD-L1 TPS ≥50% |
+| **Protocol Number** | SIMULATED-TORIVUMAB-2026 |
 | **Phase** | 3 |
 | **Sponsor** | Celindra Therapeutics |
 | **Indication** | Advanced or metastatic NSCLC (Stage IIIB/IIIC/IV), PD-L1 TPS ≥50%, no EGFR/ALK mutation |
@@ -901,7 +937,8 @@ The following references are cited in this synopsis. Full citation details will 
 
 | Version | Date | Description of Changes |
 |---|---|---|
-| 1.0 | 22 March 2026 | Initial version — protocol synopsis for CTX-NSCLC-301 |
+| 1.1 | 30 March 2026 | ⚠️ CRITICAL: Updated all regulatory identifiers to obviously fictional formats. Added legal notices to prevent accidental regulatory/clinical use. |
+| 1.0 | 22 March 2026 | Initial version — protocol synopsis for SIMULATED-TORIVUMAB-2026 |
 
 ---
 
