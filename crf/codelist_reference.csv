@@ -1,0 +1,219 @@
+codelist_name,codelist_label,cdisc_ct_version,standard_source,cdash_variable,sdtm_variable,forms_using,code,decoded_value,cdisc_submission_value,notes
+SEX,Sex,CDISC CT 2024-03,CDISC,SEX,SEX,DM,F,Female,F,
+SEX,Sex,CDISC CT 2024-03,CDISC,SEX,SEX,DM,M,Male,M,
+SEX,Sex,CDISC CT 2024-03,CDISC,SEX,SEX,DM,U,Unknown,U,
+SEX,Sex,CDISC CT 2024-03,CDISC,SEX,SEX,DM,UNDIFFERENTIATED,Undifferentiated,UNDIFFERENTIATED,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,AMERICAN INDIAN OR ALASKA NATIVE,American Indian or Alaska Native,AMERICAN INDIAN OR ALASKA NATIVE,Per FDA guidance
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,ASIAN,Asian,ASIAN,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,BLACK OR AFRICAN AMERICAN,Black or African American,BLACK OR AFRICAN AMERICAN,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER,Native Hawaiian or Other Pacific Islander,NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,WHITE,White,WHITE,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,MULTIPLE,Multiple,MULTIPLE,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,OTHER,Other,OTHER,
+RACE,Race,CDISC CT 2024-03,CDISC,RACE,RACE,DM,UNKNOWN,Unknown,UNKNOWN,
+ETHNIC,Ethnicity,CDISC CT 2024-03,CDISC,ETHNIC,ETHNIC,DM,HISPANIC OR LATINO,Hispanic or Latino,HISPANIC OR LATINO,
+ETHNIC,Ethnicity,CDISC CT 2024-03,CDISC,ETHNIC,ETHNIC,DM,NOT HISPANIC OR LATINO,Not Hispanic or Latino,NOT HISPANIC OR LATINO,
+ETHNIC,Ethnicity,CDISC CT 2024-03,CDISC,ETHNIC,ETHNIC,DM,NOT REPORTED,Not Reported,NOT REPORTED,
+ETHNIC,Ethnicity,CDISC CT 2024-03,CDISC,ETHNIC,ETHNIC,DM,UNKNOWN,Unknown,UNKNOWN,
+DS_CATEGORY,Disposition Category,CDISC CT 2024-03,CDISC,DSSCAT,DSSCAT,DS,PROTOCOL MILESTONE,Protocol Milestone,PROTOCOL MILESTONE,
+DS_CATEGORY,Disposition Category,CDISC CT 2024-03,CDISC,DSSCAT,DSSCAT,DS,DISCONTINUED,Discontinued from Study,DISCONTINUED,
+DS_CATEGORY,Disposition Category,CDISC CT 2024-03,CDISC,DSSCAT,DSSCAT,DS,COMPLETED,Completed,COMPLETED,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,COMPLETED,Completed Study,COMPLETED,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,ADVERSE EVENT,Adverse Event,ADVERSE EVENT,Protocol-defined discontinuation reason
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,DISEASE PROGRESSION,Disease Progression,DISEASE PROGRESSION,Per RECIST 1.1
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,PHYSICIAN DECISION,Physician Decision,PHYSICIAN DECISION,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,SUBJECT DECISION,Subject Decision / Withdrawal of Consent,SUBJECT DECISION,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,DEATH,Death,DEATH,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,LOST TO FOLLOW-UP,Lost to Follow-up,LOST TO FOLLOW-UP,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,PROTOCOL DEVIATION,Protocol Deviation,PROTOCOL DEVIATION,
+NCOMPLT,Disposition Decoded,CDISC CT 2024-03,CDISC,DSDECOD,DSDECOD,DS,OTHER,Other,OTHER,Requires free text explanation
+INCL_EXCL,Inclusion/Exclusion Category,CDISC CT 2024-03,CDISC,IECAT,IECAT,IE,INCLUSION,Inclusion Criterion,INCLUSION,
+INCL_EXCL,Inclusion/Exclusion Category,CDISC CT 2024-03,CDISC,IECAT,IECAT,IE,EXCLUSION,Exclusion Criterion,EXCLUSION,
+NY,Yes/No Response,CDISC CT 2024-03,CDISC,Multiple,Multiple,AE|DS|PE|SU|EC|DD,Y,Yes,Y,
+NY,Yes/No Response,CDISC CT 2024-03,CDISC,Multiple,Multiple,AE|DS|PE|SU|EC|DD,N,No,N,
+EC_TREATMENT,Study Treatment,Study-specific,Study,ECTRT,ECTRT,EC,TORIVUMAB,Torivumab 200 mg IV,TORIVUMAB,Blind; EDC will reveal post-unblinding
+EC_TREATMENT,Study Treatment,Study-specific,Study,ECTRT,ECTRT,EC,PLACEBO,Placebo IV,PLACEBO,Blind; EDC will reveal post-unblinding
+DA_TREATMENT,Drug Accountability Treatment,Study-specific,Study,DATRT,DATRT,DA,TORIVUMAB,Torivumab 200 mg/10 mL,TORIVUMAB,
+DA_TREATMENT,Drug Accountability Treatment,Study-specific,Study,DATRT,DATRT,DA,PLACEBO,Placebo 10 mL,PLACEBO,
+DA_TEST,Drug Accountability Test,CDISC CT 2024-03,CDISC,DATEST,DATEST,DA,DISPENSED,Quantity Dispensed,DISPENSED,
+DA_TEST,Drug Accountability Test,CDISC CT 2024-03,CDISC,DATEST,DATEST,DA,RETURNED,Quantity Returned,RETURNED,
+AESEV,AE Severity,CDISC CT 2024-03,CDISC,AESEV,AESEV,AE,MILD,Mild,MILD,Grade 1 equivalent
+AESEV,AE Severity,CDISC CT 2024-03,CDISC,AESEV,AESEV,AE,MODERATE,Moderate,MODERATE,Grade 2 equivalent
+AESEV,AE Severity,CDISC CT 2024-03,CDISC,AESEV,AESEV,AE,SEVERE,Severe,SEVERE,Grade 3-4 equivalent
+CTCAE_GRADE,CTCAE Toxicity Grade,CTCAE v5.0,NCI,AETOXGR,AETOXGR,AE,1,Grade 1 - Mild,1,Asymptomatic or mild symptoms
+CTCAE_GRADE,CTCAE Toxicity Grade,CTCAE v5.0,NCI,AETOXGR,AETOXGR,AE,2,Grade 2 - Moderate,2,Moderate; minimal intervention indicated
+CTCAE_GRADE,CTCAE Toxicity Grade,CTCAE v5.0,NCI,AETOXGR,AETOXGR,AE,3,Grade 3 - Severe,3,Severe or medically significant; hospitalisation
+CTCAE_GRADE,CTCAE Toxicity Grade,CTCAE v5.0,NCI,AETOXGR,AETOXGR,AE,4,Grade 4 - Life-threatening,4,Life-threatening consequences; urgent intervention
+CTCAE_GRADE,CTCAE Toxicity Grade,CTCAE v5.0,NCI,AETOXGR,AETOXGR,AE,5,Grade 5 - Death,5,Death related to adverse event
+AEREL,AE Relationship to Study Drug,CDISC CT 2024-03,CDISC,AEREL,AEREL,AE|DD,NOT RELATED,Not Related,NOT RELATED,No temporal or biological relationship
+AEREL,AE Relationship to Study Drug,CDISC CT 2024-03,CDISC,AEREL,AEREL,AE|DD,UNLIKELY RELATED,Unlikely Related,UNLIKELY RELATED,Unlikely temporal or biological relationship
+AEREL,AE Relationship to Study Drug,CDISC CT 2024-03,CDISC,AEREL,AEREL,AE|DD,POSSIBLY RELATED,Possibly Related,POSSIBLY RELATED,Possible temporal or biological relationship
+AEREL,AE Relationship to Study Drug,CDISC CT 2024-03,CDISC,AEREL,AEREL,AE|DD,PROBABLY RELATED,Probably Related,PROBABLY RELATED,Probable temporal or biological relationship
+AEREL,AE Relationship to Study Drug,CDISC CT 2024-03,CDISC,AEREL,AEREL,AE|DD,DEFINITELY RELATED,Definitely Related,DEFINITELY RELATED,Definite temporal and biological relationship
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,DEATH,Results in Death,DEATH,
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,LIFE THREATENING,Life-Threatening,LIFE THREATENING,
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,HOSPITALIZATION,Requires or Prolongs Hospitalisation,HOSPITALIZATION,
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,DISABILITY,Persistent or Significant Disability/Incapacity,DISABILITY,
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,CONGENITAL ANOMALY,Congenital Anomaly/Birth Defect,CONGENITAL ANOMALY,
+AESERCR,SAE Criterion,CDISC CT 2024-03,CDISC,AESERCR,AESERCR,AE,OTHER MEDICALLY IMPORTANT,Other Medically Important Condition,OTHER MEDICALLY IMPORTANT,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,DOSE NOT CHANGED,Dose Not Changed,DOSE NOT CHANGED,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,DOSE REDUCED,Dose Reduced,DOSE REDUCED,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,DOSE INCREASED,Dose Increased,DOSE INCREASED,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,DRUG INTERRUPTED,Drug Interrupted,DRUG INTERRUPTED,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,DRUG DISCONTINUED,Drug Permanently Discontinued,DRUG DISCONTINUED,
+ACN,Action Taken,CDISC CT 2024-03,CDISC,AEACN,AEACN,AE,NOT APPLICABLE,Not Applicable,NOT APPLICABLE,Post-treatment AE
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,RECOVERED/RESOLVED,Recovered/Resolved,RECOVERED/RESOLVED,
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,RECOVERING/RESOLVING,Recovering/Resolving,RECOVERING/RESOLVING,
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,NOT RECOVERED/NOT RESOLVED,Not Recovered/Not Resolved,NOT RECOVERED/NOT RESOLVED,
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,RECOVERED/RESOLVED WITH SEQUELAE,Recovered/Resolved with Sequelae,RECOVERED/RESOLVED WITH SEQUELAE,
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,FATAL,Fatal,FATAL,
+AEOUT,AE Outcome,CDISC CT 2024-03,CDISC,AEOUT,AEOUT,AE,UNKNOWN,Unknown,UNKNOWN,
+AEPAT,AE Pattern,CDISC CT 2024-03,CDISC,AEPAT,AEPAT,AE,SINGLE EVENT,Single Event,SINGLE EVENT,
+AEPAT,AE Pattern,CDISC CT 2024-03,CDISC,AEPAT,AEPAT,AE,INTERMITTENT,Intermittent,INTERMITTENT,
+AEPAT,AE Pattern,CDISC CT 2024-03,CDISC,AEPAT,AEPAT,AE,CONTINUOUS,Continuous,CONTINUOUS,
+CM_CATEGORY,Concomitant Medication Category,CDISC CT 2024-03,CDISC,CMCAT,CMCAT,CM,PRIOR,Prior Medication,PRIOR,Stopped before first dose
+CM_CATEGORY,Concomitant Medication Category,CDISC CT 2024-03,CDISC,CMCAT,CMCAT,CM,CONCOMITANT,Concomitant Medication,CONCOMITANT,Ongoing during study
+MH_CATEGORY,Medical History Category,Study-specific,Study,MHCAT,MHCAT,MH,ONCOLOGY HISTORY,Oncology History,ONCOLOGY HISTORY,Prior cancer diagnoses and treatments
+MH_CATEGORY,Medical History Category,Study-specific,Study,MHCAT,MHCAT,MH,GENERAL MEDICAL HISTORY,General Medical History,GENERAL MEDICAL HISTORY,Non-oncology medical conditions
+MH_SUBCATEGORY,Medical History Subcategory,Study-specific,Study,MHSCAT,MHSCAT,MH,PRIOR ANTICANCER THERAPY,Prior Anticancer Therapy,PRIOR ANTICANCER THERAPY,
+MH_SUBCATEGORY,Medical History Subcategory,Study-specific,Study,MHSCAT,MHSCAT,MH,PRIOR SURGERY,Prior Surgery,PRIOR SURGERY,
+MH_SUBCATEGORY,Medical History Subcategory,Study-specific,Study,MHSCAT,MHSCAT,MH,PRIOR RADIATION,Prior Radiation Therapy,PRIOR RADIATION,
+STENRF,Start/End Relative to Reference,CDISC CT 2024-03,CDISC,MHENRF|CMENRF|SUENRF,Multiple,MH|CM|SU,BEFORE,Before,BEFORE,Resolved/stopped before study reference period
+STENRF,Start/End Relative to Reference,CDISC CT 2024-03,CDISC,MHENRF|CMENRF|SUENRF,Multiple,MH|CM|SU,ONGOING,Ongoing,ONGOING,Active/continuing at study reference period
+STENRF,Start/End Relative to Reference,CDISC CT 2024-03,CDISC,MHENRF|CMENRF|SUENRF,Multiple,MH|CM|SU,AFTER,After,AFTER,Started after study reference period
+SUCAT,Substance Use Category,CDISC CT 2024-03,CDISC,SUCAT,SUCAT,SU,TOBACCO,Tobacco,TOBACCO,Pre-filled for this study
+FREQ_SU,Substance Use Frequency,CDISC CT 2024-03,CDISC,SUDOSFRQ,SUDOSFRQ,SU,DAILY,Daily,DAILY,
+FREQ_SU,Substance Use Frequency,CDISC CT 2024-03,CDISC,SUDOSFRQ,SUDOSFRQ,SU,OCCASIONALLY,Occasionally,OCCASIONALLY,
+FREQ_SU,Substance Use Frequency,CDISC CT 2024-03,CDISC,SUDOSFRQ,SUDOSFRQ,SU,NEVER,Never,NEVER,
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,SYSBP,Systolic Blood Pressure,SYSBP,Units: mmHg; range 60-250
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,DIABP,Diastolic Blood Pressure,DIABP,Units: mmHg; range 40-150
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,PULSE,Pulse Rate,PULSE,Units: beats/min; range 30-200
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,TEMP,Temperature,TEMP,Units: degrees C; range 34.0-42.0
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,RESP,Respiratory Rate,RESP,Units: breaths/min; range 6-40
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,WEIGHT,Body Weight,WEIGHT,Units: kg; range 30-250
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,HEIGHT,Body Height,HEIGHT,Units: cm; range 100-220; Screening only
+VS_TEST,Vital Sign Tests,CDISC CT 2024-03,CDISC,VSTESTCD,VSTESTCD,VS,BSA,Body Surface Area,BSA,Units: m2; Screening only; Mosteller formula
+POSITION,Vital Sign Position,CDISC CT 2024-03,CDISC,VSPOS,VSPOS,VS,STANDING,Standing,STANDING,
+POSITION,Vital Sign Position,CDISC CT 2024-03,CDISC,VSPOS,VSPOS,VS,SITTING,Sitting,SITTING,
+POSITION,Vital Sign Position,CDISC CT 2024-03,CDISC,VSPOS,VSPOS,VS,SUPINE,Supine,SUPINE,
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,HGB,Haemoglobin,HGB,Units: g/dL; normal range M: 13.5-17.5; F: 12.0-16.0
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,WBC,White Blood Cell Count,WBC,Units: 10^9/L; normal range 4.0-11.0
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,NEUT,Neutrophils (Absolute),NEUT,Units: 10^9/L; normal range 1.8-7.5
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,LYMPH,Lymphocytes (Absolute),LYMPH,Units: 10^9/L; normal range 1.0-4.8
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,PLT,Platelet Count,PLT,Units: 10^9/L; normal range 150-400
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,ALT,Alanine Aminotransferase,ALT,Units: U/L; normal range 7-56
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,AST,Aspartate Aminotransferase,AST,Units: U/L; normal range 10-40
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,ALKPH,Alkaline Phosphatase,ALKPH,Units: U/L; normal range 44-147
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,BILI,Total Bilirubin,BILI,Units: umol/L; normal range 3.4-20.5
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,CREAT,Creatinine,CREAT,Units: umol/L; normal range 53-115 (M); 44-97 (F)
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,SODIUM,Sodium,SODIUM,Units: mmol/L; normal range 136-145
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,POTASS,Potassium,POTASS,Units: mmol/L; normal range 3.5-5.1
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,ALBUMIN,Albumin,ALBUMIN,Units: g/L; normal range 35-50
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,TSH,Thyroid Stimulating Hormone,TSH,Units: mIU/L; normal range 0.4-4.0; immune-mediated endocrinopathy monitoring
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,GLUC,Glucose (Fasting),GLUC,Units: mmol/L; normal range 3.9-6.1
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,PD-L1_TPS,PD-L1 Tumour Proportion Score,PD-L1_TPS,Units: %; range 0-100; ≥50% required for eligibility
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,EGFR_MUT,EGFR Mutation Status,EGFR_MUT,Absence required for eligibility
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,ALK_REARR,ALK Gene Rearrangement,ALK_REARR,Absence required for eligibility
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,ROS1_REARR,ROS1 Gene Rearrangement,ROS1_REARR,Required; not exclusion criterion
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,KRAS_G12C,KRAS G12C Mutation,KRAS_G12C,Required; subgroup analysis
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,MET_EX14,MET Exon 14 Skipping Mutation,MET_EX14,Required; not exclusion criterion
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,RET_REARR,RET Gene Rearrangement,RET_REARR,Required; not exclusion criterion
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,BRAF_V600E,BRAF V600E Mutation,BRAF_V600E,Required; not exclusion criterion
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,NTRK_FUSE,NTRK Gene Fusion,NTRK_FUSE,Required; not exclusion criterion
+LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,TMB,Tumour Mutational Burden,TMB,Optional; units: mutations/Mb; exploratory
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,>=50%,PD-L1 TPS ≥50%,>=50%,Eligible
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,<50%,PD-L1 TPS <50%,<50%,Not eligible
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,POSITIVE,Positive,POSITIVE,Mutation/rearrangement detected
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,NEGATIVE,Negative,NEGATIVE,Not detected
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,NOT TESTED,Not Tested,NOT TESTED,Test not performed
+LB_BIOMARKER_CAT,Biomarker Result Category,Study-specific,Study,LBSTRESC,LBSTRESC,LB,UNKNOWN,Unknown,UNKNOWN,Result not available
+NRIND,Reference Range Indicator,CDISC CT 2024-03,CDISC,LBNRIND,LBNRIND,LB,LOW,Low,LOW,Below lower limit of normal
+NRIND,Reference Range Indicator,CDISC CT 2024-03,CDISC,LBNRIND,LBNRIND,LB,NORMAL,Normal,NORMAL,Within reference range
+NRIND,Reference Range Indicator,CDISC CT 2024-03,CDISC,LBNRIND,LBNRIND,LB,HIGH,High,HIGH,Above upper limit of normal
+SPECTYPE,Specimen Type,CDISC CT 2024-03,CDISC,LBSPEC,LBSPEC,LB,TUMOR TISSUE,Tumor Tissue,TUMOR TISSUE,For PD-L1 and molecular biomarkers
+SPECTYPE,Specimen Type,CDISC CT 2024-03,CDISC,LBSPEC,LBSPEC,LB,BLOOD,Blood,BLOOD,For liquid biopsy assays if applicable
+SPECTYPE,Specimen Type,CDISC CT 2024-03,CDISC,LBSPEC,LBSPEC,LB,PLASMA,Plasma,PLASMA,
+SPECTYPE,Specimen Type,CDISC CT 2024-03,CDISC,LBSPEC,LBSPEC,LB,SERUM,Serum,SERUM,For clinical chemistry panels
+SPECTYPE,Specimen Type,CDISC CT 2024-03,CDISC,LBSPEC,LBSPEC,LB,URINE,Urine,URINE,For urinalysis
+METHOD,Test Method,CDISC CT 2024-03,CDISC,LBMETHOD,LBMETHOD,LB,IHC,Immunohistochemistry,IHC,For PD-L1 TPS (22C3 pharmDx)
+METHOD,Test Method,CDISC CT 2024-03,CDISC,LBMETHOD,LBMETHOD,LB,NGS,Next-Generation Sequencing,NGS,Comprehensive genomic panel
+METHOD,Test Method,CDISC CT 2024-03,CDISC,LBMETHOD,LBMETHOD,LB,PCR,Polymerase Chain Reaction,PCR,Targeted mutation detection
+METHOD,Test Method,CDISC CT 2024-03,CDISC,LBMETHOD,LBMETHOD,LB,FISH,Fluorescence In Situ Hybridisation,FISH,For ALK/ROS1/RET/NTRK rearrangements
+METHOD,Test Method,CDISC CT 2024-03,CDISC,LBMETHOD,LBMETHOD,LB,OTHER,Other,OTHER,Specify in comments
+ECOG,ECOG Performance Status,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,0,Fully Active,0,No restrictions
+ECOG,ECOG Performance Status,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,1,Ambulatory; Light Activity,1,Restricted in strenuous activity; ambulatory; light work
+ECOG,ECOG Performance Status,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,2,Ambulatory; No Work,2,Ambulatory >50% of waking hours; some self-care
+ECOG,ECOG Performance Status,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,3,Limited Self-Care,3,Confined to bed/chair >50% of waking hours; limited self-care
+ECOG,ECOG Performance Status,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,4,Completely Disabled,4,Completely disabled; no self-care; confined to bed/chair
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,GENERAL APPEARANCE,General Appearance,GENERAL APPEARANCE,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,RESPIRATORY,Respiratory System,RESPIRATORY,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,CARDIOVASCULAR,Cardiovascular System,CARDIOVASCULAR,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,GASTROINTESTINAL,Gastrointestinal System,GASTROINTESTINAL,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,NEUROLOGICAL,Neurological System,NEUROLOGICAL,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,DERMATOLOGICAL,Skin/Dermatological,DERMATOLOGICAL,Relevant for immune-related AEs (rash)
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,MUSCULOSKELETAL,Musculoskeletal,MUSCULOSKELETAL,
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,LYMPH NODES,Lymph Nodes,LYMPH NODES,Relevant for NSCLC assessment
+PE_TEST,Physical Exam Body Systems,CDISC CT 2024-03,CDISC,PETEST,PETEST,PE,ECOG PS,ECOG Performance Status,ECOG PS,0-4 scale
+PE_RESULT,Physical Exam Result,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,NORMAL,Normal,NORMAL,
+PE_RESULT,Physical Exam Result,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,ABNORMAL,Abnormal,ABNORMAL,Requires classification as NCS or CS
+PE_RESULT,Physical Exam Result,CDISC CT 2024-03,CDISC,PEORRES,PEORRES,PE,NOT EXAMINED,Not Examined,NOT EXAMINED,Reason documented in query notes
+TU_METHOD,Tumour Assessment Method,CDISC CT 2024-03,CDISC,TUMETHOD,TUMETHOD,TU|TR,CT,Computed Tomography,CT,Preferred modality per RECIST 1.1
+TU_METHOD,Tumour Assessment Method,CDISC CT 2024-03,CDISC,TUMETHOD,TUMETHOD,TU|TR,MRI,Magnetic Resonance Imaging,MRI,Acceptable; must be consistent per lesion
+TU_LESTYPE,Tumour Lesion Type,CDISC CT 2024-03 (Oncology),CDISC Oncology,TUORRES,TUORRES,TU,TARGET,Target Lesion,TARGET,Measurable ≥10mm (≥15mm lymph node); max 5 total; max 2 per organ
+TU_LESTYPE,Tumour Lesion Type,CDISC CT 2024-03 (Oncology),CDISC Oncology,TUORRES,TUORRES,TU,NON-TARGET,Non-Target Lesion,NON-TARGET,Non-measurable; all documented at baseline
+TU_LESTYPE,Tumour Lesion Type,CDISC CT 2024-03 (Oncology),CDISC Oncology,TUORRES,TUORRES,TU,NEW,New Lesion,NEW,Identified at post-baseline visit; indicates PD
+TR_TEST,Tumour Measurement Test,CDISC CT 2024-03 (Oncology),CDISC Oncology,TRTESTCD,TRTESTCD,TR,LDIAM,Longest Diameter,LDIAM,Primary RECIST 1.1 measurement; mm
+TR_TEST,Tumour Measurement Test,CDISC CT 2024-03 (Oncology),CDISC Oncology,TRTESTCD,TRTESTCD,TR,LPERP,Longest Perpendicular Diameter,LPERP,For lymph node short axis; mm
+ND,Not Done,CDISC CT 2024-03,CDISC,TRSTAT,TRSTAT,TR,NOT DONE,Not Done,NOT DONE,
+RS_TEST,Response Test,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSTESTCD,RSTESTCD,RS,OVRLRESP,Overall Response,OVRLRESP,Pre-filled
+RS_CATEGORY,Response Category,Study-specific,Study,RSCAT,RSCAT,RS,RECIST 1.1,RECIST Version 1.1,RECIST 1.1,Pre-filled
+RECIST_RESP,RECIST Response,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSORRES,RSORRES,RS,CR,Complete Response,CR,Disappearance of all target lesions; any lymph node <10mm
+RECIST_RESP,RECIST Response,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSORRES,RSORRES,RS,PR,Partial Response,PR,≥30% decrease in sum of longest diameters from baseline
+RECIST_RESP,RECIST Response,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSORRES,RSORRES,RS,SD,Stable Disease,SD,Neither sufficient shrinkage for PR nor increase for PD
+RECIST_RESP,RECIST Response,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSORRES,RSORRES,RS,PD,Progressive Disease,PD,≥20% increase in SLD; ≥5mm absolute increase; or new lesions
+RECIST_RESP,RECIST Response,CDISC CT 2024-03 (Oncology),CDISC Oncology,RSORRES,RSORRES,RS,NE,Not Evaluable,NE,Unable to determine response; document reason
+EVAL,Evaluator,CDISC CT 2024-03,CDISC,RSEVAL,RSEVAL,RS,INVESTIGATOR,Investigator,INVESTIGATOR,Site-level assessment
+EVAL,Evaluator,CDISC CT 2024-03,CDISC,RSEVAL,RSEVAL,RS,INDEPENDENT ASSESSOR,Blinded Independent Central Review (BICR),INDEPENDENT ASSESSOR,Primary for regulatory submission
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mg,Milligrams,mg,Drug dose
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mL,Millilitres,mL,Volume
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mm,Millimetres,mm,Tumour measurements
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,kg,Kilograms,kg,Body weight
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,cm,Centimetres,cm,Body height
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,m2,Square Metres,m2,Body surface area
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mmHg,Millimetres of Mercury,mmHg,Blood pressure
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,beats/min,Beats per Minute,beats/min,Pulse rate
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,degrees C,Degrees Celsius,degrees C,Temperature
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,breaths/min,Breaths per Minute,breaths/min,Respiratory rate
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,g/dL,Grams per Decilitre,g/dL,Haemoglobin
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,10^9/L,10^9 per Litre,10^9/L,Blood count cells
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,U/L,Units per Litre,U/L,Liver enzymes
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,umol/L,Micromoles per Litre,umol/L,Bilirubin; creatinine
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mmol/L,Millimoles per Litre,mmol/L,Electrolytes; glucose
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mIU/L,Milli-International Units per Litre,mIU/L,TSH
+UNIT,Units (General),CDISC CT 2024-03,CDISC,Multiple,Multiple,Multiple,mutations/Mb,Mutations per Megabase,mutations/Mb,Tumour Mutational Burden
+FRM,Dose Form,CDISC CT 2024-03,CDISC,ECDOSFRM,ECDOSFRM,EC,SOLUTION FOR INFUSION,Solution for Infusion,SOLUTION FOR INFUSION,
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,Q3W,Every 3 Weeks,Q3W,Torivumab/placebo schedule
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,QD,Once Daily,QD,
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,BID,Twice Daily,BID,
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,TID,Three Times Daily,TID,
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,QW,Once Weekly,QW,
+FREQ,Dosing Frequency,CDISC CT 2024-03,CDISC,ECDOSFRQ|CMDOSFRQ,Multiple,EC|CM,PRN,As Needed,PRN,
+ROUTE,Route of Administration,CDISC CT 2024-03,CDISC,ECROUTE|CMROUTE,Multiple,EC|CM,INTRAVENOUS,Intravenous,INTRAVENOUS,Torivumab/placebo
+ROUTE,Route of Administration,CDISC CT 2024-03,CDISC,ECROUTE|CMROUTE,Multiple,EC|CM,ORAL,Oral,ORAL,
+ROUTE,Route of Administration,CDISC CT 2024-03,CDISC,ECROUTE|CMROUTE,Multiple,EC|CM,SUBCUTANEOUS,Subcutaneous,SUBCUTANEOUS,
+ROUTE,Route of Administration,CDISC CT 2024-03,CDISC,ECROUTE|CMROUTE,Multiple,EC|CM,TOPICAL,Topical,TOPICAL,
+MOOD,Mood of Exposure,CDISC CT 2024-03,CDISC,ECMOOD,ECMOOD,EC,PERFORMED,Performed,PERFORMED,Dose was administered
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,LUNG,Lung,LUNG,Primary site
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,LYMPH NODE,Lymph Node,LYMPH NODE,
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,LIVER,Liver,LIVER,
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,ADRENAL GLAND,Adrenal Gland,ADRENAL GLAND,Common NSCLC metastasis site
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,BRAIN,Brain,BRAIN,
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,BONE,Bone,BONE,Non-measurable; non-target
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,PLEURA,Pleura,PLEURA,Non-measurable; non-target
+LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,TULOC,TULOC,TU,OTHER,Other (specify),OTHER,Requires TULOCOT free text
+LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,LEFT,Left,LEFT,
+LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,RIGHT,Right,RIGHT,
+LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,BILATERAL,Bilateral,BILATERAL,
+MEDDRA_PT,MedDRA Preferred Term,MedDRA v27.0,MedDRA,AEDECOD|MHDECOD,AEDECOD|MHDECOD,AE|MH,,,,,Coded by data management using MedDRA v27.0; values not enumerated here — see full MedDRA hierarchy
+MEDDRA_SOC,MedDRA System Organ Class,MedDRA v27.0,MedDRA,AESOC,AESOC,AE,,,,,Auto-derived from AEDECOD MedDRA coding; 27 SOCs in MedDRA v27.0
+WHO_DRUG,WHO Drug Preferred Name,WHO Drug Dictionary,WHO,CMDECOD,CMDECOD,CM,,,,,Coded by data management; values not enumerated here — see WHO Drug Dictionary

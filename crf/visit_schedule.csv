@@ -1,0 +1,21 @@
+visit_id,visit_name,visit_type,epoch,scheduled_day,window_early,window_late,window_unit,forms_required,forms_conditional,key_assessments,notes
+SCR,Screening Visit,Screening,SCREENING,-14,-28,0,days,DM|IE|MH|SU|VS|LB|PE|DS,,Eligibility verification; demographics; baseline labs; PD-L1/biomarkers; medical history; ECOG; vitals,Eligibility must be confirmed before randomisation. PD-L1 TPS ≥50% required. Biomarker panel mandatory.
+C1D1,Cycle 1 Day 1 (Baseline),Baseline,TREATMENT,1,0,0,days,DM|EC|VS|LB|PE|DS|AE|CM,,First dose; baseline labs; vitals; physical exam; disposition; AE baseline; concomitant meds,2:1 randomisation (torivumab 200 mg IV Q3W vs placebo). ECOG must be 0-1.
+C1D8,Cycle 1 Day 8,On-Treatment,TREATMENT,8,6,10,days,EC|VS|AE|CM,,Dosing; vitals; adverse events; concomitant meds,
+C1D15,Cycle 1 Day 15,On-Treatment,TREATMENT,15,13,17,days,EC|VS|AE|CM,,Dosing; vitals; adverse events; concomitant meds,
+C1D22,Cycle 1 Day 22 (EOC1),End-of-Cycle,TREATMENT,22,19,25,days,EC|VS|AE|CM|LB,,End-of-Cycle 1; labs (haematology/chemistry); cumulative AE review; dose modifications,
+C2D1,Cycle 2 Day 1,On-Treatment,TREATMENT,22,19,25,days,EC|VS|AE|CM,,Cycle 2 start; dosing; vitals; adverse events; concomitant meds,Day 22 = start of Cycle 2 per Q3W schedule
+C2D22,Cycle 2 Day 22 (EOC2),End-of-Cycle,TREATMENT,43,40,46,days,EC|VS|AE|CM|LB,,End-of-Cycle 2; labs; cumulative AE review; dose modifications,
+CxD1,Cycles 3-35 Day 1,On-Treatment,TREATMENT,,,±3,days,EC|VS|AE|CM,,Repeat Q3W dosing visits through Cycle 35 (~2 years),Each cycle = 21 days. Window ±3 days from scheduled cycle day.
+CxD22,Cycles 3-35 Day 22 (EOC),End-of-Cycle,TREATMENT,,,±3,days,EC|VS|AE|CM|LB,,End-of-cycle assessment; labs; cumulative AE review,
+IMG01,Imaging Visit Week 6,Imaging,TREATMENT,42,39,45,days,TU|TR|RS,,Tumour assessment CT/MRI; RECIST 1.1 response; baseline target lesion confirmation,First post-baseline imaging. Window ±3 days at Wk 6.
+IMG02,Imaging Visit Week 12,Imaging,TREATMENT,84,77,91,days,TU|TR|RS,,Tumour measurements; RECIST 1.1 overall response,,
+IMG03,Imaging Visit Week 18,Imaging,TREATMENT,126,119,133,days,TU|TR|RS,,Tumour measurements; RECIST 1.1 overall response,,
+IMG04,Imaging Visit Week 24,Imaging,TREATMENT,168,161,175,days,TU|TR|RS,,Tumour measurements; RECIST 1.1 overall response; transition to Q12W schedule after Wk 18,Window ±7 days from Wk 24 onward
+IMG_Q12W,Imaging Visits Q12W (Wk 36+),Imaging,TREATMENT,,,±7,days,TU|TR|RS,,Tumour measurements Q12W; RECIST 1.1 overall response,Continues until disease progression or EOT. Window ±7 days.
+EOT,End-of-Treatment Visit,End-of-Treatment,TREATMENT,+30,27,33,days_post_last_dose,VS|LB|PE|DS|AE|CM,,Final safety labs; final vitals; final PE; disposition (completion/discontinuation reason); final AE collection,±3 days from 30 days post last dose
+FU01,Off-Treatment Follow-Up 01,Follow-Up,FOLLOW-UP,90,84,96,days_post_EOT,AE|DS|VS,,Safety follow-up; survival status; AE outcome collection,Month 3 post-EOT. ±7 days.
+FU02,Off-Treatment Follow-Up 02,Follow-Up,FOLLOW-UP,180,173,187,days_post_EOT,AE|DS|VS,,Safety follow-up; survival status,Month 6 post-EOT. ±7 days.
+FU03,Off-Treatment Follow-Up 03,Follow-Up,FOLLOW-UP,365,358,372,days_post_EOT,AE|DS|VS,,Safety follow-up; survival status; late AE collection,Month 12 post-EOT. ±7 days.
+LTFU,Long-Term Survival Follow-Up,Long-Term Follow-Up,FOLLOW-UP,,,±7,days,DS,,Vital status; disease status (phone contact),Every 12 weeks by phone until end of study or death. Minimal data collection.
+DD,Death Details,Unscheduled,POST-MORTEM,,,N/A,,DD,,Cause of death; date; circumstances,Complete if subject dies on-study or within follow-up period.

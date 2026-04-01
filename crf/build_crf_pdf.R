@@ -1,0 +1,369 @@
+# torivumab guidelines loaded
+# Build CRF PDF Mockup — SIMULATED-TORIVUMAB-2026
+# Output: crf/CRF_Preview.pdf
+
+library(knitr)
+library(rmarkdown)
+
+out_dir  <- "/home/ubuntu/.openclaw/workspace/torivumab-nsclc-301/crf"
+rmd_file <- file.path(out_dir, "CRF_Preview.Rmd")
+
+rmd <- '---
+title: |
+  ![](https://raw.githubusercontent.com/cdisc-org/cdisc-rules-engine/main/assets/cdisc-logo.png){height=0px}
+  SIMULATED-TORIVUMAB-2026
+  Annotated Case Report Form — Visual Mockup
+subtitle: |
+  Protocol: TORIVA-LUNG 301 | Phase 3 NSCLC | Version 1.0 | 2026-04-01
+  CDASH v2.1 → SDTMIG v3.4 → ADaMIG v1.3
+  **FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY USE**
+author: "Prepared by: Nova (AI Clinical Data Science Assistant) | Review: Lovemore Gakava"
+date: "Generated: 2026-04-01"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    css: null
+    self_contained: true
+---
+
+<style>
+body { font-family: Calibri, Arial, sans-serif; font-size: 13px; color: #222; }
+h1 { background: #1F3864; color: white; padding: 10px 14px; border-radius: 4px; }
+h2 { background: #2E75B6; color: white; padding: 8px 12px; border-radius: 4px; }
+h3 { background: #41719C; color: white; padding: 6px 10px; border-radius: 3px; }
+.warning-box { background: #FFF2CC; border: 2px solid #C00000; padding: 12px; border-radius: 4px; margin-bottom: 16px; color: #C00000; font-weight: bold; }
+.info-box { background: #DEEAF1; border-left: 4px solid #2E75B6; padding: 10px 14px; margin-bottom: 12px; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 16px; font-size: 12px; }
+th { background: #1F3864; color: white; padding: 8px 10px; text-align: left; }
+td { padding: 6px 10px; border-bottom: 1px solid #D9E1F2; }
+tr:nth-child(even) { background: #EBF3FB; }
+tr:nth-child(odd) { background: #FFFFFF; }
+.req { background: #FFF2CC !important; font-weight: bold; }
+.locked { background: #E2EFDA !important; }
+.domain-tag { display: inline-block; background: #2E75B6; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-right: 4px; }
+.sdtm-tag { display: inline-block; background: #375623; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+.visit-tag { display: inline-block; background: #C55A11; color: white; padding: 2px 6px; border-radius: 3px; font-size: 11px; margin: 2px; }
+.recist { background: #375623; color: white; padding: 8px 12px; border-radius: 4px; margin: 8px 0; font-size: 12px; }
+.query-col { background: #FFF2CC; }
+</style>
+
+<div class="warning-box">
+⚠ FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY USE<br>
+This aCRF is part of a completely fictional Phase 3 NSCLC clinical trial simulation (SIMULATED-TORIVUMAB-2026).
+All identifiers, patient data, drug names, and results are synthetic. Celindra Therapeutics and torivumab are fictional.
+Do NOT submit to any regulatory authority or clinical registry.
+</div>
+
+<div class="info-box">
+<b>Study:</b> SIMULATED-TORIVUMAB-2026 &nbsp;|&nbsp; <b>Protocol:</b> TORIVA-LUNG 301 &nbsp;|&nbsp;
+<b>Sponsor:</b> Celindra Therapeutics (fictional) &nbsp;|&nbsp; <b>Phase:</b> 3 &nbsp;|&nbsp;
+<b>Indication:</b> Advanced/metastatic NSCLC, PD-L1 TPS ≥50%, no EGFR/ALK mutation<br>
+<b>Treatment:</b> Torivumab 200 mg IV Q3W vs Placebo &nbsp;|&nbsp; <b>N:</b> 450 (2:1) &nbsp;|&nbsp;
+<b>Primary Endpoint:</b> Overall Survival (OS) &nbsp;|&nbsp; <b>Response Criteria:</b> RECIST 1.1<br>
+<b>Standards:</b> CDASH v2.1 → SDTMIG v3.4 → ADaMIG v1.3 | CDISC CT 2024-03 | MedDRA v27.0 | CTCAE v5.0
+</div>
+
+# Visit Schedule
+
+<span class="visit-tag">SCR Week -4</span>
+<span class="visit-tag">C1D1 Baseline</span>
+<span class="visit-tag">C1D8</span>
+<span class="visit-tag">C1D15</span>
+<span class="visit-tag">C1D22 EOC1</span>
+<span class="visit-tag">Cycles 2-35 Q3W</span>
+<span class="visit-tag">Imaging Q6W→Wk18</span>
+<span class="visit-tag">Imaging Q12W</span>
+<span class="visit-tag">EOT +30d</span>
+<span class="visit-tag">FU-01 Mo3</span>
+<span class="visit-tag">FU-02 Mo6</span>
+<span class="visit-tag">FU-03 Mo12</span>
+<span class="visit-tag">LTFU Q12W</span>
+
+| Visit ID | Visit Name | Epoch | Day | Window | Forms Required |
+|---|---|---|---|---|---|
+| SCR | Screening Visit | SCREENING | Day -14 to 0 | -28/0 | DM, IE, MH, SU, VS, LB (biomarkers), PE, DS |
+| C1D1 | Cycle 1 Day 1 — Baseline | TREATMENT | Day 1 | ±0 | DM, EC, VS, LB, PE, DS, AE, CM |
+| C1D8 | Cycle 1 Day 8 | TREATMENT | Day 8 | ±3 | EC, VS, AE, CM |
+| C1D15 | Cycle 1 Day 15 | TREATMENT | Day 15 | ±3 | EC, VS, AE, CM |
+| C1D22/C2D1 | Cycle 1 EOC / Cycle 2 Day 1 | TREATMENT | Day 22 | ±3 | EC, VS, AE, CM, LB |
+| CxD22 | End of Cycles 2-35 | TREATMENT | Q21D | ±3 | EC, VS, AE, CM, LB |
+| IMG Q6W | Imaging Visits Wk 6, 12, 18 | TREATMENT | Q6W | ±3d | TU, TR, RS |
+| IMG Q12W | Imaging Visits Wk 24+ | TREATMENT | Q12W | ±7d | TU, TR, RS |
+| EOT | End-of-Treatment | TREATMENT | +30d post last dose | ±3d | VS, LB, PE, DS, AE, CM |
+| FU-01 to FU-03 | Off-Treatment Follow-Up | FOLLOW-UP | Mo 3, 6, 12 | ±7d | AE, DS, VS |
+| LTFU | Long-Term Survival Follow-Up | FOLLOW-UP | Q12W phone | ±7d | DS (vital status) |
+| DD | Death Details | POST-MORTEM | If applicable | — | DD |
+
+# Forms Overview
+
+<span class="domain-tag">DM</span> <span class="domain-tag">DS</span> <span class="domain-tag">IE</span> <span class="domain-tag">EC</span> <span class="domain-tag">DA</span> <span class="domain-tag">AE</span> <span class="domain-tag">CM</span> <span class="domain-tag">MH</span> <span class="domain-tag">SU</span> <span class="domain-tag">VS</span> <span class="domain-tag">LB</span> <span class="domain-tag">PE</span> <span class="domain-tag">DD</span> — Foundational CDASH v2.1 Forms (13)
+<span class="sdtm-tag">TU</span> <span class="sdtm-tag">TR</span> <span class="sdtm-tag">RS</span> — Custom Oncology Forms — RECIST 1.1 (3)
+
+---
+
+# DM — Demographics
+<span class="domain-tag">DM</span> <span class="sdtm-tag">SDTM: DM</span>
+**Visit:** Screening / Baseline (C1D1) &nbsp;|&nbsp; **CDASH v2.1** &nbsp;|&nbsp; **ADaM target:** ADSL
+
+<div class="info-box">Collects subject identification, date of birth, sex, race, ethnicity, and country. Foundation of all SDTM domains — USUBJID links all records. Required at Screening; DM fields pre-populated at subsequent visits.</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable | Validation |
+|---|---|---|---|---|---|---|---|
+| 1 | STUDYID | Study Identifier | Text | — | **Y** | STUDYID | Pre-filled by system |
+| 2 | SITEID | Site Identifier | Text | — | **Y** | SITEID | Pre-filled from site login |
+| 3 | SUBJID | Subject ID | Text | — | **Y** | SUBJID | Format: SSS-NNN; unique per site |
+| 4 | USUBJID | Unique Subject ID | Text | — | **Y** | USUBJID | System-derived: STUDYID-SITEID-SUBJID |
+| 5 | BRTHDTC | Date of Birth | Date (YYYY-MM-DD) | — | **Y** | BRTHDTC | Valid date; not in future |
+| 6 | AGE | Age at Screening | Numeric (Integer) | — | **Y** | AGE | Auto-calc; range 18–99 |
+| 7 | SEX | Sex | Codelist | SEX | **Y** | SEX | F / M / U / UNDIFFERENTIATED |
+| 8 | RACE | Race | Codelist | RACE | **Y** | RACE | Per FDA guidance; 7 categories + UNKNOWN |
+| 9 | ETHNIC | Ethnicity | Codelist | ETHNIC | **Y** | ETHNIC | HISPANIC OR LATINO / NOT HISPANIC OR LATINO / NOT REPORTED / UNKNOWN |
+| 10 | COUNTRY | Country | Codelist | ISO 3166-1 | **Y** | COUNTRY | Pre-filled from site config |
+| 11 | DMDTC | Date of Assessment | Date (YYYY-MM-DD) | — | **Y** | DMDTC | Within screening window |
+
+---
+
+# DS — Disposition
+<span class="domain-tag">DS</span> <span class="sdtm-tag">SDTM: DS</span>
+**Visit:** Screening | C1D1 | EOT | All FU visits &nbsp;|&nbsp; **ADaM target:** ADSL
+
+<div class="info-box">Captures study disposition status — protocol milestones and discontinuation reasons. Drives ADSL completion flag and ADTTE censoring rules. Required at every major decision point.</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable | Validation |
+|---|---|---|---|---|---|---|---|
+| 1 | DSSCAT | Disposition Category | Codelist | DS_CATEGORY | **Y** | DSSCAT | PROTOCOL MILESTONE / DISCONTINUED / COMPLETED |
+| 2 | DSTERM | Disposition Term | Text (200) | — | Cond | DSTERM | Required if DSSCAT = DISCONTINUED |
+| 3 | DSDECOD | Disposition Decoded | Codelist | NCOMPLT | **Y** | DSDECOD | COMPLETED / ADVERSE EVENT / DISEASE PROGRESSION / etc. |
+| 4 | DSSTDTC | Start Date | Date (YYYY-MM-DD) | — | **Y** | DSSTDTC | Valid date; not in future |
+| 5 | DSENDTC | End Date | Date (YYYY-MM-DD) | — | No | DSENDTC | ≥ DSSTDTC; blank if not applicable |
+
+---
+
+# IE — Inclusion/Exclusion Criteria
+<span class="domain-tag">IE</span> <span class="sdtm-tag">SDTM: IE</span>
+**Visit:** Screening (Week -4) &nbsp;|&nbsp; **ADaM target:** ADSL
+
+<div class="info-box">All 10 inclusion and 10 exclusion criteria must be confirmed before randomisation. PD-L1 TPS ≥50% (IN02) and absence of EGFR/ALK mutations (IN03, IN04) are mandatory eligibility gates.</div>
+
+| Code | Criterion | Category | Response | Logic |
+|---|---|---|---|---|
+| IN01 | Histologically confirmed NSCLC (Stage IIIB/IIIC/IV) | INCLUSION | **Y** required | Eligibility |
+| IN02 | PD-L1 TPS ≥50% (22C3 pharmDx, central lab) | INCLUSION | **Y** required | Key eligibility criterion |
+| IN03 | No sensitising EGFR mutations (exon 19 del, exon 21 L858R) | INCLUSION | **Y** required | Exclusion of targeted therapy candidates |
+| IN04 | No ALK gene rearrangement | INCLUSION | **Y** required | Exclusion of targeted therapy candidates |
+| IN05 | ECOG Performance Status 0 or 1 | INCLUSION | **Y** required | Functional eligibility |
+| IN06 | Measurable disease per RECIST 1.1 | INCLUSION | **Y** required | Efficacy assessability |
+| IN07 | Age ≥18 years | INCLUSION | **Y** required | |
+| IN08 | No prior systemic therapy for advanced/metastatic NSCLC | INCLUSION | **Y** required | First-line population |
+| IN09 | Adequate organ function | INCLUSION | **Y** required | Safety eligibility |
+| IN10 | Life expectancy ≥12 weeks | INCLUSION | **Y** required | |
+| EX01 | Active autoimmune disease requiring systemic treatment | EXCLUSION | **N** required | irAE risk |
+| EX02 | Prior anti-PD-1 or anti-PD-L1 therapy | EXCLUSION | **N** required | Prior checkpoint inhibitor exposure |
+| EX03 | Active CNS metastases (unstable) | EXCLUSION | **N** required | |
+| EX04 | Active systemic corticosteroids >10mg/day prednisone | EXCLUSION | **N** required | Immunosuppression |
+| EX05 | Active hepatitis B or C | EXCLUSION | **N** required | |
+| EX06 | Known HIV (unless undetectable on ART) | EXCLUSION | **N** required | |
+| EX07 | Other active malignancy within 2 years | EXCLUSION | **N** required | |
+| EX08 | Pregnant or breastfeeding | EXCLUSION | **N** required | |
+| EX09 | Prior organ/allogeneic bone marrow transplant | EXCLUSION | **N** required | |
+| EX10 | Condition interfering with study participation | EXCLUSION | **N** required | |
+
+---
+
+# AE — Adverse Events
+<span class="domain-tag">AE</span> <span class="sdtm-tag">SDTM: AE</span>
+**Visit:** All on-treatment visits + Off-treatment FU &nbsp;|&nbsp; **Coding:** MedDRA v27.0 | CTCAE v5.0 &nbsp;|&nbsp; **ADaM target:** ADAE
+
+<div class="info-box">Collected at every on-treatment and follow-up visit. MedDRA v27.0 preferred term coding performed centrally by data management. CTCAE v5.0 grading by investigator. SAE form required within 24 hours of identification.</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable | Validation |
+|---|---|---|---|---|---|---|---|
+| 1 | AESTDTC | AE Start Date | Date (YYYY-MM-DD) | — | **Y** | AESTDTC | ≥ first dose date |
+| 2 | AEENDTC | AE End Date | Date (YYYY-MM-DD) | — | No | AEENDTC | ≥ AESTDTC; blank if ongoing |
+| 3 | AETERM | AE Term (Verbatim) | Text (200) | — | **Y** | AETERM | Exact wording as reported |
+| 4 | AEDECOD | MedDRA Preferred Term | Codelist | MedDRA v27.0 PT | **Y** | AEDECOD | Coded centrally by DM |
+| 5 | AESOC | MedDRA System Organ Class | Codelist | MedDRA v27.0 SOC | **Y** | AESOC | Auto-derived from AEDECOD |
+| 6 | AESEV | Severity | Codelist | AESEV | **Y** | AESEV | MILD / MODERATE / SEVERE (worst severity) |
+| 7 | AETOXGR | CTCAE Grade | Codelist | CTCAE v5.0 | **Y** | AETOXGR | Grade 1–5 per CTCAE v5.0 at worst severity |
+| 8 | AEREL | Relationship to Study Drug | Codelist | AEREL | **Y** | AEREL | NOT RELATED / UNLIKELY / POSSIBLY / PROBABLY / DEFINITELY |
+| 9 | AESER | Serious AE? | Codelist | NY | **Y** | AESER | If Y: SAE form required within 24 hours |
+| 10 | AESERCR | SAE Criterion | Codelist | AESERCR | Cond | AESERCR | Required if AESER=Y; multi-select: DEATH / LIFE THREATENING / HOSPITALISATION / DISABILITY / CONGENITAL ANOMALY / OTHER |
+| 11 | AEACN | Action Taken | Codelist | ACN | **Y** | AEACN | DOSE NOT CHANGED / DOSE REDUCED / DRUG INTERRUPTED / DRUG DISCONTINUED / NOT APPLICABLE |
+| 12 | AEOUT | Outcome | Codelist | AEOUT | **Y** | AEOUT | RECOVERED / RECOVERING / NOT RECOVERED / RECOVERED WITH SEQUELAE / FATAL / UNKNOWN |
+| 13 | AEPAT | AE Pattern | Codelist | AEPAT | No | AEPAT | SINGLE EVENT / INTERMITTENT / CONTINUOUS |
+
+---
+
+# LB — Laboratory Test Results
+<span class="domain-tag">LB</span> <span class="sdtm-tag">SDTM: LB</span>
+**Visit:** Screening | C1D1 | End-of-Cycle | EOT &nbsp;|&nbsp; **ADaM target:** ADLB
+
+<div class="info-box">
+Two sub-panels collected on this form:<br>
+<b>Clinical Panel</b> — Haematology + Chemistry: HGB, WBC, NEUT, LYMPH, PLT, ALT, AST, ALKPH, BILI, CREAT, Na, K, ALB, TSH, Glucose (all visits)<br>
+<b>Baseline Biomarker Panel</b> — Molecular profiling: PD-L1 TPS, EGFR, ALK, ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, TMB (Screening/C1D1 only)
+</div>
+
+**Clinical Laboratory Panel** (all lab visits):
+
+| LBTESTCD | Test Name | Units | Panel | Normal Range |
+|---|---|---|---|---|
+| HGB | Haemoglobin | g/dL | Haematology | M: 13.5–17.5 / F: 12.0–16.0 |
+| WBC | White Blood Cell Count | 10^9/L | Haematology | 4.0–11.0 |
+| NEUT | Neutrophils (Absolute) | 10^9/L | Haematology | 1.8–7.5 |
+| LYMPH | Lymphocytes (Absolute) | 10^9/L | Haematology | 1.0–4.8 |
+| PLT | Platelet Count | 10^9/L | Haematology | 150–400 |
+| ALT | Alanine Aminotransferase | U/L | Chemistry | 7–56 |
+| AST | Aspartate Aminotransferase | U/L | Chemistry | 10–40 |
+| ALKPH | Alkaline Phosphatase | U/L | Chemistry | 44–147 |
+| BILI | Total Bilirubin | umol/L | Chemistry | 3.4–20.5 |
+| CREAT | Creatinine | umol/L | Chemistry | M: 53–115 / F: 44–97 |
+| SODIUM | Sodium | mmol/L | Chemistry | 136–145 |
+| POTASS | Potassium | mmol/L | Chemistry | 3.5–5.1 |
+| ALBUMIN | Albumin | g/L | Chemistry | 35–50 |
+| TSH | Thyroid Stimulating Hormone | mIU/L | Chemistry | 0.4–4.0 |
+| GLUC | Glucose (Fasting) | mmol/L | Chemistry | 3.9–6.1 |
+
+**Baseline Biomarker Panel** (Screening/C1D1 only — Central Lab):
+
+| LBTESTCD | Test Name | Result Type | Eligibility | Method |
+|---|---|---|---|---|
+| PD-L1_TPS | PD-L1 Tumour Proportion Score | Numeric 0–100% | **≥50% REQUIRED** | IHC (22C3 pharmDx) |
+| EGFR_MUT | EGFR Mutation Status | Codelist | **Absence REQUIRED** | NGS/PCR |
+| ALK_REARR | ALK Gene Rearrangement | Codelist | **Absence REQUIRED** | FISH/IHC |
+| ROS1_REARR | ROS1 Gene Rearrangement | Codelist | Not exclusion | FISH |
+| KRAS_G12C | KRAS G12C Mutation | Codelist | Not exclusion | NGS/PCR |
+| MET_EX14 | MET Exon 14 Skipping | Codelist | Not exclusion | NGS |
+| RET_REARR | RET Gene Rearrangement | Codelist | Not exclusion | FISH/NGS |
+| BRAF_V600E | BRAF V600E Mutation | Codelist | Not exclusion | NGS/PCR |
+| NTRK_FUSE | NTRK Gene Fusion | Codelist | Not exclusion | FISH/NGS |
+| TMB | Tumour Mutational Burden | Numeric (mut/Mb) | Exploratory | NGS |
+
+Biomarker categories: POSITIVE / NEGATIVE / NOT TESTED / UNKNOWN
+
+---
+
+# TU — Tumour Identification
+<span class="sdtm-tag">TU</span> <span class="sdtm-tag">SDTM: TU</span>
+**Visit:** Baseline Imaging (IMG01 / Week 6) &nbsp;|&nbsp; **Criteria:** RECIST 1.1 &nbsp;|&nbsp; **ADaM target:** ADTR
+
+<div class="recist">
+RECIST 1.1 Lesion Selection Rules: TARGET lesions — measurable ≥10mm longest diameter (≥15mm short axis for lymph nodes); maximum 5 target lesions total; maximum 2 per organ. All other lesions = NON-TARGET. Bone and pleural lesions = NON-TARGET (non-measurable).
+</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable |
+|---|---|---|---|---|---|---|
+| 1 | TUSEQ | Lesion Sequence No. | Integer | — | **Y** | TUSEQ |
+| 2 | TUDTC | Date of Assessment | Date (YYYY-MM-DD) | — | **Y** | TUDTC |
+| 3 | TUMETHOD | Assessment Method | Codelist | TU_METHOD | **Y** | TUMETHOD | CT / MRI — must be consistent |
+| 4 | TUORRES | Lesion Type | Codelist | TU_LESTYPE | **Y** | TUORRES | TARGET / NON-TARGET / NEW |
+| 5 | TULOC | Lesion Location | Codelist | LOCLOINC | **Y** | TULOC | LUNG / LYMPH NODE / LIVER / ADRENAL / BRAIN / BONE / PLEURA / OTHER |
+| 6 | TULOCOT | Other Location | Text (200) | — | Cond | TULOCOT | Required if TULOC = OTHER |
+| 7 | TULAT | Laterality | Codelist | LAT | No | TULAT | LEFT / RIGHT / BILATERAL |
+| 8 | TUREF | Lesion Reference | Text (50) | — | No | TUREF | Descriptive reference |
+
+---
+
+# TR — Tumour Results (Lesion Measurements)
+<span class="sdtm-tag">TR</span> <span class="sdtm-tag">SDTM: TR</span>
+**Visit:** All imaging visits — Q6W→Wk18, then Q12W &nbsp;|&nbsp; **Criteria:** RECIST 1.1 &nbsp;|&nbsp; **ADaM target:** ADTR
+
+<div class="info-box">One record per lesion per imaging visit. TRLNKID links to baseline TU record. Longest diameter (LDIAM) measured in mm for target lesions. Sum of longest diameters (SLD) calculated in ADaM (ADTR). 0 mm = complete resolution.</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable | Validation |
+|---|---|---|---|---|---|---|---|
+| 1 | TRSEQ | Sequence Number | Integer | — | **Y** | TRSEQ | Auto-incremented |
+| 2 | TRLNKID | Link to TU Seq | Text (10) | — | **Y** | TRLNKID | References TUSEQ |
+| 3 | TRDTC | Date of Assessment | Date (YYYY-MM-DD) | — | **Y** | TRDTC | Within imaging visit window |
+| 4 | TRTESTCD | Measurement Test | Codelist | TR_TEST | **Y** | TRTESTCD | LDIAM (longest diameter) / LPERP (lymph node short axis) |
+| 5 | TRORRES | Measurement (mm) | Decimal (5.1) | — | **Y** | TRORRES | Range: 0–500 mm; 0 = complete resolution |
+| 6 | TRORRESU | Units | Codelist | UNIT | **Y** | TRORRESU | Pre-filled: mm |
+| 7 | TRSTAT | Completion Status | Codelist | ND | No | TRSTAT | NOT DONE if not measurable |
+| 8 | TRREASND | Reason Not Done | Text (200) | — | Cond | TRREASND | Required if TRSTAT = NOT DONE |
+
+---
+
+# RS — Disease Response (Overall Assessment)
+<span class="sdtm-tag">RS</span> <span class="sdtm-tag">SDTM: RS</span>
+**Visit:** All imaging visits — Q6W→Wk18, then Q12W &nbsp;|&nbsp; **Criteria:** RECIST 1.1 &nbsp;|&nbsp; **ADaM target:** ADRS
+
+<div class="recist">
+RECIST 1.1 Response Definitions:
+CR = Complete Response: disappearance of all target lesions; lymph nodes <10mm.
+PR = Partial Response: ≥30% decrease in SLD from baseline nadir.
+SD = Stable Disease: neither sufficient shrinkage for PR nor increase for PD.
+PD = Progressive Disease: ≥20% increase in SLD; ≥5mm absolute increase; OR any new lesions.
+NE = Not Evaluable: unable to determine response.
+</div>
+
+| # | CDASH Variable | Field Label | Data Type | Codelist | Req | SDTM Variable | Validation |
+|---|---|---|---|---|---|---|---|
+| 1 | RSDTC | Date of Assessment | Date (YYYY-MM-DD) | — | **Y** | RSDTC | Matches TRDTC |
+| 2 | RSTESTCD | Response Test Code | Codelist | RS_TEST | **Y** | RSTESTCD | Pre-filled: OVRLRESP |
+| 3 | RSTEST | Response Test Name | Codelist | RS_TEST | **Y** | RSTEST | Pre-filled: Overall Response |
+| 4 | RSCAT | Response Category | Codelist | RS_CATEGORY | **Y** | RSCAT | Pre-filled: RECIST 1.1 |
+| 5 | RSORRES | Overall Response | Codelist | RECIST_RESP | **Y** | RSORRES | CR / PR / SD / PD / NE |
+| 6 | RSNEWLES | New Lesions Present? | Codelist | NY | **Y** | RSNEWLES | If Y: response = PD |
+| 7 | RSEVAL | Evaluator | Codelist | EVAL | **Y** | RSEVAL | INVESTIGATOR / INDEPENDENT ASSESSOR (BICR) |
+| 8 | RSCOMM | Comments | Text (200) | — | No | RSCOMM | Clinical context for response |
+
+---
+
+# CDASH → SDTM → ADaM Traceability
+
+| CDASH Form | CDASH Domain | SDTM Domain | ADaM Dataset | Key Derivations |
+|---|---|---|---|---|
+| Demographics | DM | DM | ADSL | ARM, ACTARM, AGE, SEX, RACE, ETHNIC |
+| Disposition | DS | DS | ADSL, ADTTE | EOSSTT, DCSREAS, censoring flags |
+| Incl/Excl | IE | IE | ADSL | ITTFL, SAFFL population flags |
+| Exposure as Collected | EC | EC | ADEX | TRTSDT, TRTEDTM, AVAL (cumulative dose) |
+| Drug Accountability | DA | DA | ADEX | TRTDUR |
+| Adverse Events | AE | AE | ADAE | AESEQ, TRTREL, AESERD, grade flags |
+| Concomitant Meds | CM | CM | ADCM | CMDOSE, CMSTDY, CMSEQ |
+| Medical History | MH | MH | ADSL | NHISTFL, prior therapy flags |
+| Substance Use | SU | SU | ADSL | SMOKFL, tobacco history |
+| Vital Signs | VS | VS | ADVS | AVAL, AVALC, BASEC, CHG, PCHG |
+| Lab Results (Clinical) | LB | LB | ADLB | AVAL, ANRLO, ANRHI, ANL01FL, shift |
+| Lab Results (Biomarkers) | LB | LB | ADLB | PD-L1 ≥50% flag, biomarker subgroup flags |
+| Physical Examination | PE | PE | ADSL | ECOGFL, ECOG at BL, ECOG change |
+| Death Details | DD | DD | ADTTE | CNSR=0, AVAL for OS |
+| Tumour Identification | TU | TU | ADTR | LSLD (baseline SLD) |
+| Tumour Results | TR | TR | ADTR | SLD, PCHG, NADIR, BOR logic |
+| Disease Response | RS | RS | ADRS | RSRESP, BOR, DoR, TTR, ORR |
+
+---
+
+*End of CRF Visual Mockup — SIMULATED-TORIVUMAB-2026*
+*This document is a Phase 2 deliverable for Gate 2 Review.*
+*Standards: CDASH v2.1 | SDTMIG v3.4 | ADaMIG v1.3 | CDISC CT 2024-03 | MedDRA v27.0 | CTCAE v5.0 | RECIST 1.1*
+'
+
+writeLines(rmd, rmd_file)
+cat("Rmd written:", rmd_file, "\n")
+
+# Render to HTML first (PDF requires LaTeX)
+html_out <- file.path(out_dir, "CRF_Preview.html")
+rmarkdown::render(
+  input       = rmd_file,
+  output_file = html_out,
+  quiet       = TRUE
+)
+cat("HTML rendered:", html_out, "\n")
+
+# Convert HTML to PDF using wkhtmltopdf
+pdf_out <- file.path(out_dir, "CRF_Preview.pdf")
+cmd <- sprintf(
+  "wkhtmltopdf --page-size A4 --margin-top 15mm --margin-bottom 15mm --margin-left 12mm --margin-right 12mm --print-media-type --enable-local-file-access '%s' '%s'",
+  html_out, pdf_out
+)
+ret <- system(cmd, intern = FALSE)
+if (ret == 0) {
+  sz <- file.info(pdf_out)$size
+  cat("PDF saved:", pdf_out, sprintf("(%.0f KB)\n", sz / 1024))
+} else {
+  cat("wkhtmltopdf exit code:", ret, "— HTML available at", html_out, "\n")
+}
