@@ -17,14 +17,14 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 2 (CRF Strategy — LOCKED)**
+Current phase: **Phase 3 (Simulated Database — NEXT)**
 
 ```
 Phase 1: Protocol ✅ DONE
    ↓
-Phase 2: aCRF (Annotated Case Report Form) ⏳ IN PROGRESS
+Phase 2: aCRF (Annotated Case Report Form) ✅ DONE (2026-04-01)
    ↓
-Phase 3: Simulated Database (synthetic raw data)
+Phase 3: Simulated Database (synthetic raw data) ⏳ NEXT
    ↓
 Phase 4: SDTM (19 domains)
    ↓
@@ -133,7 +133,7 @@ torivumab-nsclc-301/
 
 ---
 
-## CRF Design (Phase 2 — CURRENT)
+## CRF Design (Phase 2 — COMPLETE ✅)
 
 ### CDASH Version Alignment
 - **aCRF:** CDASH v2.1 (OpenClinica Form Library)
@@ -302,7 +302,7 @@ Phase 3 scripts:
 If you are an AI assistant working on this project:
 
 1. **Read this file and the ROADMAP first** — Understand the 8-phase workflow
-2. **Current phase:** Phase 2 (CRF Design) — Do NOT jump to data generation
+2. **Current phase:** Phase 3 (Simulated Database) — Gate 2 approval pending; do NOT start Phase 3 scripts until LG approves Gate 2
 3. **Respect the locked decisions:**
    - Protocol (v1.1) is final — no changes
    - CRF Strategy (v2.0) is final — no changes
@@ -341,12 +341,13 @@ Each phase must pass a Gate Review before proceeding:
 - [ ] Biomarker testing (LB) specified
 - [ ] Codelists referenced to CDISC CT
 
-**Gate 2 (CRF Design):** ⏳ IN PROGRESS
-- [ ] Excel CRF workbook complete
-- [ ] Field definitions CSV exported
-- [ ] Visit schedule CSV exported
-- [ ] Codelist reference CSV exported
-- [ ] PDF mockup created
+**Gate 2 (CRF Design):** ⏳ Pending LG review (deliverables submitted 2026-04-01)
+- [x] Excel CRF workbook complete (`crf/SIMULATED-TORIVUMAB-2026_CRF.xlsx` — 21 sheets)
+- [x] Field definitions CSV exported (`crf/field_definitions.csv` — 131 fields)
+- [x] Visit schedule CSV exported (`crf/visit_schedule.csv` — 20 visits)
+- [x] Codelist reference CSV exported (`crf/codelist_reference.csv` — 218 entries)
+- [x] PDF mockup created (`crf/CRF_Preview.pdf`)
+- [ ] LG approval — pending
 - [ ] Ready for Phase 3 (Simulated Database)
 
 **Future Gates (3–8):**
@@ -399,5 +400,5 @@ For questions about:
 
 ---
 
-*Last updated: 2026-03-31*  
+*Last updated: 2026-04-01*  
 *For AI-assisted CDISC standards development*
