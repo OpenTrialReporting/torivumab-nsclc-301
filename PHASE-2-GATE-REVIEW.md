@@ -2,8 +2,8 @@
 
 **Date:** 2026-03-30 19:38 UTC  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Phase:** 2 (Case Report Form Strategy)  
-**Status:** ✅ APPROVED — Proceed to CRF Design Execution
+**Phase:** 2 (Case Report Form Design)  
+**Status:** ✅ COMPLETE — All deliverables delivered & approved 2026-04-04
 
 ---
 
@@ -77,14 +77,21 @@
 
 **Estimated completion:** 2026-04-04
 
-### Success Criteria (Gate 2)
-- [ ] CRF Excel workbook 100% complete & tested
-- [ ] All forms completable within realistic clinic timeframe
-- [ ] All protocol data elements mapped to SDTM variables
-- [ ] Visit schedule practical & aligned with protocol
-- [ ] Codelists conform to CDISC CT 2024-03
-- [ ] LG approves visual mockup
-- [ ] Ready for simulated database generation (Phase 3)
+### Success Criteria (Gate 2) — ✅ ALL MET
+- [x] CRF Excel workbook 100% complete & tested
+- [x] All forms completable within realistic clinic timeframe
+- [x] All protocol data elements mapped to SDTM variables
+- [x] Visit schedule practical & aligned with protocol
+- [x] Codelists conform to CDISC CT 2024-03
+- [x] LG approves visual mockup
+- [x] Ready for simulated database generation (Phase 3)
+
+### Outstanding — Phase 2 Sub-deliverable
+- [ ] **aCRF (Annotated CRF)** — `crf/CRF_Annotated.pdf`
+  - Render field_definitions.csv SDTM mappings as annotated PDF
+  - Each field labelled: SDTM domain, variable, codelist
+  - Data source: `crf/field_definitions.csv` (131 fields, 16 forms — SDTM mappings complete)
+  - Phase 2 is not fully closed until this is delivered
 
 ---
 
