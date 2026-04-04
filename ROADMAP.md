@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-04-01  
-**Status:** Phase 2 complete → Phase 3 (Simulated Database) next
+**Last updated:** 2026-04-04  
+**Status:** Phase 3/4 data generation scripts complete — pending execution → Phase 5 (ADaM) next
 
 ---
 
@@ -15,13 +15,13 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 ```
 1. Protocol         ✅ COMPLETE (v1.1, 2026-03-30)
    ↓
-2. aCRF             ✅ COMPLETE (Gate 2 delivered 2026-04-01)
+2. aCRF             ✅ COMPLETE — Gate 2 APPROVED (2026-04-01)
    ↓
-3. Simulated Database ⏳ NEXT
+3. Simulated Database ✅ SCRIPTS WRITTEN (2026-04-04) — pending execution
+   ↓  (phases 3 & 4 unified: data-raw/ scripts produce raw CSV + SDTM parquet)
+4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ SCRIPTS WRITTEN — pending execution
    ↓
-4. SDTM (19 domains)
-   ↓
-5. ADaM (6 datasets)
+5. ADaM (6 datasets) ⏳ NEXT
    ↓
 6. TFLs (Tables, Figures, Listings)
    ↓
@@ -60,7 +60,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 **Status:** COMPLETE (2026-04-01) — Gate 2 deliverables submitted, pending LG approval
 
 **Gate 1 (CRF Strategy):** ✅ APPROVED 2026-03-30 (see `PHASE-2-GATE-REVIEW.md`)  
-**Gate 2 (CRF Design):** ⏳ Pending LG review
+**Gate 2 (CRF Design):** ✅ APPROVED 2026-04-01
 
 **Purpose:** Define all data collection fields, visit windows, assessment timing, and SDTM variable mappings.
 
@@ -71,9 +71,12 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | CRF Excel Workbook | ✅ Done | `crf/SIMULATED-TORIVUMAB-2026_CRF.xlsx` (21 sheets, 96 KB) |
 | Field Definitions | ✅ Done | `crf/field_definitions.csv` (131 fields, 16 forms) |
 | Visit Schedule | ✅ Done | `crf/visit_schedule.csv` (20 visit types) |
-| Codelist Reference | ✅ Done | `crf/codelist_reference.csv` (218 entries, CDISC CT 2024-03) |
+| Codelist Reference | ✅ Done | `crf/codelist_reference.csv` (233 entries, CDISC CT 2024-03) |
 | CRF Visual Mockup (PDF) | ✅ Done | `crf/CRF_Preview.pdf` (287 KB) |
 | CRF Visual Mockup (HTML) | ✅ Done | `crf/CRF_Preview.html` |
+| Annotated CRF (HTML) | ✅ Done | `crf/CRF_Annotated.html` (~1.3 MB, self-contained) |
+| Annotated CRF (PDF) | ✅ Done | `crf/CRF_Annotated.pdf` (~94 KB, xelatex) |
+| Annotated CRF (Rmd) | ✅ Done | `crf/CRF_Annotated.Rmd` (programmatic, field_definitions.csv driven) |
 | CRF Strategy | ✅ Locked | `crf/CRF-STRATEGY.md` (v2.0) |
 | Build scripts | ✅ Done | `crf/build_crf_workbook.R`, `crf/build_crf_pdf.R` |
 
@@ -110,83 +113,80 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ---
 
-## Phase 3: Simulated Database ⏳
+## Phase 3: Simulated Database ✅ (Scripts Written 2026-04-04)
 
-**Status:** NOT STARTED — next phase
+**Status:** Scripts complete — **pending execution** (`source("data-raw/00_run_all.R")`)
 
-**Purpose:** Generate realistic raw trial data (as if collected via eCRF) before SDTM transformation.
+> Phases 3 and 4 are unified: each `data-raw/` script generates both a raw CSV
+> (`data-raw/raw_data/`) and an SDTM-ready Parquet file (`sdtm/`).
 
-**Deliverables:**
+**Purpose:** Generate realistic raw trial data (as if collected via eCRF) and SDTM domains.
 
-| Item | Description | Output |
-|------|-------------|--------|
-| Raw data tables | CSV with raw entry values (pre-SDTM) | `data-raw/raw_data/` |
-| Demographic data | 450 subjects with randomisation, baseline chars | `data-raw/raw_data/demographics.csv` |
-| Exposure data | Dosing schedule, dose modifications, compliance | `data-raw/raw_data/dosing.csv` |
-| Safety data | Adverse events, labs, vital signs | `data-raw/raw_data/safety.csv` |
-| Efficacy data | Imaging assessments, tumour measurements, response | `data-raw/raw_data/efficacy.csv` |
-| Disposition | Study completion/discontinuation reasons | `data-raw/raw_data/disposition.csv` |
-| R generation scripts | Reproducible data generation | `data-raw/01_demographics.R`, etc. |
+**Scripts delivered:**
+
+| Script | Seed | Domain | Key outputs |
+|--------|------|--------|-------------|
+| `00_run_all.R` | — | Orchestrator | Runs all scripts; saves `session_info.txt` |
+| `01_dm.R` | 301 | DM + SUPPDM | 450 subjects, 2:1 randomisation, backbone, OS/PFS times |
+| `02_ex.R` | 302 | EX | Q3W dosing, dose holds, infusion datetimes |
+| `03_ds.R` | 303 | DS | IC → Randomised → EOT → FU → Death milestones |
+| `04_ae.R` | 304 | AE | 26 AE types; irAEs overrepresented in TOR; MedDRA v27.0; CTCAE v5.0 |
+| `05_cm.R` | 305 | CM | Background meds + corticosteroids for irAE mgmt |
+| `06_mh.R` | 306 | MH | NSCLC comorbidity profile; MedDRA v27.0 |
+| `07_su.R` | 307 | SU + SUPPSU | Tobacco; 38% current / 62% former; pack-years |
+| `08_vs.R` | 308 | VS | BP, HR, Temp, Weight (decline post-progression), ECOG PS |
+| `09_lb.R` | 309 | LB | Haem + Chem + Thyroid + Urinalysis + 10 biomarkers (PD-L1 TPS, mutations) |
+| `10_pe.R` | 310 | PE | 9 body systems at SCR/C1D1/EOT |
+| `11_tu.R` | 311 | TU | RECIST 1.1 target (2–5) + non-target (0–3) lesions |
+| `12_tr.R` | 312 | TR | Per-visit lesion measurements; exponential growth/decay model |
+| `13_rs.R` | 313 | RS | RECIST 1.1 BICR: per-visit + BOR; CR/PR confirmation required |
+| `14_dd.R` | 314 | DD | Cause of death; 90% disease progression |
+
+**Backbone (`subject_backbone.csv`):** output of `01_dm.R` — joined by all downstream scripts; contains C1D1 date, PFS/OS event times, DTHFL, N_CYCLES, stratification variables.
 
 **Key characteristics:**
-- 450 subjects (300 active, 150 placebo)
-- ~18-month accrual period
-- ~24-month minimum follow-up
-- Realistic event rates (OS HR=0.65, PFS HR=0.55 vs placebo)
-- Correlated variables (baseline characteristics → compliance → dropout)
-- MCAR missing data pattern
-
-**Technology:** R scripts using `set.seed()` for reproducibility
-
-**Timeline:** ~7 days
+- 450 subjects (300 active, 150 placebo), 60 sites, 3 regions
+- 18-month accrual (2022-01-15 → 2023-07-15); data cutoff 2025-01-31
+- OS HR=0.65 (TOR 21.5m vs PBO 14.0m), PFS HR=0.55 (TOR 11.0m vs PBO 6.0m)
+- 10% administrative dropout (MCAR)
+- SDTM Parquet output to `sdtm/`; raw CSV output to `data-raw/raw_data/`
 
 ---
 
-## Phase 4: SDTM ⏳
+## Phase 4: SDTM ✅ (Scripts Written — unified with Phase 3)
 
-**Status:** NOT STARTED
+**Status:** SDTM Parquet output written by same `data-raw/` scripts as Phase 3 — pending execution.
 
-**Purpose:** Transform raw database into CDISC SDTM format (19 domains).
+**Domains produced by data-raw/ scripts:**
 
-**Core domains (12):**
+| Domain | Script | Output |
+|--------|--------|--------|
+| DM | `01_dm.R` | `sdtm/dm.parquet` |
+| SUPPDM | `01_dm.R` | `sdtm/suppdm.parquet` |
+| EX | `02_ex.R` | `sdtm/ex.parquet` |
+| DS | `03_ds.R` | `sdtm/ds.parquet` |
+| AE | `04_ae.R` | `sdtm/ae.parquet` |
+| CM | `05_cm.R` | `sdtm/cm.parquet` |
+| MH | `06_mh.R` | `sdtm/mh.parquet` |
+| SU | `07_su.R` | `sdtm/su.parquet` |
+| SUPPSU | `07_su.R` | `sdtm/suppsu.parquet` |
+| VS | `08_vs.R` | `sdtm/vs.parquet` |
+| LB | `09_lb.R` | `sdtm/lb.parquet` |
+| PE | `10_pe.R` | `sdtm/pe.parquet` |
+| TU | `11_tu.R` | `sdtm/tu.parquet` |
+| TR | `12_tr.R` | `sdtm/tr.parquet` |
+| RS | `13_rs.R` | `sdtm/rs.parquet` |
+| DD | `14_dd.R` | `sdtm/dd.parquet` |
 
-| Domain | Description | Est. Records |
-|--------|-------------|---------|
-| DM | Demographics | 450 |
-| AE | Adverse Events | ~2,000–3,000 |
-| CM | Concomitant Meds | ~1,000–2,000 |
-| DS | Disposition | 450 |
-| EX | Exposure | ~15,000+ |
-| LB | Laboratory | ~10,000+ |
-| RS | Disease Response | ~1,800 |
-| TU | Tumour ID | ~500–1,000 |
-| TR | Tumour Results | ~5,000+ |
-| VS | Vital Signs | ~2,700 |
-| MH | Medical History | ~450–900 |
-| SU | Substance Use | 450 |
+**Pending (post-execution):** RELREC (links TU→TR→RS), additional SUPP-- datasets for AE/CM/LB, DA (Drug Accountability) domain.
 
-**Supplementary datasets (6):** SUPPDM, SUPPAE, SUPPEX, SUPPRS, SUPPTR, SUPPTU
-
-**Relational dataset (1):** RELREC — links TU → TR → RS for RECIST 1.1 traceability
-
-**Generation order (dependency chain):**
-1. DM (backbone)
-2. EX (drives exposure variables)
-3. DS (drives censoring in ADTTE)
-4. AE, CM, MH, SU, VS, LB (relatively independent)
-5. TU → TR → RS (linked chain)
-6. SUPP-- datasets
-7. RELREC
-
-**Technology:** R + admiral + admiralonco + metacore
-
-**Timeline:** ~10 days
+**Technology:** R + arrow (Parquet output); admiral/admiralonco for ADaM phase
 
 ---
 
-## Phase 5: ADaM ⏳
+## Phase 5: ADaM ⏳ NEXT
 
-**Status:** NOT STARTED
+**Status:** NOT STARTED — begins after Phase 3/4 data generation is executed and Gate 3 approved
 
 **Purpose:** Derive analysis datasets from SDTM (6 datasets).
 
@@ -301,12 +301,12 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 |-------|--------|------|-----------|
 | 1. Protocol | ✅ Done | — | — |
 | 2. aCRF | ✅ Done | — | — |
-| 3. Simulated DB | ⏳ Next | 7 | 7 |
-| 4. SDTM | ⏳ | 10 | 17 |
-| 5. ADaM | ⏳ | 7 | 24 |
-| 6. TFLs | ⏳ | 5 | 29 |
-| 7. CSR | ⏳ | 7 | 36 |
-| 8. ADRG | ⏳ | 4 | 40 |
+| 3. Simulated DB | ✅ Scripts done | — | — |
+| 4. SDTM | ✅ Scripts done (unified w/ Ph3) | — | — |
+| 5. ADaM | ⏳ Next | 7 | 7 |
+| 6. TFLs | ⏳ | 5 | 12 |
+| 7. CSR | ⏳ | 7 | 19 |
+| 8. ADRG | ⏳ | 4 | 23 |
 
 **Parallel validation & Define-XML:** +5 days (concurrent)  
 **Realistic remaining timeline: ~6 weeks**
@@ -318,19 +318,19 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | Gate | Phase | Status | Date |
 |------|-------|--------|------|
 | Gate 1 | CRF Strategy | ✅ PASSED | 2026-03-30 |
-| Gate 2 | CRF Design | ⏳ Pending LG review | est. 2026-04-04 |
-| Gate 3 | Simulated Database | ⏳ | — |
-| Gate 4 | SDTM | ⏳ | — |
-| Gate 5 | ADaM | ⏳ | — |
-| Gate 6 | TFLs | ⏳ | — |
-| Gate 7 | CSR + ADRG | ⏳ | — |
+| Gate 2 | CRF Design (aCRF) | ✅ PASSED | 2026-04-01 |
+| Gate 3 | Simulated Database + SDTM | ⏳ Pending execution + LG review | — |
+| Gate 4 | ADaM | ⏳ | — |
+| Gate 5 | TFLs | ⏳ | — |
+| Gate 6 | CSR + ADRG | ⏳ | — |
 
 ---
 
 ## Success Criteria
 
-- [x] aCRF complete & approved
-- [ ] Simulated data reproducible (via `set.seed()`)
+- [x] aCRF complete & approved (Gate 2 — 2026-04-01)
+- [x] Data generation scripts written (15 scripts, seeds 301–314)
+- [ ] Simulated data executed & validated (run `data-raw/00_run_all.R`)
 - [ ] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03
 - [ ] ADaM datasets pass admiral validation checks
 - [ ] TFLs publication-ready (no manual edits)
@@ -348,24 +348,25 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 torivumab-nsclc-301/
 ├── protocol/
 │   └── synopsis.md (v1.1) ✅
-├── crf/                                    ✅ Phase 2 complete
+├── crf/                                    ✅ Phase 2 complete (Gate 2 APPROVED)
 │   ├── CRF-STRATEGY.md (v2.0 — locked)
 │   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx  (21 sheets)
-│   ├── field_definitions.csv              (131 fields)
-│   ├── visit_schedule.csv                 (20 visits)
-│   ├── codelist_reference.csv             (218 entries)
-│   ├── CRF_Preview.pdf
-│   ├── CRF_Preview.html
-│   ├── CRF_Preview.Rmd
+│   ├── field_definitions.csv              (131 fields, 16 forms)
+│   ├── visit_schedule.csv                 (20 visit types)
+│   ├── codelist_reference.csv             (233 entries, CDISC CT 2024-03)
+│   ├── CRF_Annotated.html                 (self-contained aCRF, ~1.3 MB)
+│   ├── CRF_Annotated.pdf                  (xelatex aCRF, ~94 KB)
+│   ├── CRF_Annotated.Rmd                  (programmatic source)
+│   ├── CRF_Preview.pdf / .html / .Rmd
 │   ├── build_crf_workbook.R
 │   └── build_crf_pdf.R
-├── data-raw/                               ⏳ Phase 3
+├── data-raw/                               ✅ Phase 3/4 scripts written
 │   ├── PROVENANCE.md
-│   ├── 01_demographics.R
-│   ├── 02_exposure.R
-│   └── ... (19 scripts total)
-├── sdtm/                                   ⏳ Phase 4
-│   └── *.parquet (19 domains)
+│   ├── 00_run_all.R                       (orchestrator — run this)
+│   ├── 01_dm.R  …  14_dd.R               (14 domain scripts, seeds 301–314)
+│   └── raw_data/                          (generated CSVs — not yet created)
+├── sdtm/                                   ✅ Parquet outputs — not yet generated
+│   └── *.parquet (16 files after execution)
 ├── adam/                                   ⏳ Phase 5
 │   └── *.parquet (6 datasets)
 ├── tfl/                                    ⏳ Phase 6
@@ -388,5 +389,5 @@ torivumab-nsclc-301/
 
 ---
 
-*Last updated: 2026-04-01*  
-*Phase 2 complete — awaiting Gate 2 approval before Phase 3 kick-off*
+*Last updated: 2026-04-04*  
+*Phases 3 & 4 scripts complete — run `data-raw/00_run_all.R` to generate data → Gate 3 review → Phase 5 ADaM*

@@ -17,18 +17,18 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 3 (Simulated Database — NEXT)**
+Current phase: **Phase 3/4 data generation — scripts written, pending execution**
 
 ```
 Phase 1: Protocol ✅ DONE
    ↓
-Phase 2: aCRF (Annotated Case Report Form) ✅ DONE (2026-04-01)
+Phase 2: aCRF (Annotated Case Report Form) ✅ DONE — Gate 2 APPROVED (2026-04-01)
    ↓
-Phase 3: Simulated Database (synthetic raw data) ⏳ NEXT
+Phase 3: Simulated Database (synthetic raw data) ✅ SCRIPTS WRITTEN (2026-04-04)
+   ↓ (data-raw/ scripts also produce SDTM parquet — phases 3 & 4 unified)
+Phase 4: SDTM (14 domains + SUPPDM + SUPPSU) ✅ SCRIPTS WRITTEN (2026-04-04)
    ↓
-Phase 4: SDTM (19 domains)
-   ↓
-Phase 5: ADaM (6 datasets)
+Phase 5: ADaM (6 datasets) ⏳ NEXT
    ↓
 Phase 6: TFLs (Tables, Figures, Listings)
    ↓
@@ -36,6 +36,9 @@ Phase 7: CSR (Clinical Study Report)
    ↓
 Phase 8: ADRG (Analysis Data Reviewer's Guide)
 ```
+
+> **To generate data:** run `source("data-raw/00_run_all.R")` from the project root.
+> Requires: `{dplyr}`, `{lubridate}`, `{arrow}`, `{purrr}` (all in renv.lock)
 
 ## CDISC & Clinical Standards
 

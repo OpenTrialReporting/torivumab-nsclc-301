@@ -33,10 +33,10 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 | Phase | Description | Status |
 |-------|-------------|--------|
 | 1 | Protocol Synopsis | ✅ Complete (v1.1, 2026-03-30) |
-| 2 | Annotated CRF (aCRF) | ✅ Complete (2026-04-01) — Gate 2 review pending |
-| 3 | Simulated Database | ⏳ Next |
-| 4 | SDTM (19 domains) | ⏳ |
-| 5 | ADaM (6 datasets) | ⏳ |
+| 2 | Annotated CRF (aCRF) | ✅ Complete — Gate 2 APPROVED (2026-04-01) |
+| 3 | Simulated Database | ✅ Scripts written (2026-04-04) — pending execution |
+| 4 | SDTM (16 domains + SUPP) | ✅ Scripts written — unified with Phase 3 |
+| 5 | ADaM (6 datasets) | ⏳ Next |
 | 6 | TFLs | ⏳ |
 | 7 | CSR | ⏳ |
 | 8 | ADRG | ⏳ |
@@ -52,22 +52,26 @@ torivumab-nsclc-301/
 ├── protocol/
 │   └── synopsis.md (v1.1 — locked) ✅
 │
-├── crf/                                         ✅ Phase 2 complete
+├── crf/                                         ✅ Phase 2 complete — Gate 2 APPROVED
 │   ├── CRF-STRATEGY.md (v2.0 — locked)
-│   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx       21-sheet annotated CRF workbook
+│   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx       21-sheet CRF workbook
 │   ├── field_definitions.csv                    131 fields across 16 forms
 │   ├── visit_schedule.csv                       20 visit types with windows
-│   ├── codelist_reference.csv                   218 entries (CDISC CT 2024-03)
-│   ├── CRF_Preview.pdf                          Visual mockup for review
-│   ├── build_crf_workbook.R                     Reproducible Excel generation
-│   └── build_crf_pdf.R                          Reproducible PDF generation
+│   ├── codelist_reference.csv                   233 entries (CDISC CT 2024-03)
+│   ├── CRF_Annotated.html                       Self-contained aCRF (~1.3 MB)
+│   ├── CRF_Annotated.pdf                        PDF aCRF (xelatex, ~94 KB)
+│   ├── CRF_Annotated.Rmd                        Programmatic aCRF source
+│   ├── CRF_Preview.pdf / .html / .Rmd           Visual mockup
+│   ├── build_crf_workbook.R
+│   └── build_crf_pdf.R
 │
-├── data-raw/                                    ⏳ Phase 3
+├── data-raw/                                    ✅ Phase 3/4 scripts written
 │   ├── PROVENANCE.md
-│   └── *.R  (generation scripts, 1 per domain)
+│   ├── 00_run_all.R                             Run this to generate all data
+│   └── 01_dm.R … 14_dd.R                       14 domain scripts (seeds 301–314)
 │
-├── sdtm/                                        ⏳ Phase 4
-│   └── *.parquet  (19 domains)
+├── sdtm/                                        ✅ Parquet outputs (pending execution)
+│   └── *.parquet  (16 domains after running 00_run_all.R)
 │
 ├── adam/                                        ⏳ Phase 5
 │   └── *.parquet  (6 datasets)
