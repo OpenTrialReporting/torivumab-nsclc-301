@@ -86,6 +86,13 @@
 - [x] LG approves visual mockup
 - [x] Ready for simulated database generation (Phase 3)
 
+### Outstanding — Phase 2 Sub-deliverable
+- [ ] **aCRF (Annotated CRF)** — `crf/CRF_Annotated.pdf`
+  - Render field_definitions.csv SDTM mappings as annotated PDF
+  - Each field labelled: SDTM domain, variable, codelist
+  - Data source: `crf/field_definitions.csv` (131 fields, 16 forms — SDTM mappings complete)
+  - Phase 2 is not fully closed until this is delivered
+
 ---
 
 ## Project Status Summary
