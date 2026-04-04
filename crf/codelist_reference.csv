@@ -111,6 +111,15 @@ LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,POTASS,Po
 LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,ALBUMIN,Albumin,ALBUMIN,Units: g/L; normal range 35-50
 LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,TSH,Thyroid Stimulating Hormone,TSH,Units: mIU/L; normal range 0.4-4.0; immune-mediated endocrinopathy monitoring
 LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,GLUC,Glucose (Fasting),GLUC,Units: mmol/L; normal range 3.9-6.1
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,USPECGR,Urine Specific Gravity,USPECGR,Units: none; normal range 1.003-1.030; urinalysis dipstick
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UPH,Urine pH,UPH,Units: none; normal range 4.5-8.0
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UPROT,Urine Protein,UPROT,Units: mg/dL or dipstick grade; monitor for immune-mediated nephritis
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UGLUC,Urine Glucose,UGLUC,Units: mmol/L or dipstick grade
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UBILI,Urine Bilirubin,UBILI,Units: dipstick grade; normal: negative
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UKET,Urine Ketones,UKET,Units: dipstick grade; normal: negative
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UBLOOD,Urine Blood,UBLOOD,Units: dipstick grade; monitor for haematuria/nephritis
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,UNITRITE,Urine Nitrites,UNITRITE,Units: dipstick grade; normal: negative; infection screen
+LB_TEST,Clinical Lab Tests,CDISC CT 2024-03,CDISC,LBTESTCD,LBTESTCD,LB,ULEUK,Urine Leukocyte Esterase,ULEUK,Units: dipstick grade; normal: negative; infection/inflammation screen
 LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,PD-L1_TPS,PD-L1 Tumour Proportion Score,PD-L1_TPS,Units: %; range 0-100; ≥50% required for eligibility
 LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,EGFR_MUT,EGFR Mutation Status,EGFR_MUT,Absence required for eligibility
 LB_BIOMARKER,Biomarker Tests,Study-specific (CDISC Oncology),Study,LBTESTCD,LBTESTCD,LB,ALK_REARR,ALK Gene Rearrangement,ALK_REARR,Absence required for eligibility
@@ -214,6 +223,12 @@ LOCLOINC,Lesion Location (Anatomic),CDISC CT 2024-03 (Oncology),CDISC Oncology,T
 LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,LEFT,Left,LEFT,
 LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,RIGHT,Right,RIGHT,
 LAT,Laterality,CDISC CT 2024-03,CDISC,TULAT,TULAT,TU,BILATERAL,Bilateral,BILATERAL,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,ANTERIOR,Anterior,ANTERIOR,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,POSTERIOR,Posterior,POSTERIOR,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,SUPERIOR,Superior,SUPERIOR,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,INFERIOR,Inferior,INFERIOR,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,MEDIAL,Medial,MEDIAL,
+DIR,Directionality,CDISC CT 2024-03,CDISC,TUDIR,TUDIR,TU,LATERAL,Lateral,LATERAL,
 MEDDRA_PT,MedDRA Preferred Term,MedDRA v27.0,MedDRA,AEDECOD|MHDECOD,AEDECOD|MHDECOD,AE|MH,,,,,Coded by data management using MedDRA v27.0; values not enumerated here — see full MedDRA hierarchy
 MEDDRA_SOC,MedDRA System Organ Class,MedDRA v27.0,MedDRA,AESOC,AESOC,AE,,,,,Auto-derived from AEDECOD MedDRA coding; 27 SOCs in MedDRA v27.0
 WHO_DRUG,WHO Drug Preferred Name,WHO Drug Dictionary,WHO,CMDECOD,CMDECOD,CM,,,,,Coded by data management; values not enumerated here — see WHO Drug Dictionary

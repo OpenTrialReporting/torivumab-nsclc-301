@@ -85,12 +85,25 @@ a template for regulatory submission.
 All R data generation scripts are in `data-raw/`.  
 Every script uses `set.seed()` for full reproducibility.
 
+Run `data-raw/00_run_all.R` from the project root to regenerate all outputs in dependency order.
+
 | Script | Seed | Generates |
 |---|---|---|
-| `01_dm.R` | `set.seed(301)` | DM domain |
+| `00_run_all.R` | (orchestrator) | Runs all scripts in order |
+| `01_dm.R` | `set.seed(301)` | DM + SUPPDM domains + subject_backbone.csv |
 | `02_ex.R` | `set.seed(302)` | EX domain |
-| `03_ae.R` | `set.seed(303)` | AE domain |
-| *(to be completed as scripts are written)* | | |
+| `03_ds.R` | `set.seed(303)` | DS domain |
+| `04_ae.R` | `set.seed(304)` | AE domain |
+| `05_cm.R` | `set.seed(305)` | CM domain |
+| `06_mh.R` | `set.seed(306)` | MH domain |
+| `07_su.R` | `set.seed(307)` | SU + SUPPSU domains |
+| `08_vs.R` | `set.seed(308)` | VS domain |
+| `09_lb.R` | `set.seed(309)` | LB domain (haem/chem/thyroid/urinalysis/biomarkers) |
+| `10_pe.R` | `set.seed(310)` | PE domain |
+| `11_tu.R` | `set.seed(311)` | TU domain + tu_lesion_map.csv |
+| `12_tr.R` | `set.seed(312)` | TR domain + tr_sum_diam.csv |
+| `13_rs.R` | `set.seed(313)` | RS domain (RECIST 1.1 BOR + per-visit) |
+| `14_dd.R` | `set.seed(314)` | DD domain |
 
 **R session info** will be captured at generation time via `sessionInfo()` and saved to  
 `data-raw/session_info.txt`.
@@ -121,4 +134,4 @@ If using this dataset, please cite as:
 
 ---
 
-*Last updated: 2026-03-22*
+*Last updated: 2026-04-04*

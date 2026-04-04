@@ -1,0 +1,765 @@
+---
+title: "SIMULATED-TORIVUMAB-2026 | Annotated CRF | FICTIONAL — NOT FOR REGULATORY USE"
+subtitle: |
+  Protocol: TORIVA-LUNG 301 | Phase 3 NSCLC | Version 1.0
+  CDASH v2.1 \u2192 SDTMIG v3.4 \u2192 ADaMIG v1.3 | CDISC CT 2024-03 | MedDRA v27.0 | CTCAE v5.0
+author: "Prepared by: Nova (AI Clinical Data Science Assistant) | Review: Lovemore Gakava"
+date: "`r format(Sys.Date(), '%Y-%m-%d')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    self_contained: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    latex_engine: xelatex
+    number_sections: false
+    df_print: kable
+geometry: "margin=1.5cm"
+fontsize: 10pt
+header-includes:
+  - \usepackage{xcolor}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{colortbl}
+  - \usepackage{fontspec}
+  - \definecolor{sdtmred}{HTML}{C00000}
+  - \definecolor{rowgray}{HTML}{EBF3FB}
+---
+
+```{r setup, include=FALSE}
+# torivumab guidelines loaded
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(readr)
+
+# Read field definitions (relative path — must knit from crf/ directory or set working dir)
+fields <- read_csv("field_definitions.csv", show_col_types = FALSE) %>%
+  mutate(
+    codelist_name  = ifelse(is.na(codelist_name) | codelist_name == "", "\u2014", codelist_name),
+    required       = ifelse(required == "Yes", "Y", ifelse(required == "No", "N", required))
+  )
+
+# Helper: build SDTM annotation string
+make_annot <- function(sdtm_domain, sdtm_variable, codelist_name) {
+  base  <- paste0("\u2192 ", sdtm_domain, ".", sdtm_variable)
+  cl    <- ifelse(codelist_name != "\u2014", paste0(" [", codelist_name, "]"), "")
+  paste0(base, cl)
+}
+
+# Hex-color row_spec is HTML-only; LaTeX chokes on bare # characters
+html_row_spec <- function(tbl, ...) {
+  if (knitr::is_html_output()) tbl %>% row_spec(...) else tbl
+}
+
+# Helper: render a form table with SDTM annotation column styled in red
+render_form <- function(domain, fname = NULL) {
+  df <- fields %>% filter(form_domain == domain)
+  if (!is.null(fname)) df <- df %>% filter(form_name == fname)
+
+  df <- df %>%
+    mutate(
+      n      = row_number(),
+      annot  = make_annot(sdtm_domain, sdtm_variable, codelist_name)
+    ) %>%
+    select(n, cdash_variable, field_label, data_type, codelist_name, required, annot)
+
+  is_html <- knitr::is_html_output()
+
+  tbl <- df %>%
+    kbl(
+      col.names = c("#", "CDASH Variable", "Field Label", "Data Type",
+                    "Codelist", "Req", "SDTM Annotation"),
+      escape    = TRUE,
+      booktabs  = TRUE,
+      align     = c("c", "l", "l", "l", "l", "c", "l")
+    ) %>%
+    kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      latex_options     = c("striped", "hold_position"),
+      full_width        = TRUE,
+      font_size         = 11
+    )
+
+  if (is_html) {
+    tbl <- tbl %>%
+      column_spec(7, color = "#C00000", bold = TRUE, italic = TRUE, width = "18em") %>%
+      column_spec(6, bold = TRUE, width = "3em") %>%
+      html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE)
+  } else {
+    tbl <- tbl %>%
+      column_spec(7, color = "sdtmred", bold = TRUE, italic = TRUE) %>%
+      column_spec(6, bold = TRUE)
+  }
+
+  tbl
+}
+```
+
+```{css, echo=FALSE}
+body { font-family: Calibri, Arial, sans-serif; font-size: 13px; color: #222; }
+h1 { background: #1F3864; color: white; padding: 10px 14px; border-radius: 4px; }
+h2 { background: #2E75B6; color: white; padding: 8px 12px; border-radius: 4px; }
+h3 { background: #41719C; color: white; padding: 6px 10px; border-radius: 3px; }
+.warn  { background: #FFF2CC; border: 2px solid #C00000; padding: 12px; border-radius: 4px;
+          margin-bottom: 16px; color: #C00000; font-weight: bold; }
+.info  { background: #DEEAF1; border-left: 4px solid #2E75B6; padding: 10px 14px; margin-bottom: 12px; }
+.recist { background: #E2EFDA; border-left: 4px solid #375623; padding: 10px 14px; margin-bottom: 12px;
+           font-size: 12px; }
+table  { border-collapse: collapse; width: 100%; margin-bottom: 16px; font-size: 12px; }
+th     { background: #1F3864; color: white; padding: 8px 10px; text-align: left; }
+td     { padding: 6px 10px; border-bottom: 1px solid #D9E1F2; }
+tr:nth-child(even) { background: #EBF3FB; }
+tr:nth-child(odd)  { background: #FFFFFF; }
+.sdtm-annot  { color: #C00000; font-style: italic; font-weight: bold; font-size: 11px; }
+.domain-tag  { display: inline-block; background: #2E75B6; color: white; padding: 2px 8px;
+                border-radius: 10px; font-size: 11px; font-weight: bold; margin: 2px; }
+.onco-tag    { display: inline-block; background: #375623; color: white; padding: 2px 8px;
+                border-radius: 10px; font-size: 11px; font-weight: bold; margin: 2px; }
+.visit-tag   { display: inline-block; background: #C55A11; color: white; padding: 2px 6px;
+                border-radius: 3px; font-size: 11px; margin: 2px; }
+.annot-key   { background: #FFF2CC; border: 1px solid #C00000; padding: 8px 12px;
+                border-radius: 3px; font-size: 12px; margin-bottom: 12px; }
+```
+
+<div class="warn">
+&#9888; FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY USE<br>
+This aCRF is part of a completely fictional Phase 3 NSCLC clinical trial simulation (SIMULATED-TORIVUMAB-2026).
+All identifiers, drug names, and data are synthetic. Do NOT submit to any regulatory authority or clinical registry.
+</div>
+
+<div class="info">
+<b>Study:</b> SIMULATED-TORIVUMAB-2026 &nbsp;|&nbsp; <b>Protocol:</b> TORIVA-LUNG 301 &nbsp;|&nbsp;
+<b>Sponsor:</b> Celindra Therapeutics (fictional) &nbsp;|&nbsp; <b>Phase:</b> 3, randomised, double-blind, placebo-controlled<br>
+<b>Indication:</b> Advanced/metastatic NSCLC — PD-L1 TPS &ge;50%, no sensitising EGFR/ALK &nbsp;|&nbsp;
+<b>Treatment:</b> Torivumab 200 mg IV Q3W vs Placebo &nbsp;|&nbsp; <b>N:</b> 450 (2:1)<br>
+<b>Primary Endpoint:</b> Overall Survival (OS) &nbsp;|&nbsp; <b>Response Criteria:</b> RECIST 1.1 (BICR)<br>
+<b>Standards:</b> CDASH v2.1 &rarr; SDTMIG v3.4 &rarr; ADaMIG v1.3 | CDISC CT 2024-03 | MedDRA v27.0 | CTCAE v5.0
+</div>
+
+<div class="annot-key">
+<b>Annotation Key:</b> <span class="sdtm-annot">&rarr; DOMAIN.VARIABLE [Codelist]</span>
+&nbsp;&nbsp;&#8212;&nbsp;&nbsp;
+SDTM annotations are shown in <span style="color:#C00000;font-weight:bold;">red</span> in the rightmost column of each form table.
+Regulatory convention: red annotations indicate the target SDTM variable for each collected field.
+</div>
+
+---
+
+# Visit Schedule
+
+<span class="visit-tag">SCR Week -4</span>
+<span class="visit-tag">C1D1 Baseline</span>
+<span class="visit-tag">C1D8</span>
+<span class="visit-tag">C1D15</span>
+<span class="visit-tag">C1D22 EOC1</span>
+<span class="visit-tag">Cycles 2&#8211;35 Q3W</span>
+<span class="visit-tag">Imaging Q6W &rarr; Wk18</span>
+<span class="visit-tag">Imaging Q12W</span>
+<span class="visit-tag">EOT +30d</span>
+<span class="visit-tag">FU-01 Mo3</span>
+<span class="visit-tag">FU-02 Mo6</span>
+<span class="visit-tag">FU-03 Mo12</span>
+<span class="visit-tag">LTFU Q12W</span>
+
+```{r visit-schedule}
+visit_schedule <- read_csv("visit_schedule.csv", show_col_types = FALSE) %>%
+  mutate(
+    window     = ifelse(!is.na(window_early) & !is.na(window_late),
+                        paste0(window_early, " / +", window_late, " ", window_unit),
+                        paste0("\u00b1", window_late, " ", window_unit)),
+    forms_required = gsub("\\|", ", ", forms_required)
+  ) %>%
+  select(visit_id, visit_name, epoch, scheduled_day, window, forms_required)
+
+visit_schedule %>%
+  kbl(col.names  = c("Visit ID", "Visit Name", "Epoch", "Day", "Window", "Forms Required"),
+      booktabs   = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    latex_options     = c("striped", "hold_position"),
+    full_width        = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE)
+```
+
+---
+
+# Forms Overview
+
+<span class="domain-tag">DM</span>
+<span class="domain-tag">DS</span>
+<span class="domain-tag">IE</span>
+<span class="domain-tag">EC</span>
+<span class="domain-tag">DA</span>
+<span class="domain-tag">AE</span>
+<span class="domain-tag">CM</span>
+<span class="domain-tag">MH</span>
+<span class="domain-tag">SU</span>
+<span class="domain-tag">VS</span>
+<span class="domain-tag">LB</span>
+<span class="domain-tag">PE</span>
+<span class="domain-tag">DD</span>
+&#8212; Foundational CDASH v2.1 Forms (13)
+
+<span class="onco-tag">TU</span>
+<span class="onco-tag">TR</span>
+<span class="onco-tag">RS</span>
+&#8212; Custom Oncology Forms &#8212; RECIST 1.1 (3)
+
+---
+
+# DM &#8212; Demographics
+
+**CDASH:** DM &nbsp;|&nbsp; **SDTM:** DM &nbsp;|&nbsp; **ADaM:** ADSL &nbsp;|&nbsp;
+**Visit:** Screening / Baseline
+
+<div class="info">
+Collects subject identification, date of birth, sex, race, ethnicity, and country.
+USUBJID (system-derived as STUDYID-SITEID-SUBJID) is the primary key linking all SDTM domains.
+AGE is auto-calculated from date of birth. ARM/ACTARM are assigned at randomisation and derived at SDTM level.
+</div>
+
+```{r dm}
+render_form("DM")
+```
+
+---
+
+# DS &#8212; Disposition
+
+**CDASH:** DS &nbsp;|&nbsp; **SDTM:** DS &nbsp;|&nbsp; **ADaM:** ADSL, ADTTE &nbsp;|&nbsp;
+**Visit:** Screening | C1D1 | EOT | FU01&#8211;FU03 | LTFU
+
+<div class="info">
+Captures protocol milestones and discontinuation reasons at every major decision point.
+DSDECOD drives ADSL completion flags and ADTTE censoring rules.
+DSSTDTC anchors the disposition date for each event.
+</div>
+
+```{r ds}
+render_form("DS")
+```
+
+---
+
+# IE &#8212; Inclusion / Exclusion Criteria
+
+**CDASH:** IE &nbsp;|&nbsp; **SDTM:** IE &nbsp;|&nbsp; **ADaM:** ADSL &nbsp;|&nbsp;
+**Visit:** Screening
+
+<div class="info">
+All inclusion criteria must be met (IEORRES = Y) and all exclusion criteria must be absent (IEORRES = N) before randomisation.
+PD-L1 TPS &ge;50% (IN02), EGFR wild-type (IN03), and ALK negative (IN04) are mandatory eligibility gates.
+IEORRES maps to IE.IEORRES; IETESTCD (e.g. IN01, EX01) maps to IE.IETESTCD.
+</div>
+
+```{r ie-fields}
+render_form("IE")
+```
+
+**Eligibility Criteria Reference:**
+
+```{r ie-criteria}
+ie_criteria <- tibble::tibble(
+  Code    = c("IN01","IN02","IN03","IN04","IN05","IN06","IN07","IN08","IN09","IN10",
+              "EX01","EX02","EX03","EX04","EX05","EX06","EX07","EX08","EX09","EX10"),
+  Cat     = c(rep("INCLUSION", 10), rep("EXCLUSION", 10)),
+  Criterion = c(
+    "Histologically confirmed NSCLC (Stage IIIB/IIIC/IV)",
+    "PD-L1 TPS \u226550% by 22C3 pharmDx IHC (central lab)",
+    "No sensitising EGFR mutations (exon 19 del, exon 21 L858R, other activating)",
+    "No ALK gene rearrangement",
+    "ECOG Performance Status 0 or 1",
+    "Measurable disease per RECIST 1.1",
+    "Age \u226518 years",
+    "No prior systemic therapy for advanced/metastatic NSCLC",
+    "Adequate organ function (haematology, hepatic, renal)",
+    "Life expectancy \u226512 weeks",
+    "Active autoimmune disease requiring systemic treatment",
+    "Prior anti-PD-1 or anti-PD-L1 therapy",
+    "Active (unstable) CNS metastases",
+    "Active systemic corticosteroids >10 mg/day prednisone equivalent",
+    "Active hepatitis B or C infection",
+    "Known HIV (unless undetectable on ART)",
+    "Other active malignancy within 2 years",
+    "Pregnant or breastfeeding",
+    "Prior organ or allogeneic bone marrow transplant",
+    "Any condition interfering with study participation"
+  ),
+  Response = c(rep("Y required", 10), rep("N required", 10)),
+  Annot   = c(rep("\u2192 IE.IEORRES [NY] / IE.IETESTCD", 20))
+)
+
+ie_criteria %>%
+  kbl(col.names = c("Code", "Category", "Criterion", "Response", "SDTM Annotation"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    latex_options     = c("striped", "hold_position"),
+    full_width        = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output())
+    column_spec(., 5, color = "#C00000", bold = TRUE, italic = TRUE)
+  else
+    column_spec(., 5, color = "sdtmred", bold = TRUE, italic = TRUE)} %>%
+  html_row_spec(1:10,  background = "#E2EFDA") %>%
+  html_row_spec(11:20, background = "#FFF2CC")
+```
+
+---
+
+# EC &#8212; Exposure as Collected
+
+**CDASH:** EC &nbsp;|&nbsp; **SDTM:** EC (derived to EX) &nbsp;|&nbsp; **ADaM:** ADEX &nbsp;|&nbsp;
+**Visit:** All on-treatment visits
+
+<div class="info">
+Captures actual dose administered per infusion visit. ECSTDTC / ECENDTC record infusion start and end times.
+ECDOSEMOD + ECMODREAS capture dose modifications. EC domain is transformed to SDTM EX domain during SDTM derivation
+(ECDOSE &rarr; EXDOSE; ECSTDTC &rarr; EXSTDTC). Treatment identity is blinded at collection; unblinded post-study.
+</div>
+
+```{r ec}
+render_form("EC")
+```
+
+---
+
+# DA &#8212; Drug Accountability
+
+**CDASH:** DA &nbsp;|&nbsp; **SDTM:** DA &nbsp;|&nbsp; **ADaM:** ADEX &nbsp;|&nbsp;
+**Visit:** C1D1 (Baseline) | EOT
+
+<div class="info">
+Records drug dispensed and returned at study start and end. DATEST distinguishes DISPENSED vs RETURNED records.
+Used to calculate treatment duration and compliance. One record per accountability event.
+</div>
+
+```{r da}
+render_form("DA")
+```
+
+---
+
+# AE &#8212; Adverse Events
+
+**CDASH:** AE &nbsp;|&nbsp; **SDTM:** AE &nbsp;|&nbsp; **ADaM:** ADAE &nbsp;|&nbsp;
+**Coding:** MedDRA v27.0 | CTCAE v5.0 &nbsp;|&nbsp;
+**Visit:** All on-treatment visits + Off-treatment FU
+
+<div class="info">
+Collected at every on-treatment and follow-up visit. AETERM is the verbatim investigator term; AEDECOD is coded centrally
+by data management using MedDRA v27.0. CTCAE v5.0 grade recorded by investigator at worst severity. SAE expedited
+reporting required within 24 hours (AESER = Y). AESERCR uses multi-select (up to 6 concurrent SAE criteria).
+</div>
+
+```{r ae}
+render_form("AE")
+```
+
+---
+
+# CM &#8212; Concomitant Medications
+
+**CDASH:** CM &nbsp;|&nbsp; **SDTM:** CM &nbsp;|&nbsp; **ADaM:** ADCM &nbsp;|&nbsp;
+**Visit:** Baseline + All on-treatment + FU visits
+
+<div class="info">
+Collects all prior and concomitant medications. CMTRT is the verbatim drug name; CMDECOD is coded centrally
+using WHO Drug Dictionary. CMCAT distinguishes PRIOR (stopped before first dose) from CONCOMITANT (ongoing during study).
+Partial start/end dates are acceptable (YYYY or YYYY-MM format).
+</div>
+
+```{r cm}
+render_form("CM")
+```
+
+---
+
+# MH &#8212; Medical History
+
+**CDASH:** MH &nbsp;|&nbsp; **SDTM:** MH &nbsp;|&nbsp; **ADaM:** ADSL &nbsp;|&nbsp;
+**Visit:** Screening | C1D1
+
+<div class="info">
+Captures prior medical conditions and oncology history including prior anticancer therapies.
+MHCAT distinguishes ONCOLOGY HISTORY from GENERAL MEDICAL HISTORY.
+MHSCAT subcategory enables identification of prior anticancer therapy, prior surgery, and prior radiation.
+MHENRF records whether each condition was resolved (BEFORE) or ongoing (ONGOING) at study entry.
+</div>
+
+```{r mh}
+render_form("MH")
+```
+
+---
+
+# SU &#8212; Substance Use (Tobacco)
+
+**CDASH:** SU &nbsp;|&nbsp; **SDTM:** SU &nbsp;|&nbsp; **ADaM:** ADSL &nbsp;|&nbsp;
+**Visit:** Screening | C1D1
+
+<div class="info">
+Tobacco use history is clinically relevant for NSCLC. SUCAT is pre-filled as TOBACCO.
+SUOCCUR flags ever-use. SUENRF distinguishes former (BEFORE) from current (ONGOING) smokers.
+Pack-year history can be captured in SUPPSU if required by protocol.
+</div>
+
+```{r su}
+render_form("SU")
+```
+
+---
+
+# VS &#8212; Vital Signs
+
+**CDASH:** VS &nbsp;|&nbsp; **SDTM:** VS &nbsp;|&nbsp; **ADaM:** ADVS &nbsp;|&nbsp;
+**Visit:** All visits
+
+<div class="info">
+Horizontal format: one row per vital sign per visit. VSTESTCD and VSTEST are pre-populated per row (read-only).
+VSPOS (position) is required for blood pressure measurements. HEIGHT and BSA are collected at Screening only.
+Body weight collected at all visits for dose-modification decisions.
+</div>
+
+```{r vs}
+render_form("VS")
+```
+
+**Vital Sign Test Panel:**
+
+```{r vs-panel}
+vs_panel <- tibble::tibble(
+  VSTESTCD = c("SYSBP","DIABP","PULSE","TEMP","RESP","WEIGHT","HEIGHT","BSA"),
+  Test     = c("Systolic Blood Pressure","Diastolic Blood Pressure","Pulse Rate",
+               "Temperature","Respiratory Rate","Body Weight","Body Height","Body Surface Area"),
+  Units    = c("mmHg","mmHg","beats/min","degrees C","breaths/min","kg","cm","m\u00b2"),
+  Range    = c("60\u2013250","40\u2013150","30\u2013200","34.0\u201342.0","6\u201340",
+               "30\u2013250","100\u2013220","Mosteller formula"),
+  Visits   = c("All","All","All","All","All","All","Screening only","Screening only"),
+  Annot    = rep("\u2192 VS.VSORRES [VS_TEST]", 8)
+)
+
+vs_panel %>%
+  kbl(col.names = c("VSTESTCD","Test Name","Units","Normal Range","Visit(s)","SDTM Annotation"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped","hover","condensed"),
+    latex_options     = c("striped","hold_position"),
+    full_width = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output())
+    column_spec(., 6, color = "#C00000", bold = TRUE, italic = TRUE)
+  else
+    column_spec(., 6, color = "sdtmred", bold = TRUE, italic = TRUE)}
+```
+
+---
+
+# LB &#8212; Laboratory Test Results
+
+**CDASH:** LB &nbsp;|&nbsp; **SDTM:** LB &nbsp;|&nbsp; **ADaM:** ADLB &nbsp;|&nbsp;
+**Visit:** Screening | C1D1 | C1D22 | C2D22 | CxD22 | EOT
+
+<div class="info">
+Two panels on the LB form: (1) <b>Clinical labs</b> &#8212; haematology, chemistry, urinalysis collected at all lab visits;
+(2) <b>Baseline biomarkers</b> &#8212; molecular profiling panel collected at Screening/C1D1 only.
+LBCAT will distinguish panels in SDTM (CHEMISTRY / HAEMATOLOGY / URINALYSIS / BIOMARKER).
+LBNRIND (LOW/NORMAL/HIGH) is system-derived from reference ranges. LBCLSIG requires investigator sign-off for abnormals.
+</div>
+
+## LB &#8212; Field Structure
+
+```{r lb-fields}
+render_form("LB", "Laboratory Test Results")
+```
+
+## LB &#8212; Clinical Laboratory Panel
+
+```{r lb-clinical}
+lb_clinical <- tibble::tibble(
+  LBTESTCD = c("HGB","WBC","NEUT","LYMPH","PLT",
+               "ALT","AST","ALKPH","BILI","CREAT","SODIUM","POTASS","ALBUMIN","TSH","GLUC",
+               "USPECGR","UPH","UPROT","UGLUC","UBILI","UKET","UBLOOD","UNITRITE","ULEUK"),
+  Test     = c("Haemoglobin","White Blood Cell Count","Neutrophils (Abs)","Lymphocytes (Abs)","Platelet Count",
+               "Alanine Aminotransferase","Aspartate Aminotransferase","Alkaline Phosphatase",
+               "Total Bilirubin","Creatinine","Sodium","Potassium","Albumin",
+               "Thyroid Stimulating Hormone","Glucose (Fasting)",
+               "Urine Specific Gravity","Urine pH","Urine Protein","Urine Glucose","Urine Bilirubin",
+               "Urine Ketones","Urine Blood","Urine Nitrites","Urine Leukocyte Esterase"),
+  Panel    = c(rep("Haematology",5), rep("Chemistry",10), rep("Urinalysis",9)),
+  Units    = c("g/dL","10\u2079/L","10\u2079/L","10\u2079/L","10\u2079/L",
+               "U/L","U/L","U/L","umol/L","umol/L","mmol/L","mmol/L","g/L","mIU/L","mmol/L",
+               "none","none","mg/dL","mmol/L","grade","grade","grade","grade","grade"),
+  NormalRange = c("M:13.5\u201317.5 / F:12.0\u201316.0","4.0\u201311.0","1.8\u20137.5",
+                  "1.0\u20134.8","150\u2013400","7\u201356","10\u201340","44\u2013147",
+                  "3.4\u201320.5","M:53\u2013115 / F:44\u201397","136\u2013145","3.5\u20135.1",
+                  "35\u201350","0.4\u20134.0","3.9\u20136.1",
+                  "1.003\u20131.030","4.5\u20138.0","Negative","Negative","Negative",
+                  "Negative","Negative","Negative","Negative"),
+  Annot    = rep("\u2192 LB.LBORRES [LB_TEST]", 24)
+)
+
+lb_clinical %>%
+  kbl(col.names = c("LBTESTCD","Test Name","Panel","Units","Normal Range","SDTM Annotation"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped","hover","condensed"),
+    latex_options     = c("striped","hold_position"),
+    full_width = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output())
+    column_spec(., 6, color = "#C00000", bold = TRUE, italic = TRUE)
+  else
+    column_spec(., 6, color = "sdtmred", bold = TRUE, italic = TRUE)} %>%
+  pack_rows("Haematology", 1, 5,  bold = TRUE,
+            label_row_css = if (knitr::is_html_output()) "background:#DEEAF1;font-weight:bold;" else "") %>%
+  pack_rows("Chemistry",   6, 15, bold = TRUE,
+            label_row_css = if (knitr::is_html_output()) "background:#DEEAF1;font-weight:bold;" else "") %>%
+  pack_rows("Urinalysis", 16, 24, bold = TRUE,
+            label_row_css = if (knitr::is_html_output()) "background:#E2EFDA;font-weight:bold;" else "")
+```
+
+## LB &#8212; Baseline Biomarker Panel (Screening / C1D1 only)
+
+```{r lb-biomarker-fields}
+render_form("LB", "Laboratory Test Results (Biomarkers)")
+```
+
+```{r lb-biomarker-panel}
+lb_bio <- tibble::tibble(
+  LBTESTCD = c("PD-L1_TPS","EGFR_MUT","ALK_REARR","ROS1_REARR","KRAS_G12C",
+               "MET_EX14","RET_REARR","BRAF_V600E","NTRK_FUSE","TMB"),
+  Test     = c("PD-L1 Tumour Proportion Score","EGFR Mutation Status","ALK Rearrangement",
+               "ROS1 Rearrangement","KRAS G12C Mutation","MET Exon 14 Skipping",
+               "RET Rearrangement","BRAF V600E Mutation","NTRK Gene Fusion",
+               "Tumour Mutational Burden"),
+  ResultType = c("Numeric 0\u2013100%","Codelist","Codelist","Codelist","Codelist",
+                 "Codelist","Codelist","Codelist","Codelist","Numeric (mut/Mb)"),
+  Eligibility = c("\u226550% REQUIRED","Absence REQUIRED","Absence REQUIRED",
+                  "Not exclusion","Not exclusion","Not exclusion",
+                  "Not exclusion","Not exclusion","Not exclusion","Exploratory"),
+  Method   = c("IHC (22C3 pharmDx)","NGS / PCR","FISH / IHC","FISH","NGS / PCR",
+               "NGS","FISH / NGS","NGS / PCR","FISH / NGS","NGS"),
+  Annot    = rep("\u2192 LB.LBORRES / LB.LBSTRESC [LB_BIOMARKER]", 10)
+)
+
+lb_bio %>%
+  kbl(col.names = c("LBTESTCD","Test Name","Result Type","Eligibility","Method","SDTM Annotation"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped","hover","condensed"),
+    latex_options     = c("striped","hold_position"),
+    full_width = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output())
+    column_spec(., 6, color = "#C00000", bold = TRUE, italic = TRUE)
+  else
+    column_spec(., 6, color = "sdtmred", bold = TRUE, italic = TRUE)} %>%
+  html_row_spec(1:3, background = "#FFF2CC")
+```
+
+*Biomarker result categories:* POSITIVE / NEGATIVE / NOT TESTED / UNKNOWN. PD-L1 TPS additionally mapped to &ge;50% or &lt;50% for eligibility.
+
+---
+
+# PE &#8212; Physical Examination
+
+**CDASH:** PE &nbsp;|&nbsp; **SDTM:** PE &nbsp;|&nbsp; **ADaM:** ADSL &nbsp;|&nbsp;
+**Visit:** Screening | C1D1 | EOT
+
+<div class="info">
+System-by-system physical examination. PESTRESC classifies findings as NORMAL, ABNORMAL NCS (not clinically significant),
+or ABNORMAL CS (clinically significant). ECOG Performance Status (0&#8211;4) is captured as a PE finding
+(PETEST = ECOG PS; PEORRES = 0/1/2/3/4) &#8212; must be 0 or 1 at screening for eligibility.
+</div>
+
+```{r pe}
+render_form("PE")
+```
+
+**PE Body Systems:**
+
+```{r pe-systems}
+pe_sys <- tibble::tibble(
+  System = c("GENERAL APPEARANCE","RESPIRATORY","CARDIOVASCULAR","GASTROINTESTINAL",
+             "NEUROLOGICAL","DERMATOLOGICAL","MUSCULOSKELETAL","LYMPH NODES","ECOG PS"),
+  Note   = c("Overall appearance","Primary disease site","Cardiovascular status",
+             "GI assessment","Neurological status","Immune-related AE monitoring (rash)",
+             "Musculoskeletal function","NSCLC nodal assessment","0\u20134 scale; eligibility 0\u20131"),
+  Annot  = rep("\u2192 PE.PETEST [PE_TEST] / PE.PEORRES [PE_RESULT / ECOG]", 9)
+)
+pe_sys %>%
+  kbl(col.names = c("Body System (PETEST)", "Clinical Relevance", "SDTM Annotation"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(bootstrap_options = c("striped","hover","condensed"),
+                latex_options     = c("striped","hold_position"),
+                full_width = TRUE, font_size = 11) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output())
+    column_spec(., 3, color = "#C00000", bold = TRUE, italic = TRUE)
+  else
+    column_spec(., 3, color = "sdtmred", bold = TRUE, italic = TRUE)}
+```
+
+---
+
+# DD &#8212; Death Details
+
+**CDASH:** DD &nbsp;|&nbsp; **SDTM:** DD &nbsp;|&nbsp; **ADaM:** ADTTE &nbsp;|&nbsp;
+**Visit:** Post-mortem (unscheduled) &#8212; complete if subject dies on-study or within follow-up
+
+<div class="info">
+DDDTC (date of death) drives ADTTE OS derivation (CNSR = 0; AVAL = time from randomisation to death).
+Multiple DDORRES records capture different aspects of death (primary cause, contributing cause, autopsy,
+relationship to study drug) &#8212; each distinguished by DDTESTCD in SDTM.
+</div>
+
+```{r dd}
+render_form("DD")
+```
+
+---
+
+# TU &#8212; Tumour Identification
+
+**CDASH:** TU &nbsp;|&nbsp; **SDTM:** TU &nbsp;|&nbsp; **ADaM:** ADTR &nbsp;|&nbsp;
+**Visit:** Baseline Imaging (IMG01)
+
+<div class="recist">
+<b>RECIST 1.1 Lesion Selection Rules:</b>
+TARGET lesions: measurable &#8805;10 mm longest diameter (&#8805;15 mm short axis for lymph nodes);
+maximum 5 target lesions total; maximum 2 per organ; must be reproducibly measurable by CT/MRI.
+NON-TARGET: all other lesions including bone lesions, pleural effusions, ascites.
+All baseline lesions must be documented. Baseline TU records are linked to all subsequent TR records via TRLNKID = TUSEQ.
+</div>
+
+```{r tu}
+render_form("TU")
+```
+
+---
+
+# TR &#8212; Tumour Results (Lesion Measurements)
+
+**CDASH:** TR &nbsp;|&nbsp; **SDTM:** TR &nbsp;|&nbsp; **ADaM:** ADTR &nbsp;|&nbsp;
+**Visit:** All imaging visits &#8212; Q6W (Wk 6, 12, 18) then Q12W
+
+<div class="info">
+One record per lesion per imaging visit. TRLNKID references baseline TUSEQ. LDIAM (longest diameter) is the primary
+RECIST 1.1 measurement for target lesions. LPERP (perpendicular / short axis) is used for lymph node measurements.
+Sum of Longest Diameters (SLD) and % change from baseline are derived in ADaM (ADTR).
+TRORRES = 0 mm indicates complete resolution of a target lesion.
+</div>
+
+```{r tr}
+render_form("TR")
+```
+
+---
+
+# RS &#8212; Disease Response (Overall Assessment)
+
+**CDASH:** RS &nbsp;|&nbsp; **SDTM:** RS &nbsp;|&nbsp; **ADaM:** ADRS &nbsp;|&nbsp;
+**Visit:** All imaging visits &#8212; Q6W (Wk 6, 12, 18) then Q12W
+
+<div class="recist">
+<b>RECIST 1.1 Overall Response Definitions:</b><br>
+<b>CR</b> = Complete Response: disappearance of all target lesions; all lymph nodes &lt;10 mm short axis.<br>
+<b>PR</b> = Partial Response: &#8805;30% decrease in SLD from baseline nadir.<br>
+<b>SD</b> = Stable Disease: neither sufficient shrinkage for PR nor sufficient increase for PD.<br>
+<b>PD</b> = Progressive Disease: &#8805;20% increase in SLD with &#8805;5 mm absolute increase; OR new lesions (RSNEWLES = Y).<br>
+<b>NE</b> = Not Evaluable: unable to determine response; reason must be documented.<br>
+Primary regulatory submission uses BICR (RSEVAL = INDEPENDENT ASSESSOR). Investigator response collected in parallel.
+</div>
+
+```{r rs}
+render_form("RS")
+```
+
+---
+
+# Traceability Summary
+
+<div class="info">
+The table below summarises the complete CRF &rarr; SDTM &rarr; ADaM traceability chain across all 16 forms.
+SDTM domains and ADaM datasets follow SDTMIG v3.4 and ADaMIG v1.3 respectively.
+</div>
+
+```{r traceability}
+trace <- tibble::tibble(
+  Form         = c("Demographics","Disposition","Inclusion/Exclusion","Exposure as Collected",
+                   "Drug Accountability","Adverse Events","Concomitant Medications",
+                   "Medical History","Substance Use","Vital Signs",
+                   "Lab Results \u2014 Clinical","Lab Results \u2014 Biomarkers",
+                   "Physical Examination","Death Details",
+                   "Tumour Identification","Tumour Results","Disease Response"),
+  CDASH        = c("DM","DS","IE","EC","DA","AE","CM","MH","SU","VS","LB","LB","PE","DD","TU","TR","RS"),
+  SDTM         = c("DM","DS","IE","EC \u2192 EX","DA","AE","CM","MH","SU","VS","LB","LB","PE","DD","TU","TR","RS"),
+  ADaM         = c("ADSL","ADSL, ADTTE","ADSL","ADEX","ADEX","ADAE","ADCM","ADSL","ADSL",
+                   "ADVS","ADLB","ADLB","ADSL","ADTTE","ADTR","ADTR","ADRS"),
+  KeyDerivations = c(
+    "USUBJID key; ARM/ACTARM; AGE; SEX; RACE",
+    "EOSSTT; DCSREAS; ADSL completion/censoring flags",
+    "ITTFL; SAFFL; eligibility population flags",
+    "TRTSDT/DT; TRTEDTM; AVAL cumulative dose; compliance",
+    "TRTDUR; drug accountability reconciliation",
+    "AESEQ; treatment-related flag; AESERD; grade flags; ANL01FL",
+    "CMDOSE; CMSTDY; CMSEQ; prior/concomitant split",
+    "NHISTFL; prior anticancer therapy flags",
+    "SMOKFL; smoking status; pack-year history (SUPPSU)",
+    "AVAL; AVALC; BASE; CHG; PCHG; shift tables",
+    "AVAL; ANRLO/HI; shift; toxicity grade flags; ANL01FL",
+    "PD-L1 \u226550% flag; biomarker subgroup flags (KRAS, TMB)",
+    "ECOGFL; ECOG at baseline; ECOG change",
+    "CNSR=0; AVAL for OS derivation in ADTTE",
+    "Baseline SLD; lesion-level linking via RELREC",
+    "SLD; PCHG; nadir; BOR logic; ADTR AVAL",
+    "BOR; DoR; TTR; ORR; BICR vs investigator responses"
+  )
+)
+
+trace %>%
+  kbl(col.names = c("CRF Form","CDASH","SDTM","ADaM","Key Derivations"),
+      booktabs = TRUE, escape = TRUE) %>%
+  kable_styling(
+    bootstrap_options = c("striped","hover","condensed"),
+    latex_options     = c("striped","hold_position"),
+    full_width = TRUE, font_size = 11
+  ) %>%
+  html_row_spec(0, background = "#1F3864", color = "white", bold = TRUE) %>%
+  {if (knitr::is_html_output()) {
+    column_spec(., 3, color = "#C00000", bold = TRUE) %>%
+    column_spec(4, color = "#2E75B6", bold = TRUE)
+  } else {
+    column_spec(., 3, color = "sdtmred", bold = TRUE) %>%
+    column_spec(4, bold = TRUE)
+  }} %>%
+  pack_rows("Foundational CDASH Forms (13)",  1, 14, bold = TRUE,
+            label_row_css = if (knitr::is_html_output()) "background:#DEEAF1;font-weight:bold;" else "") %>%
+  pack_rows("Custom Oncology Forms (3)",      15, 17, bold = TRUE,
+            label_row_css = if (knitr::is_html_output()) "background:#E2EFDA;font-weight:bold;" else "")
+```
+
+---
+
+*End of Annotated CRF &#8212; SIMULATED-TORIVUMAB-2026*
+
+*Phase 2 deliverable &#8212; Gate 2 Review.*
+
+*Standards: CDASH v2.1 | SDTMIG v3.4 | ADaMIG v1.3 | CDISC CT 2024-03 | MedDRA v27.0 | CTCAE v5.0 | RECIST 1.1*
+
+*&#9888; FICTIONAL EDUCATIONAL DOCUMENT &#8212; NOT FOR REGULATORY USE*

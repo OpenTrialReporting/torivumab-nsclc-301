@@ -71,7 +71,7 @@ SU,Substance Use,SUCAT,Substance Category,Codelist,,SUCAT,SU,SUCAT,Yes,Fixed: TO
 SU,Substance Use,SUOCCUR,Substance Use Occurrence,Codelist,,NY,SU,SUOCCUR,Yes,Single select,Has the subject ever used tobacco products?,Screening|C1D1
 SU,Substance Use,SUDOSFRQ,Frequency of Use,Codelist,,FREQ_SU,SU,SUDOSFRQ,No,Required if SUOCCUR = Y,Select frequency of tobacco use,Screening|C1D1
 SU,Substance Use,SUENRF,End Relative to Reference,Codelist,,STENRF,SU,SUENRF,No,Required if SUOCCUR = Y,Select: BEFORE (former smoker) or ONGOING (current smoker),Screening|C1D1
-SU,Substance Use,SUSTDTC,Start Date of Substance Use,Date,YYYY-MM,,MH,SUSTDTC,No,Partial date acceptable (YYYY or YYYY-MM); required if SUOCCUR = Y,Year (and month if known) tobacco use started,Screening|C1D1
+SU,Substance Use,SUSTDTC,Start Date of Substance Use,Date,YYYY-MM,,SU,SUSTDTC,No,Partial date acceptable (YYYY or YYYY-MM); required if SUOCCUR = Y,Year (and month if known) tobacco use started,Screening|C1D1
 SU,Substance Use,SUENDTC,End Date of Substance Use,Date,YYYY-MM,,SU,SUENDTC,No,Required if SUENRF = BEFORE,Year (and month if known) tobacco use stopped,Screening|C1D1
 VS,Vital Signs,VSTESTCD,Vital Sign Test Code,Codelist,,VS_TEST,VS,VSTESTCD,Yes,Pre-populated per row; read-only,System code for vital sign measurement,All visits
 VS,Vital Signs,VSTEST,Vital Sign Test Name,Codelist,,VS_TEST,VS,VSTEST,Yes,Pre-populated per row; read-only,Vital sign name (e.g. SYSTOLIC BLOOD PRESSURE),All visits
@@ -115,7 +115,7 @@ TU,Tumour Identification,TUORRES,Lesion Type,Codelist,,TU_LESTYPE,TU,TUORRES,Yes
 TU,Tumour Identification,TUDTC,Date of Baseline Assessment,Date,YYYY-MM-DD,,TU,TUDTC,Yes,Valid date; within imaging visit window,Date baseline tumour identification assessment performed,IMG01 (Baseline Imaging)
 TR,Tumour Results,TRSEQ,Sequence Number,Numeric,Integer,,TR,TRSEQ,Yes,Auto-incremented by system,System-assigned measurement sequence number,All imaging visits
 TR,Tumour Results,TRLNKID,Link to Tumour Identification,Text,CHAR(10),,TR,TRLNKID,Yes,References TUSEQ from TU form; required for each lesion,Enter TU sequence number for this lesion measurement,All imaging visits
-TR,Tumour Results,TRTESTCD,Tumour Measurement Test Code,Codelist,,TR_TEST,TR,TRTESTCD,Yes,Single select,Select: LDIAM (longest diameter in mm) or PLDIAM (perpendicular) or LPERP,All imaging visits
+TR,Tumour Results,TRTESTCD,Tumour Measurement Test Code,Codelist,,TR_TEST,TR,TRTESTCD,Yes,Single select,Select: LDIAM (longest diameter in mm) or LPERP (perpendicular/short axis for lymph nodes),All imaging visits
 TR,Tumour Results,TRORRES,Measurement Result,Numeric,Decimal(5.1),,TR,TRORRES,Yes,Range: 0-500; units mm; 0 = complete resolution; required for each target lesion,Enter lesion measurement in millimetres,All imaging visits
 TR,Tumour Results,TRORRESU,Units,Codelist,,UNIT,TR,TRORRESU,Yes,Fixed: mm; pre-filled,Pre-filled: mm,All imaging visits
 TR,Tumour Results,TRSTAT,Completion Status,Codelist,,ND,TR,TRSTAT,No,Required if lesion not measured; select NOT DONE,Select if measurement not performed,All imaging visits
