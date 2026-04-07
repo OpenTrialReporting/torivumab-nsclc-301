@@ -34,8 +34,8 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 |-------|-------------|--------|
 | 1 | Protocol Synopsis | ✅ Complete (v1.1, 2026-03-30) |
 | 2 | Annotated CRF (aCRF) | ✅ Complete — Gate 2 APPROVED (2026-04-01) |
-| 3 | Simulated Database | ✅ Scripts written (2026-04-04) — pending execution |
-| 4 | SDTM (16 domains + SUPP) | ✅ Scripts written — unified with Phase 3 |
+| 3 | Simulated Database | ✅ Complete (2026-04-07) |
+| 4 | SDTM (16 domains + SUPP) | ✅ Complete — 16 Parquet domains, SDTMIG v3.4 labelled |
 | 5 | ADaM (6 datasets) | ⏳ Next |
 | 6 | TFLs | ⏳ |
 | 7 | CSR | ⏳ |
@@ -65,13 +65,14 @@ torivumab-nsclc-301/
 │   ├── build_crf_workbook.R
 │   └── build_crf_pdf.R
 │
-├── data-raw/                                    ✅ Phase 3/4 scripts written
+├── data-raw/                                    ✅ Phase 3/4 complete
 │   ├── PROVENANCE.md
-│   ├── 00_run_all.R                             Run this to generate all data
-│   └── 01_dm.R … 14_dd.R                       14 domain scripts (seeds 301–314)
+│   ├── 00_run_all.R                             Pipeline orchestrator
+│   ├── 01_dm.R … 14_dd.R                       14 domain scripts (seeds 301–314)
+│   └── 15_label_domains.R                      SDTMIG v3.4 label attachment
 │
-├── sdtm/                                        ✅ Parquet outputs (pending execution)
-│   └── *.parquet  (16 domains after running 00_run_all.R)
+├── sdtm/                                        ✅ 16 Parquet domains — SDTMIG v3.4 labelled
+│   └── *.parquet  (committed, 1.7 MB)
 │
 ├── adam/                                        ⏳ Phase 5
 │   └── *.parquet  (6 datasets)

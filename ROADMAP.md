@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-04-04  
-**Status:** Phase 3/4 data generation scripts complete — pending execution → Phase 5 (ADaM) next
+**Last updated:** 2026-04-07  
+**Status:** Phase 3/4 COMPLETE — 16 SDTM Parquet domains generated, SDTMIG v3.4 labels attached → Gate 3 pending LG review → Phase 5 (ADaM) next
 
 ---
 
@@ -17,9 +17,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓
 2. aCRF             ✅ COMPLETE — Gate 2 APPROVED (2026-04-01)
    ↓
-3. Simulated Database ✅ SCRIPTS WRITTEN (2026-04-04) — pending execution
+3. Simulated Database ✅ COMPLETE (2026-04-07)
    ↓  (phases 3 & 4 unified: data-raw/ scripts produce raw CSV + SDTM parquet)
-4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ SCRIPTS WRITTEN — pending execution
+4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ COMPLETE — 16 Parquet files, SDTMIG v3.4 labelled
    ↓
 5. ADaM (6 datasets) ⏳ NEXT
    ↓
@@ -113,9 +113,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ---
 
-## Phase 3: Simulated Database ✅ (Scripts Written 2026-04-04)
+## Phase 3: Simulated Database ✅ COMPLETE (2026-04-07)
 
-**Status:** Scripts complete — **pending execution** (`source("data-raw/00_run_all.R")`)
+**Status:** Data generated and committed — 450 subjects, 16 SDTM Parquet domains, all SDTMIG v3.4 labels attached
 
 > Phases 3 and 4 are unified: each `data-raw/` script generates both a raw CSV
 > (`data-raw/raw_data/`) and an SDTM-ready Parquet file (`sdtm/`).
@@ -126,7 +126,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 | Script | Seed | Domain | Key outputs |
 |--------|------|--------|-------------|
-| `00_run_all.R` | — | Orchestrator | Runs all scripts; saves `session_info.txt` |
+| `00_run_all.R` | — | Orchestrator | Runs all scripts in subprocesses; saves `session_info.txt` |
 | `01_dm.R` | 301 | DM + SUPPDM | 450 subjects, 2:1 randomisation, backbone, OS/PFS times |
 | `02_ex.R` | 302 | EX | Q3W dosing, dose holds, infusion datetimes |
 | `03_ds.R` | 303 | DS | IC → Randomised → EOT → FU → Death milestones |
@@ -141,6 +141,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | `12_tr.R` | 312 | TR | Per-visit lesion measurements; exponential growth/decay model |
 | `13_rs.R` | 313 | RS | RECIST 1.1 BICR: per-visit + BOR; CR/PR confirmation required |
 | `14_dd.R` | 314 | DD | Cause of death; 90% disease progression |
+| `15_label_domains.R` | — | Labels | Attaches SDTMIG v3.4 variable labels to all 16 Parquet files |
 
 **Backbone (`subject_backbone.csv`):** output of `01_dm.R` — joined by all downstream scripts; contains C1D1 date, PFS/OS event times, DTHFL, N_CYCLES, stratification variables.
 
@@ -153,11 +154,11 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ---
 
-## Phase 4: SDTM ✅ (Scripts Written — unified with Phase 3)
+## Phase 4: SDTM ✅ COMPLETE (2026-04-07)
 
-**Status:** SDTM Parquet output written by same `data-raw/` scripts as Phase 3 — pending execution.
+**Status:** 16 Parquet domains generated and committed. SDTMIG v3.4 variable labels attached to all domains via `15_label_domains.R`.
 
-**Domains produced by data-raw/ scripts:**
+**Domains produced and committed:**
 
 | Domain | Script | Output |
 |--------|--------|--------|
@@ -186,7 +187,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ## Phase 5: ADaM ⏳ NEXT
 
-**Status:** NOT STARTED — begins after Phase 3/4 data generation is executed and Gate 3 approved
+**Status:** NOT STARTED — begins after Gate 3 LG review
 
 **Purpose:** Derive analysis datasets from SDTM (6 datasets).
 
@@ -301,8 +302,8 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 |-------|--------|------|-----------|
 | 1. Protocol | ✅ Done | — | — |
 | 2. aCRF | ✅ Done | — | — |
-| 3. Simulated DB | ✅ Scripts done | — | — |
-| 4. SDTM | ✅ Scripts done (unified w/ Ph3) | — | — |
+| 3. Simulated DB | ✅ Done (2026-04-07) | — | — |
+| 4. SDTM | ✅ Done — 16 domains, labelled (2026-04-07) | — | — |
 | 5. ADaM | ⏳ Next | 7 | 7 |
 | 6. TFLs | ⏳ | 5 | 12 |
 | 7. CSR | ⏳ | 7 | 19 |
@@ -319,7 +320,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 |------|-------|--------|------|
 | Gate 1 | CRF Strategy | ✅ PASSED | 2026-03-30 |
 | Gate 2 | CRF Design (aCRF) | ✅ PASSED | 2026-04-01 |
-| Gate 3 | Simulated Database + SDTM | ⏳ Pending execution + LG review | — |
+| Gate 3 | Simulated Database + SDTM | ⏳ Data ready — pending LG review | — |
 | Gate 4 | ADaM | ⏳ | — |
 | Gate 5 | TFLs | ⏳ | — |
 | Gate 6 | CSR + ADRG | ⏳ | — |
@@ -329,9 +330,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 ## Success Criteria
 
 - [x] aCRF complete & approved (Gate 2 — 2026-04-01)
-- [x] Data generation scripts written (15 scripts, seeds 301–314)
-- [ ] Simulated data executed & validated (run `data-raw/00_run_all.R`)
-- [ ] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03
+- [x] Data generation scripts written (15 scripts, seeds 301–314) + `15_label_domains.R`
+- [x] Simulated data executed & validated (2026-04-07)
+- [x] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03 (16 domains, all vars labelled)
 - [ ] ADaM datasets pass admiral validation checks
 - [ ] TFLs publication-ready (no manual edits)
 - [ ] Define-XML v2.1 valid (via Define-XML viewer)
@@ -360,13 +361,14 @@ torivumab-nsclc-301/
 │   ├── CRF_Preview.pdf / .html / .Rmd
 │   ├── build_crf_workbook.R
 │   └── build_crf_pdf.R
-├── data-raw/                               ✅ Phase 3/4 scripts written
+├── data-raw/                               ✅ Phase 3/4 COMPLETE
 │   ├── PROVENANCE.md
-│   ├── 00_run_all.R                       (orchestrator — run this)
+│   ├── 00_run_all.R                       (orchestrator)
 │   ├── 01_dm.R  …  14_dd.R               (14 domain scripts, seeds 301–314)
-│   └── raw_data/                          (generated CSVs — not yet created)
-├── sdtm/                                   ✅ Parquet outputs — not yet generated
-│   └── *.parquet (16 files after execution)
+│   ├── 15_label_domains.R                 (SDTMIG v3.4 label attachment)
+│   └── raw_data/                          (generated CSVs — gitignored)
+├── sdtm/                                   ✅ 16 Parquet domains — SDTMIG v3.4 labelled
+│   └── *.parquet (committed, 1.7 MB)
 ├── adam/                                   ⏳ Phase 5
 │   └── *.parquet (6 datasets)
 ├── tfl/                                    ⏳ Phase 6
@@ -389,5 +391,5 @@ torivumab-nsclc-301/
 
 ---
 
-*Last updated: 2026-04-04*  
-*Phases 3 & 4 scripts complete — run `data-raw/00_run_all.R` to generate data → Gate 3 review → Phase 5 ADaM*
+*Last updated: 2026-04-07*  
+*Phases 3 & 4 complete — 16 SDTM Parquet domains generated, SDTMIG v3.4 labels attached → Gate 3 LG review → Phase 5 ADaM*

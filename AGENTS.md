@@ -17,18 +17,18 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 3/4 data generation — scripts written, pending execution**
+Current phase: **Phase 5 ADaM — NEXT (pending Gate 3 LG review)**
 
 ```
 Phase 1: Protocol ✅ DONE
    ↓
 Phase 2: aCRF (Annotated Case Report Form) ✅ DONE — Gate 2 APPROVED (2026-04-01)
    ↓
-Phase 3: Simulated Database (synthetic raw data) ✅ SCRIPTS WRITTEN (2026-04-04)
+Phase 3: Simulated Database (synthetic raw data) ✅ COMPLETE (2026-04-07)
    ↓ (data-raw/ scripts also produce SDTM parquet — phases 3 & 4 unified)
-Phase 4: SDTM (14 domains + SUPPDM + SUPPSU) ✅ SCRIPTS WRITTEN (2026-04-04)
+Phase 4: SDTM (16 domains) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (2026-04-07)
    ↓
-Phase 5: ADaM (6 datasets) ⏳ NEXT
+Phase 5: ADaM (6 datasets) ⏳ NEXT — after Gate 3 LG review
    ↓
 Phase 6: TFLs (Tables, Figures, Listings)
    ↓
@@ -36,9 +36,6 @@ Phase 7: CSR (Clinical Study Report)
    ↓
 Phase 8: ADRG (Analysis Data Reviewer's Guide)
 ```
-
-> **To generate data:** run `source("data-raw/00_run_all.R")` from the project root.
-> Requires: `{dplyr}`, `{lubridate}`, `{arrow}`, `{purrr}` (all in renv.lock)
 
 ## CDISC & Clinical Standards
 
@@ -102,15 +99,18 @@ torivumab-nsclc-301/
 │   └── codelist_reference.csv (Phase 2 deliverable)
 ├── data-raw/
 │   ├── PROVENANCE.md (data generation record)
-│   ├── 01_demographics.R (DM domain)
-│   ├── 02_exposure.R (EX domain)
-│   ├── 03_disposition.R (DS domain)
-│   ├── ... (19 SDTM domains total)
-│   └── raw_data/ (input CSVs for synthetic generation)
-├── sdtm/
-│   ├── dm.parquet
-│   ├── ae.parquet
-│   └── ... (19 domains total)
+│   ├── 00_run_all.R (orchestrator — runs all scripts as subprocesses)
+│   ├── 01_dm.R (DM + SUPPDM)
+│   ├── 02_ex.R … 14_dd.R (12 further domain scripts, seeds 302–314)
+│   ├── 15_label_domains.R (SDTMIG v3.4 label attachment — final step)
+│   └── raw_data/ (generated CSVs — gitignored, reproducible via 00_run_all.R)
+├── sdtm/                            ✅ 16 Parquet domains committed (1.7 MB)
+│   ├── dm.parquet, suppdm.parquet
+│   ├── ex.parquet, ds.parquet, ae.parquet, cm.parquet
+│   ├── mh.parquet, su.parquet, suppsu.parquet
+│   ├── vs.parquet, lb.parquet, pe.parquet
+│   ├── tu.parquet, tr.parquet, rs.parquet
+│   └── dd.parquet
 ├── adam/
 │   ├── adsl.parquet
 │   ├── adae.parquet
@@ -211,7 +211,7 @@ OFF-TREATMENT FOLLOW-UP (Months 3, 6, 12, long-term)
 
 ---
 
-## Data Generation (Phase 3 — UPCOMING)
+## Data Generation (Phase 3 — COMPLETE ✅)
 
 ### Synthetic Data Principles
 - **Realistic but fictional:** Event rates match KEYNOTE-024 (OS HR 0.65, PFS HR 0.55)
@@ -258,12 +258,14 @@ OFF-TREATMENT FOLLOW-UP (Months 3, 6, 12, long-term)
 
 ### File Naming Convention
 ```
-Phase 3 scripts:
-├── data_raw/01_demographics.R       # DM domain
-├── data_raw/02_exposure.R           # EX domain
-├── data_raw/03_disposition.R        # DS domain
-├── data_raw/...
-├── data_raw/19_relrec.R             # RELREC linking
+Phase 3/4 scripts (complete):
+├── data-raw/00_run_all.R            # orchestrator
+├── data-raw/01_dm.R                 # DM + SUPPDM
+├── data-raw/02_ex.R                 # EX
+├── data-raw/03_ds.R … 14_dd.R      # DS through DD
+└── data-raw/15_label_domains.R      # SDTMIG v3.4 label attachment
+
+Phase 5 scripts (upcoming):
 ├── adam/01_adsl.R                   # ADSL dataset
 ├── adam/02_adae.R                   # ADAE dataset
 └── adam/...
@@ -305,7 +307,7 @@ Phase 3 scripts:
 If you are an AI assistant working on this project:
 
 1. **Read this file and the ROADMAP first** — Understand the 8-phase workflow
-2. **Current phase:** Phase 3 (Simulated Database) — Gate 2 approval pending; do NOT start Phase 3 scripts until LG approves Gate 2
+2. **Current phase:** Phase 5 (ADaM) — Gate 3 pending LG review; do NOT start ADaM scripts until Gate 3 is approved
 3. **Respect the locked decisions:**
    - Protocol (v1.1) is final — no changes
    - CRF Strategy (v2.0) is final — no changes
@@ -344,22 +346,31 @@ Each phase must pass a Gate Review before proceeding:
 - [ ] Biomarker testing (LB) specified
 - [ ] Codelists referenced to CDISC CT
 
-**Gate 2 (CRF Design):** ⏳ Pending LG review (deliverables submitted 2026-04-01)
+**Gate 2 (CRF Design):** ✅ PASSED 2026-04-01
 - [x] Excel CRF workbook complete (`crf/SIMULATED-TORIVUMAB-2026_CRF.xlsx` — 21 sheets)
 - [x] Field definitions CSV exported (`crf/field_definitions.csv` — 131 fields)
 - [x] Visit schedule CSV exported (`crf/visit_schedule.csv` — 20 visits)
-- [x] Codelist reference CSV exported (`crf/codelist_reference.csv` — 218 entries)
-- [x] PDF mockup created (`crf/CRF_Preview.pdf`)
-- [ ] LG approval — pending
-- [ ] Ready for Phase 3 (Simulated Database)
+- [x] Codelist reference CSV exported (`crf/codelist_reference.csv` — 233 entries)
+- [x] PDF + HTML mockup created; aCRF HTML + PDF delivered
+- [x] LG approval — 2026-04-01
 
-**Future Gates (3–8):**
-- Gate 3: Simulated database complete + validated
+**Gate 3 (Simulated Database + SDTM):** ⏳ Data ready — pending LG review
+- [x] All 15 domain scripts run successfully (`data-raw/00_run_all.R`)
+- [x] 16 SDTM Parquet files generated and committed (1.7 MB)
+- [x] SDTMIG v3.4 variable labels attached to all 16 domains (`15_label_domains.R`)
+- [x] Round-trip label check passed (USUBJID/AGE/RFSTDTC/DTHFL)
+- [ ] LG review — pending
+- [ ] Ready for Phase 5 (ADaM)
+
+**Future Gates (4–8):**
+- Gate 4: ADaM datasets complete + validated
 - Gate 4: SDTM datasets + Define-XML ready
 - Gate 5: ADaM datasets + SAP finalized
 - Gate 6: TFLs production-ready
 - Gate 7: CSR narrative + results + discussion
 - Gate 8: ADRG + clinTrialData package ready
+
+
 
 ---
 
@@ -403,5 +414,5 @@ For questions about:
 
 ---
 
-*Last updated: 2026-04-01*  
+*Last updated: 2026-04-07*  
 *For AI-assisted CDISC standards development*
