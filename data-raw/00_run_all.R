@@ -6,6 +6,11 @@
 # Run this script to regenerate all SDTM domains from scratch.
 # All scripts use set.seed() for full reproducibility.
 #
+# Each domain script is run in a FRESH R subprocess (via Rscript) so that
+# memory from large domains (VS ~49K rows, LB ~91K rows) is fully released
+# before the next script starts. This prevents segfaults from cumulative
+# heap pressure when source()-ing all scripts in a single R session.
+#
 # Dependency order (must be respected):
 #   01_dm.R     → DM + SUPPDM + subject_backbone.csv (BACKBONE — run first)
 #   02_ex.R     → EX                (requires: backbone)
@@ -26,18 +31,23 @@
 # Session info saved to: data-raw/session_info.txt
 # =============================================================================
 
-# Set working directory to project root
-# (adjust if running interactively from a different location)
 if (!file.exists("data-raw/00_run_all.R")) {
   stop("Run this script from the project root directory (torivumab-nsclc-301/).")
 }
 
+# ── Locate Rscript executable ─────────────────────────────────────────────────
+# Prefer the same R that is running this orchestrator script; fall back to PATH.
+rscript <- file.path(R.home("bin"), "Rscript")
+if (.Platform$OS.type == "windows") rscript <- paste0(rscript, ".exe")
+if (!file.exists(rscript)) rscript <- Sys.which("Rscript")
+if (nchar(rscript) == 0L) stop("Rscript not found — check your R installation.")
+
 cat("=============================================================\n")
 cat("  SIMULATED-TORIVUMAB-2026 — Phase 3 Data Generation\n")
-cat("  Started:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n")
+cat("  Started :", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n")
+cat("  Rscript :", rscript, "\n")
 cat("=============================================================\n\n")
 
-# Ordered list of scripts
 scripts <- c(
   "data-raw/01_dm.R",
   "data-raw/02_ex.R",
@@ -55,46 +65,74 @@ scripts <- c(
   "data-raw/14_dd.R"
 )
 
-timings <- list()
+timings    <- numeric(length(scripts))
+exit_codes <- integer(length(scripts))
+names(timings)    <- scripts
+names(exit_codes) <- scripts
 
-for (script in scripts) {
+for (i in seq_along(scripts)) {
+  script <- scripts[i]
   cat(sprintf("\n--- Running %s ---\n", script))
-  t_start <- proc.time()["elapsed"]
-  source(script, echo = FALSE)
-  t_end <- proc.time()["elapsed"]
-  elapsed <- round(t_end - t_start, 1)
-  timings[[script]] <- elapsed
-  cat(sprintf("    [%s completed in %.1f seconds]\n", script, elapsed))
+
+  t_start    <- proc.time()["elapsed"]
+  exit_codes[i] <- system2(
+    command = rscript,
+    args    = c("--vanilla", shQuote(script)),
+    stdout  = ""   # inherit stdout → printed directly to console
+  )
+  elapsed    <- round(proc.time()["elapsed"] - t_start, 1L)
+  timings[i] <- elapsed
+
+  status_str <- if (exit_codes[i] == 0L) "OK" else sprintf("FAILED (exit %d)", exit_codes[i])
+  cat(sprintf("    [%s — %s — %.1f s]\n", basename(script), status_str, elapsed))
+
+  # Abort pipeline on first failure: downstream scripts depend on earlier outputs
+  if (exit_codes[i] != 0L) {
+    cat(sprintf("\n  *** Pipeline aborted at %s ***\n", script))
+    cat("  Fix the error above, then re-run 00_run_all.R.\n")
+    cat("  Scripts that already completed do NOT need to be re-run\n")
+    cat("  unless you want a clean regeneration from scratch.\n")
+    quit(save = "no", status = 1L)
+  }
 }
 
 # ── Summary ────────────────────────────────────────────────────────────────────
+any_failed <- any(exit_codes != 0L)
+
 cat("\n=============================================================\n")
-cat("  PHASE 3 GENERATION COMPLETE\n")
-cat(sprintf("  Finished: %s\n", format(Sys.time(), "%Y-%m-%d %H:%M:%S")))
+cat(if (any_failed) "  PHASE 3 GENERATION — COMPLETED WITH ERRORS\n"
+    else             "  PHASE 3 GENERATION COMPLETE\n")
+cat(sprintf("  Finished : %s\n", format(Sys.time(), "%Y-%m-%d %H:%M:%S")))
 cat("=============================================================\n\n")
 
 # Domain inventory
-sdtm_files <- list.files("sdtm/", pattern = "\\.parquet$", full.names = TRUE)
+sdtm_files <- sort(list.files("sdtm/", pattern = "\\.parquet$", full.names = TRUE))
 cat("  SDTM Parquet outputs:\n")
 for (f in sdtm_files) {
-  sz  <- round(file.size(f) / 1024, 0)
+  sz <- round(file.size(f) / 1024, 0)
   cat(sprintf("    %-30s %5d KB\n", basename(f), sz))
 }
+cat(sprintf("\n  Total SDTM size: %.1f MB\n",
+            sum(file.size(sdtm_files)) / 1024^2))
 
 cat("\n  Timing summary:\n")
-for (s in names(timings)) {
-  cat(sprintf("    %-40s %.1f s\n", basename(s), timings[[s]]))
+for (i in seq_along(scripts)) {
+  ok <- if (exit_codes[i] == 0L) "" else " *** FAILED"
+  cat(sprintf("    %-40s %6.1f s%s\n", basename(scripts[i]), timings[i], ok))
 }
-cat(sprintf("\n  Total elapsed: %.1f seconds\n",
-            sum(unlist(timings))))
+cat(sprintf("\n  Total elapsed: %.1f seconds (%.1f minutes)\n",
+            sum(timings), sum(timings) / 60))
 
 # Save session info
 session_info_path <- "data-raw/session_info.txt"
-sink(session_info_path)
-cat("SIMULATED-TORIVUMAB-2026 — Phase 3 Data Generation\n")
-cat(sprintf("Generated: %s\n\n", format(Sys.time(), "%Y-%m-%d %H:%M:%S")))
-sessionInfo()
-sink()
+writeLines(c(
+  "SIMULATED-TORIVUMAB-2026 — Phase 3 Data Generation",
+  sprintf("Generated : %s", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
+  sprintf("Rscript   : %s", rscript),
+  sprintf("R version : %s", R.version.string),
+  "",
+  "Scripts run (in order):",
+  sprintf("  %s  exit=%d  %.1fs", basename(scripts), exit_codes, timings)
+), session_info_path)
 cat(sprintf("\n  Session info saved to: %s\n", session_info_path))
-cat("\n  All outputs committed-ready in sdtm/ and data-raw/raw_data/\n")
 cat("=============================================================\n")
