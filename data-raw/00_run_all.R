@@ -26,6 +26,7 @@
 #   12_tr.R     → TR + sum_diam     (requires: backbone + lesion_map)
 #   13_rs.R     → RS                (requires: backbone + sum_diam)
 #   14_dd.R     → DD                (requires: backbone)
+#   15_label_domains.R → attaches SDTMIG v3.4 labels to all sdtm/*.parquet
 #
 # Outputs: sdtm/*.parquet, data-raw/raw_data/*.csv
 # Session info saved to: data-raw/session_info.txt
@@ -62,7 +63,8 @@ scripts <- c(
   "data-raw/11_tu.R",
   "data-raw/12_tr.R",
   "data-raw/13_rs.R",
-  "data-raw/14_dd.R"
+  "data-raw/14_dd.R",
+  "data-raw/15_label_domains.R"  # attaches SDTMIG v3.4 labels to all Parquet files
 )
 
 timings    <- numeric(length(scripts))
