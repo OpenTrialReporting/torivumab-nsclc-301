@@ -1,0 +1,17 @@
+# Generated data — reproducible via data-raw/00_run_all.R
+data-raw/raw_data/
+data-raw/session_info.txt
+
+# R artefacts
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# renv (lock file is committed; library is not)
+renv/library/
+renv/staging/
+
+# OS
+.DS_Store
+Thumbs.db
