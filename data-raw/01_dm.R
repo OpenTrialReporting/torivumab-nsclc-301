@@ -136,15 +136,9 @@ subjects <- map_dfr(seq_len(nrow(strat_props)), function(i) {
   # Assign subjects to sites (approximately equal load per site)
   site_assign <- sample(region_sites, n, replace = TRUE)
 
-  # Block randomisation (2:1) within stratum — permuted blocks of size 3
-  block_labels <- c("TOR", "TOR", "PBO")
-  n_blocks     <- ceiling(n / 3)
-  trt_pool     <- rep(NA_character_, n_blocks * 3)
-  for (b in seq_len(n_blocks)) {
-    idx <- ((b - 1) * 3 + 1):(b * 3)
-    trt_pool[idx] <- sample(block_labels)
-  }
-  trt <- trt_pool[seq_len(n)]
+  # Exact 2:1 treatment allocation within stratum (shuffled, not truncated blocks)
+  # strat_props already guarantees exact n_active / n_pbo counts
+  trt <- sample(c(rep("TOR", sg$n_active), rep("PBO", sg$n_pbo)))
 
   tibble(
     histology = sg$histology,
@@ -468,17 +462,9 @@ cat(sprintf("  RFENDTC >= RFSTDTC  : %s\n",
             ifelse(all(DM$RFENDTC >= DM$RFSTDTC, na.rm = TRUE), "PASS", "FAIL")))
 cat(sprintf("  Backbone rows       : %d\n", nrow(subject_backbone)))
 cat("\n  Arm × Histology breakdown:\n")
-print(
-  subject_backbone %>%
-    count(ARMCD, histology) %>%
-    tidyr::pivot_wider(names_from = ARMCD, values_from = n)
-)
+print(as.data.frame(table(subject_backbone$ARMCD, subject_backbone$histology)))
 cat("\n  Arm × Region breakdown:\n")
-print(
-  subject_backbone %>%
-    count(ARMCD, region) %>%
-    tidyr::pivot_wider(names_from = ARMCD, values_from = n)
-)
+print(as.data.frame(table(subject_backbone$ARMCD, subject_backbone$region)))
 cat(sprintf("\n  Outputs written:\n"))
 cat("    sdtm/dm.parquet\n")
 cat("    sdtm/suppdm.parquet\n")

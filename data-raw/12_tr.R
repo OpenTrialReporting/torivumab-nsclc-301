@@ -288,7 +288,12 @@ generate_tr <- function(subj) {
   # Compute percent change from baseline sum of diameters
   target_bl_sum <- sum(target_lesions$BASELINE_MM, na.rm = TRUE)
 
-  sum_diam_df <- bind_rows(sum_diam_records) %>%
+  non_null_sums <- Filter(Negate(is.null), sum_diam_records)
+  if (length(non_null_sums) == 0L) {
+    return(list(tr = NULL, sum = NULL))
+  }
+
+  sum_diam_df <- bind_rows(non_null_sums) %>%
     mutate(
       BL_SUM_DIAM  = target_bl_sum,
       PCT_CHANGE   = round(100 * (SUM_DIAM - target_bl_sum) / target_bl_sum, 1)

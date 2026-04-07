@@ -10,29 +10,17 @@
 #   sdtm/lb.parquet              — SDTM LB domain (Parquet)
 #   data-raw/raw_data/lb_raw.csv — Raw lab records
 #
-# LB panels generated:
-#   1. Haematology: WBC, HGB, PLT, NEUT, LYMPH, MONO
-#   2. Chemistry: ALT, AST, ALKPH, BILI, CREAT, BUN, NA, K, GLUC, ALB
-#   3. Thyroid: TSH, T4 (irAE monitoring for anti-PD-1)
-#   4. Urinalysis (dipstick): USPECGR, UPH, UPROT, UGLUC, UBILI
-#   5. Biomarkers (baseline only): PD-L1 TPS, EGFR mutation, ALK, ROS1,
-#      KRAS G12C, MET exon 14, RET, BRAF V600E, NTRK, TMB
-#
-# Visit schedule for labs:
-#   SCR, C1D1, C1D22 (EOC1), C2D22 (EOC2), every EOC thereafter, EOT, FU01
-#   Thyroid: SCR, every 2 cycles, EOT
-#   Biomarkers: SCR only (central lab)
+# Panels: Haematology, Chemistry, Thyroid, Urinalysis (dipstick), Biomarkers
+# Biomarkers (SCR only): PD-L1 TPS (≥50%), EGFR/ALK (all negative),
+#   ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, TMB (optional ~62%)
 #
 # Dependencies: data-raw/raw_data/subject_backbone.csv (from 01_dm.R)
-# Run after: 01_dm.R
 # =============================================================================
 
 suppressPackageStartupMessages({
   library(dplyr)
   library(lubridate)
   library(arrow)
-  library(tibble)
-  library(purrr)
 })
 
 set.seed(309)
@@ -47,243 +35,192 @@ backbone <- read.csv("data-raw/raw_data/subject_backbone.csv",
   )
 
 STUDYID <- "TORIVUMAB-NSCLC-301"
+n_subj  <- nrow(backbone)
 
 # ── Lab test catalogue ─────────────────────────────────────────────────────────
-# Columns: LBTESTCD, LBTEST, LBCAT, LBORRES unit, normal range [lo, hi],
-#          mean, sd for normal generation
-lab_tests <- tribble(
-  ~LBTESTCD, ~LBTEST,                           ~LBCAT,       ~LBORRESU,    ~norm_lo, ~norm_hi,  ~mu,     ~sigma, ~panel,
-  # Haematology
-  "WBC",     "Leukocytes",                       "HEMATOLOGY", "10^9/L",      3.5,      10.5,     7.0,     1.8,   "HAEM",
-  "HGB",     "Hemoglobin",                       "HEMATOLOGY", "g/dL",       12.0,      16.0,    13.5,     1.5,   "HAEM",
-  "PLT",     "Platelets",                        "HEMATOLOGY", "10^9/L",    150.0,     400.0,   230.0,    60.0,   "HAEM",
-  "NEUT",    "Neutrophils",                      "HEMATOLOGY", "10^9/L",      1.8,       7.5,     4.5,     1.3,   "HAEM",
-  "LYMPH",   "Lymphocytes",                      "HEMATOLOGY", "10^9/L",      1.0,       4.0,     2.1,     0.6,   "HAEM",
-  "MONO",    "Monocytes",                        "HEMATOLOGY", "10^9/L",      0.2,       1.0,     0.5,     0.15,  "HAEM",
-  # Chemistry
-  "ALT",     "Alanine Aminotransferase",         "CHEMISTRY",  "U/L",         7.0,      40.0,    22.0,     9.0,   "CHEM",
-  "AST",     "Aspartate Aminotransferase",        "CHEMISTRY",  "U/L",        10.0,      40.0,    24.0,     9.0,   "CHEM",
-  "ALKPH",   "Alkaline Phosphatase",             "CHEMISTRY",  "U/L",        44.0,     147.0,    80.0,    22.0,   "CHEM",
-  "BILI",    "Bilirubin",                        "CHEMISTRY",  "umol/L",      5.0,      21.0,    11.0,     4.0,   "CHEM",
-  "CREAT",   "Creatinine",                       "CHEMISTRY",  "umol/L",     60.0,     110.0,    82.0,    16.0,   "CHEM",
-  "BUN",     "Blood Urea Nitrogen",              "CHEMISTRY",  "mmol/L",      2.5,       6.7,     4.5,     1.0,   "CHEM",
-  "NA",      "Sodium",                           "CHEMISTRY",  "mmol/L",    136.0,     145.0,   140.0,     2.5,   "CHEM",
-  "K",       "Potassium",                        "CHEMISTRY",  "mmol/L",      3.5,       5.0,     4.1,     0.4,   "CHEM",
-  "GLUC",    "Glucose",                          "CHEMISTRY",  "mmol/L",      3.9,       6.1,     5.2,     0.8,   "CHEM",
-  "ALB",     "Albumin",                          "CHEMISTRY",  "g/L",        35.0,      52.0,    42.0,     4.0,   "CHEM",
-  # Thyroid
-  "TSH",     "Thyroid Stimulating Hormone",      "ENDOCRINE",  "mIU/L",       0.5,       4.5,     2.0,     0.8,   "THYR",
-  "T4FREE",  "Free Thyroxine",                   "ENDOCRINE",  "pmol/L",     12.0,      22.0,    16.0,     2.0,   "THYR",
-  # Urinalysis (dipstick — semi-quantitative coded values)
-  "USPECGR", "Urine Specific Gravity",           "URINALYSIS", "",            1.005,     1.030,   1.015,   0.005, "URINE",
-  "UPH",     "Urine pH",                        "URINALYSIS", "",             4.5,       8.5,     6.0,     1.0,   "URINE"
+lab_tests <- data.frame(
+  LBTESTCD = c("WBC","HGB","PLT","NEUT","LYMPH","MONO",
+               "ALT","AST","ALKPH","BILI","CREAT","BUN","NA","K","GLUC","ALB",
+               "TSH","T4FREE",
+               "USPECGR","UPH"),
+  LBTEST   = c("Leukocytes","Hemoglobin","Platelets","Neutrophils","Lymphocytes","Monocytes",
+               "Alanine Aminotransferase","Aspartate Aminotransferase","Alkaline Phosphatase",
+               "Bilirubin","Creatinine","Blood Urea Nitrogen","Sodium","Potassium","Glucose","Albumin",
+               "Thyroid Stimulating Hormone","Free Thyroxine",
+               "Urine Specific Gravity","Urine pH"),
+  LBCAT    = c(rep("HEMATOLOGY",6), rep("CHEMISTRY",10), rep("ENDOCRINE",2), rep("URINALYSIS",2)),
+  LBORRESU = c("10^9/L","g/dL","10^9/L","10^9/L","10^9/L","10^9/L",
+               "U/L","U/L","U/L","umol/L","umol/L","mmol/L","mmol/L","mmol/L","mmol/L","g/L",
+               "mIU/L","pmol/L",
+               "",""),
+  norm_lo  = c(3.5,12.0,150,1.8,1.0,0.2, 7,10,44,5,60,2.5,136,3.5,3.9,35, 0.5,12, 1.005,4.5),
+  norm_hi  = c(10.5,16.0,400,7.5,4.0,1.0,40,40,147,21,110,6.7,145,5.0,6.1,52, 4.5,22, 1.030,8.5),
+  mu       = c(7.0,13.5,230,4.5,2.1,0.5, 22,24,80,11,82,4.5,140,4.1,5.2,42, 2.0,16, 1.015,6.0),
+  sigma    = c(1.8,1.5,60,1.3,0.6,0.15, 9,9,22,4,16,1.0,2.5,0.4,0.8,4, 0.8,2, 0.005,1.0),
+  panel    = c(rep("HAEM",6), rep("CHEM",10), rep("THYR",2), rep("URINE",2)),
+  round_dp = c(2,1,0,2,2,2, 0,0,0,0,0,1,0,1,1,0, 2,1, 3,1),
+  stringsAsFactors = FALSE
 )
 
-# Biomarker tests (screening only, central lab, mostly qualitative)
-biomarker_tests <- tribble(
-  ~LBTESTCD,     ~LBTEST,                         ~LBCAT,       ~p_positive_tor, ~p_positive_pbo,
-  "PDL1TPS",     "PD-L1 TPS (22C3)",              "BIOMARKER",   1.00,             1.00,   # all ≥50% (inclusion)
-  "EGFRMUT",     "EGFR Mutation Status",           "BIOMARKER",   0.00,             0.00,   # all negative (exclusion)
-  "ALKREARR",    "ALK Rearrangement",              "BIOMARKER",   0.00,             0.00,   # all negative (exclusion)
-  "ROS1REARR",   "ROS1 Rearrangement",             "BIOMARKER",   0.02,             0.02,
-  "KRASG12C",    "KRAS G12C Mutation",             "BIOMARKER",   0.13,             0.13,
-  "METEX14",     "MET Exon 14 Skipping",           "BIOMARKER",   0.03,             0.03,
-  "RETREARR",    "RET Rearrangement",              "BIOMARKER",   0.02,             0.02,
-  "BRAFV600E",   "BRAF V600E Mutation",            "BIOMARKER",   0.02,             0.02,
-  "NTRK",        "NTRK Fusion",                   "BIOMARKER",   0.01,             0.01
+# Visit schedule for routine labs (study day from C1D1)
+routine_visits <- data.frame(
+  VISIT    = c("SCR","C1D1","C1D22","C2D22","C3D22","C4D22","C5D22",
+               "C6D22","C7D22","C8D22","C9D22","C10D22","EOT","FU01"),
+  VDAY     = c(-14L,1L,22L,43L,85L,106L,127L,148L,169L,190L,211L,232L,999L,1090L),
+  VISITNUM = 1:14,
+  stringsAsFactors = FALSE
 )
+thyroid_visits <- c("SCR","C1D22","C3D22","C5D22","C7D22","C9D22","EOT")
+urine_visits   <- c("SCR","C1D1","EOT")
 
-# TMB optional (genomic panel used in ~60% of subjects)
-TMB_USE_PROB <- 0.62
+# ── Cross-join subjects × visits ──────────────────────────────────────────────
+sv <- merge(data.frame(subj_idx = seq_len(n_subj)), routine_visits, by = NULL)
+sv$USUBJID  <- backbone$USUBJID[sv$subj_idx]
+sv$ARMCD    <- backbone$ARMCD[sv$subj_idx]
+sv$C1D1     <- backbone$C1D1_DATE[sv$subj_idx]
+sv$EOT_DAY  <- as.integer(backbone$EOT_DATE[sv$subj_idx] -
+                            backbone$C1D1_DATE[sv$subj_idx]) + 1L
+sv$OBS_END  <- pmin(backbone$OBS_OS_DATE[sv$subj_idx],
+                     backbone$DATA_CUTOFF[sv$subj_idx])
 
-# Visit schedule for routine labs (study days from C1D1)
-# SCR = -14, C1D1 = 1, EOC visits every 21d, EOT ~+30d post last dose
-routine_lab_visits <- c(
-  SCR = -14L, C1D1 = 1L, C1D22 = 22L, C2D22 = 43L,
-  C3D22 = 85L, C4D22 = 106L, C5D22 = 127L,
-  C6D22 = 148L, C7D22 = 169L, C8D22 = 190L,
-  C9D22 = 211L, C10D22 = 232L, EOT = 999L, FU01 = 1090L
-)
+sv$VDAY_ACT <- ifelse(sv$VISIT == "EOT", sv$EOT_DAY, sv$VDAY)
+sv$VDATE    <- sv$C1D1 + sv$VDAY_ACT - 1L
 
-thyroid_visits <- c("SCR", "C1D22", "C3D22", "C5D22", "C7D22", "C9D22", "EOT")
+# Window jitter ±2 days (non-anchored visits)
+n_sv <- nrow(sv)
+jit  <- sample(-2L:2L, n_sv, replace = TRUE)
+sv$VDATE <- as.Date(ifelse(sv$VISIT %in% c("SCR","C1D1"),
+                            as.integer(sv$VDATE),
+                            as.integer(sv$VDATE) + jit),
+                    origin = "1970-01-01")
+sv <- sv[sv$VDATE <= sv$OBS_END, ]
 
+# ── Generate continuous lab panels per visit row ───────────────────────────────
+days_on_all <- pmax(as.integer(sv$VDATE - sv$C1D1), 0L)
 
-generate_lb_routine <- function(subj) {
-  c1d1    <- subj$C1D1_DATE
-  obs_end <- min(subj$OBS_OS_DATE, subj$DATA_CUTOFF)
-  eot_day <- as.integer(subj$EOT_DATE - c1d1) + 1L
+lb_parts <- vector("list", nrow(lab_tests))
 
-  lb_recs <- list()
-  seq_n   <- 0L
+for (j in seq_len(nrow(lab_tests))) {
+  t   <- lab_tests[j, ]
+  pnl <- t$panel
 
-  for (vname in names(routine_lab_visits)) {
-    vday  <- if (vname == "EOT") eot_day else routine_lab_visits[[vname]]
-    vdate <- c1d1 + vday - 1L
-    if (vdate > obs_end) next
-    if (vname != "SCR" && vname != "C1D1") {
-      vdate <- vdate + sample(-2L:2L, 1L)
-    }
+  # Filter visits for this panel
+  vis_mask <- switch(pnl,
+    HAEM  = rep(TRUE, nrow(sv)),
+    CHEM  = rep(TRUE, nrow(sv)),
+    THYR  = sv$VISIT %in% thyroid_visits,
+    URINE = sv$VISIT %in% urine_visits
+  )
+  sv_sub <- sv[vis_mask, ]
+  if (nrow(sv_sub) == 0L) next
 
-    # Determine panels for this visit
-    panels_at_visit <- c("HAEM", "CHEM")   # routine every lab visit
-    if (vname %in% thyroid_visits) panels_at_visit <- c(panels_at_visit, "THYR")
-    if (vname %in% c("SCR", "C1D1", "EOT")) panels_at_visit <- c(panels_at_visit, "URINE")
+  n_r     <- nrow(sv_sub)
+  days_on <- days_on_all[vis_mask]
 
-    # Determine lab result: slight degradation over time on-treatment
-    days_on <- max(as.integer(vdate - c1d1), 0L)
+  val <- rnorm(n_r, t$mu, t$sigma)
 
-    for (j in seq_len(nrow(lab_tests))) {
-      test <- lab_tests[j, ]
-      if (!test$panel[[1]] %in% panels_at_visit) next
-
-      # Urinalysis semi-quantitative: generate from normal, then round
-      if (test$panel[[1]] == "URINE") {
-        val <- round(rnorm(1L, test$mu[[1]], test$sigma[[1]]), 3)
-        val <- pmax(pmin(val, test$norm_hi[[1]] + 0.05),
-                    test$norm_lo[[1]] - 0.05)
-        val <- round(val, if (test$LBTESTCD[[1]] == "USPECGR") 3L else 1L)
-      } else {
-        # Continuous lab: baseline from normal distribution
-        # Small random walk over time (intra-subject correlation)
-        val <- rnorm(1L, test$mu[[1]], test$sigma[[1]])
-        val <- pmax(val, 0.01)
-
-        # irAE pattern: liver enzymes may spike in TOR arm
-        if (subj$ARMCD == "TOR" && test$LBTESTCD[[1]] %in% c("ALT", "AST")) {
-          spike_p <- 0.003 * (days_on / 30)  # increasing risk over time
-          if (runif(1L) < spike_p) {
-            val <- val * runif(1L, 3.0, 8.0)  # Grade 2-3 elevation
-          }
-        }
-        # Hypothyroidism pattern: TSH elevates in TOR arm ~12%
-        if (subj$ARMCD == "TOR" && test$LBTESTCD[[1]] == "TSH" && days_on > 60L) {
-          if (runif(1L) < 0.012) val <- val * runif(1L, 2.0, 6.0)
-        }
-
-        val <- round(val, if (test$LBORRESU[[1]] %in% c("g/dL","g/L")) 1L else
-                          if (test$LBORRESU[[1]] %in% c("10^9/L","mmol/L","mIU/L","pmol/L")) 2L
-                          else 0L)
-      }
-
-      # Normal range flags
-      lbnrlo <- test$norm_lo[[1]]
-      lbnrhi <- test$norm_hi[[1]]
-      lbnrind <- ifelse(val < lbnrlo, "L",
-                        ifelse(val > lbnrhi, "H", "N"))
-
-      seq_n <- seq_n + 1L
-      lb_recs[[seq_n]] <- tibble(
-        STUDYID  = STUDYID,
-        DOMAIN   = "LB",
-        USUBJID  = subj$USUBJID,
-        LBSEQ    = seq_n,
-        LBTESTCD = test$LBTESTCD[[1]],
-        LBTEST   = test$LBTEST[[1]],
-        LBCAT    = test$LBCAT[[1]],
-        LBORRES  = as.character(val),
-        LBORRESU = test$LBORRESU[[1]],
-        LBSTRESC = as.character(val),
-        LBSTRESN = val,
-        LBSTRESU = test$LBORRESU[[1]],
-        LBNRLO   = lbnrlo,
-        LBNRHI   = lbnrhi,
-        LBNRIND  = lbnrind,
-        LBDTC    = format(vdate, "%Y-%m-%d"),
-        LBDY     = as.integer(vdate - c1d1) + 1L,
-        VISIT    = vname,
-        VISITNUM = which(names(routine_lab_visits) == vname)[1L],
-        EPOCH    = ifelse(vdate < c1d1, "SCREENING",
-                          ifelse(vdate > subj$EOT_DATE, "FOLLOW-UP", "TREATMENT"))
-      )
-    }
+  # irAE patterns
+  if (t$LBTESTCD %in% c("ALT","AST")) {
+    # Liver enzyme spikes: TOR arm, increasing risk over time
+    spike_p <- 0.003 * (days_on / 30)
+    spikes  <- sv_sub$ARMCD == "TOR" & runif(n_r) < spike_p
+    val[spikes] <- val[spikes] * runif(sum(spikes), 3.0, 8.0)
   }
-  if (length(lb_recs) == 0L) return(NULL)
-  bind_rows(lb_recs)
+  if (t$LBTESTCD == "TSH") {
+    tsh_spike <- sv_sub$ARMCD == "TOR" & days_on > 60L & runif(n_r) < 0.012
+    val[tsh_spike] <- val[tsh_spike] * runif(sum(tsh_spike), 2.0, 6.0)
+  }
+
+  val <- pmax(val, 0.001)
+  val <- round(val, t$round_dp)
+
+  lbnrind <- ifelse(val < t$norm_lo, "L", ifelse(val > t$norm_hi, "H", "N"))
+
+  lb_parts[[j]] <- data.frame(
+    STUDYID  = STUDYID,
+    DOMAIN   = "LB",
+    USUBJID  = sv_sub$USUBJID,
+    LBTESTCD = t$LBTESTCD,
+    LBTEST   = t$LBTEST,
+    LBCAT    = t$LBCAT,
+    LBORRES  = as.character(val),
+    LBORRESU = t$LBORRESU,
+    LBSTRESC = as.character(val),
+    LBSTRESN = val,
+    LBSTRESU = t$LBORRESU,
+    LBNRLO   = t$norm_lo,
+    LBNRHI   = t$norm_hi,
+    LBNRIND  = lbnrind,
+    LBDTC    = format(sv_sub$VDATE, "%Y-%m-%d"),
+    LBDY     = as.integer(sv_sub$VDATE - sv_sub$C1D1) + 1L,
+    VISIT    = sv_sub$VISIT,
+    VISITNUM = sv_sub$VISITNUM,
+    EPOCH    = ifelse(as.integer(sv_sub$VDATE - sv_sub$C1D1) < 0L, "SCREENING", "TREATMENT"),
+    stringsAsFactors = FALSE
+  )
 }
 
-generate_lb_biomarkers <- function(subj) {
-  c1d1 <- subj$C1D1_DATE
-  scr_date <- c1d1 - 14L
+LB_routine <- do.call(rbind, lb_parts[!sapply(lb_parts, is.null)])
 
-  bm_recs <- list()
-  seq_n   <- 0L
+# ── Biomarkers (screening only, per subject) ──────────────────────────────────
+scr_dates <- backbone$C1D1_DATE - 14L
+bm_spec <- data.frame(
+  LBTESTCD = c("PDL1TPS","EGFRMUT","ALKREARR","ROS1REARR","KRASG12C",
+               "METEX14","RETREARR","BRAFV600E","NTRK"),
+  LBTEST   = c("PD-L1 TPS (22C3)","EGFR Mutation Status","ALK Rearrangement",
+               "ROS1 Rearrangement","KRAS G12C Mutation","MET Exon 14 Skipping",
+               "RET Rearrangement","BRAF V600E Mutation","NTRK Fusion"),
+  p_pos    = c(1.00, 0.00, 0.00, 0.02, 0.13, 0.03, 0.02, 0.02, 0.01),
+  stringsAsFactors = FALSE
+)
 
-  for (j in seq_len(nrow(biomarker_tests))) {
-    bm <- biomarker_tests[j, ]
-    p_pos <- if (subj$ARMCD == "TOR") bm$p_positive_tor[[1]] else bm$p_positive_pbo[[1]]
-
-    result_bin <- runif(1L) < p_pos
-
-    # PD-L1 TPS: numeric value ≥50% (required by inclusion criterion)
-    lborres <- if (bm$LBTESTCD[[1]] == "PDL1TPS") {
-      tps_val <- round(runif(1L, 50, 99))
-      as.character(tps_val)
-    } else {
-      ifelse(result_bin, "POSITIVE", "NEGATIVE")
-    }
-
-    seq_n <- seq_n + 1L
-    bm_recs[[seq_n]] <- tibble(
-      STUDYID  = STUDYID,
-      DOMAIN   = "LB",
-      USUBJID  = subj$USUBJID,
-      LBSEQ    = seq_n,
-      LBTESTCD = bm$LBTESTCD[[1]],
-      LBTEST   = bm$LBTEST[[1]],
-      LBCAT    = bm$LBCAT[[1]],
-      LBORRES  = lborres,
-      LBORRESU = ifelse(bm$LBTESTCD[[1]] == "PDL1TPS", "%", ""),
-      LBSTRESC = lborres,
-      LBSTRESN = ifelse(bm$LBTESTCD[[1]] == "PDL1TPS", as.numeric(lborres), NA_real_),
-      LBSTRESU = ifelse(bm$LBTESTCD[[1]] == "PDL1TPS", "%", ""),
-      LBNRLO   = NA_real_,
-      LBNRHI   = NA_real_,
-      LBNRIND  = "",
-      LBDTC    = format(scr_date, "%Y-%m-%d"),
-      LBDY     = as.integer(scr_date - c1d1) + 1L,
-      VISIT    = "SCR",
-      VISITNUM = 0.0,
-      EPOCH    = "SCREENING"
-    )
+bm_rows <- lapply(seq_len(nrow(bm_spec)), function(j) {
+  bm      <- bm_spec[j, ]
+  pos     <- runif(n_subj) < bm$p_pos
+  lborres <- if (bm$LBTESTCD == "PDL1TPS") {
+    as.character(round(runif(n_subj, 50, 99)))
+  } else {
+    ifelse(pos, "POSITIVE", "NEGATIVE")
   }
+  data.frame(
+    STUDYID  = STUDYID, DOMAIN = "LB",
+    USUBJID  = backbone$USUBJID,
+    LBTESTCD = bm$LBTESTCD, LBTEST = bm$LBTEST, LBCAT = "BIOMARKER",
+    LBORRES  = lborres,
+    LBORRESU = ifelse(bm$LBTESTCD == "PDL1TPS", "%", ""),
+    LBSTRESC = lborres,
+    LBSTRESN = ifelse(bm$LBTESTCD == "PDL1TPS", as.numeric(lborres), NA_real_),
+    LBSTRESU = ifelse(bm$LBTESTCD == "PDL1TPS", "%", ""),
+    LBNRLO = NA_real_, LBNRHI = NA_real_, LBNRIND = "",
+    LBDTC    = format(scr_dates, "%Y-%m-%d"),
+    LBDY     = as.integer(scr_dates - backbone$C1D1_DATE) + 1L,
+    VISIT = "SCR", VISITNUM = 0L, EPOCH = "SCREENING",
+    stringsAsFactors = FALSE
+  )
+})
 
-  # TMB (optional, ~62% of subjects)
-  if (runif(1L) < TMB_USE_PROB) {
-    tmb_val <- round(runif(1L, 1, 35))  # mutations per megabase
-    seq_n <- seq_n + 1L
-    bm_recs[[seq_n]] <- tibble(
-      STUDYID  = STUDYID,
-      DOMAIN   = "LB",
-      USUBJID  = subj$USUBJID,
-      LBSEQ    = seq_n,
-      LBTESTCD = "TMB",
-      LBTEST   = "Tumour Mutational Burden",
-      LBCAT    = "BIOMARKER",
-      LBORRES  = as.character(tmb_val),
-      LBORRESU = "mut/Mb",
-      LBSTRESC = as.character(tmb_val),
-      LBSTRESN = tmb_val,
-      LBSTRESU = "mut/Mb",
-      LBNRLO   = NA_real_,
-      LBNRHI   = NA_real_,
-      LBNRIND  = "",
-      LBDTC    = format(scr_date, "%Y-%m-%d"),
-      LBDY     = as.integer(scr_date - c1d1) + 1L,
-      VISIT    = "SCR",
-      VISITNUM = 0.0,
-      EPOCH    = "SCREENING"
-    )
-  }
+# TMB (optional ~62%)
+tmb_mask <- runif(n_subj) < 0.62
+tmb_val  <- round(runif(n_subj, 1, 35))
+bm_tmb <- data.frame(
+  STUDYID  = STUDYID, DOMAIN = "LB",
+  USUBJID  = backbone$USUBJID[tmb_mask],
+  LBTESTCD = "TMB", LBTEST = "Tumour Mutational Burden", LBCAT = "BIOMARKER",
+  LBORRES  = as.character(tmb_val[tmb_mask]),
+  LBORRESU = "mut/Mb",
+  LBSTRESC = as.character(tmb_val[tmb_mask]),
+  LBSTRESN = tmb_val[tmb_mask],
+  LBSTRESU = "mut/Mb",
+  LBNRLO = NA_real_, LBNRHI = NA_real_, LBNRIND = "",
+  LBDTC    = format(scr_dates[tmb_mask], "%Y-%m-%d"),
+  LBDY     = as.integer(scr_dates[tmb_mask] - backbone$C1D1_DATE[tmb_mask]) + 1L,
+  VISIT = "SCR", VISITNUM = 0L, EPOCH = "SCREENING",
+  stringsAsFactors = FALSE
+)
 
-  if (length(bm_recs) == 0L) return(NULL)
-  bind_rows(bm_recs)
-}
+LB_bm <- do.call(rbind, c(bm_rows, list(bm_tmb)))
 
-# Generate all LB records
-LB_routine    <- backbone %>% split(seq_len(nrow(.))) %>% map_dfr(generate_lb_routine)
-LB_biomarkers <- backbone %>% split(seq_len(nrow(.))) %>% map_dfr(generate_lb_biomarkers)
-
-LB <- bind_rows(LB_routine, LB_biomarkers) %>%
+LB <- rbind(LB_routine, LB_bm) %>%
   arrange(USUBJID, LBDTC, LBTESTCD) %>%
   group_by(USUBJID) %>%
   mutate(LBSEQ = row_number()) %>%
@@ -298,14 +235,14 @@ write.csv(LB, "data-raw/raw_data/lb_raw.csv", row.names = FALSE, na = "")
 cat("\n=== LB Domain Validation ===\n")
 cat(sprintf("  Total LB records        : %d\n", nrow(LB)))
 cat(sprintf("  Subjects with LB data   : %d / %d\n",
-            n_distinct(LB$USUBJID), nrow(backbone)))
+            n_distinct(LB$USUBJID), n_subj))
 cat(sprintf("  Biomarker records       : %d\n",
             sum(LB$LBCAT == "BIOMARKER")))
 cat(sprintf("  PD-L1 TPS (n)           : %d; median = %.0f%%\n",
             sum(LB$LBTESTCD == "PDL1TPS"),
             median(LB$LBSTRESN[LB$LBTESTCD == "PDL1TPS"], na.rm = TRUE)))
 cat(sprintf("  Elevated ALT (>ULN)     : %d (%.1f%% of ALT results)\n",
-            sum(LB$LBTESTCD == "ALT" & LB$LBNRIND == "H"),
-            100 * mean(LB$LBTESTCD == "ALT" & LB$LBNRIND == "H")))
+            sum(LB$LBTESTCD == "ALT" & LB$LBNRIND == "H", na.rm = TRUE),
+            100 * mean(LB$LBTESTCD == "ALT" & !is.na(LB$LBNRIND) & LB$LBNRIND == "H")))
 cat("\n  Outputs written: sdtm/lb.parquet, data-raw/raw_data/lb_raw.csv\n")
 cat("=== LB generation complete ===\n")

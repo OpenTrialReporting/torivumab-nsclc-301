@@ -35,8 +35,9 @@ set.seed(310)
 backbone <- read.csv("data-raw/raw_data/subject_backbone.csv",
                      stringsAsFactors = FALSE) %>%
   mutate(
-    C1D1_DATE = as.Date(C1D1_DATE),
-    EOT_DATE  = as.Date(EOT_DATE),
+    C1D1_DATE   = as.Date(C1D1_DATE),
+    EOT_DATE    = as.Date(EOT_DATE),
+    OBS_OS_DATE = as.Date(OBS_OS_DATE),
     DATA_CUTOFF = as.Date(DATA_CUTOFF)
   )
 

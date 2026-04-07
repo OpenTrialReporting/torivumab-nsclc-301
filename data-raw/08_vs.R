@@ -10,29 +10,16 @@
 #   sdtm/vs.parquet              — SDTM VS domain (Parquet)
 #   data-raw/raw_data/vs_raw.csv — Raw vital signs records
 #
-# VS strategy:
-#   - Collected at: Screening, C1D1, all dosing/EOC visits, imaging, EOT, FU
-#   - Tests: HEIGHT (screening only), WEIGHT, SYSBP, DIABP, TEMP, PULSE, RESP
-#   - Values drawn from realistic normal distributions (NSCLC population)
-#   - ECOG PS generated here as a VS test (SDTMIG permits in VS or separate)
-#     VSTESTCD = ECOG; VSTEST = "ECOG Performance Status"
-#   - Weight may decrease slightly over time (disease progression pattern)
-#   - Body temperature: ~1% febrile episodes (>38°C)
-#
-# Visit schedule (simplified):
-#   SCR, C1D1, C1D8, C1D15, C1D22, C2D1, C2D22, every EOC thereafter,
-#   IMG01-04 + Q12W, EOT, FU01-03
+# Tests: HEIGHT (SCR only), WEIGHT, SYSBP, DIABP, TEMP, PULSE, RESP, ECOG
+# Visits: SCR, C1D1, C1D8, C1D15, C1D22, C2D22, C3D22, …, EOT, FU01–FU03
 #
 # Dependencies: data-raw/raw_data/subject_backbone.csv (from 01_dm.R)
-# Run after: 01_dm.R
 # =============================================================================
 
 suppressPackageStartupMessages({
   library(dplyr)
   library(lubridate)
   library(arrow)
-  library(tibble)
-  library(purrr)
 })
 
 set.seed(308)
@@ -43,161 +30,158 @@ backbone <- read.csv("data-raw/raw_data/subject_backbone.csv",
     C1D1_DATE   = as.Date(C1D1_DATE),
     EOT_DATE    = as.Date(EOT_DATE),
     OBS_OS_DATE = as.Date(OBS_OS_DATE),
+    PROG_DATE   = as.Date(PROG_DATE),
     DATA_CUTOFF = as.Date(DATA_CUTOFF)
   )
 
 STUDYID <- "TORIVUMAB-NSCLC-301"
+n_subj  <- nrow(backbone)
 
-# ── Visit schedule (study days from C1D1) ─────────────────────────────────────
-# Visits where VS are collected
-visit_days <- c(
-  SCR  = -14L,   C1D1  = 1L,   C1D8  = 8L,   C1D15 = 15L,
-  C1D22 = 22L,  C2D1  = 22L,  C2D22 = 43L,
-  C3D1  = 64L,  C3D22 = 85L,  C4D1  = 85L,  C4D22 = 106L,
-  C5D1  = 106L, C5D22 = 127L,
-  IMG01 = 42L,  IMG02 = 84L,  IMG03 = 126L, IMG04 = 168L,
-  EOT   = 999L,  # placeholder — computed per subject
-  FU01  = 1090L, FU02  = 1180L, FU03  = 1365L
+# ── Visit schedule (study day from C1D1; 999 = EOT placeholder) ───────────────
+visit_schedule <- data.frame(
+  VISIT    = c("SCR","C1D1","C1D8","C1D15","C1D22","C2D22","C3D22","C4D22",
+               "C5D22","C6D22","C7D22","C8D22","C9D22","C10D22","EOT",
+               "FU01","FU02","FU03"),
+  VDAY     = c( -14L,  1L,   8L,   15L,   22L,   43L,   85L,  106L,
+                127L, 148L,  169L,  190L,  211L,  232L,  999L,
+               1090L, 1180L, 1365L),
+  VISITNUM = 1:18,
+  stringsAsFactors = FALSE
 )
 
-visit_names <- names(visit_days)
+# ECOG only at selected visits
+ecog_visits <- c("SCR","C1D1","C1D22","C2D22","C3D22","C4D22","C5D22",
+                 "C6D22","C7D22","C8D22","C9D22","C10D22","EOT","FU01","FU02","FU03")
 
-# VS tests collected at each visit type
-# HEIGHT: screening only; ECOG: screening, C1D1, every EOC and EOT, FU
-vs_tests <- tribble(
-  ~VSTESTCD, ~VSTEST,                  ~VSORRESU, ~mean_val, ~sd_val,  ~visits,
-  "HEIGHT",  "Height",                 "cm",        168.0,    9.0,   "SCR",
-  "WEIGHT",  "Weight",                 "kg",         72.0,   13.0,   "ALL",
-  "SYSBP",   "Systolic Blood Pressure","mmHg",       128.0,   16.0,   "ALL",
-  "DIABP",   "Diastolic Blood Pressure","mmHg",       80.0,   10.0,   "ALL",
-  "TEMP",    "Temperature",            "C",           36.7,    0.4,   "ALL",
-  "PULSE",   "Pulse Rate",             "beats/min",   76.0,   11.0,   "ALL",
-  "RESP",    "Respiratory Rate",       "breaths/min", 17.0,    2.0,   "ALL",
-  "ECOG",    "ECOG Performance Status","",             0.5,    0.5,   "ECOG"
+# ── Per-subject baseline parameters (vectorised) ──────────────────────────────
+is_male   <- backbone$SEX == "M"
+h_mean    <- ifelse(is_male, 173.0, 161.0)
+w_mean    <- ifelse(is_male,  78.0,  65.0)
+
+subj_ht   <- round(rnorm(n_subj, h_mean, 8.0), 1)
+subj_wt0  <- round(rnorm(n_subj, w_mean, 12.0), 1)
+subj_sbp  <- round(rnorm(n_subj, 128.0, 14.0))
+subj_dbp  <- round(rnorm(n_subj, 80.0, 9.0))
+
+# ── Cross-join subjects × visits, then filter ─────────────────────────────────
+sv <- merge(
+  data.frame(subj_idx = seq_len(n_subj)),
+  visit_schedule,
+  by = NULL   # cross join
 )
+sv$USUBJID    <- backbone$USUBJID[sv$subj_idx]
+sv$C1D1       <- backbone$C1D1_DATE[sv$subj_idx]
+sv$EOT_DAY    <- as.integer(backbone$EOT_DATE[sv$subj_idx] - backbone$C1D1_DATE[sv$subj_idx]) + 1L
+sv$OBS_END    <- pmin(backbone$OBS_OS_DATE[sv$subj_idx], backbone$DATA_CUTOFF[sv$subj_idx])
+sv$PROG_DATE  <- backbone$PROG_DATE[sv$subj_idx]
+sv$WT0        <- subj_wt0[sv$subj_idx]
+sv$HT         <- subj_ht[sv$subj_idx]
+sv$SBP0       <- subj_sbp[sv$subj_idx]
+sv$DBP0       <- subj_dbp[sv$subj_idx]
 
-# ECOG visits: SCR, C1D1, C1D22, C2D22, EOT, FU01, FU02, FU03
-ecog_visits <- c("SCR", "C1D1", "C1D22", "C2D22", "C3D22", "C4D22",
-                 "C5D22", "IMG01", "IMG02", "IMG03", "IMG04", "EOT",
-                 "FU01", "FU02", "FU03")
+# Resolve EOT day
+sv$VDAY_ACT <- ifelse(sv$VISIT == "EOT", sv$EOT_DAY, sv$VDAY)
 
-generate_vs <- function(subj) {
-  c1d1    <- subj$C1D1_DATE
-  obs_end <- min(subj$OBS_OS_DATE, subj$DATA_CUTOFF)
-  eot_day <- as.integer(subj$EOT_DATE - c1d1) + 1L
+# Calendar date
+sv$VDATE <- sv$C1D1 + sv$VDAY_ACT - 1L
 
-  vs_recs <- list()
-  seq_n   <- 0L
+# Apply ±3 day window jitter (not SCR or C1D1)
+n_rows      <- nrow(sv)
+jitter      <- sample(-3L:3L, n_rows, replace = TRUE)
+sv$VDATE    <- as.Date(ifelse(sv$VISIT %in% c("SCR","C1D1"),
+                              as.integer(sv$VDATE),
+                              as.integer(sv$VDATE) + jitter),
+                       origin = "1970-01-01")
 
-  # Subject-level baseline demographics for realistic distributions
-  # Sex-adjusted height and weight
-  is_male  <- subj$SEX == "M"
-  h_mean   <- ifelse(is_male, 173.0, 161.0)
-  w_mean   <- ifelse(is_male,  78.0,  65.0)
-  subj_ht  <- round(rnorm(1L, h_mean, 8.0), 1)
-  subj_wt0 <- round(rnorm(1L, w_mean, 12.0), 1)
-  subj_sbp <- round(rnorm(1L, 128.0, 14.0))
-  subj_dbp <- round(rnorm(1L,  80.0,  9.0))
+# Drop rows past last contact
+sv <- sv[sv$VDATE <= sv$OBS_END, ]
 
-  # Assign visits up to obs_end
-  visits_to_gen <- names(visit_days)
+# ── Generate measurements per row ─────────────────────────────────────────────
+n_v <- nrow(sv)
 
-  for (vname in visits_to_gen) {
-    vday <- if (vname == "EOT") eot_day else visit_days[[vname]]
-    vdate <- c1d1 + vday - 1L  # study day → calendar date
+days_on       <- pmax(as.integer(sv$VDATE - sv$C1D1), 0L)
+days_post_prog <- pmax(as.integer(sv$VDATE - sv$PROG_DATE), 0L)
+wt_decline    <- 0.02 * days_post_prog / 30.0
+wt_val        <- pmax(round(sv$WT0 * (1 - wt_decline) + rnorm(n_v, 0, 1.2), 1), 35.0)
 
-    if (vdate > obs_end) next
-
-    # Add small date jitter (windows) except SCR and C1D1
-    if (!vname %in% c("SCR", "C1D1")) {
-      jitter <- sample(-3L:3L, 1L)
-      vdate  <- vdate + jitter
-      if (vdate > obs_end) next
-    }
-
-    # Weight trend: slight decline after progression
-    prog_date <- as.Date(subj$PROG_DATE)
-    days_on   <- as.integer(vdate - c1d1)
-    wt_decline <- ifelse(vdate > prog_date,
-                         0.02 * as.integer(vdate - prog_date) / 30,
-                         0.0)
-    subj_wt <- pmax(round(subj_wt0 * (1 - wt_decline) +
-                             rnorm(1L, 0, 1.2), 1), 35.0)
-
-    # For each VS test at this visit
-    for (j in seq_len(nrow(vs_tests))) {
-      test <- vs_tests[j, ]
-
-      # Height: screening only
-      if (test$VSTESTCD[[1]] == "HEIGHT" && vname != "SCR") next
-
-      # ECOG: only at ECOG visits
-      if (test$VSTESTCD[[1]] == "ECOG" && !vname %in% ecog_visits) next
-
-      # Standard VS: all visits
-      if (test$visits[[1]] == "SCR" && vname != "SCR") next
-
-      # Determine value
-      val <- switch(test$VSTESTCD[[1]],
-        "HEIGHT" = subj_ht,
-        "WEIGHT" = subj_wt,
-        "SYSBP"  = round(subj_sbp + rnorm(1L, 0, 4.0)),
-        "DIABP"  = round(subj_dbp + rnorm(1L, 0, 3.0)),
-        "TEMP"   = {
-          t <- round(rnorm(1L, 36.7, 0.35), 1)
-          # 1% chance of fever
-          if (runif(1L) < 0.01) t <- round(runif(1L, 38.0, 39.5), 1)
-          t
-        },
-        "PULSE"  = round(rnorm(1L, 76.0, 10.0)),
-        "RESP"   = round(rnorm(1L, 17.0, 2.0)),
-        "ECOG"   = {
-          # ECOG tends to worsen after progression
-          base_ecog <- if (vname == "SCR") sample(c(0L, 1L), 1L, prob = c(0.6, 0.4)) else NULL
-          if (!is.null(base_ecog)) {
-            base_ecog
-          } else {
-            days_post_prog <- pmax(as.integer(vdate - prog_date), 0L)
-            p_ecog2 <- min(0.05 + days_post_prog * 0.001, 0.35)
-            sample(c(0L, 1L, 2L), 1L, prob = c(0.45 - p_ecog2/2,
-                                                 0.45 - p_ecog2/2,
-                                                 p_ecog2))
-          }
-        }
-      )
-
-      seq_n <- seq_n + 1L
-
-      vs_recs[[seq_n]] <- tibble(
-        STUDYID   = STUDYID,
-        DOMAIN    = "VS",
-        USUBJID   = subj$USUBJID,
-        VSSEQ     = seq_n,
-        VSTESTCD  = test$VSTESTCD[[1]],
-        VSTEST    = test$VSTEST[[1]],
-        VSORRES   = as.character(val),
-        VSORRESU  = test$VSORRESU[[1]],
-        VSSTRESC  = as.character(val),
-        VSSTRESN  = as.numeric(val),
-        VSSTRESU  = test$VSORRESU[[1]],
-        VSDTC     = format(vdate, "%Y-%m-%d"),
-        VSDY      = as.integer(vdate - c1d1) + 1L,
-        VISIT     = vname,
-        VISITNUM  = which(visit_names == vname)[1L],
-        EPOCH     = ifelse(vdate < c1d1, "SCREENING",
-                           ifelse(vdate > as.Date(subj$EOT_DATE), "FOLLOW-UP",
-                                  "TREATMENT"))
-      )
-    }
-  }
-
-  if (length(vs_recs) == 0L) return(NULL)
-  bind_rows(vs_recs) %>% mutate(VSSEQ = row_number())
+# ECOG
+p_ecog2 <- pmin(0.05 + days_post_prog * 0.001, 0.35)
+ecog_val <- integer(n_v)
+for (i in seq_len(n_v)) {
+  if (!sv$VISIT[i] %in% ecog_visits) next
+  ecog_val[i] <- sample(0L:2L, 1L, prob = c(
+    max(0.45 - p_ecog2[i]/2, 0.05),
+    max(0.45 - p_ecog2[i]/2, 0.05),
+    p_ecog2[i]
+  ))
 }
 
-VS <- backbone %>%
-  split(seq_len(nrow(.))) %>%
-  map_dfr(generate_vs)
+# Temp: 1% febrile
+temp_base <- round(rnorm(n_v, 36.7, 0.35), 1)
+is_febrile <- runif(n_v) < 0.01
+temp_val   <- ifelse(is_febrile, round(runif(n_v, 38.0, 39.5), 1), temp_base)
+
+# Build all tests via rbind (faster than nested list-append)
+make_vs_rows <- function(testcd, test, orresu, val, visitdf) {
+  data.frame(
+    STUDYID  = STUDYID,
+    DOMAIN   = "VS",
+    USUBJID  = visitdf$USUBJID,
+    VSTESTCD = testcd,
+    VSTEST   = test,
+    VSORRES  = as.character(val),
+    VSORRESU = orresu,
+    VSSTRESC = as.character(val),
+    VSSTRESN = as.numeric(val),
+    VSSTRESU = orresu,
+    VSDTC    = format(visitdf$VDATE, "%Y-%m-%d"),
+    VSDY     = as.integer(visitdf$VDATE - visitdf$C1D1) + 1L,
+    VISIT    = visitdf$VISIT,
+    VISITNUM = visitdf$VISITNUM,
+    stringsAsFactors = FALSE
+  )
+}
+
+scr_rows  <- sv[sv$VISIT == "SCR", ]
+ecog_rows <- sv[sv$VISIT %in% ecog_visits, ]
+
+VS_parts <- list(
+  # HEIGHT — screening only
+  make_vs_rows("HEIGHT", "Height", "cm",
+               scr_rows$HT, scr_rows),
+  # WEIGHT — all visits
+  make_vs_rows("WEIGHT", "Weight", "kg",
+               wt_val, sv),
+  # SYSBP
+  make_vs_rows("SYSBP", "Systolic Blood Pressure", "mmHg",
+               round(sv$SBP0 + rnorm(n_v, 0, 4.0)), sv),
+  # DIABP
+  make_vs_rows("DIABP", "Diastolic Blood Pressure", "mmHg",
+               round(sv$DBP0 + rnorm(n_v, 0, 3.0)), sv),
+  # TEMP
+  make_vs_rows("TEMP", "Temperature", "C",
+               temp_val, sv),
+  # PULSE
+  make_vs_rows("PULSE", "Pulse Rate", "beats/min",
+               round(rnorm(n_v, 76.0, 10.0)), sv),
+  # RESP
+  make_vs_rows("RESP", "Respiratory Rate", "breaths/min",
+               round(rnorm(n_v, 17.0, 2.0)), sv),
+  # ECOG — selected visits only
+  make_vs_rows("ECOG", "ECOG Performance Status", "",
+               ecog_val[sv$VISIT %in% ecog_visits], ecog_rows)
+)
+
+VS <- do.call(rbind, VS_parts) %>%
+  arrange(USUBJID, VSDTC, VSTESTCD) %>%
+  group_by(USUBJID) %>%
+  mutate(VSSEQ = row_number()) %>%
+  ungroup() %>%
+  mutate(EPOCH = ifelse(VSDY < 1L, "SCREENING",
+                        ifelse(VSDY > as.integer(
+                          backbone$EOT_DATE[match(USUBJID, backbone$USUBJID)] -
+                          backbone$C1D1_DATE[match(USUBJID, backbone$USUBJID)]) + 31L,
+                          "FOLLOW-UP", "TREATMENT")))
 
 dir.create("sdtm",              showWarnings = FALSE, recursive = TRUE)
 dir.create("data-raw/raw_data", showWarnings = FALSE, recursive = TRUE)
@@ -208,7 +192,7 @@ write.csv(VS, "data-raw/raw_data/vs_raw.csv", row.names = FALSE, na = "")
 cat("\n=== VS Domain Validation ===\n")
 cat(sprintf("  Total VS records        : %d\n", nrow(VS)))
 cat(sprintf("  Subjects with VS data   : %d / %d\n",
-            n_distinct(VS$USUBJID), nrow(backbone)))
+            n_distinct(VS$USUBJID), n_subj))
 cat(sprintf("  VS tests generated      : %s\n",
             paste(sort(unique(VS$VSTESTCD)), collapse = ", ")))
 cat(sprintf("  Mean weight (kg)        : %.1f\n",
