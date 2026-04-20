@@ -21,7 +21,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓  (phases 3 & 4 unified: data-raw/ scripts produce raw CSV + SDTM parquet)
 4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ COMPLETE — 16 Parquet files, SDTMIG v3.4 labelled
    ↓
-5. ADaM (6 datasets) ⏳ NEXT
+4.5. SAP + TFL shells ⏳ NEW — locks populations, endpoints, methods, and the list of T/F/L outputs
+   ↓
+5. ADaM (6 datasets) — every variable traces to a SAP analysis or a TFL shell
    ↓
 6. TFLs (Tables, Figures, Listings)
    ↓
@@ -110,6 +112,10 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | D-03: Lab data realism | Realistic distributions with outliers (not uniform ranges) |
 | D-04: Missing data pattern | MCAR (missing completely at random) for POC |
 | D-05: Event rates | Conservative — match KEYNOTE-024 (OS HR=0.65, PFS HR=0.55) |
+| D-06: ADaM authoring | Spec-first — every dataset has `programming-specs/AD{XX}-spec.md` before `adam/ad{xx}.R` |
+| D-07: ADaM toolchain | Pharmaverse: `admiral` + `admiralonco` + `metacore` + `metatools` + `xportr` |
+| D-08: Spec conventions | Reusable project-local skill at `.claude/skills/adam-spec/` |
+| D-09: SAP before ADaM | Locked SAP + TFL shells list gate ADaM spec writing (Gate 3.5 added 2026-04-20) |
 
 ---
 
@@ -185,9 +191,32 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ---
 
-## Phase 5: ADaM ⏳ NEXT
+## Phase 4.5: SAP + TFL Shells ⏳ NEXT
 
-**Status:** NOT STARTED — begins after Gate 3 LG review
+**Status:** NOT STARTED — Gate 3.5 deliverable. Blocks Phase 5.
+
+**Purpose:** Lock the statistical analysis plan and the list of T/F/L outputs *before* writing ADaM specs, so every ADaM variable traces to a required analysis.
+
+**Deliverables:**
+
+| Item | Location | Purpose |
+|------|----------|---------|
+| Statistical Analysis Plan | `sap/SAP.md` | Populations (ITT/Safety/PP), endpoints, statistical methods (stratified log-rank, Cox PH, CMH for ORR), censoring rules, subgroup definitions, missing-data handling, multiplicity strategy, data cutoff |
+| TFL shells list | `tfl/TFL-SHELLS.md` | Numbered list: every T/F/L with title, population, source ADaM dataset, variables used, statistical method, mock layout |
+
+**Why this phase exists:** Without a locked SAP, ADaM specs get written on assumed analyses — drift shows up at TFL time when variables are missing or wrongly derived (e.g. PFS censoring rule chosen in ADaM doesn't match the SAP).
+
+**Scope note:** Condensed SAP (~10 pages) covering ICH E9 essentials, not a full 50-page regulatory document.
+
+**Timeline:** ~3 days
+
+---
+
+## Phase 5: ADaM ⏳
+
+**Status:** BLOCKED on Gate 3.5 (SAP + TFL shells).
+
+**Approach:** Spec-first. See [`adam/PHASE-5-APPROACH.md`](adam/PHASE-5-APPROACH.md) for the full decision log (D-06 spec-first, D-07 pharmaverse stack, D-08 `adam-spec` skill) and build order. Every ADaM variable must trace to an analysis in the SAP or a TFL shell.
 
 **Purpose:** Derive analysis datasets from SDTM (6 datasets).
 
@@ -304,10 +333,11 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | 2. aCRF | ✅ Done | — | — |
 | 3. Simulated DB | ✅ Done (2026-04-07) | — | — |
 | 4. SDTM | ✅ Done — 16 domains, labelled (2026-04-07) | — | — |
-| 5. ADaM | ⏳ Next | 7 | 7 |
-| 6. TFLs | ⏳ | 5 | 12 |
-| 7. CSR | ⏳ | 7 | 19 |
-| 8. ADRG | ⏳ | 4 | 23 |
+| 4.5. SAP + TFL shells | ⏳ Next | 3 | 3 |
+| 5. ADaM | ⏳ Blocked on 4.5 | 7 | 10 |
+| 6. TFLs | ⏳ | 5 | 15 |
+| 7. CSR | ⏳ | 7 | 22 |
+| 8. ADRG | ⏳ | 4 | 26 |
 
 **Parallel validation & Define-XML:** +5 days (concurrent)  
 **Realistic remaining timeline: ~6 weeks**
@@ -321,7 +351,8 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | Gate 1 | CRF Strategy | ✅ PASSED | 2026-03-30 |
 | Gate 2 | CRF Design (aCRF) | ✅ PASSED | 2026-04-01 |
 | Gate 3 | Simulated Database + SDTM | ⏳ Data ready — pending LG review | — |
-| Gate 4 | ADaM | ⏳ | — |
+| Gate 3.5 | SAP + TFL shells | ⏳ | — |
+| Gate 4 | ADaM | ⏳ Blocked on Gate 3.5 | — |
 | Gate 5 | TFLs | ⏳ | — |
 | Gate 6 | CSR + ADRG | ⏳ | — |
 

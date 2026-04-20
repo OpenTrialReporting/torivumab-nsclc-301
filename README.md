@@ -36,7 +36,8 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 | 2 | Annotated CRF (aCRF) | ✅ Complete — Gate 2 APPROVED (2026-04-01) |
 | 3 | Simulated Database | ✅ Complete (2026-04-07) |
 | 4 | SDTM (16 domains + SUPP) | ✅ Complete — 16 Parquet domains, SDTMIG v3.4 labelled |
-| 5 | ADaM (6 datasets) | ⏳ Next |
+| 4.5 | SAP + TFL shells | ⏳ Next — Gate 3.5 (blocks ADaM) |
+| 5 | ADaM (6 datasets) | ⏳ Blocked on Gate 3.5 — spec-first approach ([see `adam/PHASE-5-APPROACH.md`](adam/PHASE-5-APPROACH.md)) |
 | 6 | TFLs | ⏳ |
 | 7 | CSR | ⏳ |
 | 8 | ADRG | ⏳ |
@@ -74,12 +75,21 @@ torivumab-nsclc-301/
 ├── sdtm/                                        ✅ 16 Parquet domains — SDTMIG v3.4 labelled
 │   └── *.parquet  (committed, 1.7 MB)
 │
-├── adam/                                        ⏳ Phase 5
-│   └── *.parquet  (6 datasets)
+├── sap/                                          ⏳ Phase 4.5 — Gate 3.5
+│   └── SAP.md                                    Statistical Analysis Plan (populations, endpoints, methods)
 │
-├── tfl/                                         ⏳ Phase 6
-│   ├── t_*.R, f_*.R, l_*.R
-│   └── tables/, figures/, listings/
+├── tfl/                                          ⏳ Phase 4.5 (shells) + Phase 6 (code)
+│   ├── TFL-SHELLS.md                             List of all planned T/F/L outputs
+│   ├── t_*.R, f_*.R, l_*.R                       Phase 6 code
+│   └── tables/, figures/, listings/              Phase 6 output
+│
+├── adam/                                        ⏳ Phase 5 — spec-first, blocked on Gate 3.5
+│   ├── PHASE-5-APPROACH.md                       Decision log (D-06, D-07, D-08, D-09)
+│   ├── adsl.R … adtte.R                          6 derivation scripts
+│   └── *.parquet                                 6 datasets
+│
+├── programming-specs/                            ⏳ Phase 5 — one spec per ADaM dataset
+│   └── AD{SL,AE,LB,TR,RS,TTE}-spec.md
 │
 ├── define/                                      ⏳ Phases 4–5
 │   ├── define.xml (v2.1)

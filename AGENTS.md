@@ -17,7 +17,7 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 5 ADaM — NEXT (pending Gate 3 LG review)**
+Current phase: **Phase 4.5 SAP + TFL shells — NEXT (Gate 3.5 blocks Phase 5 ADaM)**
 
 ```
 Phase 1: Protocol ✅ DONE
@@ -28,7 +28,9 @@ Phase 3: Simulated Database (synthetic raw data) ✅ COMPLETE (2026-04-07)
    ↓ (data-raw/ scripts also produce SDTM parquet — phases 3 & 4 unified)
 Phase 4: SDTM (16 domains) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (2026-04-07)
    ↓
-Phase 5: ADaM (6 datasets) ⏳ NEXT — after Gate 3 LG review
+Phase 4.5: SAP + TFL shells ⏳ NEXT — Gate 3.5 (sap/SAP.md + tfl/TFL-SHELLS.md)
+   ↓
+Phase 5: ADaM (6 datasets) ⏳ BLOCKED on Gate 3.5 — spec-first, see adam/PHASE-5-APPROACH.md
    ↓
 Phase 6: TFLs (Tables, Figures, Listings)
    ↓

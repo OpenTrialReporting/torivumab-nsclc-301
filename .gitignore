@@ -15,3 +15,7 @@ renv/staging/
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code — local settings and personal memory (project-wide skills ARE committed)
+.claude/settings.local.json
+memory/

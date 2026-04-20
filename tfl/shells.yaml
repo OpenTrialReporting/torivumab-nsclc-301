@@ -1,0 +1,734 @@
+# =============================================================================
+#  tfl/shells.yaml — SOURCE OF TRUTH for TFL shells (ARS-aligned schema)
+# =============================================================================
+#
+#  DO NOT edit tfl/TFL-SHELLS.md directly. Edit this file, then run:
+#
+#      Rscript tfl/render_shells.R
+#      Rscript tfl/validate_shells.R
+#
+#  Schema mirrors CDISC Analysis Results Standard (ARS) v1.0 concepts:
+#    analysis_sets       → ARS AnalysisSet
+#    data_subsets        → ARS DataSubset
+#    methods             → ARS AnalysisMethod
+#    reference_documents → ARS ReferenceDocument
+#    outputs             → ARS Output (each with embedded Analysis reference)
+# =============================================================================
+
+meta:
+  study: SIMULATED-TORIVUMAB-2026
+  study_short: torivumab-nsclc-301
+  sap_version: "0.1"
+  protocol_version: "1.1"
+  shells_version: "0.1"
+  shells_date: "2026-04-20"
+  author: "Lovemore Gakava"
+  gate: "3.5"
+  ars_alignment: "CDISC ARS v1.0 concepts (not yet serialised to ARS JSON)"
+
+# -----------------------------------------------------------------------------
+# Analysis sets (ARS AnalysisSet) — population filters
+# -----------------------------------------------------------------------------
+analysis_sets:
+  - id: ITT
+    label: "Intent-to-Treat"
+    definition: "All randomised patients, analysed as randomised"
+    adsl_filter: "ITTFL == 'Y'"
+    treatment_var: TRT01P
+    expected_n: 450
+
+  - id: SAFETY
+    label: "Safety"
+    definition: "All patients who received ≥1 dose, analysed as treated"
+    adsl_filter: "SAFFL == 'Y'"
+    treatment_var: TRT01A
+    expected_n: 450
+
+  - id: PP
+    label: "Per-Protocol"
+    definition: "ITT ∩ SAFFL ∩ no major protocol deviations"
+    adsl_filter: "PPROTFL == 'Y'"
+    treatment_var: TRT01P
+    expected_n: 405
+
+  - id: RESPEVAL
+    label: "Response Evaluable"
+    definition: "ITT with ≥1 post-baseline tumour assessment OR clinical progression before first assessment"
+    adsl_filter: "ITTFL == 'Y'"        # refined on ADRS via EFFFL
+    adrs_filter: "EFFFL == 'Y'"
+    treatment_var: TRT01P
+    expected_n: 440
+
+  - id: RESPONDERS
+    label: "Confirmed Responders"
+    definition: "Subset of Response Evaluable with confirmed BOR ∈ {CR, PR}"
+    adsl_filter: "ITTFL == 'Y'"
+    adrs_filter: "EFFFL == 'Y' & AVALC %in% c('CR','PR') & ANL01FL == 'Y'"
+    treatment_var: TRT01P
+    expected_n: null                    # data-dependent
+
+# -----------------------------------------------------------------------------
+# Statistical methods (ARS AnalysisMethod)
+# -----------------------------------------------------------------------------
+methods:
+  - id: M-STRAT-LOGRANK
+    name: "Stratified Log-Rank Test"
+    description: "Two-sided stratified log-rank test of treatment equality in time-to-event."
+    strata: [STRAT2, STRAT3]            # histology, region
+    r_package: "survival"
+    r_function: "survdiff(..., rho = 0)"
+
+  - id: M-COX-STRAT
+    name: "Stratified Cox Proportional Hazards"
+    description: "Stratified Cox PH model to estimate HR and 95% CI."
+    strata: [STRAT2, STRAT3]
+    r_package: "survival"
+    r_function: "coxph(Surv(AVAL,1-CNSR) ~ TRT01P + strata(STRAT2,STRAT3))"
+
+  - id: M-KM-MEDIAN
+    name: "Kaplan-Meier Median"
+    description: "Median survival with 95% CI using Brookmeyer-Crowley (log-log)."
+    r_package: "survival"
+    r_function: "survfit(..., conf.type = 'log-log')"
+
+  - id: M-KM-PROB
+    name: "Kaplan-Meier Survival Probability"
+    description: "Survival probability at specified timepoints with Greenwood 95% CI."
+    r_package: "survival"
+    r_function: "summary(survfit(...), times = t)"
+
+  - id: M-CMH-STRAT
+    name: "Stratified Cochran-Mantel-Haenszel"
+    description: "Stratified MH test of proportion equality; MH risk difference + 95% CI."
+    strata: [STRAT2, STRAT3]
+    r_package: "stats"
+    r_function: "mantelhaen.test(...)"
+
+  - id: M-CLOPPER
+    name: "Clopper-Pearson Exact 95% CI"
+    description: "Exact binomial confidence interval for proportions."
+    r_package: "stats"
+    r_function: "binom.test(...)"
+
+  - id: M-WILSON
+    name: "Wilson Score 95% CI"
+    description: "Wilson score interval for proportions — sensitivity for Clopper-Pearson."
+    r_package: "DescTools"
+    r_function: "BinomCI(..., method='wilson')"
+
+  - id: M-RMST
+    name: "Restricted Mean Survival Time"
+    description: "RMST at τ = 36 months; RMST difference with 95% CI."
+    r_package: "survRM2"
+    r_function: "rmst2(..., tau = 36)"
+
+  - id: M-LANDMARK
+    name: "Landmark Survival Comparison"
+    description: "Difference in KM survival probability at landmark timepoints with 95% CI (log-log)."
+    r_package: "survival"
+    r_function: "summary(survfit(...), times = c(12, 24))"
+
+  - id: M-DESCR-CAT
+    name: "Descriptive — Categorical"
+    description: "n (%) of subjects per level."
+    r_package: "rtables"
+
+  - id: M-DESCR-CONT
+    name: "Descriptive — Continuous"
+    description: "n, mean (SD), median, min, max per group."
+    r_package: "rtables"
+
+  - id: M-EAIR
+    name: "Exposure-Adjusted Incidence Rate"
+    description: "Events per 100 patient-years (person-time = TRTDURD summed)."
+    r_package: "tern"
+
+  - id: M-KM-TTE-ONSET
+    name: "Time-to-Onset / Resolution (KM)"
+    description: "Kaplan-Meier for time to irAE onset or resolution."
+    r_package: "survival"
+
+  - id: M-FOREST-SUBGROUP
+    name: "Subgroup Forest (Unstratified Cox)"
+    description: "Per-subgroup unstratified Cox HR + 95% CI; overall stratified HR."
+    r_package: "survival"
+    r_function: "coxph per subgroup level"
+
+  - id: M-SHIFT
+    name: "Shift Table (Baseline → Worst Post-Baseline)"
+    description: "Cross-tabulation of BNRIND × worst ANRIND."
+    r_package: "rtables"
+
+  - id: M-WATERFALL
+    name: "Waterfall (Best % Change)"
+    description: "Per-subject bar of best % change from baseline SLD, sorted descending."
+    r_package: "ggplot2"
+
+  - id: M-SPIDER
+    name: "Spider (Longitudinal % Change)"
+    description: "Per-subject line of % change from baseline SLD over time."
+    r_package: "ggplot2"
+
+  - id: M-SWIMMER
+    name: "Swimmer Lane (Responders)"
+    description: "Per-responder horizontal lane with response episodes, PD, death markers."
+    r_package: "ggplot2"
+
+# -----------------------------------------------------------------------------
+# Reference documents (ARS ReferenceDocument)
+# -----------------------------------------------------------------------------
+reference_documents:
+  - id: PROTO-1.1
+    title: "Protocol v1.1"
+    path: "protocol/synopsis.md"
+  - id: SAP-0.1
+    title: "Statistical Analysis Plan v0.1"
+    path: "sap/SAP.md"
+  - id: CRF-2.0
+    title: "CRF Strategy v2.0"
+    path: "crf/CRF-STRATEGY.md"
+
+# -----------------------------------------------------------------------------
+# Outputs (ARS Output + Analysis)
+# -----------------------------------------------------------------------------
+outputs:
+
+  # ===== Disposition and demographics =====
+
+  - id: T-DM-01
+    kind: table
+    title: "Demographic and Baseline Characteristics"
+    analysis_set: ITT
+    source_datasets: [ADSL]
+    parameter_codes: []
+    key_variables: [TRT01P, AGE, AGEGR1, SEX, RACE, ETHNIC, REGION1, HISTSCAT, BECOG, PDL1GR, STRAT1, STRAT2, STRAT3]
+    methods: [M-DESCR-CAT, M-DESCR-CONT]
+    sap_ref: "§3.1"
+    reference_documents: [SAP-0.1, PROTO-1.1]
+    layout:
+      rows: "One row per baseline characteristic"
+      columns: "TRT01P arms + Total (three columns)"
+    notes: |
+      Descriptive: n (%) for categorical; n, mean (SD), median, min, max for continuous.
+
+  - id: T-DS-01
+    kind: table
+    title: "Subject Disposition"
+    analysis_set: ITT
+    source_datasets: [ADSL]
+    parameter_codes: []
+    key_variables: [ITTFL, SAFFL, PPROTFL, EFFFL, EOSSTT, DCSREAS, DTHFL, RFICDT, RANDDT, TRTSDT, TRTEDT, EOSDT]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§3"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Screened / Randomised / ITT / Safety / PP / Response Evaluable / Discontinued (by reason) / Completed / Ongoing / Died"
+      columns: "TRT01P"
+    notes: "Counts and percentages for each category."
+
+  - id: T-DS-02
+    kind: table
+    title: "Major Protocol Deviations"
+    analysis_set: ITT
+    source_datasets: [ADSL, "SDTM.DS"]
+    parameter_codes: []
+    key_variables: [TRT01P, USUBJID]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§3.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Deviation category"
+      columns: "TRT01P + Total"
+    notes: "n (%) subjects with ≥1 major deviation by category. Source: SDTM.DS where DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'."
+
+  # ===== Exposure =====
+
+  - id: T-EX-01
+    kind: table
+    title: "Study Drug Exposure"
+    analysis_set: SAFETY
+    source_datasets: [ADSL]
+    parameter_codes: []
+    key_variables: [TRT01A, TRTSDT, TRTEDT, TRTDURD, N_CYCLES, CUMDOSE]
+    methods: [M-DESCR-CONT, M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Median (min–max) treatment duration; mean (SD) cycles received; n (%) with ≥6/≥12/≥24 cycles; relative dose intensity"
+      columns: "TRT01A"
+    notes: |
+      Exposure summaries computed from ADSL (TRTDURD, N_CYCLES, CUMDOSE) — no separate ADEX dataset in scope.
+
+  # ===== Efficacy — primary and key secondary =====
+
+  - id: T-EFF-01
+    kind: table
+    title: "Overall Survival Analysis (Primary)"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR, STRAT2, STRAT3]
+    methods: [M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN]
+    sap_ref: "§5.1"
+    reference_documents: [SAP-0.1, PROTO-1.1]
+    layout:
+      rows: "n, events, censored, median OS (95% CI), HR (95% CI), stratified log-rank p"
+      columns: "TRT01P"
+    notes: "Primary analysis. Triggered at ~320 OS events (event-driven, Protocol §8.1). Strata: histology (STRAT2), region (STRAT3)."
+
+  - id: T-EFF-02
+    kind: table
+    title: "Kaplan-Meier Survival Probabilities — OS"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-KM-PROB]
+    sap_ref: "§5.1"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Timepoints 6, 12, 18, 24 months"
+      columns: "TRT01P — probability, 95% CI"
+    notes: "Greenwood 95% CI."
+
+  - id: T-EFF-03
+    kind: table
+    title: "Progression-Free Survival Analysis (BICR)"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [PFS]
+    key_variables: [TRT01P, AVAL, CNSR, STRAT2, STRAT3]
+    methods: [M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN]
+    sap_ref: "§5.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "n, events, censored, median PFS (95% CI), HR (95% CI), stratified log-rank p"
+      columns: "TRT01P"
+    notes: "Same structure as T-EFF-01 for PFS."
+
+  - id: T-EFF-04
+    kind: table
+    title: "Kaplan-Meier Probabilities — PFS"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [PFS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-KM-PROB]
+    sap_ref: "§5.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Timepoints 6, 12, 18, 24 months"
+      columns: "TRT01P — probability, 95% CI"
+    notes: "Greenwood 95% CI."
+
+  - id: T-EFF-05
+    kind: table
+    title: "Objective Response Rate (BICR)"
+    analysis_set: RESPEVAL
+    source_datasets: [ADRS, ADSL]
+    parameter_codes: [CBOR]
+    key_variables: [TRT01P, AVALC, ORRFL, STRAT2, STRAT3]
+    methods: [M-CMH-STRAT, M-CLOPPER, M-WILSON]
+    sap_ref: "§5.3"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "N, n responders, ORR % (95% CI), risk difference (95% CI), CMH p; best response breakdown (CR/PR/SD/PD/NE)"
+      columns: "TRT01P"
+    notes: "Clopper-Pearson 95% CI primary; Wilson as sensitivity row. Subjects with no post-baseline assessment counted as non-responders (§4.3)."
+
+  - id: T-EFF-06
+    kind: table
+    title: "Disease Control Rate"
+    analysis_set: RESPEVAL
+    source_datasets: [ADRS, ADSL]
+    parameter_codes: [CBDCR]
+    key_variables: [TRT01P, AVALC, DCRFL, STRAT2, STRAT3]
+    methods: [M-CMH-STRAT, M-CLOPPER]
+    sap_ref: "§5.3"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Same as T-EFF-05"
+      columns: "TRT01P"
+    notes: "Uses DCRFL. SD requires duration ≥8 weeks from randomisation."
+
+  - id: T-EFF-07
+    kind: table
+    title: "Duration of Response"
+    analysis_set: RESPONDERS
+    source_datasets: [ADTTE]
+    parameter_codes: [DOR]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-KM-MEDIAN, M-KM-PROB]
+    sap_ref: "§5.4"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Median DoR (95% CI); proportion with DoR ≥6 mo, ≥12 mo"
+      columns: "TRT01P"
+    notes: "No formal between-arm test (hypothesis-generating)."
+
+  # ===== Efficacy — sensitivity =====
+
+  - id: T-EFF-08
+    kind: table
+    title: "OS in Per-Protocol Population (Sensitivity)"
+    analysis_set: PP
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR, STRAT2, STRAT3]
+    methods: [M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN]
+    sap_ref: "§11"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Same as T-EFF-01"
+      columns: "TRT01P"
+    notes: "Sensitivity — primary OS re-run on PP population."
+
+  - id: T-EFF-09
+    kind: table
+    title: "OS Landmark Analysis"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-LANDMARK]
+    sap_ref: "§11"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "12 months, 24 months"
+      columns: "TRT01P probability, difference (95% CI)"
+    notes: "Difference in survival probability with 95% CI (log-log)."
+
+  - id: T-EFF-10
+    kind: table
+    title: "Restricted Mean Survival Time (OS)"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-RMST]
+    sap_ref: "§11"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "RMST per arm; RMST difference (95% CI)"
+      columns: "TRT01P"
+    notes: "τ = 36 months."
+
+  - id: T-EFF-11
+    kind: table
+    title: "PFS by Investigator (Sensitivity)"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [PFSINV]
+    key_variables: [TRT01P, AVAL, CNSR, STRAT2, STRAT3]
+    methods: [M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN]
+    sap_ref: "§4.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Same as T-EFF-03"
+      columns: "TRT01P"
+    notes: "Requires PARAMCD='PFSINV' in ADTTE."
+
+  # ===== Safety =====
+
+  - id: T-AE-01
+    kind: table
+    title: "Overall Summary of AEs"
+    analysis_set: SAFETY
+    source_datasets: [ADSL, ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, TRTEMFL, AESER, AESDTH, AETOXGR, IRAEFL, AESI]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death"
+      columns: "TRT01A + Total"
+    notes: "n (%) of subjects."
+
+  - id: T-AE-02
+    kind: table
+    title: "TEAEs by SOC and PT (≥5% any arm)"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, AEBODSYS, AEDECOD, TRTEMFL]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "SOC (bold) → PT"
+      columns: "TRT01A"
+    notes: "Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Sorted by decreasing Torivumab-arm incidence."
+
+  - id: T-AE-03
+    kind: table
+    title: "Grade ≥3 TEAEs by SOC and PT"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, AEBODSYS, AEDECOD, TRTEMFL, AETOXGR]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "SOC → PT"
+      columns: "TRT01A"
+    notes: "Filtered to TRTEMFL='Y' AND AETOXGR ∈ {3,4,5}."
+
+  - id: T-AE-04
+    kind: table
+    title: "Serious Adverse Events by SOC and PT"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, AEBODSYS, AEDECOD, AESER]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "SOC → PT"
+      columns: "TRT01A"
+    notes: "Filtered to AESER='Y'."
+
+  - id: T-AE-05
+    kind: table
+    title: "Immune-Related AEs by Category"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, IRAEFL, IRAECAT, AETOXGR]
+    methods: [M-DESCR-CAT, M-KM-TTE-ONSET]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1, PROTO-1.1]
+    layout:
+      rows: "irAE category (pneumonitis/colitis/hepatitis/endocrinopathies/IRR) × grade"
+      columns: "TRT01A"
+    notes: "n (%) by category × grade; median time to onset and resolution (KM). Filtered to IRAEFL='Y'."
+
+  - id: T-AE-06
+    kind: table
+    title: "AESIs by Category"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, AESI, AETOXGR]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1, PROTO-1.1]
+    layout:
+      rows: "AESI category × grade"
+      columns: "TRT01A"
+    notes: "Category flag from MedDRA PT list in Protocol §7.4."
+
+  - id: T-AE-07
+    kind: table
+    title: "Deaths"
+    analysis_set: SAFETY
+    source_datasets: [ADSL, ADAE]
+    parameter_codes: []
+    key_variables: [TRT01A, DTHFL, DTHDT, DTHCAUS, TRTEDT]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "All deaths; within 30 days of last dose; due to AE; due to disease progression; other"
+      columns: "TRT01A"
+    notes: "Mixed population: on-treatment denominator = Safety; all deaths denominator = ITT (noted per row)."
+
+  # ===== Laboratory =====
+
+  - id: T-LB-01
+    kind: table
+    title: "Laboratory Abnormalities (Shift Table)"
+    analysis_set: SAFETY
+    source_datasets: [ADLB]
+    parameter_codes: []
+    key_variables: [TRT01A, PARAMCD, BASE, AVAL, BNRIND, ANRIND]
+    methods: [M-SHIFT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Baseline status (Normal/Low/High)"
+      columns: "Worst post-baseline status (Normal/Low/High)"
+    notes: "One panel per PARAMCD."
+
+  - id: T-LB-02
+    kind: table
+    title: "Laboratory CTCAE Grade ≥3"
+    analysis_set: SAFETY
+    source_datasets: [ADLB]
+    parameter_codes: []
+    key_variables: [TRT01A, PARAMCD, ATOXGR]
+    methods: [M-DESCR-CAT]
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "PARAMCD"
+      columns: "TRT01A"
+    notes: "n (%) with ≥1 post-baseline ATOXGR ≥ 3 per PARAMCD."
+
+  # ===== Figures =====
+
+  - id: F-EFF-01
+    kind: figure
+    title: "Kaplan-Meier Curve — OS"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-KM-MEDIAN]
+    sap_ref: "§5.1"
+    reference_documents: [SAP-0.1]
+    layout:
+      axes: "x = time (months), y = survival probability (0–1)"
+      features: "95% CI bands (log-log); number-at-risk table at 0, 6, 12, 18, 24, 30, 36 months"
+      annotations: "stratified log-rank p, HR (95% CI)"
+    notes: "One curve per TRT01P."
+
+  - id: F-EFF-02
+    kind: figure
+    title: "Kaplan-Meier Curve — PFS"
+    analysis_set: ITT
+    source_datasets: [ADTTE]
+    parameter_codes: [PFS]
+    key_variables: [TRT01P, AVAL, CNSR]
+    methods: [M-KM-MEDIAN]
+    sap_ref: "§5.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      axes: "x = time (months), y = progression-free probability"
+      features: "Same layout as F-EFF-01"
+    notes: "Same structure as F-EFF-01 for PFS."
+
+  - id: F-EFF-03
+    kind: figure
+    title: "Waterfall — Best Percent Change in SLD"
+    analysis_set: RESPEVAL
+    source_datasets: [ADTR]
+    parameter_codes: [PCHG]
+    key_variables: [TRT01P, USUBJID, AVAL, PCHG]
+    methods: [M-WATERFALL]
+    sap_ref: "§5.3"
+    reference_documents: [SAP-0.1]
+    layout:
+      axes: "x = subject (sorted), y = best % change from baseline"
+      features: "Reference lines at −30% (PR) and +20% (PD); coloured by TRT01P"
+    notes: "Restricted to subjects with measurable disease at baseline."
+
+  - id: F-EFF-04
+    kind: figure
+    title: "Spider — SLD Change Over Time"
+    analysis_set: RESPEVAL
+    source_datasets: [ADTR]
+    parameter_codes: [PCHG]
+    key_variables: [TRT01P, USUBJID, ADY, PCHG]
+    methods: [M-SPIDER]
+    sap_ref: "§5.3"
+    reference_documents: [SAP-0.1]
+    layout:
+      axes: "x = weeks from baseline, y = % change from baseline SLD"
+      features: "One line per subject; coloured by TRT01P; optional faceting by arm"
+    notes: ""
+
+  - id: F-EFF-05
+    kind: figure
+    title: "Forest — OS HR by Subgroup"
+    analysis_set: ITT
+    source_datasets: [ADSL, ADTTE]
+    parameter_codes: [OS]
+    key_variables: [TRT01P, AVAL, CNSR, HISTSCAT, REGION1, SEX, AGEGR1, BECOG, PDL1GR]
+    methods: [M-FOREST-SUBGROUP]
+    sap_ref: "§10"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "Subgroup levels"
+      columns: "n, events, HR (95% CI), forest plot"
+    notes: "Per-subgroup unstratified Cox HR; overall stratified HR at top. Square size ∝ subgroup n."
+
+  - id: F-EFF-06
+    kind: figure
+    title: "Swimmer — Responders"
+    analysis_set: RESPONDERS
+    source_datasets: [ADSL, ADRS, ADTTE]
+    parameter_codes: [CBOR, DOR]
+    key_variables: [TRT01P, USUBJID, AVISITN, AVALC, ADT]
+    methods: [M-SWIMMER]
+    sap_ref: "§5.4"
+    reference_documents: [SAP-0.1]
+    layout:
+      axes: "x = weeks from randomisation; one lane per responder"
+      features: "Response episodes; markers for PD, death, ongoing"
+    notes: "Confirmed responders only."
+
+  # ===== Listings =====
+
+  - id: L-AE-01
+    kind: listing
+    title: "Serious Adverse Events"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [USUBJID, TRT01A, AEBODSYS, AEDECOD, ASTDT, AENDT, AETOXGR, AESER, AEACN, AEREL, AEOUT]
+    methods: []
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "One row per SAE record"
+      sort: "USUBJID, ASTDT"
+    notes: "Filtered to AESER='Y'."
+
+  - id: L-AE-02
+    kind: listing
+    title: "Deaths"
+    analysis_set: SAFETY
+    source_datasets: [ADSL]
+    parameter_codes: []
+    key_variables: [USUBJID, TRT01A, DTHDT, DTHCAUS, TRTEDT, RANDDT, EOSSTT]
+    methods: []
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "One row per subject with DTHFL='Y'"
+    notes: "Computed columns: days from last dose to death; days from randomisation to death."
+
+  - id: L-AE-03
+    kind: listing
+    title: "AEs Leading to Discontinuation"
+    analysis_set: SAFETY
+    source_datasets: [ADAE]
+    parameter_codes: []
+    key_variables: [USUBJID, TRT01A, AEDECOD, ASTDT, AETOXGR, AEREL, TRTEDT]
+    methods: []
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "One row per AE"
+    notes: "Filtered to AEACN='DRUG WITHDRAWN'."
+
+  - id: L-LB-01
+    kind: listing
+    title: "Grade ≥3 Laboratory Abnormalities"
+    analysis_set: SAFETY
+    source_datasets: [ADLB]
+    parameter_codes: []
+    key_variables: [USUBJID, TRT01A, PARAMCD, AVISIT, ADT, AVAL, ANRLO, ANRHI, ATOXGR]
+    methods: []
+    sap_ref: "§5.5"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "One row per lab result"
+    notes: "Filtered to ATOXGR ≥ 3."
+
+  - id: L-DS-01
+    kind: listing
+    title: "Major Protocol Deviations"
+    analysis_set: ITT
+    source_datasets: ["SDTM.DS"]
+    parameter_codes: []
+    key_variables: [USUBJID, TRT01P, DSSTDTC]
+    methods: []
+    sap_ref: "§3.2"
+    reference_documents: [SAP-0.1]
+    layout:
+      rows: "One row per deviation"
+    notes: "Filtered to DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'. Shows deviation category and description."
