@@ -1,0 +1,40 @@
+ATC_CODE,ATC_NAME,DRUG_NAME,DRUG_NAME_VERBATIM_1,DRUG_NAME_VERBATIM_2,INDICATION_CLASS,INDICATION
+A04AA01,Ondansetron,ONDANSETRON,ondansetron,Zofran,ANTIEMETIC,Nausea and vomiting
+A04AA02,Granisetron,GRANISETRON,granisetron,Kytril,ANTIEMETIC,Nausea and vomiting
+A04AA03,Tropisetron,TROPISETRON,tropisetron,Navoban,ANTIEMETIC,Nausea and vomiting
+A03FA01,Metoclopramide,METOCLOPRAMIDE,metoclopramide,Reglan,ANTIEMETIC,Nausea and vomiting
+H02AB02,Dexamethasone,DEXAMETHASONE,dexamethasone,Decadron,CORTICOSTEROID,Inflammation / irAE treatment
+H02AB07,Prednisone,PREDNISONE,prednisone,Deltasone,CORTICOSTEROID,Inflammation / irAE treatment
+H02AB04,Methylprednisolone,METHYLPREDNISOLONE,methylprednisolone,Solu-Medrol,CORTICOSTEROID,Severe irAE treatment
+L03AA02,Filgrastim,FILGRASTIM,filgrastim,Neupogen,GCSF,Febrile neutropenia prophylaxis
+L03AA13,Lenograstim,LENOGRASTIM,lenograstim,Granocyte,GCSF,Febrile neutropenia prophylaxis
+A02BC01,Omeprazole,OMEPRAZOLE,omeprazole,Prilosec,PPI,Gastric protection
+A02BC02,Pantoprazole,PANTOPRAZOLE,pantoprazole,Protonix,PPI,Gastric protection
+A02BC05,Esomeprazole,ESOMEPRAZOLE,esomeprazole,Nexium,PPI,Gastric protection
+M01AE01,Ibuprofen,IBUPROFEN,ibuprofen,Advil,NSAID,Pain / fever
+N02BE01,Paracetamol,PARACETAMOL,paracetamol,Tylenol,ANALGESIC,Pain / fever
+N02BE01,Acetaminophen,ACETAMINOPHEN,acetaminophen,Panadol,ANALGESIC,Pain / fever
+N02AA01,Morphine,MORPHINE,morphine,MS Contin,OPIOID,Pain
+N02AX02,Tramadol,TRAMADOL,tramadol,Ultram,OPIOID,Pain
+H03AA01,Levothyroxine,LEVOTHYROXINE,levothyroxine,Synthroid,THYROID HORMONE,Hypothyroidism (irAE)
+A07DA03,Loperamide,LOPERAMIDE,loperamide,Imodium,ANTIDIARRHEAL,Diarrhea
+B01AF01,Rivaroxaban,RIVAROXABAN,rivaroxaban,Xarelto,ANTICOAGULANT,Pulmonary embolism / DVT
+B01AA03,Warfarin,WARFARIN,warfarin,Coumadin,ANTICOAGULANT,Pulmonary embolism / DVT
+B01AB05,Enoxaparin,ENOXAPARIN,enoxaparin,Lovenox,LMWH,Pulmonary embolism / DVT
+J01CA04,Amoxicillin,AMOXICILLIN,amoxicillin,Amoxil,ANTIBIOTIC,Infection
+J01MA12,Levofloxacin,LEVOFLOXACIN,levofloxacin,Levaquin,ANTIBIOTIC,Infection
+J01CR02,Amoxicillin/clavulanate,AMOXICILLIN/CLAVULANATE,amoxicillin-clavulanate,Augmentin,ANTIBIOTIC,Infection
+C10AA05,Atorvastatin,ATORVASTATIN,atorvastatin,Lipitor,STATIN,Hyperlipidaemia
+C10AA01,Simvastatin,SIMVASTATIN,simvastatin,Zocor,STATIN,Hyperlipidaemia
+C09AA02,Enalapril,ENALAPRIL,enalapril,Vasotec,ACE INHIBITOR,Hypertension
+C09AA05,Ramipril,RAMIPRIL,ramipril,Altace,ACE INHIBITOR,Hypertension
+C07AB02,Metoprolol,METOPROLOL,metoprolol,Lopressor,BETA BLOCKER,Hypertension / cardiac
+A10BA02,Metformin,METFORMIN,metformin,Glucophage,ANTIDIABETIC,Diabetes mellitus
+A10AB01,Insulin human,INSULIN,insulin,Humulin,ANTIDIABETIC,Diabetes mellitus
+N06AB10,Escitalopram,ESCITALOPRAM,escitalopram,Lexapro,ANTIDEPRESSANT,Depression / anxiety
+N06AB06,Sertraline,SERTRALINE,sertraline,Zoloft,ANTIDEPRESSANT,Depression / anxiety
+M05BA04,Alendronic acid,ALENDRONATE,alendronate,Fosamax,BISPHOSPHONATE,Bone metastasis / osteoporosis
+M05BA07,Risedronic acid,RISEDRONATE,risedronate,Actonel,BISPHOSPHONATE,Bone metastasis
+L01XA02,Carboplatin,CARBOPLATIN,carboplatin,Paraplatin,CHEMOTHERAPY,Lung cancer (backbone)
+L01BA04,Pemetrexed,PEMETREXED,pemetrexed,Alimta,CHEMOTHERAPY,Lung cancer (backbone)
+C03CA01,Furosemide,FUROSEMIDE,furosemide,Lasix,DIURETIC,Oedema

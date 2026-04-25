@@ -1,0 +1,74 @@
+SOC_CODE,SOC_NAME,HLGT_CODE,HLGT_NAME,HLT_CODE,HLT_NAME,PT_CODE,PT_NAME,LLT_CODE,LLT_NAME,IRAEFL
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10028813,Nausea and vomiting symptoms,10028813,Nausea,10028814,Nausea,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10028813,Nausea and vomiting symptoms,10028813,Nausea,10028815,Feeling nauseous,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10028813,Nausea and vomiting symptoms,10028813,Nausea,10028816,Nausea NOS,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10047700,Vomiting,10047700,Vomiting,10047701,Vomiting,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10047700,Vomiting,10047700,Vomiting,10047702,Emesis,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10012735,Diarrhoea,10012735,Diarrhoea,10012736,Diarrhea,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10012735,Diarrhoea,10012735,Diarrhoea,10012737,Loose stools,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10010774,Constipation,10010774,Constipation,10010775,Constipation,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10000081,Abdominal pain,10000081,Abdominal pain,10000082,Abdominal pain,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10000081,Abdominal pain,10000081,Abdominal pain,10000083,Stomach pain,N
+10017947,Gastrointestinal disorders,10020772,Inflammatory bowel diseases,10009888,Colitis,10009888,Colitis,10009889,Colitis,Y
+10017947,Gastrointestinal disorders,10020772,Inflammatory bowel diseases,10009888,Colitis,10009888,Colitis,10009890,Enterocolitis,Y
+10017947,Gastrointestinal disorders,10020772,Inflammatory bowel diseases,10009888,Colitis,10009888,Colitis,10009891,Immune-mediated colitis,Y
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10016256,Fatigue,10016256,Fatigue,10016257,Fatigue,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10016256,Fatigue,10016256,Fatigue,10016258,Tiredness,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10016256,Fatigue,10016256,Fatigue,10016259,Exhaustion,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10037660,Pyrexia,10037660,Pyrexia,10037661,Fever,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10037660,Pyrexia,10037660,Pyrexia,10037662,High temperature,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10003549,Asthenia,10003549,Asthenia,10003550,Weakness,N
+10022117,General disorders and administration site conditions,10018065,General signs and symptoms,10034570,Peripheral oedema,10034570,Peripheral oedema,10034571,Peripheral edema,N
+10005329,Blood and lymphatic system disorders,10005330,Anaemias,10002034,Anaemia,10002034,Anaemia,10002035,Anemia,N
+10005329,Blood and lymphatic system disorders,10005330,Anaemias,10002034,Anaemia,10002034,Anaemia,10002036,Low hemoglobin,N
+10005329,Blood and lymphatic system disorders,10029352,Neutropenias and granulocytopenias,10029354,Neutropenia,10029354,Neutropenia,10029355,Neutropenia,N
+10005329,Blood and lymphatic system disorders,10029352,Neutropenias and granulocytopenias,10029354,Neutropenia,10029354,Neutropenia,10029356,Low neutrophil count,N
+10005329,Blood and lymphatic system disorders,10029352,Neutropenias and granulocytopenias,10029354,Neutropenia,10029354,Neutropenia,10029357,Febrile neutropenia,N
+10005329,Blood and lymphatic system disorders,10043550,Thrombocytopenias,10043554,Thrombocytopenia,10043554,Thrombocytopenia,10043555,Thrombocytopenia,N
+10005329,Blood and lymphatic system disorders,10043550,Thrombocytopenias,10043554,Thrombocytopenia,10043554,Thrombocytopenia,10043556,Low platelet count,N
+10005329,Blood and lymphatic system disorders,10024380,Leukopenias,10024384,Leukopenia,10024384,Leukopenia,10024385,Leukopenia,N
+10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013969,Dyspnea,N
+10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013970,Shortness of breath,N
+10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011225,Cough,N
+10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011226,Productive cough,N
+10038738,Respiratory, thoracic and mediastinal disorders,10038199,Pulmonary vascular disorders,10037377,Pulmonary embolism,10037377,Pulmonary embolism,10037378,Pulmonary embolism,N
+10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035743,Pneumonitis,Y
+10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035744,Immune-mediated pneumonitis,Y
+10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035745,Radiation pneumonitis,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037845,Rash,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037846,Skin rash,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037847,Maculopapular rash,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037087,Pruritus,10037087,Pruritus,10037088,Itching,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037087,Pruritus,10037087,Pruritus,10037089,Pruritus,Y
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10001760,Alopecia,10001760,Alopecia,10001761,Hair loss,N
+10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10040786,Dry skin,10013786,Dry skin,10013787,Dry skin,N
+10029205,Nervous system disorders,10029206,Neuropathies,10034620,Peripheral neuropathy,10034620,Peripheral neuropathy,10034621,Peripheral neuropathy,N
+10029205,Nervous system disorders,10029206,Neuropathies,10034620,Peripheral neuropathy,10034620,Peripheral neuropathy,10034622,Numbness,N
+10029205,Nervous system disorders,10029206,Neuropathies,10034620,Peripheral neuropathy,10034620,Peripheral neuropathy,10034623,Tingling,N
+10029205,Nervous system disorders,10019212,Headaches,10019211,Headache,10019211,Headache,10019212,Headache,N
+10029205,Nervous system disorders,10013573,Dizziness,10013573,Dizziness,10013573,Dizziness,10013574,Dizziness,N
+10028395,Musculoskeletal and connective tissue disorders,10028396,Joint disorders,10003239,Arthralgia,10003239,Arthralgia,10003240,Joint pain,N
+10028395,Musculoskeletal and connective tissue disorders,10028396,Joint disorders,10003239,Arthralgia,10003239,Arthralgia,10003241,Arthralgia,N
+10028395,Musculoskeletal and connective tissue disorders,10028397,Muscle disorders,10028411,Myalgia,10028411,Myalgia,10028412,Muscle pain,N
+10028395,Musculoskeletal and connective tissue disorders,10028398,Bone and bone marrow disorders,10003988,Back pain,10003988,Back pain,10003989,Back pain,N
+10022891,Investigations,10022892,Hepatic and renal tests abnormal,10001551,Alanine aminotransferase increased,10001551,Alanine aminotransferase increased,10001552,ALT increased,Y
+10022891,Investigations,10022892,Hepatic and renal tests abnormal,10001551,Alanine aminotransferase increased,10001551,Alanine aminotransferase increased,10001553,Elevated ALT,Y
+10022891,Investigations,10022892,Hepatic and renal tests abnormal,10003481,Aspartate aminotransferase increased,10003481,Aspartate aminotransferase increased,10003482,AST increased,Y
+10022891,Investigations,10022892,Hepatic and renal tests abnormal,10005483,Blood creatinine increased,10005483,Blood creatinine increased,10005484,Creatinine increased,N
+10022891,Investigations,10047895,Weight decreased,10047895,Weight decreased,10047895,Weight decreased,10047896,Weight loss,N
+10014698,Endocrine disorders,10014699,Thyroid disorders,10021114,Hypothyroidism,10021114,Hypothyroidism,10021115,Hypothyroidism,Y
+10014698,Endocrine disorders,10014699,Thyroid disorders,10021114,Hypothyroidism,10021114,Hypothyroidism,10021116,Underactive thyroid,Y
+10014698,Endocrine disorders,10014699,Thyroid disorders,10020882,Hyperthyroidism,10020882,Hyperthyroidism,10020883,Hyperthyroidism,Y
+10014698,Endocrine disorders,10001367,Adrenal disorders,10001367,Adrenal insufficiency,10001367,Adrenal insufficiency,10001368,Adrenal insufficiency,Y
+10021881,Infections and infestations,10021882,Respiratory tract infections,10046306,Upper respiratory tract infection,10046306,Upper respiratory tract infection,10046307,Upper respiratory infection,N
+10021881,Infections and infestations,10021882,Respiratory tract infections,10046306,Upper respiratory tract infection,10046306,Upper respiratory tract infection,10046308,Common cold,N
+10021881,Infections and infestations,10036790,Urinary tract infections,10046571,Urinary tract infection,10046571,Urinary tract infection,10046572,UTI,N
+10021881,Infections and infestations,10035664,Pneumonia,10035664,Pneumonia,10035664,Pneumonia,10035665,Lung infection,N
+10019805,Hepatobiliary disorders,10019806,Hepatic disorders,10019717,Hepatitis,10019717,Hepatitis,10019718,Hepatitis,Y
+10019805,Hepatobiliary disorders,10019806,Hepatic disorders,10019717,Hepatitis,10019717,Hepatitis,10019719,Immune-mediated hepatitis,Y
+10021428,Immune system disorders,10021429,Allergic conditions,10051792,Infusion related reaction,10051792,Infusion related reaction,10051793,Infusion reaction,N
+10021428,Immune system disorders,10021429,Allergic conditions,10020751,Hypersensitivity,10020751,Hypersensitivity,10020752,Allergic reaction,N
+10027433,Metabolism and nutrition disorders,10027434,Appetite disorders,10061428,Decreased appetite,10061428,Decreased appetite,10061429,Loss of appetite,N
+10027433,Metabolism and nutrition disorders,10027434,Appetite disorders,10061428,Decreased appetite,10061428,Decreased appetite,10061430,Poor appetite,N
+10027433,Metabolism and nutrition disorders,10021038,Electrolyte abnormalities,10021038,Hyponatraemia,10021038,Hyponatraemia,10021039,Low sodium,N
+10027433,Metabolism and nutrition disorders,10021038,Electrolyte abnormalities,10021015,Hypokalaemia,10021015,Hypokalaemia,10021016,Low potassium,N
