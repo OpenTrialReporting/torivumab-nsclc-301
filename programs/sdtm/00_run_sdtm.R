@@ -89,4 +89,14 @@ message("All SDTM domains completed and labelled.")
 message(sprintf("Total elapsed time: %.1f seconds", elapsed["elapsed"]))
 message(strrep("=", 70))
 
-# ---- Summary: list output parquet f
+# ---- Summary: list output parquet files ----
+out_files <- list.files("datasets/sdtm", pattern = "\\.parquet$", full.names = TRUE)
+if (length(out_files) > 0) {
+  message("\nSDTM parquet files written (with SDTMIG v3.4 labels):")
+  for (f in sort(out_files)) {
+    size_kb <- round(file.info(f)$size / 1024, 1)
+    message(sprintf("  %-40s %8.1f KB", basename(f), size_kb))
+  }
+} else {
+  message("WARNING: No parquet files found in datasets/sdtm/")
+}

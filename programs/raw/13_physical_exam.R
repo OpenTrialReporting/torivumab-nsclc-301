@@ -123,4 +123,6 @@ write.csv(physical_exam,
           row.names = FALSE,
           na        = "")
 
-message
+message("  physical_exam.csv written: ", nrow(physical_exam), " rows")
+message("    Abnormal findings: ",
+        sum(physical_exam$FINDING == "Abnormal"), " of ", nrow(physical_exam))

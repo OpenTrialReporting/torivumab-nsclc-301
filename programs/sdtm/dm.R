@@ -77,4 +77,4 @@ sdtm_dm <- raw |>
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 arrow::write_parquet(sdtm_dm, file.path(OUT_DIR, "dm.parquet"))
-message("DM writ
+message("DM written: ", nrow(sdtm_dm), " records")

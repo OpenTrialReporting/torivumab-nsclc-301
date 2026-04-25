@@ -163,4 +163,35 @@ sdtm_ae <- raw_coded |>
     # AESOC: Primary System Organ Class (same hierarchy as AEBODSYS in this coding)
     AESOC = AEBODSYS
   ) |>
-  transmute
+  transmute(
+    STUDYID,
+    DOMAIN   = "AE",
+    USUBJID,
+    AESEQ,
+    AETERM,
+    AEDECOD,
+    AEBODSYS,
+    AESOC,
+    AEHLT,
+    AELLT,
+    AESTDTC,
+    AEENDTC,
+    AESEV,
+    AETOXGR,
+    AESER,
+    AEREL,
+    AEACN,
+    AEOUT,
+    AECAT,
+    AESDTH,
+    AESHOSP,
+    AESLIFE,
+    AESDISAB,
+    AESMIE,
+    AESCONG,
+    AEDISCOD
+  )
+
+dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
+arrow::write_parquet(sdtm_ae, file.path(OUT_DIR, "ae.parquet"))
+message("AE written: ", nrow(sdtm_ae), " records")

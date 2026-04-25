@@ -329,4 +329,6 @@ cat(sprintf("    USUBJID  : %s\n", dm_lbls$USUBJID))
 cat(sprintf("    AGE      : %s\n", dm_lbls$AGE))
 cat(sprintf("    RFSTDTC  : %s\n", dm_lbls$RFSTDTC))
 cat(sprintf("    DTHFL    : %s\n", dm_lbls$DTHFL))
-cat(sprintf("    ARM      : %s\n",
+cat(sprintf("    ARM      : %s\n", dm_lbls$ARM))
+
+cat("\n=== Label attachment complete ===\n")

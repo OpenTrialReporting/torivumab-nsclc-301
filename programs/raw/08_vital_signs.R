@@ -102,4 +102,8 @@ vital_signs$RESP_RATE    <- pmax(10,  pmin(30,  vital_signs$RESP_RATE))
 assign("vital_signs", vital_signs, envir = .GlobalEnv)
 
 write.csv(vital_signs,
-          file      = file.path(RAW_DIR, "vital
+          file      = file.path(RAW_DIR, "vital_signs.csv"),
+          row.names = FALSE,
+          na        = "")
+
+message("  vital_signs.csv written: ", nrow(vital_signs), " rows")

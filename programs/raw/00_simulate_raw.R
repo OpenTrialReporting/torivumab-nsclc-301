@@ -80,4 +80,29 @@ message("=== CTX-NSCLC-301 Raw Data Simulation ===")
 message("Seed: 20260301 | N = ", N_SUBJECTS, " | Cut-off: ", DATA_CUTOFF)
 message("")
 
-# ── source domain scripts in order ──────────────�
+# ── source domain scripts in order ────────────────────────────────────────
+scripts <- c(
+  "01_demographics.R",
+  "02_disposition.R",
+  "03_exposure.R",
+  "04_adverse_events.R",
+  "05_conmed.R",
+  "06_medical_history.R",
+  "07_labs.R",
+  "08_vital_signs.R",
+  "09_tumor_measurements.R",
+  "10_overall_response.R",
+  "11_death.R",
+  "12_substance_use.R",
+  "13_physical_exam.R"
+)
+
+for (script in scripts) {
+  path <- file.path(PROGRAMS_DIR, script)
+  message(">> Sourcing: ", script)
+  source(path, local = FALSE)
+  message("   Done.")
+}
+
+message("")
+message("=== Simulation complete. CSVs written to: ", RAW_DIR, " ===")
