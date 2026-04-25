@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-04-07  
-**Status:** Phase 3/4 COMPLETE — 16 SDTM Parquet domains generated, SDTMIG v3.4 labels attached → Gate 3 pending LG review → Phase 5 (ADaM) next
+**Last updated:** 2026-04-25
+**Status:** Phase 5 COMPLETE — all 6 ADaM Parquet datasets generated; Gate 3.5 + Gate 4 PASSED → Phase 6 (TFLs) next
 
 ---
 
@@ -18,14 +18,14 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 2. aCRF             ✅ COMPLETE — Gate 2 APPROVED (2026-04-01)
    ↓
 3. Simulated Database ✅ COMPLETE (2026-04-07)
-   ↓  (phases 3 & 4 unified: data-raw/ scripts produce raw CSV + SDTM parquet)
+   ↓  (phases 3 & 4 unified: programs/raw/ scripts produce raw CSV + SDTM parquet)
 4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ COMPLETE — 16 Parquet files, SDTMIG v3.4 labelled
    ↓
-4.5. SAP + TFL shells ⏳ NEW — locks populations, endpoints, methods, and the list of T/F/L outputs
+4.5. SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
-5. ADaM (6 datasets) — every variable traces to a SAP analysis or a TFL shell
+5. ADaM (6 datasets) ✅ COMPLETE — Gate 4 PASSED (2026-04-25) — all 6 Parquets in datasets/adam/
    ↓
-6. TFLs (Tables, Figures, Listings)
+6. TFLs (Tables, Figures, Listings) ⏳ NEXT
    ↓
 7. CSR (Clinical Study Report)
    ↓
@@ -191,62 +191,52 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ---
 
-## Phase 4.5: SAP + TFL Shells ⏳ NEXT
+## Phase 4.5: SAP + TFL Shells ✅ COMPLETE (2026-04-20) — Gate 3.5 PASSED
 
-**Status:** NOT STARTED — Gate 3.5 deliverable. Blocks Phase 5.
-
-**Purpose:** Lock the statistical analysis plan and the list of T/F/L outputs *before* writing ADaM specs, so every ADaM variable traces to a required analysis.
+**Status:** COMPLETE — SAP locked, ARS-aligned TFL shells delivered, ADSL spec-first kickoff included.
 
 **Deliverables:**
 
-| Item | Location | Purpose |
-|------|----------|---------|
-| Statistical Analysis Plan | `sap/SAP.md` | Populations (ITT/Safety/PP), endpoints, statistical methods (stratified log-rank, Cox PH, CMH for ORR), censoring rules, subgroup definitions, missing-data handling, multiplicity strategy, data cutoff |
-| TFL shells list | `tfl/TFL-SHELLS.md` | Numbered list: every T/F/L with title, population, source ADaM dataset, variables used, statistical method, mock layout |
+| Item | Location | Status |
+|------|----------|--------|
+| Statistical Analysis Plan | `sap/SAP.md` | ✅ Locked |
+| SAP Provenance | `sap/SAP-PROVENANCE.md` | ✅ Done |
+| TFL shells (YAML + DOC) | `sap/shells/` | ✅ Locked — ARS-aligned |
+| Shells provenance | `sap/shells/SHELLS-PROVENANCE.md` | ✅ Done |
+| ADSL spec (draft) | `programming-specs/ADSL-spec.md` | ✅ Drafted (back-validated against SAP) |
 
 **Why this phase exists:** Without a locked SAP, ADaM specs get written on assumed analyses — drift shows up at TFL time when variables are missing or wrongly derived (e.g. PFS censoring rule chosen in ADaM doesn't match the SAP).
 
-**Scope note:** Condensed SAP (~10 pages) covering ICH E9 essentials, not a full 50-page regulatory document.
-
-**Timeline:** ~3 days
-
 ---
 
-## Phase 5: ADaM ⏳
+## Phase 5: ADaM ✅ COMPLETE (2026-04-25) — Gate 4 PASSED
 
-**Status:** BLOCKED on Gate 3.5 (SAP + TFL shells).
+**Status:** COMPLETE — all 6 ADaM datasets scripted, executed, and committed.
 
-**Approach:** Spec-first. See [`adam/PHASE-5-APPROACH.md`](adam/PHASE-5-APPROACH.md) for the full decision log (D-06 spec-first, D-07 pharmaverse stack, D-08 `adam-spec` skill) and build order. Every ADaM variable must trace to an analysis in the SAP or a TFL shell.
+**Approach:** Spec-first using the pharmaverse stack (`admiral` + `admiralonco` + `metacore` + `metatools` + `xportr`). See [`programs/adam/PHASE-5-APPROACH.md`](programs/adam/PHASE-5-APPROACH.md) for the full decision log.
 
-**Purpose:** Derive analysis datasets from SDTM (6 datasets).
+**Datasets delivered:**
 
-**Datasets:**
+| Dataset | Script | Parquet | Description |
+|---------|--------|---------|-------------|
+| ADSL | `programs/adam/adsl.R` | `datasets/adam/adsl.parquet` | Subject-level — population flags, treatment, disposition, baseline |
+| ADAE | `programs/adam/adae.R` | `datasets/adam/adae.parquet` | Adverse events — CTCAE grade, treatment-emergent flags |
+| ADLB | `programs/adam/adlb.R` | `datasets/adam/adlb.parquet` | Laboratory — baseline, change from baseline, abnormal flags |
+| ADTR | `programs/adam/adtr.R` | `datasets/adam/adtr.parquet` | Tumour measurements — SLD, % change, nadir tracking |
+| ADRS | `programs/adam/adrs.R` | `datasets/adam/adrs.parquet` | Disease response — BOR, confirmed response, progression |
+| ADTTE | `programs/adam/adtte.R` | `datasets/adam/adtte.parquet` | Time-to-event — OS and PFS with RECIST-based censoring |
 
-| Dataset | Description | Est. Records |
-|---------|-------------|---------|
-| ADSL | Subject-level (demographics, treatment, disposition, baseline) | 450 |
-| ADAE | Adverse events analysis (CTCAE grade, treatment-emergent flags) | ~2,000–3,000 |
-| ADLB | Laboratory analysis (baseline, change from baseline, abnormal flags) | ~10,000+ |
-| ADRS | Disease response (BOR, confirmed response, progression) | ~450–900 |
-| ADTR | Tumour measurements (SLD, % change, nadir tracking) | ~5,000+ |
-| ADTTE | Time-to-event (OS, PFS with censoring rules) | 450 |
+**Orchestrator:** `programs/adam/00_run_adam.R`
 
-**Key ADaM derivations:**
-- **ADSL:** Population flags (SAFFL, ITTFL, PPROTFL), baseline characteristics
-- **ADTTE OS:** Event = death; censoring = last known alive date
-- **ADTTE PFS:** Event = progression or death; censoring = last adequate assessment
-- **ADRS BOR:** Best overall response (CR/PR/SD/PD); confirmed response = 2 consecutive PRs
-- **ADTR SLD:** Sum of longest diameters; % change from nadir
+**Programming specs:** `programming-specs/ADSL-spec.md` through `ADTTE-spec.md` (all 6 datasets)
 
 **Technology:** R + admiral + admiralonco + xportr
 
-**Timeline:** ~7 days
-
 ---
 
-## Phase 6: TFLs (Tables, Figures, Listings) ⏳
+## Phase 6: TFLs (Tables, Figures, Listings) ⏳ NEXT
 
-**Status:** NOT STARTED
+**Status:** NOT STARTED — Gate 4 passed; Phase 6 is unblocked.
 
 **Tables:**
 - T-DM-01: Demographic and baseline characteristics (ITT)
@@ -329,18 +319,18 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 | Phase | Status | Days | Cumulative |
 |-------|--------|------|-----------|
-| 1. Protocol | ✅ Done | — | — |
-| 2. aCRF | ✅ Done | — | — |
+| 1. Protocol | ✅ Done (2026-03-30) | — | — |
+| 2. aCRF | ✅ Done (2026-04-01) | — | — |
 | 3. Simulated DB | ✅ Done (2026-04-07) | — | — |
 | 4. SDTM | ✅ Done — 16 domains, labelled (2026-04-07) | — | — |
-| 4.5. SAP + TFL shells | ⏳ Next | 3 | 3 |
-| 5. ADaM | ⏳ Blocked on 4.5 | 7 | 10 |
-| 6. TFLs | ⏳ | 5 | 15 |
-| 7. CSR | ⏳ | 7 | 22 |
-| 8. ADRG | ⏳ | 4 | 26 |
+| 4.5. SAP + TFL shells | ✅ Done — Gate 3.5 PASSED (2026-04-20) | — | — |
+| 5. ADaM | ✅ Done — Gate 4 PASSED (2026-04-25) | — | — |
+| 6. TFLs | ⏳ Next | 5 | 5 |
+| 7. CSR | ⏳ | 7 | 12 |
+| 8. ADRG | ⏳ | 4 | 16 |
 
-**Parallel validation & Define-XML:** +5 days (concurrent)  
-**Realistic remaining timeline: ~6 weeks**
+**Parallel validation & Define-XML:** +5 days (concurrent)
+**Realistic remaining timeline: ~4–5 weeks**
 
 ---
 
@@ -350,9 +340,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 |------|-------|--------|------|
 | Gate 1 | CRF Strategy | ✅ PASSED | 2026-03-30 |
 | Gate 2 | CRF Design (aCRF) | ✅ PASSED | 2026-04-01 |
-| Gate 3 | Simulated Database + SDTM | ⏳ Data ready — pending LG review | — |
-| Gate 3.5 | SAP + TFL shells | ⏳ | — |
-| Gate 4 | ADaM | ⏳ Blocked on Gate 3.5 | — |
+| Gate 3 | Simulated Database + SDTM | ✅ PASSED | 2026-04-07 |
+| Gate 3.5 | SAP + TFL shells | ✅ PASSED | 2026-04-20 |
+| Gate 4 | ADaM | ✅ PASSED | 2026-04-25 |
 | Gate 5 | TFLs | ⏳ | — |
 | Gate 6 | CSR + ADRG | ⏳ | — |
 
@@ -364,7 +354,11 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 - [x] Data generation scripts written (15 scripts, seeds 301–314) + `15_label_domains.R`
 - [x] Simulated data executed & validated (2026-04-07)
 - [x] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03 (16 domains, all vars labelled)
-- [ ] ADaM datasets pass admiral validation checks
+- [x] SAP locked + ARS-aligned TFL shells delivered (Gate 3.5 — 2026-04-20)
+- [x] All 6 ADaM programming specs written (`programming-specs/`)
+- [x] All 6 ADaM R scripts run end-to-end (`programs/adam/`)
+- [x] All 6 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25
+- [ ] TFLs publication-ready (no manual edits)
 - [ ] TFLs publication-ready (no manual edits)
 - [ ] Define-XML v2.1 valid (via Define-XML viewer)
 - [ ] CSR narratively coherent & statistically sound
@@ -380,38 +374,43 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 torivumab-nsclc-301/
 ├── protocol/
 │   └── synopsis.md (v1.1) ✅
-├── crf/                                    ✅ Phase 2 complete (Gate 2 APPROVED)
+├── crf/                                    ✅ Phase 2 complete (Gate 2 APPROVED 2026-04-01)
 │   ├── CRF-STRATEGY.md (v2.0 — locked)
 │   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx  (21 sheets)
 │   ├── field_definitions.csv              (131 fields, 16 forms)
 │   ├── visit_schedule.csv                 (20 visit types)
-│   ├── codelist_reference.csv             (233 entries, CDISC CT 2024-03)
-│   ├── CRF_Annotated.html                 (self-contained aCRF, ~1.3 MB)
-│   ├── CRF_Annotated.pdf                  (xelatex aCRF, ~94 KB)
-│   ├── CRF_Annotated.Rmd                  (programmatic source)
-│   ├── CRF_Preview.pdf / .html / .Rmd
-│   ├── build_crf_workbook.R
-│   └── build_crf_pdf.R
-├── data-raw/                               ✅ Phase 3/4 COMPLETE
-│   ├── PROVENANCE.md
-│   ├── 00_run_all.R                       (orchestrator)
-│   ├── 01_dm.R  …  14_dd.R               (14 domain scripts, seeds 301–314)
-│   ├── 15_label_domains.R                 (SDTMIG v3.4 label attachment)
-│   └── raw_data/                          (generated CSVs — gitignored)
-├── sdtm/                                   ✅ 16 Parquet domains — SDTMIG v3.4 labelled
-│   └── *.parquet (committed, 1.7 MB)
-├── adam/                                   ⏳ Phase 5
-│   └── *.parquet (6 datasets)
-├── tfl/                                    ⏳ Phase 6
+│   └── codelist_reference.csv             (233 entries, CDISC CT 2024-03)
+├── programs/                               ✅ All derivation code — clean code/data separation
+│   ├── raw/                               Phase 3: simulate eCRF data
+│   │   ├── 00_simulate_raw.R             (orchestrator, set.seed = 20260301)
+│   │   └── 01_demographics.R … 13_physical_exam.R
+│   ├── sdtm/                              Phase 4: map raw → SDTM
+│   │   ├── 00_run_sdtm.R                 (orchestrator)
+│   │   └── dm.R, ae.R, ex.R … suppdm.R  (16 domain scripts)
+│   └── adam/                              ✅ Phase 5 COMPLETE (Gate 4 PASSED 2026-04-25)
+│       ├── 00_run_adam.R                 (orchestrator)
+│       ├── adsl.R, adae.R, adlb.R
+│       │   adtr.R, adrs.R, adtte.R
+│       └── PHASE-5-APPROACH.md
+├── datasets/                               Outputs only — no code
+│   ├── sdtm/  *.parquet (16 domains)      ✅ SDTMIG v3.4 labelled
+│   └── adam/  *.parquet (6 datasets)      ✅ Generated 2026-04-25
+├── programming-specs/                      ✅ Phase 5 — one spec per ADaM dataset
+│   └── ADSL-spec.md … ADTTE-spec.md
+├── sap/                                    ✅ Phase 4.5 — Gate 3.5 PASSED 2026-04-20
+│   ├── SAP.md (locked)
+│   ├── SAP-PROVENANCE.md
+│   └── shells/
+│       ├── shells.yaml / TFL-SHELLS.md
+│       └── SHELLS-PROVENANCE.md
+├── tfl/                                    ⏳ Phase 6 — NEXT
 │   ├── t_*.R, f_*.R, l_*.R
-│   ├── tables/, figures/, listings/
-├── define/                                 ⏳ Phases 4-5
+│   └── tables/, figures/, listings/
+├── define/                                 ⏳ Phases 4–5
 │   ├── define.xml (v2.1)
 │   └── define.pdf
 ├── csr/                                    ⏳ Phase 7
 │   └── csr.pdf
-├── adrg/                                   ⏳ Phase 8
-│   └── adrg.pdf
 ├── onco_phase3_solid/
 │   └── (Parquet export for clinTrialData)
 ├── ROADMAP.md (this file)
@@ -422,5 +421,5 @@ torivumab-nsclc-301/
 
 ---
 
-*Last updated: 2026-04-07*  
-*Phases 3 & 4 complete — 16 SDTM Parquet domains generated, SDTMIG v3.4 labels attached → Gate 3 LG review → Phase 5 ADaM*
+*Last updated: 2026-04-25*
+*Phases 1–5 complete — Gates 1–4 all PASSED → Phase 6 TFLs next*

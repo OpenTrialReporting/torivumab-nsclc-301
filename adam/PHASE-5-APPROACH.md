@@ -156,4 +156,4 @@ A dataset is considered complete when **all** of the following are true:
 1. Copy `.claude/skills/adam-spec/` into the new repo's `.claude/skills/`.
 2. Copy this file as the template for the new study's Phase 5 approach doc; update study name.
 3. Install the pharmaverse stack (see the skill's `admiral-function-catalogue.md` for the command).
-4. Work through the Build Order tabl
+4. Work through the Build Order table starting at ADSL.

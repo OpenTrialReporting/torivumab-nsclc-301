@@ -17,22 +17,22 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 4.5 SAP + TFL shells — NEXT (Gate 3.5 blocks Phase 5 ADaM)**
+Current phase: **Phase 6 TFLs — NEXT (Gates 1–4 all PASSED)**
 
 ```
-Phase 1: Protocol ✅ DONE
+Phase 1: Protocol ✅ DONE (2026-03-30)
    ↓
 Phase 2: aCRF (Annotated Case Report Form) ✅ DONE — Gate 2 APPROVED (2026-04-01)
    ↓
 Phase 3: Simulated Database (synthetic raw data) ✅ COMPLETE (2026-04-07)
-   ↓ (data-raw/ scripts also produce SDTM parquet — phases 3 & 4 unified)
+   ↓ (programs/raw/ scripts produce raw CSVs; programs/sdtm/ produce SDTM parquet)
 Phase 4: SDTM (16 domains) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (2026-04-07)
    ↓
-Phase 4.5: SAP + TFL shells ⏳ NEXT — Gate 3.5 (sap/SAP.md + tfl/TFL-SHELLS.md)
+Phase 4.5: SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
-Phase 5: ADaM (6 datasets) ⏳ BLOCKED on Gate 3.5 — spec-first, see adam/PHASE-5-APPROACH.md
+Phase 5: ADaM (6 datasets) ✅ COMPLETE — Gate 4 PASSED (2026-04-25); all 6 Parquets in datasets/adam/
    ↓
-Phase 6: TFLs (Tables, Figures, Listings)
+Phase 6: TFLs (Tables, Figures, Listings) ⏳ NEXT
    ↓
 Phase 7: CSR (Clinical Study Report)
    ↓
@@ -94,46 +94,36 @@ Recommended tools for data generation:
 torivumab-nsclc-301/
 ├── protocol/
 │   └── synopsis.md (v1.1 — LOCKED)
-├── crf/
+├── crf/                                         ✅ Phase 2 complete
 │   ├── CRF-STRATEGY.md (v2.0 — LOCKED)
-│   ├── field_definitions.csv (Phase 2 deliverable)
-│   ├── visit_schedule.csv (Phase 2 deliverable)
-│   └── codelist_reference.csv (Phase 2 deliverable)
-├── data-raw/
-│   ├── PROVENANCE.md (data generation record)
-│   ├── 00_run_all.R (orchestrator — runs all scripts as subprocesses)
-│   ├── 01_dm.R (DM + SUPPDM)
-│   ├── 02_ex.R … 14_dd.R (12 further domain scripts, seeds 302–314)
-│   ├── 15_label_domains.R (SDTMIG v3.4 label attachment — final step)
-│   └── raw_data/ (generated CSVs — gitignored, reproducible via 00_run_all.R)
-├── sdtm/                            ✅ 16 Parquet domains committed (1.7 MB)
-│   ├── dm.parquet, suppdm.parquet
-│   ├── ex.parquet, ds.parquet, ae.parquet, cm.parquet
-│   ├── mh.parquet, su.parquet, suppsu.parquet
-│   ├── vs.parquet, lb.parquet, pe.parquet
-│   ├── tu.parquet, tr.parquet, rs.parquet
-│   └── dd.parquet
-├── adam/
-│   ├── adsl.parquet
-│   ├── adae.parquet
-│   └── ... (6 datasets total)
-├── tfl/
-│   ├── t_*.R (tables)
-│   ├── f_*.R (figures)
-│   └── l_*.R (listings)
-├── define/
-│   ├── define.xml (v2.1)
-│   └── define.pdf
-├── csr/
-│   └── csr.pdf (Clinical Study Report)
-├── adrg/
-│   └── adrg.pdf (Analysis Data Reviewer's Guide)
-├── onco_phase3_solid/
-│   └── (Parquet export for clinTrialData)
+│   ├── field_definitions.csv
+│   ├── visit_schedule.csv
+│   └── codelist_reference.csv
+├── programs/                                    ✅ All derivation code — clean separation from data
+│   ├── raw/                                     Phase 3: simulate eCRF data
+│   │   ├── 00_simulate_raw.R (orchestrator)
+│   │   └── 01_demographics.R … 13_physical_exam.R
+│   ├── sdtm/                                    Phase 4: map raw → SDTM
+│   │   ├── 00_run_sdtm.R (orchestrator)
+│   │   └── dm.R, ae.R, ex.R … suppdm.R (16 domain scripts)
+│   └── adam/                                    ✅ Phase 5 COMPLETE
+│       ├── 00_run_adam.R (orchestrator)
+│       └── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R
+├── datasets/                                    Outputs only — no code
+│   ├── sdtm/  *.parquet (16 domains)            ✅ SDTMIG v3.4 labelled
+│   └── adam/  *.parquet (6 datasets)            ✅ Gates 4 PASSED 2026-04-25
+├── programming-specs/                           ✅ Phase 5 — one spec per ADaM dataset
+│   └── ADSL-spec.md … ADTTE-spec.md
+├── sap/                                         ✅ Phase 4.5 — Gate 3.5 PASSED 2026-04-20
+│   ├── SAP.md (locked)
+│   └── shells/ (ARS-aligned TFL shells)
+├── tfl/                                         ⏳ Phase 6 production outputs (next)
+├── define/                                      ⏳ Phases 4–5
+├── csr/                                         ⏳ Phase 7
+├── onco_phase3_solid/                           (Parquet export for clinTrialData)
 ├── ROADMAP.md (Phase workflow)
 ├── AGENTS.md (this file)
-├── README.md (project overview)
-└── git (all committed for reproducibility)
+└── README.md (project overview)
 ```
 
 ---
@@ -260,17 +250,21 @@ OFF-TREATMENT FOLLOW-UP (Months 3, 6, 12, long-term)
 
 ### File Naming Convention
 ```
-Phase 3/4 scripts (complete):
-├── data-raw/00_run_all.R            # orchestrator
-├── data-raw/01_dm.R                 # DM + SUPPDM
-├── data-raw/02_ex.R                 # EX
-├── data-raw/03_ds.R … 14_dd.R      # DS through DD
-└── data-raw/15_label_domains.R      # SDTMIG v3.4 label attachment
+Phase 3 scripts (complete):
+├── programs/raw/00_simulate_raw.R   # orchestrator
+├── programs/raw/01_demographics.R   # demographics raw data
+└── programs/raw/02_* … 13_*        # remaining domain scripts
 
-Phase 5 scripts (upcoming):
-├── adam/01_adsl.R                   # ADSL dataset
-├── adam/02_adae.R                   # ADAE dataset
-└── adam/...
+Phase 4 scripts (complete):
+├── programs/sdtm/00_run_sdtm.R     # orchestrator
+├── programs/sdtm/dm.R              # DM + SUPPDM
+└── programs/sdtm/ae.R … suppdm.R  # remaining domain scripts
+
+Phase 5 scripts (complete ✅):
+├── programs/adam/00_run_adam.R     # orchestrator
+├── programs/adam/adsl.R            # ADSL dataset
+├── programs/adam/adae.R            # ADAE dataset
+└── programs/adam/adlb.R, adtr.R, adrs.R, adtte.R
 ```
 
 ---
@@ -309,7 +303,7 @@ Phase 5 scripts (upcoming):
 If you are an AI assistant working on this project:
 
 1. **Read this file and the ROADMAP first** — Understand the 8-phase workflow
-2. **Current phase:** Phase 5 (ADaM) — Gate 3 pending LG review; do NOT start ADaM scripts until Gate 3 is approved
+2. **Current phase:** Phase 6 (TFLs) — Gates 1–4 all PASSED; ADaM complete; Phase 6 is unblocked
 3. **Respect the locked decisions:**
    - Protocol (v1.1) is final — no changes
    - CRF Strategy (v2.0) is final — no changes
@@ -356,21 +350,26 @@ Each phase must pass a Gate Review before proceeding:
 - [x] PDF + HTML mockup created; aCRF HTML + PDF delivered
 - [x] LG approval — 2026-04-01
 
-**Gate 3 (Simulated Database + SDTM):** ⏳ Data ready — pending LG review
-- [x] All 15 domain scripts run successfully (`data-raw/00_run_all.R`)
-- [x] 16 SDTM Parquet files generated and committed (1.7 MB)
-- [x] SDTMIG v3.4 variable labels attached to all 16 domains (`15_label_domains.R`)
+**Gate 3 (Simulated Database + SDTM):** ✅ PASSED 2026-04-07
+- [x] All domain scripts run successfully (`programs/sdtm/00_run_sdtm.R`)
+- [x] 16 SDTM Parquet files generated and committed (`datasets/sdtm/`)
+- [x] SDTMIG v3.4 variable labels attached to all 16 domains
 - [x] Round-trip label check passed (USUBJID/AGE/RFSTDTC/DTHFL)
-- [ ] LG review — pending
-- [ ] Ready for Phase 5 (ADaM)
 
-**Future Gates (4–8):**
-- Gate 4: ADaM datasets complete + validated
-- Gate 4: SDTM datasets + Define-XML ready
-- Gate 5: ADaM datasets + SAP finalized
-- Gate 6: TFLs production-ready
-- Gate 7: CSR narrative + results + discussion
-- Gate 8: ADRG + clinTrialData package ready
+**Gate 3.5 (SAP + TFL shells):** ✅ PASSED 2026-04-20
+- [x] SAP locked (`sap/SAP.md`)
+- [x] ARS-aligned TFL shells delivered (`sap/shells/`)
+- [x] ADSL spec drafted (`programming-specs/ADSL-spec.md`)
+
+**Gate 4 (ADaM):** ✅ PASSED 2026-04-25
+- [x] All 6 ADaM programming specs written (`programming-specs/`)
+- [x] All 6 R scripts run end-to-end (`programs/adam/`)
+- [x] All 6 Parquet datasets committed (`datasets/adam/`)
+
+**Future Gates (5–8):**
+- Gate 5: TFLs production-ready (no manual edits)
+- Gate 6: CSR narrative + results + discussion
+- Gate 7: ADRG + clinTrialData package ready
 
 
 
@@ -416,5 +415,5 @@ For questions about:
 
 ---
 
-*Last updated: 2026-04-07*  
-*For AI-assisted CDISC standards development*
+*Last updated: 2026-04-25*
+*Phases 1–5 complete — Gates 1–4 PASSED → Phase 6 TFLs next*
