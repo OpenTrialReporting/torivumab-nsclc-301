@@ -70,6 +70,7 @@ This mirrors real-world practice: raw CRF data contains dates, measurements, and
 | `raw/death.csv` | Death | ~180 | One row per deceased subject |
 | `raw/substance_use.csv` | Substance use | ~700 | Tobacco/alcohol per subject |
 | `raw/physical_exam.csv` | Physical exam | ~12,000 | 6 body systems per visit |
+| `raw/drug_accountability.csv` | Drug accountability | 11,710 | CDASH DA form — pharmacist dispensation log per cycle visit; vials checked out / returned / lost; compounded chemo dispensed = used. Added 2026-05-16. |
 
 ---
 
@@ -98,7 +99,7 @@ source("programs/raw/00_simulate_raw.R")
 Rscript programs/raw/00_simulate_raw.R
 ```
 
-Outputs: 13 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of controller.
+Outputs: 14 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of controller plus per-script local seeds (e.g. `14_drug_accountability.R` uses `set.seed(20260314)`).
 
 ---
 
@@ -118,3 +119,4 @@ Outputs: 13 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial. 13 domain scripts + master controller. Supersedes data-raw/ direct-to-SDTM approach. |
+| 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Added `14_drug_accountability.R` (CDASH DA form simulator → `raw/drug_accountability.csv`, 11,710 rows). Wired into `00_simulate_raw.R`. Closes CRF→SDTM traceability gap previously bridged by EX-derived DA records. |

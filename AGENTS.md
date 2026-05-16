@@ -26,7 +26,7 @@ Phase 2: aCRF (Annotated Case Report Form) ✅ DONE — Gate 2 APPROVED (2026-04
    ↓
 Phase 3: Simulated Database (synthetic raw data) ✅ COMPLETE (2026-04-07)
    ↓ (programs/raw/ scripts produce raw CSVs; programs/sdtm/ produce SDTM parquet)
-Phase 4: SDTM (16 domains) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (2026-04-07)
+Phase 4: SDTM (21 domains incl. DA + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (back-fill 2026-05-16)
    ↓
 Phase 4.5: SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
@@ -110,7 +110,7 @@ torivumab-nsclc-301/
 │       ├── 00_run_adam.R (orchestrator)
 │       └── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R
 ├── datasets/                                    Outputs only — no code
-│   ├── sdtm/  *.parquet (16 domains)            ✅ SDTMIG v3.4 labelled
+│   ├── sdtm/  *.parquet (21 domains)            ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16)
 │   └── adam/  *.parquet (6 datasets)            ✅ Gates 4 PASSED 2026-04-25
 ├── programming-specs/                           ✅ Phase 5 — one spec per ADaM dataset
 │   └── ADSL-spec.md … ADTTE-spec.md
@@ -118,7 +118,8 @@ torivumab-nsclc-301/
 │   ├── SAP.md (locked)
 │   └── shells/ (ARS-aligned TFL shells)
 ├── tfl/                                         ⏳ Phase 6 production outputs (next)
-├── define/                                      ⏳ Phases 4–5
+├── define/                                      ✅ v0.1 draft 2026-05-16 (define.xml + DEFINE-SUMMARY.md)
+├── programs/define/                             ✅ Define-XML builder (build_define.R)
 ├── csr/                                         ⏳ Phase 7
 ├── onco_phase3_solid/                           (Parquet export for clinTrialData)
 ├── ROADMAP.md (Phase workflow)

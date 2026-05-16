@@ -73,6 +73,70 @@ DOMAIN_LABELS <- list(
     QEVAL    = "Evaluator"
   ),
 
+  suppae = list(
+    STUDYID  = "Study Identifier",
+    RDOMAIN  = "Related Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    IDVAR    = "Identifying Variable",
+    IDVARVAL = "Identifying Variable Value",
+    QNAM     = "Qualifier Variable Name",
+    QLABEL   = "Qualifier Variable Label",
+    QVAL     = "Data Value",
+    QORIG    = "Origin",
+    QEVAL    = "Evaluator"
+  ),
+
+  suppcm = list(
+    STUDYID  = "Study Identifier",
+    RDOMAIN  = "Related Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    IDVAR    = "Identifying Variable",
+    IDVARVAL = "Identifying Variable Value",
+    QNAM     = "Qualifier Variable Name",
+    QLABEL   = "Qualifier Variable Label",
+    QVAL     = "Data Value",
+    QORIG    = "Origin",
+    QEVAL    = "Evaluator"
+  ),
+
+  supplb = list(
+    STUDYID  = "Study Identifier",
+    RDOMAIN  = "Related Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    IDVAR    = "Identifying Variable",
+    IDVARVAL = "Identifying Variable Value",
+    QNAM     = "Qualifier Variable Name",
+    QLABEL   = "Qualifier Variable Label",
+    QVAL     = "Data Value",
+    QORIG    = "Origin",
+    QEVAL    = "Evaluator"
+  ),
+
+  relrec = list(
+    STUDYID  = "Study Identifier",
+    RDOMAIN  = "Related Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    IDVAR    = "Identifying Variable",
+    IDVARVAL = "Identifying Variable Value",
+    RELTYPE  = "Relationship Type",
+    RELID    = "Relationship Identifier"
+  ),
+
+  da = c(SHARED, list(
+    DASEQ    = "Sequence Number",
+    DATESTCD = "Drug Accountability Test Short Name",
+    DATEST   = "Drug Accountability Test Name",
+    DACAT    = "Category for Drug Accountability",
+    DAORRES  = "Result or Finding in Original Units",
+    DAORRESU = "Original Units",
+    DASTRESC = "Character Result/Finding in Std Format",
+    DASTRESN = "Numeric Result/Finding in Standard Units",
+    DASTRESU = "Standard Units",
+    DASTDTC  = "Start Date/Time of Accountability Assessment",
+    DADY     = "Study Day of Accountability Assessment",
+    EXTRT    = "Name of Treatment"
+  )),
+
   ds = c(SHARED, list(
     DSSEQ    = "Sequence Number",
     DSTERM   = "Reported Term for the Disposition Event",

@@ -8,9 +8,10 @@
 The SDTM datasets in `datasets/sdtm/` are derived from simulated raw data in `raw/` via
 mapping programs in `programs/sdtm/`. No real patient data is represented.
 
-The mapping programs follow CDISC SDTM Implementation Guide v3.3 and the CDISC Oncology
-Disease Response Supplement (RECIST 1.1, 2023), but have not been reviewed by a regulatory
-authority and are not intended for regulatory submission.
+The mapping programs follow CDISC SDTM Implementation Guide v3.4 (variable labels attached
+via `16_label_domains.R`) and the CDISC Oncology Disease Response Supplement (RECIST 1.1,
+2023), but have not been reviewed by a regulatory authority and are not intended for
+regulatory submission.
 
 ---
 
@@ -39,23 +40,31 @@ authority and are not intended for regulatory submission.
 
 ## 4. Domain Inventory
 
-| Domain | File | SDTM IG Section | Records (approx.) | Status |
+| Domain | File | SDTM IG Section | Records | Status |
 |---|---|---|---|---|
 | DM — Demographics | `programs/sdtm/dm.R` | 6.2.1 | 450 | Scripted |
-| DS — Disposition | `programs/sdtm/ds.R` | 6.2.2 | ~1,350 | Scripted |
-| EX — Exposure | `programs/sdtm/ex.R` | 6.2.4 | ~5,000 | Scripted |
-| AE — Adverse Events | `programs/sdtm/ae.R` | 6.2.5 | ~4,500 | Scripted |
-| CM — Concomitant Meds | `programs/sdtm/cm.R` | 6.2.6 | ~3,000 | Scripted |
-| LB — Lab Results | `programs/sdtm/lb.R` | 7.2.1 | ~27,000 | Scripted |
-| VS — Vital Signs | `programs/sdtm/vs.R` | 7.2.3 | ~18,000 | Scripted |
-| MH — Medical History | `programs/sdtm/mh.R` | 6.2.8 | ~1,800 | Scripted |
-| PE — Physical Exam | `programs/sdtm/pe.R` | 7.3.1 | ~12,000 | Scripted |
-| TU — Tumor ID | `programs/sdtm/tu.R` | Onco suppl. | ~3,000 | Scripted |
-| TR — Tumor Results | `programs/sdtm/tr.R` | Onco suppl. | ~8,000 | Scripted |
-| RS — Disease Response | `programs/sdtm/rs.R` | Onco suppl. | ~5,400 | Scripted |
-| DD — Death Details | `programs/sdtm/dd.R` | Onco suppl. | ~180 | Scripted |
-| SU — Substance Use | `programs/sdtm/su.R` | 6.2.10 | ~700 | Scripted |
-| SUPPDM | `programs/sdtm/suppdm.R` | 8.4 | ~1,800 | Scripted |
+| DS — Disposition | `programs/sdtm/ds.R` | 6.2.2 | 1,350 | Scripted |
+| EX — Exposure | `programs/sdtm/ex.R` | 6.2.4 | 11,710 | Scripted |
+| DA — Drug Accountability | `programs/sdtm/da.R` ← `raw/drug_accountability.csv` | 6.5 | 28,108 | Scripted (v0.2 back-fill 2026-05-16; CRF→SDTM 1:1 since v0.3 same day) |
+| AE — Adverse Events | `programs/sdtm/ae.R` | 6.2.5 | 2,837 | Scripted |
+| CM — Concomitant Meds | `programs/sdtm/cm.R` | 6.2.6 | 2,222 | Scripted |
+| LB — Lab Results | `programs/sdtm/lb.R` | 7.2.1 | 115,394 | Scripted |
+| VS — Vital Signs | `programs/sdtm/vs.R` | 7.2.3 | 46,095 | Scripted |
+| MH — Medical History | `programs/sdtm/mh.R` | 6.2.8 | 2,051 | Scripted |
+| PE — Physical Exam | `programs/sdtm/pe.R` | 7.3.1 | 22,662 | Scripted |
+| TU — Tumor ID | `programs/sdtm/tu.R` | Onco suppl. | 7,686 | Scripted |
+| TR — Tumor Results | `programs/sdtm/tr.R` | Onco suppl. | 7,724 | Scripted |
+| RS — Disease Response | `programs/sdtm/rs.R` | Onco suppl. | 2,260 | Scripted |
+| DD — Death Details | `programs/sdtm/dd.R` | Onco suppl. | 284 | Scripted |
+| SU — Substance Use | `programs/sdtm/su.R` | 6.2.10 | 1,236 | Scripted |
+| SUPPDM | `programs/sdtm/suppdm.R` | 8.4 | 1,799 | Scripted |
+| SUPPAE | `programs/sdtm/suppae.R` | 8.4 | 8,511 | Scripted (v0.2 back-fill 2026-05-16) |
+| SUPPCM | `programs/sdtm/suppcm.R` | 8.4 | 4,444 | Scripted (v0.2 back-fill 2026-05-16) |
+| SUPPLB | `programs/sdtm/supplb.R` | 8.4 | 230,788 | Scripted (v0.2 back-fill 2026-05-16) |
+| SUPPSU | `programs/sdtm/su.R` (inline) | 8.4 | 450 | Scripted |
+| RELREC | `programs/sdtm/relrec.R` | 8.5 | 17,708 | Scripted (v0.2 back-fill 2026-05-16) |
+
+**Total: 21 SDTM datasets.**
 
 ---
 
@@ -112,7 +121,7 @@ CDISC CT applied via `raw/codelists/cdisc_ct.csv`. Key codelists used:
 
 | ID | Decision | Choice | Rationale |
 |---|---|---|---|
-| SDTM-D-01 | SDTM IG version | v3.3 | Current version at time of build; aligns with FDA/PMDA submission expectations |
+| SDTM-D-01 | SDTM IG version | v3.4 | Locked at protocol time; aligns with FDA/PMDA submission expectations and AGENTS.md standards table |
 | SDTM-D-02 | Oncology domains | SDTM Oncology Disease Response Supplement (RECIST 1.1, 2023) | Required for TU, TR, RS, DD domains |
 | SDTM-D-03 | MedDRA substitution | Curated 80-term public-source subset | Licensed dictionary unavailable; subset covers all simulated AE verbatim terms; structured for drop-in replacement |
 | SDTM-D-04 | WHODrug substitution | WHO ATC classification | ATC codes are freely published; covers all simulated conmed drugs |
@@ -152,11 +161,12 @@ Rscript programs/sdtm/00_run_sdtm.R
 
 | Item | Domain | Status |
 |---|---|---|
-| SUPPCM for ATC code | CM | CMATC derivable from cm.R; SUPPCM program not yet written |
-| SUPPAE for additional AE qualifiers | AE | Add if regulatory reviewer requests supplemental AE data |
+| ~~SUPPCM for ATC code~~ | CM | ✅ Resolved 2026-05-16 — `programs/sdtm/suppcm.R` writes CMATC + CMIRAEFL. CMATC remains denormalised on parent CM for ADaM back-compat. |
+| ~~SUPPAE for additional AE qualifiers~~ | AE | ✅ Resolved 2026-05-16 — `programs/sdtm/suppae.R` writes IRAEFL, AEDISFL, AEACTFL. |
 | BICR response assessments | RS | Add RSCAT="BICR" records if BICR data becomes available |
 | LAB reference ranges | LB | Current ranges are generic; should be replaced with site-specific or sponsor-defined ranges |
-| Define-XML | All | `define/` directory present; define.xml generation deferred to submission preparation phase |
+| Parent-domain label gaps | AE/CM/DD/SU | Pre-existing: AEDISCOD, CMATC, DDSCAT, SUPACKYRS not in label dictionary; `suppsu` has no entry. Cosmetic — does not block submission readiness. |
+| Define-XML v1.0 | All | ✅ v0.1 draft 2026-05-16 (`programs/define/build_define.R` → `define/define.xml`). v1.0 still requires Value-Level Metadata, full CodeListDef references, MethodDef chains, WhereClauseDef blocks, and XSL→PDF rendering. |
 
 ---
 
@@ -165,4 +175,5 @@ Rscript programs/sdtm/00_run_sdtm.R
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial. 15 domain mapping programs written. Curated MedDRA/ATC codelists in place. |
-| 0.2 | — | — | Run programs and validate output datasets. Resolve open items. |
+| 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Back-fill: added DA (24,613 rec), RELREC (17,708 rec / 2,266 groups), SUPPAE (8,511), SUPPCM (4,444), SUPPLB (230,788). Extended `00_run_sdtm.R` orchestrator + `16_label_domains.R` label dictionary. Resolved SUPPAE/SUPPCM open items. Generated Define-XML v0.1 (`define/define.xml`, 27 ItemGroupDefs, 446 ItemDefs). DA initially derived from `raw/exposure.csv` as an architectural shortcut. |
+| 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | DA lineage corrected: added `programs/raw/14_drug_accountability.R` (CDASH DA form simulator → `raw/drug_accountability.csv`, 11,710 rows incl. simulated vial losses). Rewrote `programs/sdtm/da.R` to read the new raw CSV. DA now 28,108 records (gained LOSTAMT test + VISIT variable). Define-XML refreshed: 447 variables. |

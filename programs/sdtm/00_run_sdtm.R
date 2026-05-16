@@ -25,21 +25,26 @@ dir.create("datasets/sdtm", showWarnings = FALSE, recursive = TRUE)
 # EX, then interventions/events, then oncology-specific, then SUPPQUAL
 
 sdtm_programs <- c(
-  "dm",       # DM  — Demographics
-  "ds",       # DS  — Disposition
-  "ex",       # EX  — Exposure
-  "ae",       # AE  — Adverse Events
-  "cm",       # CM  — Concomitant Medications
-  "lb",       # LB  — Laboratory Results
-  "vs",       # VS  — Vital Signs
-  "mh",       # MH  — Medical History
-  "pe",       # PE  — Physical Examination
-  "tu",       # TU  — Tumor Identification
-  "tr",       # TR  — Tumor Results
-  "rs",       # RS  — Disease Response
-  "dd",       # DD  — Death Details
-  "su",       # SU  — Substance Use
-  "suppdm"    # SUPPDM — Supplemental Qualifiers for DM
+  "dm",       # DM     — Demographics
+  "ds",       # DS     — Disposition
+  "ex",       # EX     — Exposure
+  "da",       # DA     — Drug Accountability (depends on EX)
+  "ae",       # AE     — Adverse Events
+  "cm",       # CM     — Concomitant Medications
+  "lb",       # LB     — Laboratory Results
+  "vs",       # VS     — Vital Signs
+  "mh",       # MH     — Medical History
+  "pe",       # PE     — Physical Examination
+  "tu",       # TU     — Tumor Identification
+  "tr",       # TR     — Tumor Results
+  "rs",       # RS     — Disease Response
+  "dd",       # DD     — Death Details
+  "su",       # SU     — Substance Use
+  "suppdm",   # SUPPDM — Supplemental Qualifiers for DM
+  "suppae",   # SUPPAE — Supplemental Qualifiers for AE (depends on AE)
+  "suppcm",   # SUPPCM — Supplemental Qualifiers for CM (depends on CM)
+  "supplb",   # SUPPLB — Supplemental Qualifiers for LB (depends on LB)
+  "relrec"    # RELREC — Related Records (depends on TU, TR, RS)
 )
 
 # ---- Run each program ----

@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-04-25
-**Status:** Phase 5 COMPLETE — all 6 ADaM Parquet datasets generated; Gate 3.5 + Gate 4 PASSED → Phase 6 (TFLs) next
+**Last updated:** 2026-05-16
+**Status:** SDTM back-fill complete (21 domains incl. DA, RELREC, SUPPAE/CM/LB) + Define-XML v2.1 draft delivered. Phase 6 (TFLs) next.
 
 ---
 
@@ -19,7 +19,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓
 3. Simulated Database ✅ COMPLETE (2026-04-07)
    ↓  (phases 3 & 4 unified: programs/raw/ scripts produce raw CSV + SDTM parquet)
-4. SDTM (14 domains + SUPPDM + SUPPSU) ✅ COMPLETE — 16 Parquet files, SDTMIG v3.4 labelled
+4. SDTM (21 domains incl. DA + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — 21 Parquet files, SDTMIG v3.4 labelled (back-filled 2026-05-16)
    ↓
 4.5. SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
@@ -185,7 +185,14 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | RS | `13_rs.R` | `sdtm/rs.parquet` |
 | DD | `14_dd.R` | `sdtm/dd.parquet` |
 
-**Pending (post-execution):** RELREC (links TU→TR→RS), additional SUPP-- datasets for AE/CM/LB, DA (Drug Accountability) domain.
+**Back-fill completed 2026-05-16 (SDTM v0.2):**
+- DA (Drug Accountability) — 24,613 records via `programs/sdtm/da.R`
+- RELREC (TU↔TR by lesion + RS↔TR by visit) — 17,708 records / 2,266 groups via `programs/sdtm/relrec.R`
+- SUPPAE (IRAEFL, AEDISFL, AEACTFL) — 8,511 records via `programs/sdtm/suppae.R`
+- SUPPCM (CMATC, CMIRAEFL) — 4,444 records via `programs/sdtm/suppcm.R`
+- SUPPLB (BIOMRKFL, CENTRALFL) — 230,788 records via `programs/sdtm/supplb.R`
+
+All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_label_domains.R`.
 
 **Technology:** R + arrow (Parquet output); admiral/admiralonco for ADaM phase
 
@@ -303,9 +310,11 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 ## Parallel Activities
 
 ### Define-XML v2.1
-- Generated during Phase 4 (SDTM) and Phase 5 (ADaM)
-- Uses `metacore` + `xportr` R packages
-- Output: `define/define.xml` and `define/define.pdf`
+- ✅ v0.1 draft generated 2026-05-16 (`programs/define/build_define.R`)
+- Covers all 21 SDTM domains + 6 ADaM datasets = 27 ItemGroupDefs, 446 variables
+- Toolchain: `xml2` + `arrow` + `labelled` (pharmaverse `metacore`/`xportr` not required for v0.1)
+- Outputs: `define/define.xml` + `define/DEFINE-SUMMARY.md`
+- **Known gaps (v0.1):** Value-Level Metadata, full CodeListDef references, MethodDef chains, WhereClauseDef blocks — see `define/DEFINE-SUMMARY.md`. PDF rendering deferred (requires CDISC `define2-1-0.xsl` stylesheet transformation).
 
 ### Validation & QC
 - Run after each phase completion
@@ -358,9 +367,10 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 - [x] All 6 ADaM programming specs written (`programming-specs/`)
 - [x] All 6 ADaM R scripts run end-to-end (`programs/adam/`)
 - [x] All 6 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25
+- [x] SDTM back-fill complete — DA, RELREC, SUPPAE/CM/LB added (2026-05-16); 21 domains total
+- [x] Define-XML v2.1 v0.1 draft generated (covers 27 datasets, 446 vars; VLM/CodeLists deferred)
 - [ ] TFLs publication-ready (no manual edits)
-- [ ] TFLs publication-ready (no manual edits)
-- [ ] Define-XML v2.1 valid (via Define-XML viewer)
+- [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound
 - [ ] ADRG complete & referenced
 - [ ] All 19 SDTM + 6 ADaM datasets submitted to clinTrialData in Parquet format
@@ -393,7 +403,7 @@ torivumab-nsclc-301/
 │       │   adtr.R, adrs.R, adtte.R
 │       └── PHASE-5-APPROACH.md
 ├── datasets/                               Outputs only — no code
-│   ├── sdtm/  *.parquet (16 domains)      ✅ SDTMIG v3.4 labelled
+│   ├── sdtm/  *.parquet (21 domains)      ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16)
 │   └── adam/  *.parquet (6 datasets)      ✅ Generated 2026-04-25
 ├── programming-specs/                      ✅ Phase 5 — one spec per ADaM dataset
 │   └── ADSL-spec.md … ADTTE-spec.md
@@ -406,9 +416,11 @@ torivumab-nsclc-301/
 ├── tfl/                                    ⏳ Phase 6 — NEXT
 │   ├── t_*.R, f_*.R, l_*.R
 │   └── tables/, figures/, listings/
-├── define/                                 ⏳ Phases 4–5
+├── define/                                 ✅ v0.1 draft 2026-05-16 (VLM deferred to v1.0)
 │   ├── define.xml (v2.1)
-│   └── define.pdf
+│   └── DEFINE-SUMMARY.md
+├── programs/define/                        ✅ Define-XML builder
+│   └── build_define.R
 ├── csr/                                    ⏳ Phase 7
 │   └── csr.pdf
 ├── onco_phase3_solid/
@@ -421,5 +433,5 @@ torivumab-nsclc-301/
 
 ---
 
-*Last updated: 2026-04-25*
-*Phases 1–5 complete — Gates 1–4 all PASSED → Phase 6 TFLs next*
+*Last updated: 2026-05-16*
+*Phases 1–5 complete + SDTM v0.2 back-fill + Define-XML v0.1 — Gates 1–4 all PASSED → Phase 6 TFLs next*

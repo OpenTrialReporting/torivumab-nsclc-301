@@ -94,7 +94,8 @@ scripts <- c(
   "10_overall_response.R",
   "11_death.R",
   "12_substance_use.R",
-  "13_physical_exam.R"
+  "13_physical_exam.R",
+  "14_drug_accountability.R"
 )
 
 for (script in scripts) {
