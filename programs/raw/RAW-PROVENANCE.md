@@ -234,6 +234,11 @@ Run `Rscript programs/raw/validate_covariate_effects.R`:
    v0.3 covariate model. Working with the wider distribution gives the
    covariate model more variance to recover effects from.
 
-5. **ADaM datasets are stale until re-run** — `datasets/adam/*.parquet` were
-   built from v0.2 SDTM. Re-run `programs/adam/00_run_adam.R` with
-   `admiral`/`admiralonco` installed to refresh.
+5. ~~**ADaM datasets are stale until re-run**~~ — ✅ Resolved 2026-05-16
+   (same day): re-ran `programs/adam/00_run_adam.R` with admiral 1.4.1.
+   Cox PH on refreshed ADTTE recovers protocol HR targets:
+     OS  HR 0.567 (95% CI 0.453-0.711) vs target 0.65 ✓
+     PFS HR 0.522 (95% CI 0.423-0.644) vs target 0.55 ✓
+     Median OS TRT 650d ≈ protocol target 21.5 months ✓
+     PFS_trt median 416d / 13.7m vs target 10.5m — same +3.3 month
+     interval-censoring drift documented in §10.5 caveat 1.

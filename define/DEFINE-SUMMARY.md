@@ -30,12 +30,12 @@
 | TR | FINDINGS | 9,200 | 15 | One record per subject per lesion per measurement per visit |
 | TU | FINDINGS | 9,148 | 14 | One record per subject per lesion per visit (tumor identification) |
 | VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
-| ADAE | OCCURRENCE DATA STRUCTURE | 2,837 | 45 | One record per subject per adverse event |
-| ADLB | BASIC DATA STRUCTURE | 115,394 | 35 | One record per subject per parameter per analysis visit |
-| ADRS | BASIC DATA STRUCTURE | 3,160 | 20 | One record per subject per parameter per analysis visit |
+| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 45 | One record per subject per adverse event |
+| ADLB | BASIC DATA STRUCTURE | 122,601 | 35 | One record per subject per parameter per analysis visit |
+| ADRS | BASIC DATA STRUCTURE | 3,662 | 20 | One record per subject per parameter per analysis visit |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 32 | One record per subject |
-| ADTR | BASIC DATA STRUCTURE | 7,947 | 26 | One record per subject per parameter per analysis visit |
-| ADTTE | BASIC DATA STRUCTURE | 1,450 | 19 | One record per subject per time-to-event parameter |
+| ADTR | BASIC DATA STRUCTURE | 9,378 | 26 | One record per subject per parameter per analysis visit |
+| ADTTE | BASIC DATA STRUCTURE | 1,468 | 19 | One record per subject per time-to-event parameter |
 
 ## Standards
 

@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260516205709"
-     CreationDateTime="2026-05-16T20:57:08"
-     AsOfDateTime="2026-05-16T20:57:08"
+     FileOID="CTX-NSCLC-301.20260516210130"
+     CreationDateTime="2026-05-16T21:01:29"
+     AsOfDateTime="2026-05-16T21:01:29"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1779,11 +1779,11 @@
         <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AETERM" Name="AETERM" SASFieldName="AETERM" DataType="text" Length="39">
+      <ItemDef OID="IT.ADAE.AETERM" Name="AETERM" SASFieldName="AETERM" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Reported Term for the Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="39">
+      <ItemDef OID="IT.ADAE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
@@ -1795,12 +1795,12 @@
         <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="39">
+      <ItemDef OID="IT.ADAE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AESOC" Name="AESOC" SASFieldName="AESOC" DataType="text" Length="52">
-        <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AECAT" Name="AECAT" SASFieldName="AECAT" DataType="text" Length="14">
@@ -1836,7 +1836,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AETOXGR" Name="AETOXGR" SASFieldName="AETOXGR" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">AETOXGR</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Standard Toxicity Grade</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AETOXGRN" Name="AETOXGRN" SASFieldName="AETOXGRN" DataType="integer" Length="8">
