@@ -56,7 +56,12 @@ raw <- raw |>
     RSTESTCD = "OVRLRESP",
     RSTEST   = "Overall Response",
     RSCAT    = "OVERALL RESPONSE",
-    RSEVAL   = "INVESTIGATOR",
+    # RSEVAL carries reader type (AL-04/AL-07 fix 2026-05-17 — BICR added)
+    RSEVAL   = case_when(
+      str_to_upper(str_trim(ASSESSMENT_TYPE)) == "BICR"         ~ "INDEPENDENT ASSESSOR",
+      str_to_upper(str_trim(ASSESSMENT_TYPE)) == "INVESTIGATOR" ~ "INVESTIGATOR",
+      TRUE                                                       ~ "INVESTIGATOR"
+    ),
     RSORRES  = str_to_upper(str_trim(INVESTIGATOR_RESPONSE)),
     RSSTRESC = str_to_upper(str_trim(INVESTIGATOR_RESPONSE)),
     RSSTRESN = map_rsstresn(INVESTIGATOR_RESPONSE),
@@ -64,7 +69,7 @@ raw <- raw |>
     VISIT    = str_to_upper(str_trim(VISIT_NAME)),
     VISITNUM = get_visitnum(VISIT_NAME)
   ) |>
-  arrange(USUBJID, RSDTC) |>
+  arrange(USUBJID, RSDTC, RSEVAL) |>
   group_by(USUBJID) |>
   mutate(RSSEQ = row_number()) |>
   ungroup()
@@ -78,7 +83,7 @@ sdtm_rs <- raw |>
     RSTESTCD,
     RSTEST,
     RSCAT,
-    RSEVAL,
+    RSEVAL,    # INVESTIGATOR or INDEPENDENT ASSESSOR (BICR)
     RSORRES,
     RSSTRESC,
     RSSTRESN,

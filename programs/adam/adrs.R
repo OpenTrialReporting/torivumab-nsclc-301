@@ -31,7 +31,12 @@ adsl_vars <- adsl |>
          SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN)
 
 # 3. Overall response (OVR) — per-visit investigator assessments
+# Filter to INVESTIGATOR reader (AL-04 fix 2026-05-17: SDTM.RS now also
+# carries BICR records; ADRS keeps Investigator-based OVR/BOR/CBOR/ORR to
+# preserve established response semantics. BICR is consumed in ADTTE
+# directly for PFS only — a future SAP amendment can flip these to BICR.)
 ovr <- rs |>
+  filter(RSEVAL == "INVESTIGATOR") |>
   filter(!is.na(RSSTRESC), RSSTRESC %in% c("CR", "PR", "SD", "PD", "NE")) |>
   left_join(adsl_vars, by = c("STUDYID", "USUBJID")) |>
   mutate(

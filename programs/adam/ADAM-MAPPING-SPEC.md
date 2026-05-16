@@ -435,17 +435,18 @@ ORRFL = "Y" if CBOR ∈ {"CR", "PR"}; else "N".
 **Structure:** One record per subject per time-to-event parameter
 **Keys:** STUDYID, USUBJID, PARAMCD
 **Output:** `datasets/adam/adtte.parquet` · **Expected N:** ~1,918 (5 params × 450, minus DOR restricted to responders)
-**Estimand support:** E1 (OS), E1a (OSWOT via separate PARAMCD), E1b (OSWOT), E2 (PFS), E4 (DOR)
+**Estimand support:** E1 (OS), E1a (OSWOT via separate PARAMCD), E1b (OSWOT), E2 (PFS BICR), E2a (PFSINV), E4 (DOR)
 
 ### 6.1 Parameters
 
 | PARAMCD | PARAM | Population | Start | Event | Censor | Estimand |
 |---|---|---|---|---|---|---|
-| OS    | Overall Survival | ITT | TRTSDT | Death (any cause) | `CENSOR_OS = pmax(TRTEDT, LSTALVDT, na.rm=TRUE)` | E1 |
-| OSWOT | Overall Survival — While-on-Treatment | ITT | TRTSDT | Death on or within 30 days of TRTEDT | `min(TRTEDT + 30 days, LSTALVDT)` | E1b |
-| PFS   | Progression-Free Survival | ITT | TRTSDT | Earliest of (PD from ADRS.OVR or death) | Last adequate assessment date OR CENSOR_OS | E2 |
-| DOR   | Duration of Response | Confirmed responders (`RSPDT not NULL`) | RSPDT (first CR/PR) | PD or death after RSPDT | Last adequate assessment OR CENSOR_OS | E4 |
-| TTR   | Time to Response | ITT | TRTSDT | RSPDT (first confirmed CR/PR) | Last adequate assessment OR CENSOR_OS | descriptive |
+| OS     | Overall Survival | ITT | TRTSDT | Death (any cause) | `CENSOR_OS = pmax(TRTEDT, LSTALVDT, na.rm=TRUE)` | E1 |
+| OSWOT  | Overall Survival — While-on-Treatment | ITT | TRTSDT | Death on or within 30 days of TRTEDT | `pmin(TRTEDT + 30 days, ADCM.SUBSQTDT, LSTALVDT)` | E1b |
+| PFS    | Progression-Free Survival (BICR) | ITT | TRTSDT | Earliest of (PD from SDTM.RS WHERE RSEVAL='INDEPENDENT ASSESSOR' or death) | Last adequate BICR assessment OR CENSOR_OS | E2 |
+| PFSINV | Progression-Free Survival (Investigator) | ITT | TRTSDT | Earliest of (PD from SDTM.RS WHERE RSEVAL='INVESTIGATOR' or death) | Last adequate Investigator assessment OR CENSOR_OS | E2a |
+| DOR    | Duration of Response | Confirmed responders (`RSPDT not NULL`) | RSPDT (first CR/PR) | PD or death after RSPDT | Last adequate assessment OR CENSOR_OS | E4 |
+| TTR    | Time to Response | ITT | TRTSDT | RSPDT (first confirmed CR/PR) | Last adequate assessment OR CENSOR_OS | descriptive |
 
 ### 6.2 Pre-processing
 
@@ -456,16 +457,20 @@ subj = ADSL
               LSTALVDT = as.Date(LSTALVDT),
               CENSOR_OS = pmax(TRTEDT, LSTALVDT, na.rm = TRUE)
 
-pd_dates =
-  SELECT USUBJID, MIN(as.Date(ADT)) AS PDDT
-  FROM ADRS
-  WHERE PARAMCD = 'OVR' AND AVALC = 'PD' AND ADT not NULL
+# Reader-stratified PD dates (AL-04/AL-07 closure 2026-05-17)
+pd_dates_bicr =
+  SELECT USUBJID, MIN(as.Date(RSDTC)) AS PDDT
+  FROM SDTM.RS
+  WHERE RSEVAL = 'INDEPENDENT ASSESSOR' AND RSSTRESC = 'PD'
   GROUP BY USUBJID
 
-last_assess =
-  SELECT USUBJID, MAX(as.Date(ADT)) AS LAST_OVR_DT
-  FROM ADRS WHERE PARAMCD = 'OVR' AND ADT not NULL
+pd_dates_inv =
+  SELECT USUBJID, MIN(as.Date(RSDTC)) AS PDDT
+  FROM SDTM.RS
+  WHERE RSEVAL = 'INVESTIGATOR' AND RSSTRESC = 'PD'
   GROUP BY USUBJID
+
+last_assess_bicr / last_assess_inv = analogous MAX(RSDTC) filtered by RSEVAL
 
 first_resp =
   SELECT USUBJID, ADT AS RSPDT
@@ -835,6 +840,7 @@ Other variables (MHSEQ, MHTERM, MHDECOD, MHCAT, MHSTDTC) carry through unchanged
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial complete spec covering all 6 ADaM datasets (ADSL, ADAE, ADLB, ADTR, ADRS, ADTTE) with source → target traceability, derivation pseudocode, and QC check list for double programming. Aligned with v0.3 ADTTE (5 PARAMCDs including OSWOT for estimand E1b). |
 | 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Added §7–§12 for the 6 pharma-standard descriptive datasets: ADDS (disposition rollup, EOTFL), ADDV (deviations — synth-data limited), ADEX (DOSEAMT/CUMDOSE/RDI), ADCM (CMATC coalesce, ONTRTFL/PRIORFL/CONFL/CMIRAEFL), ADVS (baseline+change), ADMH (PCANCERFL/ONGOFL/PRIORFL, partial-date handling). ADaM total now 12 datasets. |
 | 0.3 | 2026-05-17 | LG (w/ Claude Opus 4.7) | §8 ADDV rewritten — now sources real SDTM.DV (337 records, 190 subjects) instead of placeholder ADSL.PPROTFL. ADSL.PPROTFL redefined as "SAFFL=Y AND no MAJOR deviation" — PP population drops 449 → 412. T-EFF-08 (OS in PP) now meaningful: HR 0.545 vs ITT HR 0.576. Removes accepted limitations AL-02/AL-03/AL-09. |
+| 0.4 | 2026-05-17 | LG (w/ Claude Opus 4.7) | §6 ADTTE: PFS PD dates now derive from SDTM.RS filtered by `RSEVAL='INDEPENDENT ASSESSOR'` (BICR primary); new PARAMCD `PFSINV` derives from `RSEVAL='INVESTIGATOR'` (estimand E2a sensitivity). ADTTE record count now 2,368 across 6 parameters (was 5). ADRS continues to use Investigator records for OVR/BOR/CBOR. Closes AL-04 + AL-07. §6 ADCM gains `SUBSQTFL` derivation (CMINDC ∈ {SUBSEQUENT ANTI-CANCER THERAPY, ANTINEOPLASTIC AGENTS}); OSWOT censoring extended to `pmin(TRTEDT+30d, SUBSQTDT, LSTALVDT)`. Closes AL-02 + AL-10. |
 
 ---
 

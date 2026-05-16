@@ -29,18 +29,15 @@ TODAY <- format(Sys.Date(), "%Y-%m-%d")
 ACCEPTED_LIMITATIONS <- list(
   sdtm = list(
     SUPPSU = "AL-01: SUPPSU is a legacy artifact (STUDYID 'TORIVUMAB-NSCLC-301', not 'CTX-NSCLC-301'); no generator script in programs/sdtm/. See SDTM-MAPPING-SPEC.md §17. Accepted — not a defect.",
-    CM     = "AL-02 (partial): cm.parquet still does not include post-trial anti-cancer therapy (only supportive-care meds). Affects T-EFF-12 OSWOT (uses only TRTEDT+30d component). Accepted — not a defect.",
     RELREC = "AL-11: relrec.parquet contains duplicate rows (~5 per multi-visit lesion) because relrec.R emits one row per TU/TR record rather than one per unique lesion-id. compare_sdtm.R falls back to identical() comparison. Future relrec.R revision should distinct() on (USUBJID, RDOMAIN, IDVARVAL). Accepted — not a defect."
   ),
   adam = list(
-    ADTTE = "AL-04: PARAMCD='PFSINV' not derived because the synthetic data has no separate BICR vs Investigator assessment. Affects T-EFF-11. Accepted — not a defect."
+    # AL-04 closed 2026-05-17: PFSINV now derived from Investigator PD dates
+    # (PFS uses BICR PD dates). No accepted ADTTE limitation remains.
   ),
   tfl = list(
     `T-EFF-10` = "AL-06: τ = 30 months (not the SAP-proposed 36 months) bounded by max follow-up. See footnote in t_eff_10_os_rmst.R. Accepted — not a defect.",
-    `T-EFF-11` = "AL-07: PFS-INV ≡ PFS in synthetic data (no separate BICR). Identical results to T-EFF-03 expected. Accepted — not a defect.",
-    `T-EFF-12` = "AL-02 + AL-10: subsequent anti-cancer therapy not simulated; OSWOT censoring applies only the TRTEDT + 30d component. Accepted — not a defect.",
-    `T-DS-03`  = "AL-10: Subsequent anti-cancer therapy row shows 0 (synthetic CM does not simulate post-trial therapy). Missed-assessments row populated from SDTM.DV as of 2026-05-17. Accepted — not a defect.",
-    `T-AE-06`  = "AL-08: AESI categorisation uses MedDRA-PT regex stand-in pending SAP §4.6 deferred AESI list. Accepted — not a defect."
+    `T-DS-03`  = "AL-12: T-DS-03 IE4 (≥2 consecutive missed tumour assessments) row shows 0 — no gap-detection logic in the synthetic data. Accepted — not a defect."
   )
 )
 

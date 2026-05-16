@@ -658,11 +658,11 @@ Each raw row may produce 0, 1, or 2 TR records depending on which fields are pop
 | 1 | STUDYID  | Char/20 | Constant | — |
 | 2 | DOMAIN   | Char/2  | Constant | `"RS"` |
 | 3 | USUBJID  | Char/40 | Derived | — |
-| 4 | RSSEQ    | Num     | Derived | Per-USUBJID row_number after sort `(USUBJID, RSDTC)` |
+| 4 | RSSEQ    | Num     | Derived | Per-USUBJID row_number after sort `(USUBJID, RSDTC, RSEVAL)` |
 | 5 | RSTESTCD | Char/8  | Constant | `"OVRLRESP"` |
 | 6 | RSTEST   | Char/40 | Constant | `"Overall Response"` |
 | 7 | RSCAT    | Char/40 | Constant | `"OVERALL RESPONSE"` |
-| 8 | RSEVAL   | Char/40 | Constant | `"INVESTIGATOR"` (BICR not simulated in this study) |
+| 8 | RSEVAL   | Char/40 | `ASSESSMENT_TYPE` | `"INVESTIGATOR"` or `"INDEPENDENT ASSESSOR"` (BICR). AL-04 closure 2026-05-17 — raw now emits both reader streams (~10% discordance) |
 | 9 | RSORRES  | Char/40 | `INVESTIGATOR_RESPONSE` | trim + upper |
 | 10 | RSSTRESC| Char/40 | `INVESTIGATOR_RESPONSE` | trim + upper |
 | 11 | RSSTRESN| Num     | Derived | per §15.1 |
@@ -670,7 +670,7 @@ Each raw row may produce 0, 1, or 2 TR records depending on which fields are pop
 | 13 | VISITNUM| Num     | Derived | per VISIT lookup |
 | 14 | VISIT   | Char/40 | `VISIT_NAME` | trim + upper |
 
-**Sort:** `(USUBJID, RSDTC)` before sequencing.
+**Sort:** `(USUBJID, RSDTC, RSEVAL)` before sequencing — INV and BICR records co-exist.
 
 ---
 
@@ -1000,7 +1000,8 @@ notes.
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial complete spec covering all 21 SDTM datasets (incl. v0.2/v0.3 back-fills: DA, RELREC, SUPPAE, SUPPCM, SUPPLB). SUPPSU flagged as legacy artifact pending successor script. |
 | 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Added §22 DV — Protocol Deviations. Sourced from new `raw/protocol_deviations.csv` simulator (~7% subjects with MAJOR, ~37% with MINOR). Removes accepted limitations AL-02/AL-03/AL-09. Total SDTM datasets now 22. |
+| 0.3 | 2026-05-17 | LG (w/ Claude Opus 4.7) | RS now carries both INVESTIGATOR and INDEPENDENT ASSESSOR (BICR) reader streams (RSEVAL); raw `10_overall_response.R` simulates BICR with ~10% discordance (conservative tilt). Sort key extended to `(USUBJID, RSDTC, RSEVAL)`. Closes AL-04 (PFSINV derivable) and AL-07 (T-EFF-11 ≠ T-EFF-03). Raw `16_subsequent_therapy.R` appends ~133 second-line therapy CM rows (closes AL-02); ADCM derives SUBSQTFL for OSWOT censoring. |
 
 ---
 
-*Last updated: 2026-05-16*
+*Last updated: 2026-05-17*

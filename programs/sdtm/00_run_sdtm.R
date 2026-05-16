@@ -42,6 +42,7 @@ sdtm_programs <- c(
   "su",       # SU     — Substance Use
   "dv",       # DV     — Protocol Deviations
   "suppdm",   # SUPPDM — Supplemental Qualifiers for DM
+  "suppsu",   # SUPPSU — Supplemental Qualifiers for SU (depends on SU)
   "suppae",   # SUPPAE — Supplemental Qualifiers for AE (depends on AE)
   "suppcm",   # SUPPCM — Supplemental Qualifiers for CM (depends on CM)
   "supplb",   # SUPPLB — Supplemental Qualifiers for LB (depends on LB)

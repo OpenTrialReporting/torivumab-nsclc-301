@@ -33,8 +33,14 @@ ie1 <- n_arm(unique(ds$USUBJID[ds$DSDECOD %in% disc_reasons]))
 # IE 2: Treatment discontinuation due to AE
 ie2 <- n_arm(unique(ds$USUBJID[ds$DSDECOD == "ADVERSE EVENT"]))
 
-# IE 3: Initiation of subsequent anti-cancer therapy — NOT simulated
-ie3 <- list(trt = 0L, pbo = 0L, tot = 0L)
+# IE 3: Initiation of subsequent anti-cancer therapy — from ADCM.SUBSQTFL
+# (closed AL-02 / AL-10 on 2026-05-17 — was hardcoded 0)
+adcm <- tryCatch(load_adam("adcm"), error = function(e) NULL)
+if (!is.null(adcm) && "SUBSQTFL" %in% names(adcm)) {
+  ie3 <- n_arm(unique(adcm$USUBJID[adcm$SUBSQTFL == "Y"]))
+} else {
+  ie3 <- list(trt = 0L, pbo = 0L, tot = 0L)
+}
 
 # IE 4: ≥2 consecutive missed scheduled tumour assessments — NOT directly tracked
 ie4 <- list(trt = 0L, pbo = 0L, tot = 0L)

@@ -2,12 +2,15 @@
 # =============================================================================
 # t_eff_11_pfs_inv.R
 # T-EFF-11 — PFS by Investigator (Sensitivity)
-# Source: ADTTE PARAMCD='PFS' (synthetic data has no BICR; see note)
+# Source: ADTTE PARAMCD='PFSINV' (Investigator-assessed)
 # Estimand: E2a (SAP §13.5 sensitivity)
+# AL-04/AL-07 closure (2026-05-17): now uses real PFSINV (PD dates from
+# SDTM.RS records with RSEVAL='INVESTIGATOR'), distinct from the BICR-based
+# primary PFS used in T-EFF-03.
 # =============================================================================
 
 adsl  <- load_adam("adsl") |> filter(ITTFL == "Y") |> add_region()
-adtte <- load_adam("adtte") |> filter(PARAMCD == "PFS")
+adtte <- load_adam("adtte") |> filter(PARAMCD == "PFSINV")
 counts <- adsl_arm_counts(adsl, "ITTFL")
 
 dat <- adtte |>
@@ -66,10 +69,10 @@ write_table_all_formats(
   title = "Progression-Free Survival by Investigator (Sensitivity)",
   population = pop_label(counts$n_tot, "ITTFL"),
   notes = c(
-    "Sensitivity estimand E2a — assesses concordance of BICR with Investigator read.",
-    "SYNTHETIC-DATA NOTE: BICR is not simulated in this dataset (only Investigator-assessed RS records exist). Results here are therefore identical to T-EFF-03 PFS by BICR. In a real study, T-EFF-03 would use BICR and T-EFF-11 would use the separately-derived Investigator PARAMCD='PFSINV'.",
+    "Sensitivity estimand E2a — assesses concordance of Investigator read with BICR primary.",
+    "PFSINV PD dates derived from SDTM.RS records with RSEVAL='INVESTIGATOR'; primary PFS (T-EFF-03) uses RSEVAL='INDEPENDENT ASSESSOR' (BICR). BICR vs Investigator discordance is simulated at ~10%.",
     "Stratified Cox PH; stratification factors: histology × region.",
-    "Source: datasets/adam/adtte.parquet WHERE PARAMCD='PFS'."
+    "Source: datasets/adam/adtte.parquet WHERE PARAMCD='PFSINV'."
   )
 )
 message(sprintf("T-EFF-11 written: HR=%.3f", cox$hr))

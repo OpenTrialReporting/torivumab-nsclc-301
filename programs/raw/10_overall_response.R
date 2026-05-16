@@ -97,15 +97,40 @@ shift_response <- function(resp) {
 
 on_study$INVESTIGATOR_RESPONSE <- sapply(on_study$INVESTIGATOR_RESPONSE, shift_response)
 
-overall_response <- on_study %>%
+# ── BICR (Blinded Independent Central Review) reader layer ────────────────
+# Closes AL-04 / AL-07 (2026-05-17): simulate an independent central
+# reader with ~10% discordance vs Investigator. BICR is typically more
+# conservative — quicker to call PD, slower to call PR.
+bicr_shift <- function(resp) {
+  if (runif(1) > 0.10) return(resp)
+  if (resp == "PR")   return(sample(c("SD", "PR"), 1, prob = c(0.5, 0.5)))   # downgrade
+  if (resp == "SD")   return(sample(c("SD", "PD"), 1, prob = c(0.6, 0.4)))   # PD-tilt
+  if (resp == "CR")   return(sample(c("PR", "CR"), 1, prob = c(0.4, 0.6)))   # downgrade
+  if (resp == "PD")   return("PD")  # BICR confirms PD calls
+  resp
+}
+on_study$BICR_RESPONSE <- sapply(on_study$INVESTIGATOR_RESPONSE, bicr_shift)
+
+inv_records <- on_study %>%
   transmute(
     SUBJECT_ID          = SUBJECT_ID,
     ASSESSMENT_DATE     = ASSESSMENT_DATE,
     VISIT_NAME          = VISIT_NAME,
     INVESTIGATOR_RESPONSE = INVESTIGATOR_RESPONSE,
     ASSESSMENT_TYPE     = "Investigator"
-  ) %>%
-  arrange(SUBJECT_ID, ASSESSMENT_DATE)
+  )
+
+bicr_records <- on_study %>%
+  transmute(
+    SUBJECT_ID          = SUBJECT_ID,
+    ASSESSMENT_DATE     = ASSESSMENT_DATE,
+    VISIT_NAME          = VISIT_NAME,
+    INVESTIGATOR_RESPONSE = BICR_RESPONSE,
+    ASSESSMENT_TYPE     = "BICR"
+  )
+
+overall_response <- bind_rows(inv_records, bicr_records) %>%
+  arrange(SUBJECT_ID, ASSESSMENT_DATE, ASSESSMENT_TYPE)
 
 assign("overall_response", overall_response, envir = .GlobalEnv)
 
@@ -114,6 +139,12 @@ write.csv(overall_response,
           row.names = FALSE,
           na        = "")
 
-message("  overall_response.csv written: ", nrow(overall_response), " rows")
-resp_counts <- table(overall_response$INVESTIGATOR_RESPONSE)
-message("    Response distribution: ", paste(names(resp_counts), resp_counts, sep = "=", collapse = ", "))
+message("  overall_response.csv written: ", nrow(overall_response), " rows (",
+        sum(overall_response$ASSESSMENT_TYPE == "Investigator"), " INV / ",
+        sum(overall_response$ASSESSMENT_TYPE == "BICR"), " BICR)")
+n_discord <- sum(inv_records$INVESTIGATOR_RESPONSE != bicr_records$INVESTIGATOR_RESPONSE)
+message(sprintf("    INV vs BICR discordance: %d / %d records (%.1f%%)",
+                n_discord, nrow(inv_records),
+                100 * n_discord / nrow(inv_records)))
+resp_counts <- table(overall_response$INVESTIGATOR_RESPONSE, overall_response$ASSESSMENT_TYPE)
+print(resp_counts)

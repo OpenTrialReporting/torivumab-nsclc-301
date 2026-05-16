@@ -1,0 +1,57 @@
+AESICAT,AESI_GROUP,MEDDRA_PT,MEDDRA_LLT,COMMENT
+PNEUMONITIS,Immune-mediated pneumonitis,Pneumonitis,Pneumonitis,Standard irAE PT
+PNEUMONITIS,Immune-mediated pneumonitis,Interstitial lung disease,Interstitial lung disease,Includes ILD variants
+PNEUMONITIS,Immune-mediated pneumonitis,Lung infiltration,Lung infiltration,Sponsor-included for irPneumonitis SMQ
+PNEUMONITIS,Immune-mediated pneumonitis,Organising pneumonia,Cryptogenic organising pneumonia,Organising pneumonia subtype
+COLITIS,Immune-mediated colitis/diarrhoea,Colitis,Colitis,Standard irAE PT
+COLITIS,Immune-mediated colitis/diarrhoea,Autoimmune colitis,Autoimmune colitis,Immune-mediated subtype
+COLITIS,Immune-mediated colitis/diarrhoea,Enterocolitis,Enterocolitis,
+COLITIS,Immune-mediated colitis/diarrhoea,Diarrhoea,Diarrhoea,Grade>=3 only is AESI per sponsor convention
+HEPATITIS,Immune-mediated hepatitis,Hepatitis,Hepatitis,Standard irAE PT
+HEPATITIS,Immune-mediated hepatitis,Autoimmune hepatitis,Autoimmune hepatitis,Immune-mediated subtype
+HEPATITIS,Immune-mediated hepatitis,Immune-mediated hepatitis,Immune-mediated hepatitis,MedDRA v27.0 PT
+HEPATITIS,Immune-mediated hepatitis,Hepatic function abnormal,Hepatic function abnormal,Grade>=3 only
+HEPATITIS,Immune-mediated hepatitis,Alanine aminotransferase increased,ALT increased,Grade>=3 only
+HEPATITIS,Immune-mediated hepatitis,Aspartate aminotransferase increased,AST increased,Grade>=3 only
+ENDOCRINE,Immune-mediated endocrinopathies,Hypothyroidism,Hypothyroidism,Standard irAE PT
+ENDOCRINE,Immune-mediated endocrinopathies,Hyperthyroidism,Hyperthyroidism,Standard irAE PT
+ENDOCRINE,Immune-mediated endocrinopathies,Thyroiditis,Thyroiditis,
+ENDOCRINE,Immune-mediated endocrinopathies,Autoimmune thyroiditis,Autoimmune thyroiditis,
+ENDOCRINE,Immune-mediated endocrinopathies,Adrenal insufficiency,Adrenal insufficiency,
+ENDOCRINE,Immune-mediated endocrinopathies,Hypophysitis,Hypophysitis,
+ENDOCRINE,Immune-mediated endocrinopathies,Hypopituitarism,Hypopituitarism,
+ENDOCRINE,Immune-mediated endocrinopathies,Type 1 diabetes mellitus,Type 1 diabetes mellitus,
+ENDOCRINE,Immune-mediated endocrinopathies,Diabetic ketoacidosis,Diabetic ketoacidosis,Grade>=3 only
+DERMATOLOGIC,Immune-mediated skin reactions,Rash,Rash,Grade>=3 only is AESI
+DERMATOLOGIC,Immune-mediated skin reactions,Rash maculo-papular,Rash maculo-papular,
+DERMATOLOGIC,Immune-mediated skin reactions,Dermatitis,Dermatitis,
+DERMATOLOGIC,Immune-mediated skin reactions,Dermatitis bullous,Bullous dermatitis,
+DERMATOLOGIC,Immune-mediated skin reactions,Stevens-Johnson syndrome,Stevens-Johnson syndrome,Always AESI
+DERMATOLOGIC,Immune-mediated skin reactions,Toxic epidermal necrolysis,Toxic epidermal necrolysis,Always AESI
+DERMATOLOGIC,Immune-mediated skin reactions,Pruritus,Pruritus,Grade>=3 only
+RENAL,Immune-mediated nephritis,Nephritis,Nephritis,Standard irAE PT
+RENAL,Immune-mediated nephritis,Tubulointerstitial nephritis,Tubulointerstitial nephritis,
+RENAL,Immune-mediated nephritis,Autoimmune nephritis,Autoimmune nephritis,
+RENAL,Immune-mediated nephritis,Acute kidney injury,Acute kidney injury,Grade>=3 only
+CARDIAC,Immune-mediated cardiac events,Myocarditis,Myocarditis,Always AESI
+CARDIAC,Immune-mediated cardiac events,Autoimmune myocarditis,Autoimmune myocarditis,
+CARDIAC,Immune-mediated cardiac events,Pericarditis,Pericarditis,
+CARDIAC,Immune-mediated cardiac events,Pericardial effusion,Pericardial effusion,Grade>=3 only
+NEUROLOGIC,Immune-mediated neurologic events,Guillain-Barre syndrome,Guillain-Barre syndrome,Always AESI
+NEUROLOGIC,Immune-mediated neurologic events,Myasthenia gravis,Myasthenia gravis,
+NEUROLOGIC,Immune-mediated neurologic events,Encephalitis,Encephalitis,
+NEUROLOGIC,Immune-mediated neurologic events,Autoimmune encephalitis,Autoimmune encephalitis,
+NEUROLOGIC,Immune-mediated neurologic events,Aseptic meningitis,Aseptic meningitis,
+NEUROLOGIC,Immune-mediated neurologic events,Peripheral neuropathy,Peripheral neuropathy,Grade>=3 only
+INFUSION_REACTION,Infusion-related reactions,Infusion related reaction,Infusion related reaction,Grade>=2 is AESI
+INFUSION_REACTION,Infusion-related reactions,Anaphylactic reaction,Anaphylactic reaction,Always AESI
+INFUSION_REACTION,Infusion-related reactions,Cytokine release syndrome,Cytokine release syndrome,
+OCULAR,Immune-mediated ocular events,Uveitis,Uveitis,
+OCULAR,Immune-mediated ocular events,Iritis,Iritis,
+OCULAR,Immune-mediated ocular events,Episcleritis,Episcleritis,
+HEMATOLOGIC,Immune-mediated haematologic events,Autoimmune haemolytic anaemia,Autoimmune haemolytic anaemia,
+HEMATOLOGIC,Immune-mediated haematologic events,Immune thrombocytopenic purpura,Immune thrombocytopenic purpura,
+HEMATOLOGIC,Immune-mediated haematologic events,Aplastic anaemia,Aplastic anaemia,
+MUSCULOSKELETAL,Immune-mediated musculoskeletal events,Myositis,Myositis,
+MUSCULOSKELETAL,Immune-mediated musculoskeletal events,Polymyalgia rheumatica,Polymyalgia rheumatica,
+MUSCULOSKELETAL,Immune-mediated musculoskeletal events,Rhabdomyolysis,Rhabdomyolysis,

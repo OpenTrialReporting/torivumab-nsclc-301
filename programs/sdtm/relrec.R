@@ -35,7 +35,9 @@ tu_rows <- tu |>
     IDVARVAL = as.character(TULINKID),
     RELTYPE  = "ONE",
     RELID    = paste0("LESION-", TULINKID)
-  )
+  ) |>
+  distinct()   # AL-11 fix (2026-05-17): TU has one row per lesion per visit,
+               # so distinct() collapses to one RELREC row per (USUBJID, lesion).
 
 tr_lesion_rows <- tr |>
   filter(!is.na(TRLINKID), TRLINKID != "") |>

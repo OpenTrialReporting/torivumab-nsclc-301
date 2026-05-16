@@ -197,16 +197,17 @@ programmers don't waste time re-discovering them.
 | ID | Layer | Limitation | Documented in |
 |---|---|---|---|
 | AL-01 | SDTM | `SUPPSU` is a legacy artifact (STUDYID prefix `TORIVUMAB-NSCLC-301`, not `CTX-NSCLC-301`); no generator script exists in `programs/sdtm/` | `SDTM-MAPPING-SPEC.md` §17 |
-| ~~AL-02~~ | ~~SDTM~~ | ~~cm.parquet does not contain post-trial anti-cancer therapy~~ | **Partially closed 2026-05-17** — T-DS-03 subsequent-therapy row still 0; OSWOT impact unchanged. CM scope unchanged. |
+| ~~AL-02~~ | ~~SDTM~~ | ~~cm.parquet does not contain post-trial anti-cancer therapy~~ | **Closed 2026-05-17** — `programs/raw/16_subsequent_therapy.R` appends ~133 subsequent-therapy CM rows; ADCM derives `SUBSQTFL`; OSWOT (PARAMCD='OSWOT') now censors at first subsequent therapy. |
 | ~~AL-03~~ | ~~SDTM~~ | ~~No explicit protocol-deviation records~~ | **Closed 2026-05-17** — new SDTM.DV domain with ~337 records (raw simulator at `programs/raw/15_protocol_deviations.R`). |
-| AL-04 | ADaM | `PARAMCD='PFSINV'` not derived because the synthetic data has no separate BICR vs Investigator assessment | `ADAM-MAPPING-SPEC.md` §6 |
+| ~~AL-04~~ | ~~ADaM~~ | ~~`PARAMCD='PFSINV'` not derived because the synthetic data has no separate BICR vs Investigator~~ | **Closed 2026-05-17** — BICR reader added in `programs/raw/10_overall_response.R` (~10% discordance, conservative tilt); SDTM.RS now carries `RSEVAL∈{INVESTIGATOR,INDEPENDENT ASSESSOR}`; ADTTE derives PFS from BICR PD dates and PFSINV from Investigator PD dates. |
 | AL-05 | Raw | `PFS_TRT` marginal KM median is +3.3 months above protocol target (10.5) due to interval-censoring + the higher RECIST-derived ORR | `RAW-PROVENANCE.md` §10.5 caveat 1 |
 | AL-06 | TFL | T-EFF-10 uses τ = 30 months (not the SAP-proposed 36 months) bounded by max follow-up | `t_eff_10_os_rmst.R` footnote |
-| AL-07 | TFL | T-EFF-11 (PFS-INV) ≡ T-EFF-03 (PFS) since no separate BICR exists in synthetic data | `t_eff_11_pfs_inv.R` footnote |
-| AL-08 | TFL | T-AE-06 (AESI) uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list | `t_ae_06_aesi.R` footnote |
+| ~~AL-07~~ | ~~TFL~~ | ~~T-EFF-11 (PFS-INV) ≡ T-EFF-03 (PFS) since no separate BICR exists~~ | **Closed 2026-05-17** — T-EFF-11 now reads `PARAMCD='PFSINV'` (Investigator) while T-EFF-03 reads `PARAMCD='PFS'` (BICR primary). Distinct medians/HRs as expected. |
+| ~~AL-08~~ | ~~TFL~~ | ~~T-AE-06 (AESI) uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list~~ | **Closed 2026-05-17** — sponsor AESI codelist at `raw/codelists/aesi_meddra_pts.csv` (56 PTs, 11 categories) drives T-AE-06; categories surfaced by AESICAT with per-PT grade rule (any/G2+/G3+). |
 | ~~AL-09~~ | ~~TFL~~ | ~~T-DS-02 subcategories all show 0~~ | **Closed 2026-05-17** — SDTM.DV now populated; T-DS-02 + T-DV-01 show real subcategory counts. |
-| AL-10 | TFL | T-DS-03 rows for subsequent anti-cancer therapy + missed assessments all show 0 (synthetic data limitation) | `t_ds_03_intercurrent_events.R` footnote |
+| ~~AL-10~~ | ~~TFL~~ | ~~T-DS-03 rows for subsequent anti-cancer therapy + missed assessments all show 0~~ | **Closed 2026-05-17** (subsequent therapy) — ADCM.SUBSQTFL drives IE3 (non-zero). Missed-assessment row (IE4) remains 0 — see AL-12. |
 | AL-11 | SDTM | `relrec.parquet` contains duplicate rows (~5 per multi-visit lesion) because `programs/sdtm/relrec.R` emits one row per TU/TR record rather than one per unique lesion-id × subject. Functionally harmless for cross-domain joins but `diffdf` cannot establish unique keys. Documented; a future relrec.R revision should `distinct()` on (USUBJID, RDOMAIN, IDVARVAL). | `programs/qc/compare_sdtm.R` fallback path uses `identical()` to compare instead. |
+| AL-12 | TFL | T-DS-03 IE4 (≥2 consecutive missed tumour assessments) row shows 0 — no gap-detection logic in the synthetic data; a real implementation would derive this from ADRS visit-window gaps. | `t_ds_03_intercurrent_events.R` footnote |
 
 QC programmers may still raise findings on any of these if they spot
 something deeper than the accepted scope — the limitation only covers

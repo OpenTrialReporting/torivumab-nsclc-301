@@ -27,6 +27,7 @@ adsl <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
 adrs <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adrs.parquet")))
 ds   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "ds.parquet")))
 dd   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "dd.parquet")))
+rs   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "rs.parquet")))
 
 # 2. Subject-level frame
 subj <- adsl |>
@@ -38,15 +39,29 @@ subj <- adsl |>
     CENSOR_OS = pmax(TRTEDT, LSTALVDT, na.rm = TRUE)
   )
 
-pd_dates <- adrs |>
-  filter(PARAMCD == "OVR", AVALC == "PD", !is.na(ADT)) |>
-  group_by(STUDYID, USUBJID) |>
-  summarise(PDDT = min(as.Date(ADT), na.rm = TRUE), .groups = "drop")
+# Reader-stratified PD-date derivation (AL-04/AL-07 closure 2026-05-17)
+# Primary PFS uses BICR (SAP §13.5 estimand E2); PFSINV uses Investigator.
+pd_dates_by_eval <- function(eval_label) {
+  rs |>
+    filter(RSEVAL == eval_label, RSSTRESC == "PD", !is.na(RSDTC)) |>
+    group_by(STUDYID, USUBJID) |>
+    summarise(PDDT = min(as.Date(RSDTC), na.rm = TRUE), .groups = "drop")
+}
+last_assess_by_eval <- function(eval_label) {
+  rs |>
+    filter(RSEVAL == eval_label, !is.na(RSDTC)) |>
+    group_by(STUDYID, USUBJID) |>
+    summarise(LAST_OVR_DT = max(as.Date(RSDTC), na.rm = TRUE), .groups = "drop")
+}
 
-last_assess <- adrs |>
-  filter(PARAMCD == "OVR", !is.na(ADT)) |>
-  group_by(STUDYID, USUBJID) |>
-  summarise(LAST_OVR_DT = max(as.Date(ADT), na.rm = TRUE), .groups = "drop")
+pd_bicr <- pd_dates_by_eval("INDEPENDENT ASSESSOR")
+pd_inv  <- pd_dates_by_eval("INVESTIGATOR")
+last_bicr <- last_assess_by_eval("INDEPENDENT ASSESSOR")
+last_inv  <- last_assess_by_eval("INVESTIGATOR")
+
+# Subject-level join (PFS uses BICR PD dates → PDDT)
+pd_dates    <- pd_bicr                                       # alias for PFS primary
+last_assess <- last_bicr
 
 first_resp <- adrs |>
   filter(PARAMCD == "CBOR", AVALC %in% c("CR", "PR"), !is.na(ADT)) |>
@@ -57,6 +72,18 @@ subj <- subj |>
   left_join(pd_dates,    by = c("STUDYID", "USUBJID")) |>
   left_join(last_assess, by = c("STUDYID", "USUBJID")) |>
   left_join(first_resp,  by = c("STUDYID", "USUBJID"))
+
+# Separate subject-level frame for PFSINV (Investigator PD dates)
+subj_inv <- adsl |>
+  mutate(
+    DTHDT    = as.Date(DTHDT),
+    TRTSDT   = as.Date(TRTSDT),
+    TRTEDT   = as.Date(TRTEDT),
+    LSTALVDT = as.Date(LSTALVDT),
+    CENSOR_OS = pmax(TRTEDT, LSTALVDT, na.rm = TRUE)
+  ) |>
+  left_join(pd_inv,    by = c("STUDYID", "USUBJID")) |>
+  left_join(last_inv,  by = c("STUDYID", "USUBJID"))
 
 # 3. Overall Survival (OS)
 adtte_os <- subj |>
@@ -72,38 +99,56 @@ adtte_os <- subj |>
 # 3b. Overall Survival — While-on-Treatment (OSWOT) sensitivity estimand E1b
 #
 # Censoring rule per SAP §13.4: censor at min(start of subsequent anti-cancer
-# therapy, TRTEDT + 30 days). The synthetic CM data does not include subsequent
-# anti-cancer therapy records (raw/codelists/atc_conmed.csv covers supportive
-# care only), so only the TRTEDT + 30 day component is applied. For real-world
-# data, add a subsequent-therapy date lookup and take pmin.
+# therapy, TRTEDT + 30 days). AL-02 closed 2026-05-17 — subsequent therapy is
+# now captured via ADCM.SUBSQTFL='Y', so we pull the earliest subsequent-
+# therapy start date per subject and include it in the censoring pmin.
 #
-# Event = death occurring on or within 30 days of last study treatment.
-# Censored = alive at TRTEDT + 30 days, OR last known alive earlier than that.
+# Event = death occurring on or within 30 days of last study treatment
+#         (AND before any subsequent therapy starts).
+# Censored = at min(TRTEDT + 30, subsequent therapy start, LSTALVDT).
+adcm_path <- file.path(ADAM_DIR, "adcm.parquet")
+if (file.exists(adcm_path)) {
+  adcm     <- as.data.frame(read_parquet(adcm_path))
+  subseq_dt <- adcm |>
+    filter(SUBSQTFL == "Y", !is.na(ASTDT)) |>
+    group_by(USUBJID) |>
+    summarise(SUBSQTDT = min(as.Date(ASTDT), na.rm = TRUE), .groups = "drop")
+} else {
+  subseq_dt <- data.frame(USUBJID = character(0), SUBSQTDT = as.Date(character(0)))
+}
+
 adtte_oswot <- subj |>
+  left_join(subseq_dt, by = "USUBJID") |>
   mutate(
     OSWOT_CUT     = TRTEDT + 30,
-    OSWOT_CENSOR  = pmin(OSWOT_CUT, LSTALVDT, na.rm = TRUE),
-    OSWOT_EVENT   = DTHFL == "Y" & !is.na(DTHDT) & DTHDT <= OSWOT_CUT,
+    # Take pmin of the three censoring candidates (TRTEDT+30, subseq tx, last alive)
+    OSWOT_CENSOR  = pmin(OSWOT_CUT, SUBSQTDT, LSTALVDT, na.rm = TRUE),
+    # Event only if death precedes BOTH TRTEDT+30 AND subseq tx start
+    death_in_window = DTHFL == "Y" & !is.na(DTHDT) &
+                       DTHDT <= OSWOT_CUT &
+                       (is.na(SUBSQTDT) | DTHDT <= SUBSQTDT),
+    OSWOT_EVENT   = death_in_window,
     PARAMCD       = "OSWOT",
     PARAM         = "Overall Survival - While-on-Treatment Sensitivity",
     CNSR          = if_else(OSWOT_EVENT, 0L, 1L),
     ADT           = if_else(OSWOT_EVENT, DTHDT, OSWOT_CENSOR),
     EVNTDESC      = case_when(
       OSWOT_EVENT                                ~ "DEATH ON/WITHIN 30D OF LAST DOSE",
+      !is.na(SUBSQTDT) & OSWOT_CENSOR == SUBSQTDT ~ "CENSORED - SUBSEQUENT ANTI-CANCER THERAPY",
       !is.na(LSTALVDT) & LSTALVDT < OSWOT_CUT    ~ "CENSORED - LOST BEFORE TRTEDT+30D",
       TRUE                                       ~ "CENSORED - ALIVE AT TRTEDT+30D"
     ),
     SRCDOM        = if_else(OSWOT_EVENT, "DD", "ADSL")
   ) |>
-  select(-OSWOT_CUT, -OSWOT_CENSOR, -OSWOT_EVENT)
+  select(-OSWOT_CUT, -OSWOT_CENSOR, -OSWOT_EVENT, -death_in_window, -SUBSQTDT)
 
-# 4. Progression-Free Survival (PFS)
+# 4. Progression-Free Survival (PFS) — BICR (primary) per SAP §13.5 / E2
 adtte_pfs <- subj |>
   mutate(
     PFS_EVENT_DT = pmin(PDDT, DTHDT, na.rm = TRUE),
     PFS_EVENT    = !is.na(PFS_EVENT_DT),
     PARAMCD      = "PFS",
-    PARAM        = "Progression-Free Survival",
+    PARAM        = "Progression-Free Survival (BICR)",
     CNSR         = if_else(PFS_EVENT, 0L, 1L),
     ADT          = if_else(PFS_EVENT,
                            PFS_EVENT_DT,
@@ -117,6 +162,30 @@ adtte_pfs <- subj |>
       EVNTDESC == "PROGRESSIVE DISEASE" ~ "ADRS",
       EVNTDESC == "DEATH"               ~ "DD",
       TRUE                              ~ "ADRS"
+    )
+  ) |>
+  select(-PFS_EVENT_DT, -PFS_EVENT)
+
+# 4b. PFS by Investigator — sensitivity per SAP §13.5 / E2a (AL-04/07 closure)
+adtte_pfsinv <- subj_inv |>
+  mutate(
+    PFS_EVENT_DT = pmin(PDDT, DTHDT, na.rm = TRUE),
+    PFS_EVENT    = !is.na(PFS_EVENT_DT),
+    PARAMCD      = "PFSINV",
+    PARAM        = "Progression-Free Survival (Investigator)",
+    CNSR         = if_else(PFS_EVENT, 0L, 1L),
+    ADT          = if_else(PFS_EVENT,
+                           PFS_EVENT_DT,
+                           coalesce(LAST_OVR_DT, CENSOR_OS)),
+    EVNTDESC     = case_when(
+      !is.na(PDDT) & (is.na(DTHDT) | PDDT <= DTHDT) ~ "PROGRESSIVE DISEASE",
+      !is.na(DTHDT)                                  ~ "DEATH",
+      TRUE                                           ~ "CENSORED - LAST TUMOUR ASSESSMENT"
+    ),
+    SRCDOM = case_when(
+      EVNTDESC == "PROGRESSIVE DISEASE" ~ "RS-INV",
+      EVNTDESC == "DEATH"               ~ "DD",
+      TRUE                              ~ "RS-INV"
     )
   ) |>
   select(-PFS_EVENT_DT, -PFS_EVENT)
@@ -177,12 +246,14 @@ add_aval <- function(dat, start_var) {
 
 adtte_os    <- add_aval(adtte_os,    "TRTSDT")
 adtte_oswot <- add_aval(adtte_oswot, "TRTSDT")
-adtte_pfs   <- add_aval(adtte_pfs,   "TRTSDT")
+adtte_pfs    <- add_aval(adtte_pfs,    "TRTSDT")
+adtte_pfsinv <- add_aval(adtte_pfsinv, "TRTSDT")
 adtte_dor   <- add_aval(adtte_dor,   "RSPDT")
 adtte_ttr   <- add_aval(adtte_ttr,   "TRTSDT")
 
 # 8. Stack, flag, select
-adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_dor, adtte_ttr) |>
+adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_pfsinv,
+                     adtte_dor, adtte_ttr) |>
   mutate(ANL01FL = "Y") |>
   select(
     STUDYID, USUBJID,

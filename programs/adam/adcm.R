@@ -63,6 +63,13 @@ adcm <- cm |>
     CONFL     = ONTRTFL,
     # irAE management indicator from SUPPCM
     CMIRAEFL  = if_else(is.na(CMIRAEFL), "N", CMIRAEFL),
+    # Subsequent anti-cancer therapy flag — closes AL-02 (2026-05-17).
+    # CMINDC text-match against raw seed value from 16_subsequent_therapy.R.
+    SUBSQTFL  = if_else(
+      !is.na(CMINDC) &
+        toupper(CMINDC) %in% c("SUBSEQUENT ANTI-CANCER THERAPY",
+                                 "ANTINEOPLASTIC AGENTS"),
+      "Y", "N"),
     ANL01FL   = "Y",
     AVAL      = NA_real_  # OCCDS — no analysis value
   ) |>
@@ -73,7 +80,7 @@ adcm <- cm |>
     TRTSDT, TRTEDT,
     CMSEQ, CMTRT, CMDECOD, CMATC, CMINDC, CMROUTE,
     CMSTDTC, CMENDTC, ASTDT, AENDT, ASTDY, AENDY,
-    PRIORFL, CONFL, ONTRTFL, CMIRAEFL,
+    PRIORFL, CONFL, ONTRTFL, CMIRAEFL, SUBSQTFL,
     ANL01FL, AVAL
   )
 

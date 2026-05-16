@@ -45,14 +45,15 @@ adam_programs <- c(
   "adlb",   # ADLB  — Laboratory Test Results BDS
   "adtr",   # ADTR  — Tumor Results BDS
   "adrs",   # ADRS  — Oncology Response Analysis Dataset
-  "adtte",  # ADTTE — Time-to-Event Analysis Dataset
   # Pharma-standard descriptive ADaMs (added 2026-05-17)
   "adex",   # ADEX  — Exposure (DOSEAMT, CUMDOSE, RDI)
-  "adcm",   # ADCM  — Concomitant Medications (OCCDS)
+  "adcm",   # ADCM  — Concomitant Medications (incl. SUBSQTFL for OSWOT)
   "advs",   # ADVS  — Vital Signs BDS
   "admh",   # ADMH  — Medical History (OCCDS)
   "adds",   # ADDS  — Disposition (OCCDS)
-  "addv"    # ADDV  — Protocol Deviations (OCCDS)
+  "addv",   # ADDV  — Protocol Deviations (OCCDS)
+  # ADTTE last — OSWOT censoring depends on ADCM.SUBSQTFL (AL-02 closure)
+  "adtte"   # ADTTE — Time-to-Event Analysis Dataset
 )
 
 run_adam <- function(dataset) {
