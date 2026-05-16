@@ -74,7 +74,7 @@ Schema aligns with CDISC ARS v1.0 concepts (analysis_sets / data_subsets / metho
 
 ## 4. Outputs
 
-Total: 38 outputs (27 tables, 6 figures, 5 listings).
+Total: 43 outputs (32 tables, 6 figures, 5 listings).
 
 ### 4.1 Tables
 
@@ -534,6 +534,88 @@ Total: 38 outputs (27 tables, 6 figures, 5 listings).
 
 **Notes:** n (%) with ≥1 post-baseline ATOXGR ≥ 3 per PARAMCD.
 
+#### T-CM-01 — Concomitant Medications by Class and Preferred Term
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Safety (SAFETY) |
+| **Source datasets** | `ADCM` |
+| **Key variables** | `TRT01A`, `CMDECOD`, `CMINDC`, `ONTRTFL` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **SAP reference** | §5.5 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | ATC indication class (header) + indented PT rows (>=5% in either arm) |
+| **Layout — columns** | TRT01A |
+
+**Notes:** Includes preferred terms with on-treatment incidence >= 5% in either arm. Class grouping from ADCM.CMINDC (curated ATC indication class).
+
+#### T-VS-01 — Vital Signs — Mean Change from Baseline at Key Visits
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Safety (SAFETY) |
+| **Source datasets** | `ADVS` |
+| **Parameter codes** | `SYSBP`, `DIABP`, `HR`, `WEIGHT`, `TEMP`, `RESP` |
+| **Key variables** | `TRT01A`, `PARAMCD`, `AVISIT`, `CHG` |
+| **Methods** | Descriptive — Continuous [M-DESCR-CONT] |
+| **SAP reference** | §5.5 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | Parameter (header) + indented "Change at <visit> Mean (SD)" rows |
+| **Layout — columns** | TRT01A |
+
+**Notes:** Change from baseline (ADVS.CHG) at C1D1, C4D1, and End of Treatment.
+
+#### T-VS-02 — Weight Change Categories — Worst On-Treatment % Change
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Safety (SAFETY) |
+| **Source datasets** | `ADVS` |
+| **Parameter codes** | `WEIGHT` |
+| **Key variables** | `TRT01A`, `PCHG` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **SAP reference** | §5.5 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | 7 categories from "Loss >=20%" through "Gain >=20%" |
+| **Layout — columns** | TRT01A |
+
+**Notes:** Per-subject worst (most extreme) post-baseline % weight change.
+
+#### T-MH-01 — Medical History by Category and Term
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Safety (SAFETY) |
+| **Source datasets** | `ADMH` |
+| **Key variables** | `TRT01A`, `MHCAT`, `MHDECOD` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **SAP reference** | §5.5 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | MHCAT header + indented MHDECOD (>=5% in either arm) |
+| **Layout — columns** | TRT01A |
+
+**Notes:** Synthetic-data note — MHDECOD is title-case verbatim, not MedDRA-coded.
+
+#### T-DV-01 — Protocol Deviations — Detail
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Intent-to-Treat (ITT) |
+| **Source datasets** | `ADDV` |
+| **Key variables** | `TRT01P`, `DVCAT`, `DVSCAT` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **SAP reference** | §3.2 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | Severity (Major/Minor) + Subcategory breakdown |
+| **Layout — columns** | TRT01P |
+
+**Notes:** Supersedes the sparser T-DS-02 view; uses ADDV instead of raw ADSL.PPROTFL.
+
 ### 4.2 Figures
 
 #### F-EFF-01 — Kaplan-Meier Curve — OS
@@ -714,11 +796,11 @@ Total: 38 outputs (27 tables, 6 figures, 5 listings).
 
 Every variable in `programming-specs/AD*-spec.md` should be cited by ≥1 shell's `key_variables`. `validate_shells.R` enforces this — see its report output.
 
-Distinct variables cited across all shells: **64**.
+Distinct variables cited across all shells: **72**.
 
 <details><summary>Full variable list</summary>
 
-`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESDTH`, `AESER`, `AESI`, `AETOXGR`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `N_CYCLES`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
+`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESDTH`, `AESER`, `AESI`, `AETOXGR`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CHG`, `CMDECOD`, `CMINDC`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `DVCAT`, `DVSCAT`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `MHCAT`, `MHDECOD`, `N_CYCLES`, `ONTRTFL`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
 
 </details>
 
@@ -733,13 +815,13 @@ Distinct variables cited across all shells: **64**.
 | §13.6 | T-EFF-13 |
 | §3 | T-DS-01 |
 | §3.1 | T-DM-01 |
-| §3.2 | T-DS-02, L-DS-01 |
+| §3.2 | T-DS-02, L-DS-01, T-DV-01 |
 | §4.2 | T-EFF-11 |
 | §5.1 | T-EFF-01, T-EFF-02, F-EFF-01 |
 | §5.2 | T-EFF-03, T-EFF-04, F-EFF-02 |
 | §5.3 | T-EFF-05, T-EFF-06, F-EFF-03, F-EFF-04 |
 | §5.4 | T-EFF-07, F-EFF-06 |
-| §5.5 | T-EX-01, T-AE-01, T-AE-02, T-AE-03, T-AE-04, T-AE-05, T-AE-06, T-AE-07, T-LB-01, T-LB-02, L-AE-01, L-AE-02, L-AE-03, L-LB-01 |
+| §5.5 | T-EX-01, T-AE-01, T-AE-02, T-AE-03, T-AE-04, T-AE-05, T-AE-06, T-AE-07, T-LB-01, T-LB-02, L-AE-01, L-AE-02, L-AE-03, L-LB-01, T-CM-01, T-VS-01, T-VS-02, T-MH-01 |
 
 ## 7. Change Log
 

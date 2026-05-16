@@ -23,7 +23,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓
 4.5. SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
-5. ADaM (6 datasets) ✅ COMPLETE — Gate 4 PASSED (2026-04-25) — all 6 Parquets in datasets/adam/
+5. ADaM (12 datasets — 6 efficacy/safety + 6 descriptive) ✅ COMPLETE — all 12 Parquets in datasets/adam/ (descriptive added 2026-05-17)
    ↓
 6. TFLs (Tables, Figures, Listings) ⏳ NEXT
    ↓
@@ -335,9 +335,9 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 | #1 | A | Reproducibility check (byte-diff full pipeline) | 1 day |
 | #2 | B | SDTM independent double programming (21 domains) | 5–7 days |
 | #3 | C | Pinnacle 21 SDTM compliance scan | 0.5 day |
-| #4 | D | ADaM independent double programming (6 datasets) | 3–5 days |
+| #4 | D | ADaM independent double programming (12 datasets) | 6–9 days |
 | #5 | E | Pinnacle 21 ADaM compliance scan | 0.5 day |
-| #6 | F | TFL numerical match (38 outputs) | 5–7 days |
+| #6 | F | TFL numerical match (43 outputs) | 6–8 days |
 | #7 | G | Biostatistician statistical sense check | 1 day |
 | #8 | H | Lock + sign-off (populate 7-role signature blocks) | 0.5 day |
 | #9 | — | Defect: AL-11 RELREC dedupe (accepted; future fix) | Backlog |

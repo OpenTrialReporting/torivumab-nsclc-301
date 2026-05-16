@@ -67,7 +67,13 @@ tfl_programs <- c(
   "l_ae_02_deaths.R",               # Deaths listing
   "l_ae_03_disc.R",                 # AEs leading to discontinuation
   "l_lb_01_g3_plus.R",              # Grade >=3 lab values listing
-  "l_ds_01_deviations.R"            # Major protocol deviations listing
+  "l_ds_01_deviations.R",           # Major protocol deviations listing
+  # Phase 6e — pharma-standard descriptive tables (added 2026-05-17)
+  "t_cm_01_conmed.R",               # Conmed by class/PT
+  "t_vs_01_summary.R",              # VS mean change at key visits
+  "t_vs_02_weight_shift.R",         # Weight change categories
+  "t_mh_01_summary.R",              # MH by category/term
+  "t_dv_01_deviations.R"            # Protocol deviations detail
 )
 
 run_tfl <- function(script) {

@@ -292,7 +292,14 @@ adam_rows <- function() {
     adlb  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §3", source = "LB + ADSL",                       analyses = "T-LB-01/02, L-LB-01"),
     adtr  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §4", source = "TR + ADSL",                       analyses = "F-EFF-03 (Waterfall), F-EFF-04 (Spider)"),
     adrs  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §5", source = "RS + ADSL + ADTR",                analyses = "T-EFF-05 (ORR), T-EFF-06 (DCR), T-EFF-13 (ORR-ITT)"),
-    adtte = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §6", source = "ADSL + ADRS + DS + DD",           analyses = "T-EFF-01..04, T-EFF-07..12, F-EFF-01/02/05/06")
+    adtte = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §6", source = "ADSL + ADRS + DS + DD",           analyses = "T-EFF-01..04, T-EFF-07..12, F-EFF-01/02/05/06"),
+    # Phase 6e additions (pharma-standard descriptive)
+    adds  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §7",  source = "DS + ADSL",         analyses = "T-DS-01"),
+    addv  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §8",  source = "ADSL.PPROTFL (DV not simulated)", analyses = "T-DS-02, T-DV-01, L-DS-01"),
+    adex  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §9",  source = "EX + ADSL",          analyses = "T-EX-01 (DOSEAMT/CUMDOSE/RDI)"),
+    adcm  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §10", source = "CM + SUPPCM + ADSL", analyses = "T-CM-01"),
+    advs  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §11", source = "VS + ADSL",          analyses = "T-VS-01, T-VS-02"),
+    admh  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §12", source = "MH + ADSL",          analyses = "T-MH-01")
   )
 
   rows <- lapply(detail, function(d) {

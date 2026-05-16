@@ -38,10 +38,16 @@
 | 4 | ADTR  | Basic Data Structure            | TR + ADSL                  | `adtr.parquet`  | 9,378 |
 | 5 | ADRS  | Basic Data Structure            | RS + ADSL + ADTR           | `adrs.parquet`  | 3,662 |
 | 6 | ADTTE | Basic Data Structure            | ADSL + ADRS + DS + DD      | `adtte.parquet` | 1,918 |
+| 7 | ADDS  | Occurrence Data Structure       | DS + ADSL                  | `adds.parquet`  | 1,350 |
+| 8 | ADDV  | Occurrence Data Structure       | ADSL.PPROTFL (DV not simulated) | `addv.parquet` | 1 |
+| 9 | ADEX  | Basic Data Structure            | EX + ADSL                  | `adex.parquet`  | 16,097 |
+| 10 | ADCM | Occurrence Data Structure       | CM + SUPPCM + ADSL         | `adcm.parquet`  | 2,197 |
+| 11 | ADVS | Basic Data Structure            | VS + ADSL                  | `advs.parquet`  | 52,864 |
+| 12 | ADMH | Occurrence Data Structure       | MH + ADSL                  | `admh.parquet`  | 2,061 |
 
-**Dependency order** (mandatory): ADSL first; ADAE/ADLB/ADTR independent thereafter;
-ADRS requires ADTR; ADTTE requires ADRS. The `00_run_adam.R` orchestrator
-respects this.
+**Dependency order** (mandatory): ADSL first; all other datasets independent
+after ADSL except ADRS (needs ADTR) and ADTTE (needs ADRS). The
+`00_run_adam.R` orchestrator respects this.
 
 ---
 
@@ -611,12 +617,207 @@ After both implementations are complete, compare on these features per dataset:
 
 ---
 
+# 7. ADDS — Subject Disposition Analysis Dataset
+
+**SDTM inputs:** DS + ADSL · **Class:** OCCDS · **Structure:** One record per disposition event per subject · **Keys:** STUDYID, USUBJID, DSSEQ
+**Output:** `datasets/adam/adds.parquet` · **Expected N:** 1,350 (~3 records / subject: IC + RAND + disposition event)
+
+### 7.1 Variable derivations
+
+| Var | Source / Derivation |
+|---|---|
+| STUDYID..TRT01AN | Direct from DS + ADSL merge |
+| TRTSDT, TRTEDT | ADSL direct |
+| DSSEQ, DSTERM, DSDECOD, DSCAT, DSSCAT | DS direct |
+| ADT | `as.Date(DSSTDTC)` |
+| ADY | `as.integer(ADT - TRTSDT) + 1` |
+| **DSCATGY** | Derived rollup: `"Consent"` if `DSCAT='PROTOCOL MILESTONE' AND DSDECOD='INFORMED CONSENT OBTAINED'`; `"Randomisation"` if same cat with `DSDECOD='RANDOMIZED'`; `"Completed"` if `DSCAT='DISPOSITION EVENT' AND DSDECOD='COMPLETED'`; `"Discontinued"` if `DSCAT='DISPOSITION EVENT'` (else); else `"Other"`. |
+| **EOTFL** | `"Y"` if `DSCATGY ∈ {Completed, Discontinued}`; else `"N"` (End-of-Treatment record flag) |
+| ANL01FL | `"Y"` for all records |
+
+**Sort:** `(USUBJID, DSSEQ)`. **Expected: 1,350 rows.**
+
+---
+
+# 8. ADDV — Protocol Deviations Analysis Dataset
+
+**SDTM inputs:** ADSL.PPROTFL (SDTM.DV not simulated in this dataset) · **Class:** OCCDS · **Structure:** One record per deviation per subject · **Keys:** STUDYID, USUBJID, DVSEQ
+**Output:** `datasets/adam/addv.parquet` · **Expected N:** 1 (the single randomised-never-dosed subject)
+
+### 8.1 Synthetic-data limitation
+
+A real study sources ADDV from SDTM.DV. This dataset has no SDTM.DV, so the
+only deviation that can be derived is `PPROTFL='N' AND SAFFL='N'` (randomised
+but never dosed). Other deviation categories (eligibility violation,
+prohibited conmed, missed assessments) are NOT populated.
+
+### 8.2 Variable derivations
+
+| Var | Source / Derivation |
+|---|---|
+| STUDYID..TRT01AN | ADSL direct |
+| DVSEQ | `1L` (one deviation per qualifying subject) |
+| **DVTERM** | `"Randomised but never dosed"` if `TRTSDT is NULL`, else `"Other (not subcategorised in synthetic data)"` |
+| **DVDECOD** | `"NEVER DOSED"` if `TRTSDT is NULL`, else `"OTHER"` |
+| **DVCAT** | `"MAJOR"` for all rows |
+| **DVSCAT** | `"STUDY-DRUG ELIGIBILITY"` |
+| ADT | If `TRTSDT` non-NULL: `as.Date(TRTSDT)`; else `as.Date(RANDDT)` |
+| ANL01FL | `"Y"` |
+
+**Sort:** `USUBJID`. **Expected: 1 row.**
+
+---
+
+# 9. ADEX — Exposure Analysis Dataset
+
+**SDTM inputs:** EX + ADSL · **Class:** BDS · **Structure:** One record per administration + one summary record per subject per drug per parameter · **Keys:** STUDYID, USUBJID, PARAMCD, AEXTRT
+**Output:** `datasets/adam/adex.parquet` · **Expected N:** ~16,097
+
+### 9.1 Parameters
+
+| PARAMCD | PARAM | Granularity | Derivation |
+|---|---|---|---|
+| DOSEAMT | Dose Amount per Administration | One row per `SDTM.EX` record | `AVAL = as.numeric(EXDOSE)`; `AVALU = EXDOSU`; `NCYCLE = row_number()` per `(USUBJID, AEXTRT)` ordered by `ADT` |
+| CUMDOSE | Cumulative Dose | One row per `(USUBJID, AEXTRT)` | `AVAL = sum(DOSEAMT.AVAL)` per group |
+| RDI | Relative Dose Intensity (%) | One row per `(USUBJID, AEXTRT)` | `AVAL = 100 × actual_cumulative / planned_cumulative` |
+
+### 9.2 Planned cumulative dose
+
+| Drug | Planned per cycle | Notes |
+|---|---|---|
+| TORIVUMAB | 200 mg | Fixed flat dose |
+| PLACEBO | 200 mg | Matched placebo |
+| CARBOPLATIN, PEMETREXED | Per-subject mean of actual doses | Synthetic-data simplification (real study: per-cycle BSA / AUC calculation) |
+
+`planned_cumulative = planned_per_cycle × n_administrations`. RDI capped at NA if `planned_cumulative = 0`.
+
+### 9.3 Variable list
+
+| Var | Source / Derivation |
+|---|---|
+| STUDYID..TRT01AN | EX + ADSL merge |
+| TRTSDT, TRTEDT, TRTDURD | ADSL direct |
+| AEXSEQ | Per-USUBJID row_number for DOSEAMT records (NA for CUMDOSE/RDI) |
+| AEXTRT | `EXTRT` (drug name, upper-case) |
+| PARAM, PARAMCD, AVAL, AVALU | Per §9.1 |
+| ADT | `as.Date(EXSTDTC)` for DOSEAMT; `max(ADT)` per group for CUMDOSE/RDI |
+| ADY, NCYCLE, VISIT, VISITNUM | Per administration |
+| ANL01FL | `"Y"` |
+
+**Sort:** `(USUBJID, AEXTRT, ADT)` for DOSEAMT; `(USUBJID, AEXTRT)` for summaries.
+
+---
+
+# 10. ADCM — Concomitant Medications Analysis Dataset
+
+**SDTM inputs:** CM + SUPPCM + ADSL · **Class:** OCCDS · **Structure:** One record per medication occurrence per subject · **Keys:** STUDYID, USUBJID, CMSEQ
+**Output:** `datasets/adam/adcm.parquet` · **Expected N:** 2,197
+
+### 10.1 Pre-processing
+
+```
+suppcm_wide = SUPPCM pivoted on QNAM → columns CMATC, CMIRAEFL
+# Rename SUPPCM's CMATC to CMATC_SUPP to avoid collision with CM.CMATC
+
+adcm = CM LEFT JOIN ADSL_vars LEFT JOIN suppcm_wide(rename) ON (USUBJID, CMSEQ)
+adcm$CMATC = coalesce(adcm$CMATC, adcm$CMATC_SUPP)
+```
+
+### 10.2 Derived flags
+
+| Var | Derivation |
+|---|---|
+| ASTDT, AENDT | `as.Date(CMSTDTC)`, `as.Date(CMENDTC)` |
+| ASTDY | `as.integer(ASTDT - TRTSDT) + 1` |
+| AENDY | `as.integer(AENDT - TRTSDT) + 1` (NA if AENDT NA) |
+| **ONTRTFL** | `"Y"` if `ASTDT ≤ TRTEDT AND (AENDT NULL OR AENDT ≥ TRTSDT)`; else `"N"` |
+| **PRIORFL** | `"Y"` if `ASTDT < TRTSDT AND AENDT < TRTSDT`; else `"N"` |
+| **CONFL** | Same as ONTRTFL (concomitant ≡ on-treatment in this study) |
+| **CMIRAEFL** | From SUPPCM `QNAM='CMIRAEFL'`; default `"N"` if NA |
+| ANL01FL | `"Y"` |
+| AVAL | NA (OCCDS — no analysis value) |
+
+**Sort:** `(USUBJID, CMSEQ)`. **Expected: 2,197 rows.**
+
+---
+
+# 11. ADVS — Vital Signs Analysis Dataset
+
+**SDTM inputs:** VS + ADSL · **Class:** BDS · **Structure:** One record per subject per parameter per visit · **Keys:** STUDYID, USUBJID, PARAMCD, AVISITN
+**Output:** `datasets/adam/advs.parquet` · **Expected N:** 52,864
+
+### 11.1 Parameter mapping
+
+```
+PARAM   = VS.VSTEST
+PARAMCD = VS.VSTESTCD     (SYSBP, DIABP, HR, WEIGHT, HEIGHT, TEMP, RESP)
+PARAMN  = integer rank of PARAMCD (alphabetical)
+```
+
+### 11.2 Visit + analysis-value derivations
+
+```
+ADT     = as.Date(VS.VSDTC)
+ADY     = as.integer(ADT - TRTSDT) + 1
+AVISIT  = VS.VISIT
+AVISITN = VS.VISITNUM
+AVAL    = VS.VSSTRESN
+AVALC   = VS.VSSTRESC
+AVALU   = VS.VSSTRESU
+
+ABLFL = "Y" if AVISIT in {SCREENING, SCR, C1D1} AND ADT <= TRTSDT, else NA
+```
+
+### 11.3 Baseline + change
+
+```
+baseline = last AVAL per (USUBJID, PARAMCD) where ABLFL='Y' AND AVAL not NA
+adVS = adVS LEFT JOIN baseline → BASE
+CHG  = AVAL - BASE
+PCHG = 100 × (AVAL - BASE) / BASE   (NA if BASE NA or 0)
+```
+
+`ANL01FL = "Y"` for all records. **Sort:** `(USUBJID, PARAMCD, AVISITN, ADT)`.
+
+---
+
+# 12. ADMH — Medical History Analysis Dataset
+
+**SDTM inputs:** MH + ADSL · **Class:** OCCDS · **Structure:** One record per condition per subject · **Keys:** STUDYID, USUBJID, MHSEQ
+**Output:** `datasets/adam/admh.parquet` · **Expected N:** 2,061
+
+### 12.1 Date handling (partial dates)
+
+`MHSTDTC` may be partial (`YYYY` or `YYYY-MM`). Per SAP §7, no imputation for descriptive MH summary. Therefore:
+
+```
+ASTDT = as.Date(MHSTDTC)  if nchar(MHSTDTC) == 10
+        NA                 otherwise
+ASTDY = as.integer(ASTDT - TRTSDT) + 1   (NA where ASTDT NA)
+```
+
+### 12.2 Derived flags
+
+| Var | Derivation |
+|---|---|
+| **PCANCERFL** | `"Y"` if `MHCAT == "PRIMARY DIAGNOSIS"`; else `"N"` (NSCLC diagnosis flag) |
+| **ONGOFL** | `"Y"` if `MHENRTPT == "ONGOING"`; else `"N"` |
+| **PRIORFL** | `"Y"` if `MHENRTPT == "BEFORE"`; else `"N"` |
+| ANL01FL | `"Y"` |
+
+Other variables (MHSEQ, MHTERM, MHDECOD, MHCAT, MHSTDTC) carry through unchanged from MH.
+
+**Sort:** `(USUBJID, MHSEQ)`. **Expected: 2,061 rows.**
+
+---
+
 ## Change log
 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial complete spec covering all 6 ADaM datasets (ADSL, ADAE, ADLB, ADTR, ADRS, ADTTE) with source → target traceability, derivation pseudocode, and QC check list for double programming. Aligned with v0.3 ADTTE (5 PARAMCDs including OSWOT for estimand E1b). |
+| 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Added §7–§12 for the 6 pharma-standard descriptive datasets: ADDS (disposition rollup, EOTFL), ADDV (deviations — synth-data limited), ADEX (DOSEAMT/CUMDOSE/RDI), ADCM (CMATC coalesce, ONTRTFL/PRIORFL/CONFL/CMIRAEFL), ADVS (baseline+change), ADMH (PCANCERFL/ONGOFL/PRIORFL, partial-date handling). ADaM total now 12 datasets. |
 
 ---
 
-*Last updated: 2026-05-16*
+*Last updated: 2026-05-17*

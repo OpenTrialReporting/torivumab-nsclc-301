@@ -30,9 +30,9 @@ Phase 4: SDTM (21 domains incl. DA + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE �
    ↓
 Phase 4.5: SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
-Phase 5: ADaM (6 datasets) ✅ COMPLETE — Gate 4 PASSED (2026-04-25); all 6 Parquets in datasets/adam/
+Phase 5: ADaM (12 datasets — 6 efficacy/safety + 6 pharma-standard descriptive: ADDS/ADDV/ADEX/ADCM/ADVS/ADMH) ✅ COMPLETE (extended 2026-05-17)
    ↓
-Phase 6: TFLs (38 outputs in RTF + DOCX + HTML + PNG) ✅ COMPLETE (2026-05-16)
+Phase 6: TFLs (43 outputs in RTF + DOCX + HTML + PNG) ✅ COMPLETE
    ↓
 QC layer: validation strategy + 3 Excel trackers + 5 tools ✅ IN PLACE
           See qc/VALIDATION-PLAN.md and GitHub issues #1–#9.

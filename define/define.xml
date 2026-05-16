@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260516212847"
-     CreationDateTime="2026-05-16T21:28:47"
-     AsOfDateTime="2026-05-16T21:28:47"
+     FileOID="CTX-NSCLC-301.20260517001941"
+     CreationDateTime="2026-05-17T00:19:40"
+     AsOfDateTime="2026-05-17T00:19:40"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -473,6 +473,131 @@
           <def:title>adae.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADCM" Name="ADCM" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADCM" Purpose="Analysis" def:Structure="One record per subject per concomitant medication occurrence" def:Class="OCCURRENCE DATA STRUCTURE" def:ArchiveLocationID="LF.ADCM" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Concomitant Medications Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADCM.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADCM.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADCM.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRT01P" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRT01A" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRT01PN" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRT01AN" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRTSDT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.TRTEDT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMSEQ" OrderNumber="13" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADCM.CMTRT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMDECOD" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMATC" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMINDC" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMROUTE" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMSTDTC" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMENDTC" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.ASTDT" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.AENDT" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.ASTDY" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.AENDY" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.PRIORFL" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CONFL" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.ONTRTFL" OrderNumber="27" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.CMIRAEFL" OrderNumber="28" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.ANL01FL" OrderNumber="29" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADCM.AVAL" OrderNumber="30" Mandatory="No"/>
+        <def:leaf ID="LF.ADCM" xlink:href="adcm.xpt">
+          <def:title>adcm.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADDS" Name="ADDS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADDS" Purpose="Analysis" def:Structure="One record per subject per disposition event" def:Class="OCCURRENCE DATA STRUCTURE" def:ArchiveLocationID="LF.ADDS" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Subject Disposition Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADDS.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADDS.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADDS.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.PPROTFL" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DTHFL" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRT01P" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRT01A" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRT01PN" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRT01AN" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRTSDT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.TRTEDT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DSSEQ" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADDS.DSTERM" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DSDECOD" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DSCAT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DSSCAT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.DSCATGY" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.EOTFL" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.ADT" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.ADY" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDS.ANL01FL" OrderNumber="24" Mandatory="No"/>
+        <def:leaf ID="LF.ADDS" xlink:href="adds.xpt">
+          <def:title>adds.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADDV" Name="ADDV" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADDV" Purpose="Analysis" def:Structure="One record per subject per protocol deviation" def:Class="OCCURRENCE DATA STRUCTURE" def:ArchiveLocationID="LF.ADDV" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Protocol Deviations Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADDV.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADDV.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADDV.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.PPROTFL" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DTHFL" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRT01P" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRT01A" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRT01PN" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRT01AN" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRTSDT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.TRTEDT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSEQ" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADDV.DVTERM" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVDECOD" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVCAT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSCAT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADT" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADY" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ANL01FL" OrderNumber="22" Mandatory="No"/>
+        <def:leaf ID="LF.ADDV" xlink:href="addv.xpt">
+          <def:title>addv.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADEX" Name="ADEX" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADEX" Purpose="Analysis" def:Structure="One record per subject per drug per administration or summary parameter" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADEX" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Exposure Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADEX.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADEX.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADEX.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRT01P" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRT01A" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRT01PN" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRT01AN" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRTSDT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRTEDT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.TRTDURD" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.AEXSEQ" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.AEXTRT" OrderNumber="15" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.ADEX.PARAM" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.PARAMCD" OrderNumber="17" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADEX.AVAL" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.AVALU" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.ADT" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.ADY" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.NCYCLE" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.VISIT" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.VISITNUM" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.ANL01FL" OrderNumber="25" Mandatory="No"/>
+        <def:leaf ID="LF.ADEX" xlink:href="adex.xpt">
+          <def:title>adex.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
       <ItemGroupDef OID="IG.ADLB" Name="ADLB" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADLB" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADLB" def:StandardOID="STD.ADAM">
         <Description><TranslatedText xml:lang="en">Laboratory Analysis Dataset</TranslatedText></Description>
         <ItemRef ItemOID="IT.ADLB.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
@@ -512,6 +637,35 @@
         <ItemRef ItemOID="IT.ADLB.VISITNUM" OrderNumber="35" Mandatory="No"/>
         <def:leaf ID="LF.ADLB" xlink:href="adlb.xpt">
           <def:title>adlb.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADMH" Name="ADMH" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADMH" Purpose="Analysis" def:Structure="One record per subject per medical history condition" def:Class="OCCURRENCE DATA STRUCTURE" def:ArchiveLocationID="LF.ADMH" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Medical History Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADMH.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADMH.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADMH.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRT01P" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRT01A" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRT01PN" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRT01AN" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRTSDT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.TRTEDT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.MHSEQ" OrderNumber="13" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADMH.MHTERM" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.MHDECOD" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.MHCAT" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.MHSTDTC" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.ASTDT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.ASTDY" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.PCANCERFL" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.ONGOFL" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.PRIORFL" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.ANL01FL" OrderNumber="23" Mandatory="No"/>
+        <def:leaf ID="LF.ADMH" xlink:href="admh.xpt">
+          <def:title>admh.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
       <ItemGroupDef OID="IG.ADRS" Name="ADRS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADRS" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADRS" def:StandardOID="STD.ADAM">
@@ -633,6 +787,40 @@
         <ItemRef ItemOID="IT.ADTTE.ANL01FL" OrderNumber="19" Mandatory="No"/>
         <def:leaf ID="LF.ADTTE" xlink:href="adtte.xpt">
           <def:title>adtte.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.ADVS" Name="ADVS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADVS" Purpose="Analysis" def:Structure="One record per subject per vital-sign parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADVS" def:StandardOID="STD.ADAM">
+        <Description><TranslatedText xml:lang="en">Vital Signs Analysis Dataset</TranslatedText></Description>
+        <ItemRef ItemOID="IT.ADVS.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.ADVS.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.ADVS.SUBJID" OrderNumber="3" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.SITEID" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.SAFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ITTFL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRT01P" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRT01A" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRT01PN" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRT01AN" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRTSDT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.TRTEDT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.VSSEQ" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.PARAM" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.PARAMCD" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADVS.PARAMN" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ADT" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ADY" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.AVISIT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.AVISITN" OrderNumber="20" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.ADVS.AVAL" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.AVALC" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.AVALU" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.BASE" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.CHG" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.PCHG" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ABLFL" OrderNumber="27" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ANL01FL" OrderNumber="28" Mandatory="No"/>
+        <def:leaf ID="LF.ADVS" xlink:href="advs.xpt">
+          <def:title>advs.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
       <ItemDef OID="IT.AE.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1903,6 +2091,410 @@
         <Description><TranslatedText xml:lang="en">AVAL</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
+      <ItemDef OID="IT.ADCM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMSEQ" Name="CMSEQ" SASFieldName="CMSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMTRT" Name="CMTRT" SASFieldName="CMTRT" DataType="text" Length="23">
+        <Description><TranslatedText xml:lang="en">Reported Name of Drug, Med, or Therapy</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMDECOD" Name="CMDECOD" SASFieldName="CMDECOD" DataType="text" Length="23">
+        <Description><TranslatedText xml:lang="en">Standardized Medication Name</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMATC" Name="CMATC" SASFieldName="CMATC" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">CMATC</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMINDC" Name="CMINDC" SASFieldName="CMINDC" DataType="text" Length="20">
+        <Description><TranslatedText xml:lang="en">Indication</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMROUTE" Name="CMROUTE" SASFieldName="CMROUTE" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Route of Administration</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMSTDTC" Name="CMSTDTC" SASFieldName="CMSTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Medication</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMENDTC" Name="CMENDTC" SASFieldName="CMENDTC" DataType="text" Length="10">
+        <Description><TranslatedText xml:lang="en">End Date/Time of Medication</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ASTDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.AENDT" Name="AENDT" SASFieldName="AENDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">AENDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.ASTDY" Name="ASTDY" SASFieldName="ASTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ASTDY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.AENDY" Name="AENDY" SASFieldName="AENDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">AENDY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.PRIORFL" Name="PRIORFL" SASFieldName="PRIORFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">PRIORFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CONFL" Name="CONFL" SASFieldName="CONFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">CONFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.ONTRTFL" Name="ONTRTFL" SASFieldName="ONTRTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ONTRTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.CMIRAEFL" Name="CMIRAEFL" SASFieldName="CMIRAEFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">CMIRAEFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADCM.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">AVAL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.PPROTFL" Name="PPROTFL" SASFieldName="PPROTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">PPROTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DTHFL" Name="DTHFL" SASFieldName="DTHFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">DTHFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSSEQ" Name="DSSEQ" SASFieldName="DSSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSTERM" Name="DSTERM" SASFieldName="DSTERM" DataType="text" Length="25">
+        <Description><TranslatedText xml:lang="en">Reported Term for the Disposition Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSDECOD" Name="DSDECOD" SASFieldName="DSDECOD" DataType="text" Length="25">
+        <Description><TranslatedText xml:lang="en">Standardized Disposition Term</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSCAT" Name="DSCAT" SASFieldName="DSCAT" DataType="text" Length="18">
+        <Description><TranslatedText xml:lang="en">Category for Disposition Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSSCAT" Name="DSSCAT" SASFieldName="DSSCAT" DataType="text" Length="21">
+        <Description><TranslatedText xml:lang="en">Subcategory for Disposition Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.DSCATGY" Name="DSCATGY" SASFieldName="DSCATGY" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">DSCATGY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.EOTFL" Name="EOTFL" SASFieldName="EOTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">EOTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ADT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.ADY" Name="ADY" SASFieldName="ADY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ADY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDS.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.PPROTFL" Name="PPROTFL" SASFieldName="PPROTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">PPROTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DTHFL" Name="DTHFL" SASFieldName="DTHFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">DTHFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="22">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="22">
+        <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVSEQ" Name="DVSEQ" SASFieldName="DVSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">DVSEQ</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVTERM" Name="DVTERM" SASFieldName="DVTERM" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">DVTERM</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVDECOD" Name="DVDECOD" SASFieldName="DVDECOD" DataType="text" Length="11">
+        <Description><TranslatedText xml:lang="en">DVDECOD</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVCAT" Name="DVCAT" SASFieldName="DVCAT" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">DVCAT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="22">
+        <Description><TranslatedText xml:lang="en">DVSCAT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ADT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.ADY" Name="ADY" SASFieldName="ADY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ADY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">STUDYID</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">USUBJID</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">SUBJID</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">SITEID</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">TRT01P</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">TRT01A</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.TRTDURD" Name="TRTDURD" SASFieldName="TRTDURD" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRTDURD</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.AEXSEQ" Name="AEXSEQ" SASFieldName="AEXSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">AEXSEQ</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.AEXTRT" Name="AEXTRT" SASFieldName="AEXTRT" DataType="text" Length="11">
+        <Description><TranslatedText xml:lang="en">AEXTRT</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="37">
+        <Description><TranslatedText xml:lang="en">PARAM</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">PARAMCD</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">AVAL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.AVALU" Name="AVALU" SASFieldName="AVALU" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">AVALU</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ADT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.ADY" Name="ADY" SASFieldName="ADY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ADY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.NCYCLE" Name="NCYCLE" SASFieldName="NCYCLE" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">NCYCLE</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">VISIT</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">VISITNUM</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADEX.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.ADLB.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">STUDYID</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -2042,6 +2634,98 @@
       <ItemDef OID="IT.ADLB.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">VISITNUM</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.MHSEQ" Name="MHSEQ" SASFieldName="MHSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.MHTERM" Name="MHTERM" SASFieldName="MHTERM" DataType="text" Length="50">
+        <Description><TranslatedText xml:lang="en">Reported Term for the Medical History</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.MHDECOD" Name="MHDECOD" SASFieldName="MHDECOD" DataType="text" Length="50">
+        <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.MHCAT" Name="MHCAT" SASFieldName="MHCAT" DataType="text" Length="17">
+        <Description><TranslatedText xml:lang="en">Category for Medical History</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.MHSTDTC" Name="MHSTDTC" SASFieldName="MHSTDTC" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Medical History Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ASTDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.ASTDY" Name="ASTDY" SASFieldName="ASTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ASTDY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.PCANCERFL" Name="PCANCERFL" SASFieldName="PCANCERFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">PCANCERFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.ONGOFL" Name="ONGOFL" SASFieldName="ONGOFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ONGOFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.PRIORFL" Name="PRIORFL" SASFieldName="PRIORFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">PRIORFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADMH.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">STUDYID</TranslatedText></Description>
@@ -2428,6 +3112,118 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">SAFFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ITTFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01PN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">TRT01AN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTSDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.VSSEQ" Name="VSSEQ" SASFieldName="VSSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Vital Signs Test Name</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="6">
+        <Description><TranslatedText xml:lang="en">Vital Signs Test Short Name</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.PARAMN" Name="PARAMN" SASFieldName="PARAMN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">PARAMN</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">ADT</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.ADY" Name="ADY" SASFieldName="ADY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">ADY</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.AVISIT" Name="AVISIT" SASFieldName="AVISIT" DataType="text" Length="11">
+        <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.AVISITN" Name="AVISITN" SASFieldName="AVISITN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">Numeric Result/Finding in Standard Units</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.AVALC" Name="AVALC" SASFieldName="AVALC" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">Character Result/Finding in Std Format</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.AVALU" Name="AVALU" SASFieldName="AVALU" DataType="text" Length="11">
+        <Description><TranslatedText xml:lang="en">Standard Units</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.BASE" Name="BASE" SASFieldName="BASE" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">BASE</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.CHG" Name="CHG" SASFieldName="CHG" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">Numeric Result/Finding in Standard Units</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.PCHG" Name="PCHG" SASFieldName="PCHG" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">PCHG</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.ABLFL" Name="ABLFL" SASFieldName="ABLFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">ABLFL</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADVS.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">ANL01FL</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>

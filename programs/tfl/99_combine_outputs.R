@@ -50,7 +50,13 @@ PILOT_OUTPUTS <- list(
   list(id = "L-AE-02",  title = "Listing of Deaths",                          kind = "listing"),
   list(id = "L-AE-03",  title = "Listing of AEs Leading to Discontinuation",  kind = "listing"),
   list(id = "L-LB-01",  title = "Listing of Grade ≥3 Lab Abnormalities",      kind = "listing"),
-  list(id = "L-DS-01",  title = "Listing of Major Protocol Deviations",       kind = "listing")
+  list(id = "L-DS-01",  title = "Listing of Major Protocol Deviations",       kind = "listing"),
+  # Phase 6e — pharma-standard descriptive
+  list(id = "T-CM-01",  title = "Concomitant Medications by Class and PT",    kind = "table"),
+  list(id = "T-VS-01",  title = "Vital Signs — Mean Change at Key Visits",    kind = "table"),
+  list(id = "T-VS-02",  title = "Weight Change Categories",                    kind = "table"),
+  list(id = "T-MH-01",  title = "Medical History by Category and Term",        kind = "table"),
+  list(id = "T-DV-01",  title = "Protocol Deviations — Detail",                kind = "table")
 )
 
 # ---- HTML combined ---------------------------------------------------------

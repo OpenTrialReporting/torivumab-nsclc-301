@@ -131,7 +131,32 @@ DOMAIN_META <- list(
   adtte  = list(class = "BASIC DATA STRUCTURE",
                 structure = "One record per subject per time-to-event parameter",
                 purpose = "Analysis",
-                keys = c("STUDYID", "USUBJID", "PARAMCD"))
+                keys = c("STUDYID", "USUBJID", "PARAMCD")),
+  # Pharma-standard descriptive ADaMs (added 2026-05-17)
+  adds   = list(class = "OCCURRENCE DATA STRUCTURE",
+                structure = "One record per subject per disposition event",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "DSSEQ")),
+  addv   = list(class = "OCCURRENCE DATA STRUCTURE",
+                structure = "One record per subject per protocol deviation",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "DVSEQ")),
+  adex   = list(class = "BASIC DATA STRUCTURE",
+                structure = "One record per subject per drug per administration or summary parameter",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "PARAMCD", "AEXTRT")),
+  adcm   = list(class = "OCCURRENCE DATA STRUCTURE",
+                structure = "One record per subject per concomitant medication occurrence",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "CMSEQ")),
+  advs   = list(class = "BASIC DATA STRUCTURE",
+                structure = "One record per subject per vital-sign parameter per analysis visit",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN")),
+  admh   = list(class = "OCCURRENCE DATA STRUCTURE",
+                structure = "One record per subject per medical history condition",
+                purpose = "Analysis",
+                keys = c("STUDYID", "USUBJID", "MHSEQ"))
 )
 
 DOMAIN_LABEL <- c(
@@ -153,7 +178,13 @@ DOMAIN_LABEL <- c(
   adlb  = "Laboratory Analysis Dataset",
   adtr  = "Tumor Results Analysis Dataset",
   adrs  = "Disease Response Analysis Dataset",
-  adtte = "Time-to-Event Analysis Dataset"
+  adtte = "Time-to-Event Analysis Dataset",
+  adds  = "Subject Disposition Analysis Dataset",
+  addv  = "Protocol Deviations Analysis Dataset",
+  adex  = "Exposure Analysis Dataset",
+  adcm  = "Concomitant Medications Analysis Dataset",
+  advs  = "Vital Signs Analysis Dataset",
+  admh  = "Medical History Analysis Dataset"
 )
 
 # -----------------------------------------------------------------------------

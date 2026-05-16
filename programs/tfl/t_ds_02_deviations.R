@@ -3,30 +3,28 @@
 # t_ds_02_deviations.R
 # T-DS-02 — Major Protocol Deviations
 # Population: ITT
-# Source: ADSL.PPROTFL  (SDTM.DS with DSCAT='PROTOCOL DEVIATION' not simulated)
+# Source: ADDV  (refactored 2026-05-17 to use ADDV instead of ADSL.PPROTFL)
 # =============================================================================
 
 adsl <- load_adam("adsl") |> filter(ITTFL == "Y")
+addv <- load_adam("addv")
 counts <- adsl_arm_counts(adsl, "ITTFL")
 
-# Single deviation category we can populate from this synthetic data:
-# "Randomised but never dosed" → PPROTFL='N' & SAFFL='N'
-n_never_dosed <- list(
-  trt = sum(adsl$PPROTFL == "N" & adsl$SAFFL == "N" &
-             adsl$TRT01P == "Torivumab + Chemotherapy"),
-  pbo = sum(adsl$PPROTFL == "N" & adsl$SAFFL == "N" &
-             adsl$TRT01P == "Placebo + Chemotherapy"),
-  tot = sum(adsl$PPROTFL == "N" & adsl$SAFFL == "N")
-)
-n_total_dev <- list(
-  trt = sum(adsl$PPROTFL == "N" & adsl$TRT01P == "Torivumab + Chemotherapy"),
-  pbo = sum(adsl$PPROTFL == "N" & adsl$TRT01P == "Placebo + Chemotherapy"),
-  tot = sum(adsl$PPROTFL == "N")
-)
+n_arm <- function(filter_expr) {
+  flt <- addv |> filter(!!enquo(filter_expr))
+  list(
+    trt = n_distinct(flt$USUBJID[flt$TRT01P == "Torivumab + Chemotherapy"]),
+    pbo = n_distinct(flt$USUBJID[flt$TRT01P == "Placebo + Chemotherapy"]),
+    tot = n_distinct(flt$USUBJID)
+  )
+}
+
+n_any         <- n_arm(TRUE)
+n_never_dosed <- n_arm(DVDECOD == "NEVER DOSED")
 
 rows <- data.frame(
   Label = c(
-    "Subjects with ≥ 1 major deviation (PPROTFL = N)",
+    "Subjects with ≥ 1 major deviation",
     "Deviation category",
     "  Randomised but never dosed",
     "  Eligibility criteria violated",
@@ -34,56 +32,35 @@ rows <- data.frame(
     "  ≥ 2 consecutive missed tumour assessments",
     "  Other"
   ),
-  TRT = c(
-    fmt_n_pct(n_total_dev$trt,    counts$n_trt),
-    "",
-    fmt_n_pct(n_never_dosed$trt,  counts$n_trt),
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)"
-  ),
-  PBO = c(
-    fmt_n_pct(n_total_dev$pbo,    counts$n_pbo),
-    "",
-    fmt_n_pct(n_never_dosed$pbo,  counts$n_pbo),
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)"
-  ),
-  TOT = c(
-    fmt_n_pct(n_total_dev$tot,    counts$n_tot),
-    "",
-    fmt_n_pct(n_never_dosed$tot,  counts$n_tot),
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)",
-    "0 (0.0)"
-  ),
+  TRT = c(fmt_n_pct(n_any$trt, counts$n_trt), "",
+          fmt_n_pct(n_never_dosed$trt, counts$n_trt),
+          "0 (0.0)", "0 (0.0)", "0 (0.0)", "0 (0.0)"),
+  PBO = c(fmt_n_pct(n_any$pbo, counts$n_pbo), "",
+          fmt_n_pct(n_never_dosed$pbo, counts$n_pbo),
+          "0 (0.0)", "0 (0.0)", "0 (0.0)", "0 (0.0)"),
+  TOT = c(fmt_n_pct(n_any$tot, counts$n_tot), "",
+          fmt_n_pct(n_never_dosed$tot, counts$n_tot),
+          "0 (0.0)", "0 (0.0)", "0 (0.0)", "0 (0.0)"),
   stringsAsFactors = FALSE, check.names = FALSE
 )
-names(rows) <- c(
-  " ",
-  arm_label("Torivumab + Chemotherapy", counts$n_trt),
-  arm_label("Placebo + Chemotherapy",   counts$n_pbo),
-  arm_label("Total",                    counts$n_tot)
-)
+names(rows) <- c(" ",
+                 arm_label("Torivumab + Chemotherapy", counts$n_trt),
+                 arm_label("Placebo + Chemotherapy",   counts$n_pbo),
+                 arm_label("Total",                    counts$n_tot))
 
 ft <- flextable(rows) |> tfl_theme_ft(col1_w = 3.5)
 ft <- bold_section_ft(ft, 2)
 ft <- indent_ft(ft, 3:7, levels = 1)
 
 write_table_all_formats(
-  ft,
-  id         = "T-DS-02",
-  title      = "Major Protocol Deviations",
+  ft, id = "T-DS-02",
+  title = "Major Protocol Deviations",
   population = pop_label(counts$n_tot, "ITTFL"),
-  notes      = c(
-    "Major deviation = PPROTFL = N (ADSL).",
-    "Subcategories beyond 'randomised but never dosed' are not populated in this synthetic dataset — the simulator does not generate SDTM.DS records with DSCAT='PROTOCOL DEVIATION'. In a real study these counts would come from a database-lock deviation review.",
-    "A subject may appear in only one category (most serious deviation reported).",
-    "Source: datasets/adam/adsl.parquet  (PPROTFL, SAFFL flags)"
+  notes = c(
+    "Major deviation = ADDV record with DVCAT='MAJOR'.",
+    "Synthetic-data note: the simulator does not generate SDTM.DV / DS protocol-deviation records beyond the single randomised-never-dosed subject. Real studies populate the remaining subcategories from the database-lock deviation review.",
+    "A subject may appear in only one category.",
+    "Source: datasets/adam/addv.parquet."
   )
 )
-message(sprintf("T-DS-02 written: %d subjects with major deviations", n_total_dev$tot))
+message(sprintf("T-DS-02 written: %d subjects with major deviations", n_any$tot))

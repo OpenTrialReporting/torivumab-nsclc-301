@@ -40,12 +40,19 @@ dir.create("datasets/adam", showWarnings = FALSE, recursive = TRUE)
 # ADTTE: requires ADSL + ADRS
 
 adam_programs <- c(
-  "adsl",   # ADSL  — Subject-Level Analysis Dataset
+  "adsl",   # ADSL  — Subject-Level Analysis Dataset (must be first)
   "adae",   # ADAE  — Adverse Event Analysis Dataset
   "adlb",   # ADLB  — Laboratory Test Results BDS
   "adtr",   # ADTR  — Tumor Results BDS
   "adrs",   # ADRS  — Oncology Response Analysis Dataset
-  "adtte"   # ADTTE — Time-to-Event Analysis Dataset
+  "adtte",  # ADTTE — Time-to-Event Analysis Dataset
+  # Pharma-standard descriptive ADaMs (added 2026-05-17)
+  "adex",   # ADEX  — Exposure (DOSEAMT, CUMDOSE, RDI)
+  "adcm",   # ADCM  — Concomitant Medications (OCCDS)
+  "advs",   # ADVS  — Vital Signs BDS
+  "admh",   # ADMH  — Medical History (OCCDS)
+  "adds",   # ADDS  — Disposition (OCCDS)
+  "addv"    # ADDV  — Protocol Deviations (OCCDS)
 )
 
 run_adam <- function(dataset) {

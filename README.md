@@ -37,8 +37,8 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 | 3 | Simulated raw eCRF data | ✅ Complete — 14 domain CSVs (`programs/raw/`); v0.3 covariate-driven simulation |
 | 4 | SDTM (21 domains) | ✅ Complete — 21 Parquet domains, SDTMIG v3.4 labelled (`datasets/sdtm/`) |
 | 4.5 | SAP v0.2 + TFL shells v0.3 | ✅ Complete — Gate 3.5 PASSED; SAP includes full ICH E9(R1) estimand framework |
-| 5 | ADaM (6 datasets) | ✅ Complete — Gate 4 PASSED; 6 Parquets in `datasets/adam/` incl. OSWOT |
-| 6 | TFLs (38 outputs) | ✅ Complete — all 38 outputs in RTF + DOCX + HTML + PNG (`tfl/`) |
+| 5 | ADaM (12 datasets) | ✅ Complete — 6 efficacy/safety + 6 pharma-standard descriptive (ADDS, ADDV, ADEX, ADCM, ADVS, ADMH) |
+| 6 | TFLs (43 outputs) | ✅ Complete — all 43 outputs in RTF + DOCX + HTML + PNG (`tfl/`) |
 | **QC** | **Validation strategy + tooling + trackers** | ✅ **In place** — see `qc/VALIDATION-PLAN.md`, [GitHub issues #1–#9](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues) |
 | 7 | CSR | ⏳ Phase 7 |
 | 8 | ADRG | ⏳ Phase 8 |

@@ -2296,3 +2296,112 @@ outputs:
       variable: DSTERM
       derivation: Verbatim deviation description
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
+- id: T-CM-01
+  kind: table
+  title: Concomitant Medications by Class and Preferred Term
+  analysis_set: SAFETY
+  source_datasets:
+  - ADCM
+  parameter_codes: []
+  key_variables:
+  - TRT01A
+  - CMDECOD
+  - CMINDC
+  - ONTRTFL
+  methods:
+  - M-DESCR-CAT
+  sap_ref: §5.5
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: ATC indication class (header) + indented PT rows (>=5% in either arm)
+    columns: TRT01A
+  notes: Includes preferred terms with on-treatment incidence >= 5% in either arm.
+    Class grouping from ADCM.CMINDC (curated ATC indication class).
+- id: T-VS-01
+  kind: table
+  title: Vital Signs — Mean Change from Baseline at Key Visits
+  analysis_set: SAFETY
+  source_datasets:
+  - ADVS
+  parameter_codes:
+  - SYSBP
+  - DIABP
+  - HR
+  - WEIGHT
+  - TEMP
+  - RESP
+  key_variables:
+  - TRT01A
+  - PARAMCD
+  - AVISIT
+  - CHG
+  methods:
+  - M-DESCR-CONT
+  sap_ref: §5.5
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: Parameter (header) + indented "Change at <visit> Mean (SD)" rows
+    columns: TRT01A
+  notes: Change from baseline (ADVS.CHG) at C1D1, C4D1, and End of Treatment.
+- id: T-VS-02
+  kind: table
+  title: Weight Change Categories — Worst On-Treatment % Change
+  analysis_set: SAFETY
+  source_datasets:
+  - ADVS
+  parameter_codes:
+  - WEIGHT
+  key_variables:
+  - TRT01A
+  - PCHG
+  methods:
+  - M-DESCR-CAT
+  sap_ref: §5.5
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: 7 categories from "Loss >=20%" through "Gain >=20%"
+    columns: TRT01A
+  notes: Per-subject worst (most extreme) post-baseline % weight change.
+- id: T-MH-01
+  kind: table
+  title: Medical History by Category and Term
+  analysis_set: SAFETY
+  source_datasets:
+  - ADMH
+  parameter_codes: []
+  key_variables:
+  - TRT01A
+  - MHCAT
+  - MHDECOD
+  methods:
+  - M-DESCR-CAT
+  sap_ref: §5.5
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: MHCAT header + indented MHDECOD (>=5% in either arm)
+    columns: TRT01A
+  notes: Synthetic-data note — MHDECOD is title-case verbatim, not MedDRA-coded.
+- id: T-DV-01
+  kind: table
+  title: Protocol Deviations — Detail
+  analysis_set: ITT
+  source_datasets:
+  - ADDV
+  parameter_codes: []
+  key_variables:
+  - TRT01P
+  - DVCAT
+  - DVSCAT
+  methods:
+  - M-DESCR-CAT
+  sap_ref: §3.2
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: Severity (Major/Minor) + Subcategory breakdown
+    columns: TRT01P
+  notes: Supersedes the sparser T-DS-02 view; uses ADDV instead of raw ADSL.PPROTFL.
