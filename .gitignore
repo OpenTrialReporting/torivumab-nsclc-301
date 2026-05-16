@@ -19,3 +19,14 @@ Thumbs.db
 # Claude Code — local settings and personal memory (project-wide skills ARE committed)
 .claude/settings.local.json
 memory/
+
+# QC — auto-generated timestamped reports (regenerate via qc tooling).
+# Reports of record should be promoted out of reports/ into a named
+# subdirectory (e.g. qc/p21-reports/2026-05-16/) and committed explicitly.
+qc/reports/*/
+
+# QC programmer's independent re-derived outputs (compared against primary;
+# not committed because they're the QC programmer's working files).
+qc/sdtm/
+qc/adam/
+qc/tfl/

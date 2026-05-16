@@ -20,6 +20,32 @@ dir.create(QC_DIR, showWarnings = FALSE, recursive = TRUE)
 
 TODAY <- format(Sys.Date(), "%Y-%m-%d")
 
+# -----------------------------------------------------------------------------
+# Pre-loaded "accepted limitations" — synthetic-data simplifications that QC
+# should NOT re-discover as defects. See qc/VALIDATION-PLAN.md §8 for the
+# full table. Keys are output / dataset IDs; values are the note to insert
+# into the "Findings / issues" column.
+# -----------------------------------------------------------------------------
+ACCEPTED_LIMITATIONS <- list(
+  sdtm = list(
+    SUPPSU = "AL-01: SUPPSU is a legacy artifact (STUDYID 'TORIVUMAB-NSCLC-301', not 'CTX-NSCLC-301'); no generator script in programs/sdtm/. See SDTM-MAPPING-SPEC.md §17. Accepted — not a defect.",
+    CM     = "AL-02: cm.parquet does not include post-trial anti-cancer therapy (only supportive-care meds). Affects T-DS-03 + T-EFF-12. Accepted — not a defect.",
+    DS     = "AL-03: SDTM.DS does not carry explicit DSCAT='PROTOCOL DEVIATION' records; only PPROTFL='N' is derivable. Accepted — not a defect.",
+    RELREC = "AL-11: relrec.parquet contains duplicate rows (~5 per multi-visit lesion) because relrec.R emits one row per TU/TR record rather than one per unique lesion-id. compare_sdtm.R falls back to identical() comparison. Future relrec.R revision should distinct() on (USUBJID, RDOMAIN, IDVARVAL). Accepted — not a defect."
+  ),
+  adam = list(
+    ADTTE = "AL-04: PARAMCD='PFSINV' not derived because the synthetic data has no separate BICR vs Investigator assessment. Affects T-EFF-11. Accepted — not a defect."
+  ),
+  tfl = list(
+    `T-EFF-10` = "AL-06: τ = 30 months (not the SAP-proposed 36 months) bounded by max follow-up. See footnote in t_eff_10_os_rmst.R. Accepted — not a defect.",
+    `T-EFF-11` = "AL-07: PFS-INV ≡ PFS in synthetic data (no separate BICR). Identical results to T-EFF-03 expected. Accepted — not a defect.",
+    `T-EFF-12` = "AL-02 + AL-10: subsequent anti-cancer therapy not simulated; OSWOT censoring applies only the TRTEDT + 30d component. Accepted — not a defect.",
+    `T-DS-02`  = "AL-09: Deviation subcategories beyond 'randomised but never dosed' all show 0 (synthetic data has no granular deviation records). Accepted — not a defect.",
+    `T-DS-03`  = "AL-10: Rows for subsequent anti-cancer therapy + missed assessments show 0 (synthetic data limitation). Accepted — not a defect.",
+    `T-AE-06`  = "AL-08: AESI categorisation uses MedDRA-PT regex stand-in pending SAP §4.6 deferred AESI list. Accepted — not a defect."
+  )
+)
+
 # Status values (used in dropdowns + legend)
 STATUS_VALUES <- c(
   "Not started",
@@ -220,8 +246,10 @@ sdtm_rows <- function() {
   rows <- lapply(detail, function(d) {
     m <- meta[[d$name]]
     if (is.null(m)) m <- list(klass = "—", spec_ref = "—", source = "—", script = "—")
+    dom_upper <- toupper(d$name)
+    finding   <- ACCEPTED_LIMITATIONS$sdtm[[dom_upper]] %||% ""
     data.frame(
-      `Domain`                 = toupper(d$name),
+      `Domain`                 = dom_upper,
       `Class`                  = m$klass,
       `Source (raw / SDTM)`    = m$source,
       `Implementation script` = m$script,
@@ -236,7 +264,7 @@ sdtm_rows <- function() {
       `QC start date`          = "",
       `QC complete date`       = "",
       `Status`                 = "Programmed — pending QC",
-      `Findings / issues`      = "",
+      `Findings / issues`      = finding,
       `Resolution`             = "",
       `Lock date`              = "",
       `Comments`               = "",
@@ -269,8 +297,10 @@ adam_rows <- function() {
 
   rows <- lapply(detail, function(d) {
     m <- meta[[d$name]]
+    ds_upper <- toupper(d$name)
+    finding  <- ACCEPTED_LIMITATIONS$adam[[ds_upper]] %||% ""
     data.frame(
-      `Dataset`                 = toupper(d$name),
+      `Dataset`                 = ds_upper,
       `Class`                   = m$klass,
       `SDTM source`             = m$source,
       `Implementation script`  = paste0("programs/adam/", d$name, ".R"),
@@ -286,7 +316,7 @@ adam_rows <- function() {
       `QC start date`           = "",
       `QC complete date`        = "",
       `Status`                  = "Programmed — pending QC",
-      `Findings / issues`       = "",
+      `Findings / issues`       = finding,
       `Resolution`              = "",
       `Lock date`               = "",
       `Comments`                = "",
@@ -324,6 +354,7 @@ tfl_rows <- function() {
 
     src_ds <- paste(o$source_datasets, collapse = ", ")
 
+    finding <- ACCEPTED_LIMITATIONS$tfl[[o$id]] %||% ""
     data.frame(
       `Output ID`            = o$id,
       `Kind`                 = o$kind,
@@ -342,7 +373,7 @@ tfl_rows <- function() {
       `QC start date`        = "",
       `QC complete date`     = "",
       `Status`               = status,
-      `Findings / issues`    = "",
+      `Findings / issues`    = finding,
       `Resolution`           = "",
       `Lock date`            = "",
       `Comments`             = "",
