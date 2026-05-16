@@ -5,6 +5,14 @@
 **Status:** APPROVED 2026-04-20 (revised same day to add SAP-first ordering, D-09)
 **Audience:** Anyone (human or AI assistant) extending this repo or replicating the pipeline on a new study.
 
+> **For double programming:** See `programs/adam/ADAM-MAPPING-SPEC.md` for the
+> variable-level SDTM → ADaM mapping spec. That document is written to be
+> self-contained — a second programmer should reproduce each ADaM dataset
+> from the spec + the SDTM data + ADaMIG v1.3, without consulting the R
+> implementation in `programs/adam/*.R`. The per-dataset specs in
+> `programming-specs/AD*-spec.md` describe how each dataset is structured
+> for analysis; ADAM-MAPPING-SPEC is the traceability matrix.
+
 ---
 
 ## TL;DR

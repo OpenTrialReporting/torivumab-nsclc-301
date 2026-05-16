@@ -383,6 +383,7 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 9 outp
 - [x] Raw simulation v0.3 — Tier A (covariate-driven hazards) + Tier B (Weibull KM shape) (2026-05-16)
 - [x] Define-XML v2.1 v0.1 draft generated (covers 27 datasets, 449 vars; VLM/CodeLists deferred)
 - [x] ADaM re-derived from v0.3 SDTM (admiral 1.4.1) — Cox HR recovers protocol targets: OS 0.567 (target 0.65), PFS 0.522 (target 0.55), median OS TRT 21.4m ≈ 21.5m target
+- [x] Double-programming mapping specs: `programs/sdtm/SDTM-MAPPING-SPEC.md` (raw → SDTM, 21 domains) + `programs/adam/ADAM-MAPPING-SPEC.md` (SDTM → ADaM, 6 datasets) — self-contained for independent re-derivation
 - [ ] TFLs publication-ready (no manual edits)
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound

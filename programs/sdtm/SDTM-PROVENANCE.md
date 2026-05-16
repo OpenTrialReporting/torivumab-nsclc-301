@@ -149,6 +149,7 @@ Rscript programs/sdtm/00_run_sdtm.R
 
 | Document | Relationship |
 |---|---|
+| `programs/sdtm/SDTM-MAPPING-SPEC.md` | **Companion.** Variable-level mapping spec written for independent double programming — covers all 21 SDTM datasets from raw inputs. The R scripts in this directory are one implementation; the spec is the authoritative description. |
 | `programs/raw/RAW-PROVENANCE.md` | **Parent.** Raw CSVs are the input to these mapping programs. |
 | `datasets/sdtm/` | **Output.** 15 parquet files produced by these programs. |
 | `sap/shells/shells.yaml` | **Sibling.** Shell annotations reference SDTM variables; Phase 2 annotation update will cross-check. |
