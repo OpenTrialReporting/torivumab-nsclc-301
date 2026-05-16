@@ -241,9 +241,15 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 ---
 
-## Phase 6: TFLs (Tables, Figures, Listings) ⏳ NEXT
+## Phase 6: TFLs (Tables, Figures, Listings) ⏳ IN PROGRESS
 
-**Status:** NOT STARTED — Gate 4 passed; Phase 6 is unblocked.
+**Status:** Phase 6a pilot COMPLETE (2026-05-16) — 5 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6b/c/d to follow (remaining 33 outputs).
+
+**Phase 6a deliverables:**
+- `programs/tfl/00_run_tfl.R` orchestrator, `_helpers.R` shared utilities, `_km_plot.R` KM helper
+- T-DM-01 (Demographics), T-EFF-01 (OS), T-EFF-03 (PFS), F-EFF-01 (KM-OS), F-EFF-02 (KM-PFS)
+- Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` for stakeholder review
+- Cox HR validation: OS 0.576 (CI 0.458–0.724, target 0.65 ✓), PFS 0.504 (CI 0.405–0.628, target 0.55 ✓)
 
 **Tables:**
 - T-DM-01: Demographic and baseline characteristics (ITT)
@@ -415,7 +421,11 @@ torivumab-nsclc-301/
 │   └── shells/
 │       ├── shells.yaml / TFL-SHELLS.md
 │       └── SHELLS-PROVENANCE.md
-├── tfl/                                    ⏳ Phase 6 — NEXT
+├── tfl/                                    ⏳ Phase 6a COMPLETE (5/38); 6b/c/d ongoing
+│   ├── tables/  *.rtf|.docx|.html   (3 outputs × 3 formats)
+│   ├── figures/  *.png              (2 figures)
+│   ├── TFL-OUTPUTS.html             (combined view)
+│   └── TFL-OUTPUTS.docx             (combined view)
 │   ├── t_*.R, f_*.R, l_*.R
 │   └── tables/, figures/, listings/
 ├── define/                                 ✅ v0.1 draft 2026-05-16 (VLM deferred to v1.0)
