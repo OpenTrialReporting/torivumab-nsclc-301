@@ -137,8 +137,8 @@ reference_documents:
 - id: PROTO-1.1
   title: Protocol v1.1
   path: protocol/synopsis.md
-- id: SAP-0.1
-  title: Statistical Analysis Plan v0.1
+- id: SAP-0.2
+  title: Statistical Analysis Plan v0.2
   path: sap/SAP.md
 - id: CRF-2.0
   title: CRF Strategy v2.0
@@ -170,7 +170,7 @@ outputs:
   - M-DESCR-CONT
   sap_ref: §3.1
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   - PROTO-1.1
   layout:
     rows: One row per baseline characteristic
@@ -252,7 +252,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §3
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Screened / Randomised / ITT / Safety / PP / Response Evaluable / Discontinued (by reason) / Completed / Ongoing
       / Died
@@ -318,7 +318,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §3.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Deviation category
     columns: TRT01P + Total
@@ -353,6 +353,73 @@ outputs:
       variable: DSTERM
       derivation: n(%) by category
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
+- id: T-DS-03
+  kind: table
+  title: Intercurrent Events Summary
+  analysis_set: ITT
+  source_datasets:
+  - ADSL
+  - ADAE
+  - ADTTE
+  - SDTM.CM
+  parameter_codes: []
+  key_variables:
+  - TRT01P
+  - USUBJID
+  methods:
+  - M-DESCR-CAT
+  sap_ref: §13.3
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: Intercurrent event category (matches SAP §13.3 IE taxonomy)
+    columns: TRT01P + Total
+  notes: 'n (%) subjects experiencing each pre-specified IE. Supports reviewer
+    judgement of whether the chosen IE handling strategies (§13.3) remain
+    appropriate given observed IE frequencies.'
+  annotations:
+    population: 'ADSL: ITTFL=''Y''  |  analysis by TRT01P'
+    primary_dataset: ADSL JOIN ADAE / ADTTE / SDTM.CM
+    rows:
+    - row: Treatment discontinuation (any reason)
+      dataset: ADSL
+      where: DCSREAS is not missing
+      variable: USUBJID
+      derivation: n(%) distinct subjects
+    - row: Treatment discontinuation due to AE
+      dataset: ADSL
+      where: DCSREAS='ADVERSE EVENT'
+      variable: USUBJID
+      derivation: n(%) distinct subjects
+    - row: Initiation of subsequent anti-cancer therapy
+      dataset: SDTM.CM
+      where: CMCAT='ANTI-CANCER' AND CMSTDTC > TRTEDT
+      variable: USUBJID
+      derivation: n(%) distinct subjects (requires SDTM.CM linkage; placeholder for
+        ADCM if available)
+    - row: '>= 2 consecutive missed scheduled tumour assessments'
+      dataset: ADTTE
+      where: PARAMCD='PFS' AND EVNTDESC contains 'missed'
+      variable: USUBJID
+      derivation: n(%) — flag derivable from PFS censoring reason
+    - row: No post-baseline tumour assessment
+      dataset: ADSL
+      where: EFFFL='N' AND ITTFL='Y'
+      variable: USUBJID
+      derivation: n(%) — composite IE → counted as ORR non-responder
+    - row: Death before first response assessment
+      dataset: ADSL
+      where: DTHFL='Y' AND DTHDT < first_RSDT
+      variable: USUBJID
+      derivation: n(%) — composite IE for ORR
+    - row: Withdrawal of consent
+      dataset: ADSL
+      where: DCSREAS='WITHDRAWAL BY SUBJECT'
+      variable: USUBJID
+      derivation: n(%) distinct subjects
+    note: 'New shell v0.2 — operationalises SAP §13.3 IE taxonomy. Phase 6 dependency:
+      confirms IE counts are stable before downstream sensitivity estimands (E1b, E3a)
+      are reported.'
 - id: T-EX-01
   kind: table
   title: Study Drug Exposure
@@ -372,7 +439,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Median (min–max) treatment duration; mean (SD) cycles received; n (%) with ≥6/≥12/≥24 cycles; relative dose intensity
     columns: TRT01A
@@ -428,8 +495,9 @@ outputs:
   - M-COX-STRAT
   - M-KM-MEDIAN
   sap_ref: §5.1
+  estimand_id: E1
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   - PROTO-1.1
   layout:
     rows: n, events, censored, median OS (95% CI), HR (95% CI), stratified log-rank p
@@ -483,6 +551,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-02
   kind: table
+  estimand_id: E1
   title: Kaplan-Meier Survival Probabilities — OS
   analysis_set: ITT
   source_datasets:
@@ -497,7 +566,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.1
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Timepoints 6, 12, 18, 24 months
     columns: TRT01P — probability, 95% CI
@@ -534,6 +603,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-03
   kind: table
+  estimand_id: E2
   title: Progression-Free Survival Analysis (BICR)
   analysis_set: ITT
   source_datasets:
@@ -552,7 +622,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: n, events, censored, median PFS (95% CI), HR (95% CI), stratified log-rank p
     columns: TRT01P
@@ -604,6 +674,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-04
   kind: table
+  estimand_id: E2
   title: Kaplan-Meier Probabilities — PFS
   analysis_set: ITT
   source_datasets:
@@ -618,7 +689,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Timepoints 6, 12, 18, 24 months
     columns: TRT01P — probability, 95% CI
@@ -655,6 +726,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-05
   kind: table
+  estimand_id: E3
   title: Objective Response Rate (BICR)
   analysis_set: RESPEVAL
   source_datasets:
@@ -674,7 +746,7 @@ outputs:
   - M-WILSON
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: N, n responders, ORR % (95% CI), risk difference (95% CI), CMH p; best response breakdown (CR/PR/SD/PD/NE)
     columns: TRT01P
@@ -722,6 +794,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-06
   kind: table
+  estimand_id: E5
   title: Disease Control Rate
   analysis_set: RESPEVAL
   source_datasets:
@@ -740,7 +813,7 @@ outputs:
   - M-CLOPPER
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Same as T-EFF-05
     columns: TRT01P
@@ -772,6 +845,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-07
   kind: table
+  estimand_id: E4
   title: Duration of Response
   analysis_set: RESPONDERS
   source_datasets:
@@ -787,7 +861,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.4
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Median DoR (95% CI); proportion with DoR ≥6 mo, ≥12 mo
     columns: TRT01P
@@ -842,7 +916,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §11
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Same as T-EFF-01
     columns: TRT01P
@@ -898,7 +972,7 @@ outputs:
   - M-LANDMARK
   sap_ref: §11
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: 12 months, 24 months
     columns: TRT01P probability, difference (95% CI)
@@ -925,6 +999,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-10
   kind: table
+  estimand_id: E1a
   title: Restricted Mean Survival Time (OS)
   analysis_set: ITT
   source_datasets:
@@ -939,7 +1014,7 @@ outputs:
   - M-RMST
   sap_ref: §11
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: RMST per arm; RMST difference (95% CI)
     columns: TRT01P
@@ -971,6 +1046,7 @@ outputs:
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-EFF-11
   kind: table
+  estimand_id: E2a
   title: PFS by Investigator (Sensitivity)
   analysis_set: ITT
   source_datasets:
@@ -989,7 +1065,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §4.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Same as T-EFF-03
     columns: TRT01P
@@ -1029,6 +1105,129 @@ outputs:
       variable: AVAL,CNSR
       derivation: survdiff -> p
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
+- id: T-EFF-12
+  kind: table
+  estimand_id: E1b
+  title: Overall Survival — While-on-Treatment Sensitivity
+  analysis_set: ITT
+  source_datasets:
+  - ADTTE
+  parameter_codes:
+  - OSWOT
+  key_variables:
+  - TRT01P
+  - AVAL
+  - CNSR
+  - STRAT2
+  - STRAT3
+  methods:
+  - M-STRAT-LOGRANK
+  - M-COX-STRAT
+  - M-KM-MEDIAN
+  sap_ref: §13.4
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: Same as T-EFF-01; identifies effect attributable to randomised treatment period only
+    columns: TRT01P
+  notes: 'Requires PARAMCD=''OSWOT'' in ADTTE — censors OS at min(start of subsequent
+    anti-cancer therapy, TRTEDT + 30 days). Phase 5 ADaM gap: add OSWOT parameter to ADTTE
+    via admiral::derive_param_tte with revised censor_conditions.'
+  annotations:
+    population: 'ADSL: ITTFL=''Y''  |  analysis by TRT01P'
+    primary_dataset: ADTTE WHERE PARAMCD='OSWOT'
+    rows:
+    - row: Number of subjects
+      dataset: ADTTE
+      where: PARAMCD='OSWOT'
+      variable: USUBJID
+      derivation: n() distinct
+    - row: Events (deaths on/within 30d of treatment), n (%)
+      dataset: ADTTE
+      where: PARAMCD='OSWOT' AND CNSR=0
+      variable: CNSR
+      derivation: sum(1-CNSR) / N
+    - row: Censored (incl. censored at subsequent therapy start), n (%)
+      dataset: ADTTE
+      where: PARAMCD='OSWOT' AND CNSR=1
+      variable: CNSR
+      derivation: sum(CNSR) / N
+    - row: Median OS-WOT (months)
+      dataset: ADTTE
+      where: PARAMCD='OSWOT'
+      variable: AVAL
+      derivation: survfit -> median / 30.4375
+    - row: HR (Cox stratified) + 95% CI
+      dataset: ADTTE
+      where: PARAMCD='OSWOT'
+      variable: AVAL,CNSR
+      derivation: coxph -> exp(coef), confint
+    - row: Stratified log-rank p-value
+      dataset: ADTTE
+      where: PARAMCD='OSWOT'
+      variable: AVAL,CNSR
+      derivation: survdiff -> p
+    note: 'New shell v0.2 — supports SAP §13.4 sensitivity estimand E1b. ADaM impact:
+      add OSWOT PARAMCD before Phase 6 TFL generation.'
+- id: T-EFF-13
+  kind: table
+  estimand_id: E3a
+  title: Objective Response Rate — ITT Denominator (Sensitivity)
+  analysis_set: ITT
+  source_datasets:
+  - ADSL
+  - ADRS
+  parameter_codes:
+  - CBOR
+  key_variables:
+  - TRT01P
+  - ORRFL
+  - STRAT2
+  - STRAT3
+  methods:
+  - M-CMH-STRAT
+  - M-CLOPPER
+  sap_ref: §13.6
+  reference_documents:
+  - SAP-0.2
+  layout:
+    rows: 'Same as T-EFF-05 but denominator = ITT (450) rather than Response Evaluable.
+      Subjects without post-baseline assessment counted as non-responders (composite IE strategy
+      retained).'
+    columns: TRT01P
+  notes: Sensitivity estimand E3a — removes implicit selection in Response Evaluable
+    by using ITT denominator. More conservative read.
+  annotations:
+    population: 'ADSL: ITTFL=''Y''  |  analysis by TRT01P'
+    primary_dataset: ADSL JOIN ADRS WHERE PARAMCD='CBOR'
+    rows:
+    - row: Subjects in ITT, N
+      dataset: ADSL
+      where: ITTFL='Y'
+      variable: USUBJID
+      derivation: n() distinct
+    - row: Responders (confirmed CR/PR), n (%)
+      dataset: ADSL
+      where: ITTFL='Y' AND ORRFL='Y'
+      variable: ORRFL
+      derivation: sum(ORRFL='Y') / N_ITT
+    - row: Non-responders (incl. no post-baseline assessment), n (%)
+      dataset: ADSL
+      where: ITTFL='Y' AND (ORRFL='N' OR ORRFL is missing)
+      variable: ORRFL
+      derivation: complement of responders
+    - row: Risk difference TRT - PBO (stratified MH) + 95% CI
+      dataset: ADSL
+      where: ITTFL='Y'
+      variable: ORRFL,TRT01PN,STRAT2,STRAT3
+      derivation: mantelhaen.test -> RD, 95% CI
+    - row: Clopper-Pearson 95% CI per arm
+      dataset: ADSL
+      where: ITTFL='Y'
+      variable: ORRFL
+      derivation: binom.test by TRT01PN
+    note: 'New shell v0.2 — supports SAP §13.6 sensitivity estimand E3a. No new ADaM
+      variables required (uses existing ADSL.ORRFL).'
 - id: T-AE-01
   kind: table
   title: Overall Summary of AEs
@@ -1049,7 +1248,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death
     columns: TRT01A + Total
@@ -1120,7 +1319,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: SOC (bold) → PT
     columns: TRT01A
@@ -1167,7 +1366,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: SOC → PT
     columns: TRT01A
@@ -1203,7 +1402,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: SOC → PT
     columns: TRT01A
@@ -1240,7 +1439,7 @@ outputs:
   - M-KM-TTE-ONSET
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   - PROTO-1.1
   layout:
     rows: irAE category (pneumonitis/colitis/hepatitis/endocrinopathies/IRR) × grade
@@ -1286,7 +1485,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   - PROTO-1.1
   layout:
     rows: AESI category × grade
@@ -1325,7 +1524,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: All deaths; within 30 days of last dose; due to AE; due to disease progression; other
     columns: TRT01A
@@ -1378,7 +1577,7 @@ outputs:
   - M-SHIFT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Baseline status (Normal/Low/High)
     columns: Worst post-baseline status (Normal/Low/High)
@@ -1418,7 +1617,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: PARAMCD
     columns: TRT01A
@@ -1449,7 +1648,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.1
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     axes: x = time (months), y = survival probability (0–1)
     features: 95% CI bands (log-log); number-at-risk table at 0, 6, 12, 18, 24, 30, 36 months
@@ -1506,7 +1705,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     axes: x = time (months), y = progression-free probability
     features: Same layout as F-EFF-01
@@ -1563,7 +1762,7 @@ outputs:
   - M-WATERFALL
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     axes: x = subject (sorted), y = best % change from baseline
     features: Reference lines at −30% (PR) and +20% (PD); coloured by TRT01P
@@ -1615,7 +1814,7 @@ outputs:
   - M-SPIDER
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     axes: x = weeks from baseline, y = % change from baseline SLD
     features: One line per subject; coloured by TRT01P; optional faceting by arm
@@ -1668,7 +1867,7 @@ outputs:
   - M-FOREST-SUBGROUP
   sap_ref: §10
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: Subgroup levels
     columns: n, events, HR (95% CI), forest plot
@@ -1719,7 +1918,7 @@ outputs:
   - M-SWIMMER
   sap_ref: §5.4
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     axes: x = weeks from randomisation; one lane per responder
     features: Response episodes; markers for PD, death, ongoing
@@ -1781,7 +1980,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: One row per SAE record
     sort: USUBJID, ASTDT
@@ -1858,7 +2057,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: One row per subject with DTHFL='Y'
   notes: 'Computed columns: days from last dose to death; days from randomisation to death.'
@@ -1929,7 +2128,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: One row per AE
   notes: Filtered to AEACN='DRUG WITHDRAWN'.
@@ -1992,7 +2191,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: One row per lab result
   notes: Filtered to ATOXGR ≥ 3.
@@ -2059,7 +2258,7 @@ outputs:
   methods: []
   sap_ref: §3.2
   reference_documents:
-  - SAP-0.1
+  - SAP-0.2
   layout:
     rows: One row per deviation
   notes: Filtered to DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'. Shows deviation category and description.

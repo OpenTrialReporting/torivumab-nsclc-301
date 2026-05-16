@@ -1,9 +1,9 @@
 # TFL Shells — SIMULATED-TORIVUMAB-2026
 
 > ⚠️ **GENERATED FILE — DO NOT EDIT DIRECTLY.**
-> Source of truth: [`tfl/shells.yaml`](shells.yaml).
-> Regenerate with: `Rscript tfl/render_shells.R`
-> Validate with: `Rscript tfl/validate_shells.R`
+> Source of truth: [`sap/shells/shells.yaml`](shells.yaml).
+> Regenerate with: `Rscript sap/shells/render_shells.R`
+> Validate with: `Rscript sap/shells/validate_shells.R`
 
 > ⚠️ **FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY USE.**
 
@@ -69,12 +69,12 @@ Schema aligns with CDISC ARS v1.0 concepts (analysis_sets / data_subsets / metho
 | ID | Title | Path |
 |---|---|---|
 | PROTO-1.1 | Protocol v1.1 | [`protocol/synopsis.md`](../protocol/synopsis.md) |
-| SAP-0.1 | Statistical Analysis Plan v0.1 | [`sap/SAP.md`](../sap/SAP.md) |
+| SAP-0.2 | Statistical Analysis Plan v0.2 | [`sap/SAP.md`](../sap/SAP.md) |
 | CRF-2.0 | CRF Strategy v2.0 | [`crf/CRF-STRATEGY.md`](../crf/CRF-STRATEGY.md) |
 
 ## 4. Outputs
 
-Total: 35 outputs (24 tables, 6 figures, 5 listings).
+Total: 38 outputs (27 tables, 6 figures, 5 listings).
 
 ### 4.1 Tables
 
@@ -88,7 +88,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AGE`, `AGEGR1`, `SEX`, `RACE`, `ETHNIC`, `REGION1`, `HISTSCAT`, `BECOG`, `PDL1GR`, `STRAT1`, `STRAT2`, `STRAT3` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT]; Descriptive — Continuous [M-DESCR-CONT] |
 | **SAP reference** | §3.1 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
 | **Layout — rows** | One row per baseline characteristic |
 | **Layout — columns** | TRT01P arms + Total (three columns) |
 
@@ -104,7 +104,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `ITTFL`, `SAFFL`, `PPROTFL`, `EFFFL`, `EOSSTT`, `DCSREAS`, `DTHFL`, `RFICDT`, `RANDDT`, `TRTSDT`, `TRTEDT`, `EOSDT` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §3 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Screened / Randomised / ITT / Safety / PP / Response Evaluable / Discontinued (by reason) / Completed / Ongoing / Died |
 | **Layout — columns** | TRT01P |
 
@@ -120,11 +120,27 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `USUBJID` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §3.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Deviation category |
 | **Layout — columns** | TRT01P + Total |
 
 **Notes:** n (%) subjects with ≥1 major deviation by category. Source: SDTM.DS where DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'.
+
+#### T-DS-03 — Intercurrent Events Summary
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Intent-to-Treat (ITT) |
+| **Source datasets** | `ADSL`, `ADAE`, `ADTTE`, `SDTM.CM` |
+| **Key variables** | `TRT01P`, `USUBJID` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **SAP reference** | §13.3 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | Intercurrent event category (matches SAP §13.3 IE taxonomy) |
+| **Layout — columns** | TRT01P + Total |
+
+**Notes:** n (%) subjects experiencing each pre-specified IE. Supports reviewer judgement of whether the chosen IE handling strategies (§13.3) remain appropriate given observed IE frequencies.
 
 #### T-EX-01 — Study Drug Exposure
 
@@ -136,7 +152,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `TRTSDT`, `TRTEDT`, `TRTDURD`, `N_CYCLES`, `CUMDOSE` |
 | **Methods** | Descriptive — Continuous [M-DESCR-CONT]; Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Median (min–max) treatment duration; mean (SD) cycles received; n (%) with ≥6/≥12/≥24 cycles; relative dose intensity |
 | **Layout — columns** | TRT01A |
 
@@ -153,7 +169,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §5.1 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
+| **Estimand** | E1 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
 | **Layout — rows** | n, events, censored, median OS (95% CI), HR (95% CI), stratified log-rank p |
 | **Layout — columns** | TRT01P |
 
@@ -170,7 +187,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Kaplan-Meier Survival Probability [M-KM-PROB] |
 | **SAP reference** | §5.1 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E1 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Timepoints 6, 12, 18, 24 months |
 | **Layout — columns** | TRT01P — probability, 95% CI |
 
@@ -187,7 +205,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §5.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E2 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | n, events, censored, median PFS (95% CI), HR (95% CI), stratified log-rank p |
 | **Layout — columns** | TRT01P |
 
@@ -204,7 +223,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Kaplan-Meier Survival Probability [M-KM-PROB] |
 | **SAP reference** | §5.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E2 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Timepoints 6, 12, 18, 24 months |
 | **Layout — columns** | TRT01P — probability, 95% CI |
 
@@ -221,7 +241,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVALC`, `ORRFL`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Cochran-Mantel-Haenszel [M-CMH-STRAT]; Clopper-Pearson Exact 95% CI [M-CLOPPER]; Wilson Score 95% CI [M-WILSON] |
 | **SAP reference** | §5.3 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E3 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | N, n responders, ORR % (95% CI), risk difference (95% CI), CMH p; best response breakdown (CR/PR/SD/PD/NE) |
 | **Layout — columns** | TRT01P |
 
@@ -238,7 +259,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVALC`, `DCRFL`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Cochran-Mantel-Haenszel [M-CMH-STRAT]; Clopper-Pearson Exact 95% CI [M-CLOPPER] |
 | **SAP reference** | §5.3 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E5 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Same as T-EFF-05 |
 | **Layout — columns** | TRT01P |
 
@@ -255,7 +277,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Kaplan-Meier Median [M-KM-MEDIAN]; Kaplan-Meier Survival Probability [M-KM-PROB] |
 | **SAP reference** | §5.4 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E4 |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Median DoR (95% CI); proportion with DoR ≥6 mo, ≥12 mo |
 | **Layout — columns** | TRT01P |
 
@@ -272,7 +295,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §11 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Same as T-EFF-01 |
 | **Layout — columns** | TRT01P |
 
@@ -289,7 +312,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Landmark Survival Comparison [M-LANDMARK] |
 | **SAP reference** | §11 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | 12 months, 24 months |
 | **Layout — columns** | TRT01P probability, difference (95% CI) |
 
@@ -306,7 +329,8 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Restricted Mean Survival Time [M-RMST] |
 | **SAP reference** | §11 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E1a |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | RMST per arm; RMST difference (95% CI) |
 | **Layout — columns** | TRT01P |
 
@@ -323,11 +347,48 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `STRAT2`, `STRAT3` |
 | **Methods** | Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §4.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Estimand** | E2a |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Same as T-EFF-03 |
 | **Layout — columns** | TRT01P |
 
 **Notes:** Requires PARAMCD='PFSINV' in ADTTE.
+
+#### T-EFF-12 — Overall Survival — While-on-Treatment Sensitivity
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Intent-to-Treat (ITT) |
+| **Source datasets** | `ADTTE` |
+| **Parameter codes** | `OSWOT` |
+| **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `STRAT2`, `STRAT3` |
+| **Methods** | Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median [M-KM-MEDIAN] |
+| **SAP reference** | §13.4 |
+| **Estimand** | E1b |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | Same as T-EFF-01; identifies effect attributable to randomised treatment period only |
+| **Layout — columns** | TRT01P |
+
+**Notes:** Requires PARAMCD='OSWOT' in ADTTE — censors OS at min(start of subsequent anti-cancer therapy, TRTEDT + 30 days). Phase 5 ADaM gap: add OSWOT parameter to ADTTE via admiral::derive_param_tte with revised censor_conditions.
+
+#### T-EFF-13 — Objective Response Rate — ITT Denominator (Sensitivity)
+
+| Field | Value |
+|---|---|
+| **Kind** | table |
+| **Analysis set** | Intent-to-Treat (ITT) |
+| **Source datasets** | `ADSL`, `ADRS` |
+| **Parameter codes** | `CBOR` |
+| **Key variables** | `TRT01P`, `ORRFL`, `STRAT2`, `STRAT3` |
+| **Methods** | Stratified Cochran-Mantel-Haenszel [M-CMH-STRAT]; Clopper-Pearson Exact 95% CI [M-CLOPPER] |
+| **SAP reference** | §13.6 |
+| **Estimand** | E3a |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
+| **Layout — rows** | Same as T-EFF-05 but denominator = ITT (450) rather than Response Evaluable. Subjects without post-baseline assessment counted as non-responders (composite IE strategy retained). |
+| **Layout — columns** | TRT01P |
+
+**Notes:** Sensitivity estimand E3a — removes implicit selection in Response Evaluable by using ITT denominator. More conservative read.
 
 #### T-AE-01 — Overall Summary of AEs
 
@@ -339,7 +400,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AESDTH`, `AETOXGR`, `IRAEFL`, `AESI` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death |
 | **Layout — columns** | TRT01A + Total |
 
@@ -355,7 +416,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `AEBODSYS`, `AEDECOD`, `TRTEMFL` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | SOC (bold) → PT |
 | **Layout — columns** | TRT01A |
 
@@ -371,7 +432,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `AEBODSYS`, `AEDECOD`, `TRTEMFL`, `AETOXGR` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | SOC → PT |
 | **Layout — columns** | TRT01A |
 
@@ -387,7 +448,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `AEBODSYS`, `AEDECOD`, `AESER` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | SOC → PT |
 | **Layout — columns** | TRT01A |
 
@@ -403,7 +464,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `IRAEFL`, `IRAECAT`, `AETOXGR` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT]; Time-to-Onset / Resolution (KM) [M-KM-TTE-ONSET] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
 | **Layout — rows** | irAE category (pneumonitis/colitis/hepatitis/endocrinopathies/IRR) × grade |
 | **Layout — columns** | TRT01A |
 
@@ -419,7 +480,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `AESI`, `AETOXGR` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md), [Protocol v1.1](../protocol/synopsis.md) |
 | **Layout — rows** | AESI category × grade |
 | **Layout — columns** | TRT01A |
 
@@ -435,7 +496,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `DTHFL`, `DTHDT`, `DTHCAUS`, `TRTEDT` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | All deaths; within 30 days of last dose; due to AE; due to disease progression; other |
 | **Layout — columns** | TRT01A |
 
@@ -451,7 +512,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `PARAMCD`, `BASE`, `AVAL`, `BNRIND`, `ANRIND` |
 | **Methods** | Shift Table (Baseline → Worst Post-Baseline) [M-SHIFT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Baseline status (Normal/Low/High) |
 | **Layout — columns** | Worst post-baseline status (Normal/Low/High) |
 
@@ -467,7 +528,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01A`, `PARAMCD`, `ATOXGR` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | PARAMCD |
 | **Layout — columns** | TRT01A |
 
@@ -486,7 +547,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §5.1 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — axes** | x = time (months), y = survival probability (0–1) |
 | **Layout — features** | 95% CI bands (log-log); number-at-risk table at 0, 6, 12, 18, 24, 30, 36 months |
 | **Layout — annotations** | stratified log-rank p, HR (95% CI) |
@@ -504,7 +565,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR` |
 | **Methods** | Kaplan-Meier Median [M-KM-MEDIAN] |
 | **SAP reference** | §5.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — axes** | x = time (months), y = progression-free probability |
 | **Layout — features** | Same layout as F-EFF-01 |
 
@@ -521,7 +582,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `USUBJID`, `AVAL`, `PCHG` |
 | **Methods** | Waterfall (Best % Change) [M-WATERFALL] |
 | **SAP reference** | §5.3 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — axes** | x = subject (sorted), y = best % change from baseline |
 | **Layout — features** | Reference lines at −30% (PR) and +20% (PD); coloured by TRT01P |
 
@@ -538,7 +599,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `USUBJID`, `ADY`, `PCHG` |
 | **Methods** | Spider (Longitudinal % Change) [M-SPIDER] |
 | **SAP reference** | §5.3 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — axes** | x = weeks from baseline, y = % change from baseline SLD |
 | **Layout — features** | One line per subject; coloured by TRT01P; optional faceting by arm |
 
@@ -553,7 +614,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `AVAL`, `CNSR`, `HISTSCAT`, `REGION1`, `SEX`, `AGEGR1`, `BECOG`, `PDL1GR` |
 | **Methods** | Subgroup Forest (Unstratified Cox) [M-FOREST-SUBGROUP] |
 | **SAP reference** | §10 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | Subgroup levels |
 | **Layout — columns** | n, events, HR (95% CI), forest plot |
 
@@ -570,7 +631,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Key variables** | `TRT01P`, `USUBJID`, `AVISITN`, `AVALC`, `ADT` |
 | **Methods** | Swimmer Lane (Responders) [M-SWIMMER] |
 | **SAP reference** | §5.4 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — axes** | x = weeks from randomisation; one lane per responder |
 | **Layout — features** | Response episodes; markers for PD, death, ongoing |
 
@@ -587,7 +648,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Source datasets** | `ADAE` |
 | **Key variables** | `USUBJID`, `TRT01A`, `AEBODSYS`, `AEDECOD`, `ASTDT`, `AENDT`, `AETOXGR`, `AESER`, `AEACN`, `AEREL`, `AEOUT` |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | One row per SAE record |
 | **Layout — sort** | USUBJID, ASTDT |
 
@@ -602,7 +663,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Source datasets** | `ADSL` |
 | **Key variables** | `USUBJID`, `TRT01A`, `DTHDT`, `DTHCAUS`, `TRTEDT`, `RANDDT`, `EOSSTT` |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | One row per subject with DTHFL='Y' |
 
 **Notes:** Computed columns: days from last dose to death; days from randomisation to death.
@@ -616,7 +677,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Source datasets** | `ADAE` |
 | **Key variables** | `USUBJID`, `TRT01A`, `AEDECOD`, `ASTDT`, `AETOXGR`, `AEREL`, `TRTEDT` |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | One row per AE |
 
 **Notes:** Filtered to AEACN='DRUG WITHDRAWN'.
@@ -630,7 +691,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Source datasets** | `ADLB` |
 | **Key variables** | `USUBJID`, `TRT01A`, `PARAMCD`, `AVISIT`, `ADT`, `AVAL`, `ANRLO`, `ANRHI`, `ATOXGR` |
 | **SAP reference** | §5.5 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | One row per lab result |
 
 **Notes:** Filtered to ATOXGR ≥ 3.
@@ -644,7 +705,7 @@ Total: 35 outputs (24 tables, 6 figures, 5 listings).
 | **Source datasets** | `SDTM.DS` |
 | **Key variables** | `USUBJID`, `TRT01P`, `DSSTDTC` |
 | **SAP reference** | §3.2 |
-| **Reference documents** | [Statistical Analysis Plan v0.1](../sap/SAP.md) |
+| **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
 | **Layout — rows** | One row per deviation |
 
 **Notes:** Filtered to DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'. Shows deviation category and description.
@@ -667,6 +728,9 @@ Distinct variables cited across all shells: **64**.
 |---|---|
 | §10 | F-EFF-05 |
 | §11 | T-EFF-08, T-EFF-09, T-EFF-10 |
+| §13.3 | T-DS-03 |
+| §13.4 | T-EFF-12 |
+| §13.6 | T-EFF-13 |
 | §3 | T-DS-01 |
 | §3.1 | T-DM-01 |
 | §3.2 | T-DS-02, L-DS-01 |
@@ -681,5 +745,5 @@ Distinct variables cited across all shells: **64**.
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-04-20 | Regenerated from `tfl/shells.yaml` |
+| 0.1 | 2026-04-20 | Regenerated from `sap/shells/shells.yaml` |
 

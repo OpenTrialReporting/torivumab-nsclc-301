@@ -1,18 +1,18 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-#  tfl/render_shells_doc.R  —  shells.yaml → visual TFL shell document
+#  sap/shells/render_shells_doc.R  —  shells.yaml → visual TFL shell document
 # =============================================================================
 #
-#  Reads  tfl/shells.yaml
-#  Writes tfl/TFL-SHELLS-DOC.docx  (and optionally tfl/TFL-SHELLS-DOC.pdf)
+#  Reads  sap/shells/shells.yaml
+#  Writes sap/shells/TFL-SHELLS-DOC.docx  (and optionally sap/shells/TFL-SHELLS-DOC.pdf)
 #
 #  Each output (table / figure / listing) gets its own page showing the
 #  approximate final layout with placeholder values (xx.x, xxx, etc.)
 #  This is the Gate 3.5 deliverable for stakeholder review and sign-off.
 #
 #  Usage (run from repo root):
-#      Rscript tfl/render_shells_doc.R           # Word only
-#      Rscript tfl/render_shells_doc.R --pdf     # Word + PDF via LibreOffice
+#      Rscript sap/shells/render_shells_doc.R           # Word only
+#      Rscript sap/shells/render_shells_doc.R --pdf     # Word + PDF via LibreOffice
 #
 #  Packages: yaml, officer, flextable, ggplot2, patchwork, survival
 #  Install:  install.packages(c("yaml", "officer", "flextable", "ggplot2", "patchwork", "survival"))
@@ -30,9 +30,9 @@ suppressMessages({
 set_flextable_defaults(fonts_ignore = TRUE)
 
 # ---- Paths ----------------------------------------------------------------
-yaml_path <- "tfl/shells.yaml"
-docx_path <- "tfl/TFL-SHELLS-DOC.docx"
-pdf_path  <- "tfl/TFL-SHELLS-DOC.pdf"
+yaml_path <- "sap/shells/shells.yaml"
+docx_path <- "sap/shells/TFL-SHELLS-DOC.docx"
+pdf_path  <- "sap/shells/TFL-SHELLS-DOC.pdf"
 
 if (!file.exists(yaml_path)) stop("Missing: ", yaml_path, " — run from repo root.")
 shells <- read_yaml(yaml_path)

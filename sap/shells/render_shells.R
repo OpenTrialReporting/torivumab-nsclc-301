@@ -1,21 +1,21 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-#  tfl/render_shells.R — YAML → Markdown generator for TFL shells
+#  sap/shells/render_shells.R — YAML → Markdown generator for TFL shells
 # =============================================================================
 #
-#  Reads tfl/shells.yaml and writes tfl/TFL-SHELLS.md.
+#  Reads sap/shells/shells.yaml and writes sap/shells/TFL-SHELLS.md.
 #  Run with:
-#      Rscript tfl/render_shells.R
+#      Rscript sap/shells/render_shells.R
 #
-#  NEVER edit tfl/TFL-SHELLS.md by hand. Edit shells.yaml and re-render.
+#  NEVER edit sap/shells/TFL-SHELLS.md by hand. Edit shells.yaml and re-render.
 # =============================================================================
 
 suppressMessages({
   library(yaml)
 })
 
-yaml_path <- "tfl/shells.yaml"
-md_path   <- "tfl/TFL-SHELLS.md"
+yaml_path <- "sap/shells/shells.yaml"
+md_path   <- "sap/shells/TFL-SHELLS.md"
 
 if (!file.exists(yaml_path)) stop("Missing ", yaml_path)
 shells <- read_yaml(yaml_path)
@@ -75,6 +75,8 @@ render_output <- function(o, level = 4) {
     md <- c(md, sprintf("| **Methods** | %s |", paste(m_labels, collapse = "; ")))
   }
   md <- c(md, sprintf("| **SAP reference** | %s |", o$sap_ref %||% "—"))
+  if (!is.null(o$estimand_id) && nzchar(o$estimand_id))
+    md <- c(md, sprintf("| **Estimand** | %s |", o$estimand_id))
   if (length(o$reference_documents) > 0) {
     r_labels <- vapply(o$reference_documents, refdoc_label, character(1))
     md <- c(md, sprintf("| **Reference documents** | %s |", paste(r_labels, collapse = ", ")))
@@ -104,9 +106,9 @@ out <- c()
 out <- c(out, "# TFL Shells — SIMULATED-TORIVUMAB-2026")
 out <- c(out, "")
 out <- c(out, "> ⚠️ **GENERATED FILE — DO NOT EDIT DIRECTLY.**")
-out <- c(out, "> Source of truth: [`tfl/shells.yaml`](shells.yaml).")
-out <- c(out, "> Regenerate with: `Rscript tfl/render_shells.R`")
-out <- c(out, "> Validate with: `Rscript tfl/validate_shells.R`")
+out <- c(out, "> Source of truth: [`sap/shells/shells.yaml`](shells.yaml).")
+out <- c(out, "> Regenerate with: `Rscript sap/shells/render_shells.R`")
+out <- c(out, "> Validate with: `Rscript sap/shells/validate_shells.R`")
 out <- c(out, "")
 out <- c(out, "> ⚠️ **FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY USE.**")
 out <- c(out, "")
@@ -224,7 +226,7 @@ out <- c(out, "")
 out <- c(out, "## 7. Change Log", "")
 out <- c(out, "| Version | Date | Change |")
 out <- c(out, "|---|---|---|")
-out <- c(out, sprintf("| %s | %s | Regenerated from `tfl/shells.yaml` |",
+out <- c(out, sprintf("| %s | %s | Regenerated from `sap/shells/shells.yaml` |",
                       m$shells_version, m$shells_date))
 out <- c(out, "")
 

@@ -245,10 +245,16 @@ the ARS JSON serialisation alongside the `methods:` and `analysis_sets:` blocks.
 |---|---|---|---|
 | 0.1 | 2026-04-20 | LG | Initial draft. 35 outputs specified. Aligned with SAP v0.1. Gate 3.5 deliverable. |
 | 0.2 | 2026-04-25 | LG | Added §8 Annotation Approach. Documented two-phase annotation decision. Added `annotations:` schema to `shells.yaml` for all 35 outputs. Updated `render_shells_doc.R` and regenerated `TFL-SHELLS-DOC.docx`. |
-| 0.3 | — | — | Post-Phase 5: confirm annotations against delivered ADaM Parquet. Bump to v0.2 shells. |
+| 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | **Aligned with SAP v0.2 estimand framework.** (i) Added `estimand_id` field to 9 efficacy shells (T-EFF-01/02/03/04/05/06/07/10/11) mapping to estimands E1/E1a/E2/E2a/E3/E4/E5. (ii) Three new shells: T-EFF-12 *OS While-on-Treatment* (estimand E1b — Phase 5 gap: needs `PARAMCD='OSWOT'` in ADTTE), T-EFF-13 *ORR ITT Denominator* (estimand E3a), T-DS-03 *Intercurrent Events Summary* (operationalises §13.3 IE taxonomy). (iii) Bulk-renamed all `SAP-0.1` references to `SAP-0.2`. (iv) Fixed stale `tfl/` paths in `render_shells.R`, `render_shells_doc.R`, `validate_shells.R` (legacy from pre-restructure). (v) Updated `render_shells.R` to surface `estimand_id` as a row in the rendered table. Total outputs now 38 (was 35). |
 | 0.4 | — | — | Add PRO shells (EORTC, EQ-5D) once SAP amendment covers exploratory endpoints. |
 | 0.5 | — | — | Add ARS JSON serialisation (`render_ars.R`) once downstream system is confirmed. |
 
+### Known gaps after v0.3
+
+- **ADTTE `PARAMCD='OSWOT'` not yet derived** — T-EFF-12 cannot be programmed until `programs/adam/adtte.R` adds the while-on-treatment OS parameter (censor at min of subsequent anti-cancer therapy start or TRTEDT + 30 days). Recommend adding before Phase 6 TFL programming starts.
+- **Subsequent-anti-cancer-therapy capture** — T-DS-03 and the OSWOT derivation both need a clean "subsequent therapy" flag, currently not in ADSL or ADCM. Sources to be confirmed; placeholder logic in shell annotations.
+- **`TFL-SHELLS-DOC.docx` not regenerated this round** — `render_shells_doc.R` requires `officer` package; defer regen until next major shells change.
+
 ---
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-05-16*

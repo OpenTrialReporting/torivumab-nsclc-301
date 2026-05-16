@@ -1,10 +1,10 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-#  tfl/validate_shells.R — schema + ADaM coverage checks for shells.yaml
+#  sap/shells/validate_shells.R — schema + ADaM coverage checks for shells.yaml
 # =============================================================================
 #
 #  Run with:
-#      Rscript tfl/validate_shells.R
+#      Rscript sap/shells/validate_shells.R
 #
 #  Exits non-zero on any failure, so this is CI-friendly.
 # =============================================================================
@@ -14,7 +14,7 @@ suppressMessages({
   library(stringr)
 })
 
-yaml_path <- "tfl/shells.yaml"
+yaml_path <- "sap/shells/shells.yaml"
 spec_glob <- "programming-specs/AD*-spec.md"
 
 if (!file.exists(yaml_path)) stop("Missing ", yaml_path)
