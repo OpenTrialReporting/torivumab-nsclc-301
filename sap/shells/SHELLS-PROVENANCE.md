@@ -253,7 +253,21 @@ the ARS JSON serialisation alongside the `methods:` and `analysis_sets:` blocks.
 
 - **ADTTE `PARAMCD='OSWOT'` not yet derived** — T-EFF-12 cannot be programmed until `programs/adam/adtte.R` adds the while-on-treatment OS parameter (censor at min of subsequent anti-cancer therapy start or TRTEDT + 30 days). Recommend adding before Phase 6 TFL programming starts.
 - **Subsequent-anti-cancer-therapy capture** — T-DS-03 and the OSWOT derivation both need a clean "subsequent therapy" flag, currently not in ADSL or ADCM. Sources to be confirmed; placeholder logic in shell annotations.
-- **`TFL-SHELLS-DOC.docx` not regenerated this round** — `render_shells_doc.R` requires `officer` package; defer regen until next major shells change.
+- ~~**`TFL-SHELLS-DOC.docx` not regenerated this round**~~ — ✅ Resolved same day. The previously-committed renderer (`render_shells_doc.R`) was truncated mid-function from the first commit (`d875c75`), and the resulting `TFL-SHELLS-DOC.docx` was a corrupted 84 KB stub with no central-directory record. Completed `make_annotation_ft`, added the main render loop (page-per-output with header / body / footnotes / programmer's annotation panel), added mockers for the three v0.3 shells (T-DS-03, T-EFF-12, T-EFF-13), and normalised line endings. Regenerated `TFL-SHELLS-DOC.docx` is now a valid 558 KB OOXML with 38 outputs and 6 embedded figure PNGs (KM-OS, KM-PFS, waterfall, spider, forest, swimmer).
+
+### Renderer architecture (v0.3)
+
+Submission-style TFL shells. Each output gets its own page:
+
+1. **Header block** — sponsor (Celindra Therapeutics, fictional), protocol number, output ID + kind, full title, analysis population line with expected N.
+2. **Body** — typed by `o$kind`:
+   - `table`: flextable rendered from the per-shell mocker (`get_mock` / `get_mock_v03`), with placeholder cells (`[xx.x]`, `[xxx (xx.x%)]`, `[x.xxx]`, `(xx.x, xx.x)`).
+   - `figure`: ggplot rendered to PNG via `save_mock_figure`, then embedded.
+   - `listing`: flextable column headers + 3 placeholder rows (via `listing_mock`).
+3. **Footnote block** — methodology (resolved from `o$methods`), source datasets, SAP reference + estimand ID, free-text notes, and a `DRAFT SHELL — YYYY-MM-DD` watermark.
+4. **Programmer's annotation panel** (not part of CSR output) — 5-column flextable from `o$annotations.rows` with conditional amber shading for study-specific rows.
+
+Use `Rscript sap/shells/render_shells_doc.R` (Word only) or `--pdf` (Word + LibreOffice PDF).
 
 ---
 

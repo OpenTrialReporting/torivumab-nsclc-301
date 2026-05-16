@@ -842,4 +842,256 @@ make_annotation_ft <- function(ann) {
       Variable    = trimws(var_disp),
       Derivation  = as.character(ar$derivation %||% ""),
       is_study    = grepl(STUDY_TAG, var_raw) | grepl(STUDY_TAG, where_raw),
-      stringsAsFactors = FALSE
+      stringsAsFactors = FALSE
+    )
+  }))
+
+  study_idx <- which(rows_df$is_study)
+  display_df <- rows_df[, c("Row", "Dataset", "Where", "Variable", "Derivation"), drop = FALSE]
+
+  ft <- flextable(display_df)
+  ft <- font(ft, fontname = F_SANS, part = "all")
+  ft <- fontsize(ft, size = 7, part = "all")
+  ft <- bold(ft, part = "header")
+  ft <- bg(ft, bg = C_ANNOT_HDR, part = "header")
+  ft <- color(ft, color = C_NAVY, part = "header")
+  ft <- bg(ft, bg = C_ANNOT_BG, part = "body")
+  if (length(study_idx) > 0) {
+    ft <- bg(ft, i = study_idx, bg = C_STUDY_BG, part = "body")
+  }
+  ft <- align(ft, align = "left", part = "all")
+  ft <- padding(ft, padding.top = 1.5, padding.bottom = 1.5,
+                    padding.left = 4, padding.right = 4, part = "all")
+  ft <- border_outer(ft, border = fp_border(color = C_NAVY, width = 0.75), part = "all")
+  ft <- border_inner_h(ft, border = fp_border(color = C_MID, width = 0.4), part = "body")
+  ft <- border_inner_v(ft, border = fp_border(color = C_MID, width = 0.4), part = "all")
+  ft <- width(ft, j = 1, width = 1.6)
+  ft <- width(ft, j = 2, width = 1.0)
+  ft <- width(ft, j = 3, width = 1.6)
+  ft <- width(ft, j = 4, width = 1.2)
+  ft <- width(ft, j = 5, width = 2.2)
+  ft
+}
+
+# ---- New mockers for v0.3 shells ------------------------------------------
+# Convention (matches existing mockers): return list(df=, header_rows=, indent_rows=)
+ie_summary_mock <- function() {
+  labels <- c(
+    "Treatment discontinuation (any reason)",
+    "Treatment discontinuation due to AE",
+    "Initiation of subsequent anti-cancer therapy",
+    ">= 2 consecutive missed tumour assessments",
+    "No post-baseline tumour assessment",
+    "Death before first response assessment",
+    "Withdrawal of consent"
+  )
+  list(
+    df = three_arm_df(
+      labels,
+      v1 = rep(PHNPCT, length(labels)),
+      v2 = rep(PHNPCT, length(labels)),
+      vt = rep(PHNPCT, length(labels))
+    ),
+    header_rows = integer(0),
+    indent_rows = integer(0)
+  )
+}
+
+oswot_mock <- function() {
+  labels <- c(
+    "Number of subjects",
+    "Events (deaths on/within 30d of last dose), n (%)",
+    "Censored — alive at TRTEDT + 30d, n (%)",
+    "Censored — at subsequent anti-cancer therapy, n (%)",
+    "Median OS — WOT, months (95% CI)",
+    "Hazard ratio (stratified Cox) (95% CI)",
+    "p-value (stratified log-rank)"
+  )
+  list(
+    df = three_arm_df(
+      labels,
+      v1 = c(PHN, PHNPCT, PHNPCT, PHNPCT, paste(PH, PHCI), PHHR, PHHR),
+      v2 = c(PHN, PHNPCT, PHNPCT, PHNPCT, paste(PH, PHCI), "",   ""),
+      vt = c(PHN, PHNPCT, PHNPCT, PHNPCT, "",              "",   "")
+    ),
+    header_rows = integer(0),
+    indent_rows = integer(0)
+  )
+}
+
+orr_itt_mock <- function() {
+  labels <- c(
+    "Subjects in ITT, N",
+    "Responders (confirmed CR/PR), n (%)",
+    "Non-responders (incl. no post-baseline assessment), n (%)",
+    "Risk difference TRT - PBO (stratified MH) (95% CI)",
+    "95% CI per arm (Clopper-Pearson)"
+  )
+  list(
+    df = three_arm_df(
+      labels,
+      v1 = c(PHN, PHNPCT, PHNPCT, paste(PH, PHCI), PHCI),
+      v2 = c(PHN, PHNPCT, PHNPCT, "",              PHCI),
+      vt = c(PHN, PHNPCT, PHNPCT, "",              "")
+    ),
+    header_rows = integer(0),
+    indent_rows = integer(0)
+  )
+}
+
+# ---- Extend dispatchers for v0.3 shells -----------------------------------
+get_mock_v03 <- function(o, fallback) {
+  switch(o$id,
+    "T-DS-03"  = ie_summary_mock(),
+    "T-EFF-12" = oswot_mock(),
+    "T-EFF-13" = orr_itt_mock(),
+    fallback
+  )
+}
+
+# ---- Page header / footer for submission-style shells ---------------------
+SPONSOR   <- "Celindra Therapeutics (fictional)"
+PROTOCOL  <- "Protocol TORIVUMAB-NSCLC-301"
+DRAFT_TAG <- sprintf("DRAFT SHELL — %s", format(Sys.Date(), "%Y-%m-%d"))
+
+# Build the per-shell header block (sponsor / protocol / output ID / title)
+shell_header_block <- function(o, idx, n_total) {
+  list(
+    fpar(ftext(SPONSOR,  prop = fp_text(font.family = F_SANS, font.size = 9, bold = TRUE,
+                                        color = C_NAVY))),
+    fpar(ftext(PROTOCOL, prop = fp_text(font.family = F_SANS, font.size = 9, color = C_GREY))),
+    fpar(ftext(sprintf("Output %s  |  %s", o$id, toupper(o$kind)),
+               prop = fp_text(font.family = F_SANS, font.size = 8, italic = TRUE,
+                              color = C_GREY))),
+    fpar(ftext(o$title, prop = fp_text(font.family = F_SANS, font.size = 13, bold = TRUE,
+                                       color = C_NAVY))),
+    fpar(ftext(sprintf("Population: %s", as_pop_line(o$analysis_set)),
+               prop = fp_text(font.family = F_SANS, font.size = 9, color = "#444444")))
+  )
+}
+
+# Methodology / source / notes footnote block
+shell_footnote_block <- function(o) {
+  parts <- list()
+  if (length(o$methods) > 0) {
+    parts[[length(parts) + 1]] <- fpar(
+      ftext("Methodology: ", prop = fp_text(font.family = F_SANS, font.size = 8, bold = TRUE)),
+      ftext(method_names_str(o$methods),
+            prop = fp_text(font.family = F_SANS, font.size = 8))
+    )
+  }
+  if (length(o$source_datasets) > 0) {
+    parts[[length(parts) + 1]] <- fpar(
+      ftext("Source: ", prop = fp_text(font.family = F_SANS, font.size = 8, bold = TRUE)),
+      ftext(paste(o$source_datasets, collapse = ", "),
+            prop = fp_text(font.family = F_MONO, font.size = 8))
+    )
+  }
+  if (!is.null(o$sap_ref)) {
+    sap_txt <- sprintf("SAP reference: %s", o$sap_ref)
+    if (!is.null(o$estimand_id)) sap_txt <- paste0(sap_txt, "  |  Estimand: ", o$estimand_id)
+    parts[[length(parts) + 1]] <- fpar(
+      ftext(sap_txt, prop = fp_text(font.family = F_SANS, font.size = 8, italic = TRUE,
+                                    color = C_NAVY))
+    )
+  }
+  if (!is.null(o$notes) && nzchar(trimws(o$notes))) {
+    parts[[length(parts) + 1]] <- fpar(
+      ftext("Notes: ", prop = fp_text(font.family = F_SANS, font.size = 8, bold = TRUE)),
+      ftext(o$notes, prop = fp_text(font.family = F_SANS, font.size = 8))
+    )
+  }
+  parts[[length(parts) + 1]] <- fpar(
+    ftext(DRAFT_TAG, prop = fp_text(font.family = F_SANS, font.size = 7,
+                                    italic = TRUE, color = C_RED))
+  )
+  parts
+}
+
+# ---- Main render loop -----------------------------------------------------
+cat("Building submission-style TFL shell document ...\n")
+doc <- read_docx()
+doc <- body_set_default_section(doc, prop_section(
+  page_size = page_size(width = 8.27, height = 11.69, orient = "portrait"),
+  page_margins = page_mar(top = 0.75, bottom = 0.75, left = 0.8, right = 0.8,
+                          header = 0.4, footer = 0.4, gutter = 0)
+))
+
+outputs <- shells$outputs
+n_total <- length(outputs)
+
+for (i in seq_along(outputs)) {
+  o <- outputs[[i]]
+  if (i > 1) doc <- body_add_break(doc)
+
+  # Header block
+  for (p in shell_header_block(o, i, n_total)) doc <- body_add_fpar(doc, p)
+  doc <- body_add_par(doc, " ", style = "Normal")
+
+  # Body: table mock, figure plot, or listing
+  if (identical(o$kind, "table")) {
+    body_obj <- get_mock_v03(o, get_mock(o))
+    if (is.null(body_obj)) {
+      doc <- body_add_par(doc,
+        "[ Mock layout not yet implemented for this output ]",
+        style = "Normal")
+    } else if (is.data.frame(body_obj)) {
+      ft <- make_ft(body_obj)
+      doc <- body_add_flextable(doc, ft, align = "left")
+    } else if (is.list(body_obj) && "df" %in% names(body_obj)) {
+      ft <- make_ft(body_obj$df,
+                    indent_rows = body_obj$indent_rows %||% integer(0),
+                    header_rows = body_obj$header_rows %||% integer(0))
+      doc <- body_add_flextable(doc, ft, align = "left")
+    } else {
+      doc <- body_add_par(doc,
+        sprintf("[ Unknown mock return type: %s ]", class(body_obj)[1]),
+        style = "Normal")
+    }
+  } else if (identical(o$kind, "figure")) {
+    fig <- get_figure_plot(o)
+    if (!is.null(fig)) {
+      png_path <- save_mock_figure(fig)
+      doc <- body_add_img(doc, src = png_path, width = 6.8, height = 4.2)
+    } else {
+      doc <- body_add_par(doc, figure_placeholder(o), style = "Normal")
+    }
+  } else if (identical(o$kind, "listing")) {
+    ldf <- listing_mock(o)
+    if (!is.null(ldf)) {
+      ft <- make_ft(ldf)
+      doc <- body_add_flextable(doc, ft, align = "left")
+    }
+  }
+
+  doc <- body_add_par(doc, " ", style = "Normal")
+
+  # Footnote block
+  for (p in shell_footnote_block(o)) doc <- body_add_fpar(doc, p)
+
+  # Programmer's annotation panel
+  ann_ft <- make_annotation_ft(o$annotations)
+  if (!is.null(ann_ft)) {
+    doc <- body_add_par(doc, " ", style = "Normal")
+    doc <- body_add_fpar(doc, fpar(ftext("Programmer's notes (not part of CSR output):",
+      prop = fp_text(font.family = F_SANS, font.size = 8, bold = TRUE, color = C_GREY))))
+    doc <- body_add_flextable(doc, ann_ft, align = "left")
+  }
+
+  cat(sprintf("  %3d/%d  %-10s  %s\n", i, n_total, o$id, o$title))
+}
+
+print(doc, target = docx_path)
+cat(sprintf("\nWrote %s (%d outputs)\n", docx_path, n_total))
+
+if (make_pdf) {
+  pdf_cmd <- sprintf("soffice --headless --convert-to pdf --outdir %s %s",
+                     shQuote(dirname(pdf_path)), shQuote(docx_path))
+  cat("Converting to PDF via LibreOffice ...\n")
+  status <- system(pdf_cmd, intern = FALSE)
+  if (status == 0 && file.exists(pdf_path)) {
+    cat(sprintf("Wrote %s\n", pdf_path))
+  } else {
+    cat("PDF conversion failed (LibreOffice not available). Skipping.\n")
+  }
+}
