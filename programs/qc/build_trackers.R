@@ -29,8 +29,7 @@ TODAY <- format(Sys.Date(), "%Y-%m-%d")
 ACCEPTED_LIMITATIONS <- list(
   sdtm = list(
     SUPPSU = "AL-01: SUPPSU is a legacy artifact (STUDYID 'TORIVUMAB-NSCLC-301', not 'CTX-NSCLC-301'); no generator script in programs/sdtm/. See SDTM-MAPPING-SPEC.md §17. Accepted — not a defect.",
-    CM     = "AL-02: cm.parquet does not include post-trial anti-cancer therapy (only supportive-care meds). Affects T-DS-03 + T-EFF-12. Accepted — not a defect.",
-    DS     = "AL-03: SDTM.DS does not carry explicit DSCAT='PROTOCOL DEVIATION' records; only PPROTFL='N' is derivable. Accepted — not a defect.",
+    CM     = "AL-02 (partial): cm.parquet still does not include post-trial anti-cancer therapy (only supportive-care meds). Affects T-EFF-12 OSWOT (uses only TRTEDT+30d component). Accepted — not a defect.",
     RELREC = "AL-11: relrec.parquet contains duplicate rows (~5 per multi-visit lesion) because relrec.R emits one row per TU/TR record rather than one per unique lesion-id. compare_sdtm.R falls back to identical() comparison. Future relrec.R revision should distinct() on (USUBJID, RDOMAIN, IDVARVAL). Accepted — not a defect."
   ),
   adam = list(
@@ -40,8 +39,7 @@ ACCEPTED_LIMITATIONS <- list(
     `T-EFF-10` = "AL-06: τ = 30 months (not the SAP-proposed 36 months) bounded by max follow-up. See footnote in t_eff_10_os_rmst.R. Accepted — not a defect.",
     `T-EFF-11` = "AL-07: PFS-INV ≡ PFS in synthetic data (no separate BICR). Identical results to T-EFF-03 expected. Accepted — not a defect.",
     `T-EFF-12` = "AL-02 + AL-10: subsequent anti-cancer therapy not simulated; OSWOT censoring applies only the TRTEDT + 30d component. Accepted — not a defect.",
-    `T-DS-02`  = "AL-09: Deviation subcategories beyond 'randomised but never dosed' all show 0 (synthetic data has no granular deviation records). Accepted — not a defect.",
-    `T-DS-03`  = "AL-10: Rows for subsequent anti-cancer therapy + missed assessments show 0 (synthetic data limitation). Accepted — not a defect.",
+    `T-DS-03`  = "AL-10: Subsequent anti-cancer therapy row shows 0 (synthetic CM does not simulate post-trial therapy). Missed-assessments row populated from SDTM.DV as of 2026-05-17. Accepted — not a defect.",
     `T-AE-06`  = "AL-08: AESI categorisation uses MedDRA-PT regex stand-in pending SAP §4.6 deferred AESI list. Accepted — not a defect."
   )
 )
@@ -229,6 +227,7 @@ sdtm_rows <- function() {
     mh     = list(klass = "Events",          spec_ref = "SDTM-MAPPING-SPEC.md §7",  source = "raw/medical_history.csv", script = "programs/sdtm/mh.R"),
     su     = list(klass = "Interventions",   spec_ref = "SDTM-MAPPING-SPEC.md §8",  source = "raw/substance_use.csv", script = "programs/sdtm/su.R"),
     dd     = list(klass = "Events",          spec_ref = "SDTM-MAPPING-SPEC.md §9",  source = "raw/death.csv", script = "programs/sdtm/dd.R"),
+    dv     = list(klass = "Special purpose", spec_ref = "SDTM-MAPPING-SPEC.md §22", source = "raw/protocol_deviations.csv", script = "programs/sdtm/dv.R"),
     lb     = list(klass = "Findings",        spec_ref = "SDTM-MAPPING-SPEC.md §10", source = "raw/labs.csv", script = "programs/sdtm/lb.R"),
     vs     = list(klass = "Findings",        spec_ref = "SDTM-MAPPING-SPEC.md §11", source = "raw/vital_signs.csv", script = "programs/sdtm/vs.R"),
     pe     = list(klass = "Findings",        spec_ref = "SDTM-MAPPING-SPEC.md §12", source = "raw/physical_exam.csv", script = "programs/sdtm/pe.R"),
@@ -295,7 +294,7 @@ adam_rows <- function() {
     adtte = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §6", source = "ADSL + ADRS + DS + DD",           analyses = "T-EFF-01..04, T-EFF-07..12, F-EFF-01/02/05/06"),
     # Phase 6e additions (pharma-standard descriptive)
     adds  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §7",  source = "DS + ADSL",         analyses = "T-DS-01"),
-    addv  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §8",  source = "ADSL.PPROTFL (DV not simulated)", analyses = "T-DS-02, T-DV-01, L-DS-01"),
+    addv  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §8",  source = "DV + ADSL",  analyses = "T-DS-02, T-DV-01, L-DS-01"),
     adex  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §9",  source = "EX + ADSL",          analyses = "T-EX-01 (DOSEAMT/CUMDOSE/RDI)"),
     adcm  = list(klass = "Occurrence Data Structure",       spec_ref = "ADAM-MAPPING-SPEC.md §10", source = "CM + SUPPCM + ADSL", analyses = "T-CM-01"),
     advs  = list(klass = "Basic Data Structure",            spec_ref = "ADAM-MAPPING-SPEC.md §11", source = "VS + ADSL",          analyses = "T-VS-01, T-VS-02"),

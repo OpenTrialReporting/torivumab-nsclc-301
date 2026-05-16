@@ -3,7 +3,7 @@
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
 **Generated:** 2026-05-17
 **File:** `define/define.xml`
-**Datasets:** 33  ·  **Variables:** 601
+**Datasets:** 34  ·  **Variables:** 613
 
 ## Datasets
 
@@ -15,6 +15,7 @@
 | DD | EVENTS | 312 | 12 | One record per subject per death detail |
 | DM | SPECIAL PURPOSE | 450 | 17 | One record per subject |
 | DS | EVENTS | 1,350 | 9 | One record per subject per disposition event |
+| DV | RELATIONSHIP | 337 | 10 | — |
 | EX | INTERVENTIONS | 13,403 | 13 | One record per subject per administration |
 | LB | FINDINGS | 122,601 | 19 | One record per subject per lab test per visit |
 | MH | EVENTS | 2,061 | 11 | One record per subject per medical history event |
@@ -33,7 +34,7 @@
 | ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 45 | One record per subject per adverse event |
 | ADCM | OCCURRENCE DATA STRUCTURE | 2,197 | 30 | One record per subject per concomitant medication occurrence |
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
-| ADDV | OCCURRENCE DATA STRUCTURE | 1 | 22 | One record per subject per protocol deviation |
+| ADDV | OCCURRENCE DATA STRUCTURE | 337 | 24 | One record per subject per protocol deviation |
 | ADEX | BASIC DATA STRUCTURE | 16,097 | 25 | One record per subject per drug per administration or summary parameter |
 | ADLB | BASIC DATA STRUCTURE | 122,601 | 35 | One record per subject per parameter per analysis visit |
 | ADMH | OCCURRENCE DATA STRUCTURE | 2,061 | 23 | One record per subject per medical history condition |

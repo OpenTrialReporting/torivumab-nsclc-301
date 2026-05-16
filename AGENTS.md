@@ -26,7 +26,7 @@ Phase 2: aCRF (Annotated Case Report Form) ✅ DONE — Gate 2 APPROVED (2026-04
    ↓
 Phase 3: Simulated Database (synthetic raw data) ✅ COMPLETE (2026-04-07)
    ↓ (programs/raw/ scripts produce raw CSVs; programs/sdtm/ produce SDTM parquet)
-Phase 4: SDTM (21 domains incl. DA + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled (back-fill 2026-05-16)
+Phase 4: SDTM (22 domains incl. DA + DV + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — all Parquet files SDTMIG v3.4 labelled
    ↓
 Phase 4.5: SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓

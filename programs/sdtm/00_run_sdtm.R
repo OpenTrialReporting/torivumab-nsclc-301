@@ -40,6 +40,7 @@ sdtm_programs <- c(
   "rs",       # RS     — Disease Response
   "dd",       # DD     — Death Details
   "su",       # SU     — Substance Use
+  "dv",       # DV     — Protocol Deviations
   "suppdm",   # SUPPDM — Supplemental Qualifiers for DM
   "suppae",   # SUPPAE — Supplemental Qualifiers for AE (depends on AE)
   "suppcm",   # SUPPCM — Supplemental Qualifiers for CM (depends on CM)

@@ -39,7 +39,7 @@
 | 5 | ADRS  | Basic Data Structure            | RS + ADSL + ADTR           | `adrs.parquet`  | 3,662 |
 | 6 | ADTTE | Basic Data Structure            | ADSL + ADRS + DS + DD      | `adtte.parquet` | 1,918 |
 | 7 | ADDS  | Occurrence Data Structure       | DS + ADSL                  | `adds.parquet`  | 1,350 |
-| 8 | ADDV  | Occurrence Data Structure       | ADSL.PPROTFL (DV not simulated) | `addv.parquet` | 1 |
+| 8 | ADDV  | Occurrence Data Structure       | DV + ADSL                  | `addv.parquet` | 337 |
 | 9 | ADEX  | Basic Data Structure            | EX + ADSL                  | `adex.parquet`  | 16,097 |
 | 10 | ADCM | Occurrence Data Structure       | CM + SUPPCM + ADSL         | `adcm.parquet`  | 2,197 |
 | 11 | ADVS | Basic Data Structure            | VS + ADSL                  | `advs.parquet`  | 52,864 |
@@ -641,30 +641,47 @@ After both implementations are complete, compare on these features per dataset:
 
 # 8. ADDV — Protocol Deviations Analysis Dataset
 
-**SDTM inputs:** ADSL.PPROTFL (SDTM.DV not simulated in this dataset) · **Class:** OCCDS · **Structure:** One record per deviation per subject · **Keys:** STUDYID, USUBJID, DVSEQ
-**Output:** `datasets/adam/addv.parquet` · **Expected N:** 1 (the single randomised-never-dosed subject)
+**SDTM inputs:** DV + ADSL · **Class:** OCCDS · **Structure:** One record per deviation per subject · **Keys:** STUDYID, USUBJID, DVSEQ
+**Output:** `datasets/adam/addv.parquet` · **Expected N:** ~337 (190 subjects affected; ~50 MAJOR / ~287 MINOR)
 
-### 8.1 Synthetic-data limitation
+### 8.1 Pre-processing
 
-A real study sources ADDV from SDTM.DV. This dataset has no SDTM.DV, so the
-only deviation that can be derived is `PPROTFL='N' AND SAFFL='N'` (randomised
-but never dosed). Other deviation categories (eligibility violation,
-prohibited conmed, missed assessments) are NOT populated.
+```
+adsl_vars = SELECT STUDYID, USUBJID, SUBJID, SITEID, TRTSDT, TRTEDT,
+                   SAFFL, ITTFL, PPROTFL, DTHFL,
+                   TRT01P, TRT01A, TRT01PN, TRT01AN, RANDDT
+            FROM ADSL
+
+addv = DV LEFT JOIN adsl_vars ON (STUDYID, USUBJID)
+```
 
 ### 8.2 Variable derivations
 
 | Var | Source / Derivation |
 |---|---|
-| STUDYID..TRT01AN | ADSL direct |
-| DVSEQ | `1L` (one deviation per qualifying subject) |
-| **DVTERM** | `"Randomised but never dosed"` if `TRTSDT is NULL`, else `"Other (not subcategorised in synthetic data)"` |
-| **DVDECOD** | `"NEVER DOSED"` if `TRTSDT is NULL`, else `"OTHER"` |
-| **DVCAT** | `"MAJOR"` for all rows |
-| **DVSCAT** | `"STUDY-DRUG ELIGIBILITY"` |
-| ADT | If `TRTSDT` non-NULL: `as.Date(TRTSDT)`; else `as.Date(RANDDT)` |
-| ANL01FL | `"Y"` |
+| STUDYID..TRT01AN | DV + ADSL merge |
+| TRTSDT, TRTEDT | ADSL direct |
+| DVSEQ, DVTERM, DVDECOD, DVCAT, DVSCAT, DVSTDTC | DV direct |
+| ADT | `as.Date(DVSTDTC)` |
+| ADY | `as.integer(ADT - RANDDT) + 1` |
+| **DVSEV** | `= DVCAT` (alias for clarity in analyses — MAJOR / MINOR) |
+| ANL01FL | `"Y"` for all records |
 
-**Sort:** `USUBJID`. **Expected: 1 row.**
+**Sort:** `(USUBJID, DVSEQ)`. **Expected: ~337 rows.**
+
+### 8.3 Impact on ADSL.PPROTFL (2026-05-17 update)
+
+`ADSL.PPROTFL` is now derived as:
+```
+PPROTFL = "Y" if SAFFL='Y' AND USUBJID NOT IN (subjects with any MAJOR deviation)
+        = "N" otherwise
+```
+
+Previously `PPROTFL` was a placeholder alias for `SAFFL` (because no DV
+existed). With real deviations the PP population drops from 449 → ~412,
+making T-EFF-08 (OS in PP) a meaningful sensitivity analysis: HR 0.545 in
+PP vs 0.576 in ITT — direction and magnitude as expected when excluding
+deviators.
 
 ---
 
@@ -817,6 +834,7 @@ Other variables (MHSEQ, MHTERM, MHDECOD, MHCAT, MHSTDTC) carry through unchanged
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial complete spec covering all 6 ADaM datasets (ADSL, ADAE, ADLB, ADTR, ADRS, ADTTE) with source → target traceability, derivation pseudocode, and QC check list for double programming. Aligned with v0.3 ADTTE (5 PARAMCDs including OSWOT for estimand E1b). |
 | 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Added §7–§12 for the 6 pharma-standard descriptive datasets: ADDS (disposition rollup, EOTFL), ADDV (deviations — synth-data limited), ADEX (DOSEAMT/CUMDOSE/RDI), ADCM (CMATC coalesce, ONTRTFL/PRIORFL/CONFL/CMIRAEFL), ADVS (baseline+change), ADMH (PCANCERFL/ONGOFL/PRIORFL, partial-date handling). ADaM total now 12 datasets. |
+| 0.3 | 2026-05-17 | LG (w/ Claude Opus 4.7) | §8 ADDV rewritten — now sources real SDTM.DV (337 records, 190 subjects) instead of placeholder ADSL.PPROTFL. ADSL.PPROTFL redefined as "SAFFL=Y AND no MAJOR deviation" — PP population drops 449 → 412. T-EFF-08 (OS in PP) now meaningful: HR 0.545 vs ITT HR 0.576. Removes accepted limitations AL-02/AL-03/AL-09. |
 
 ---
 

@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260517001941"
-     CreationDateTime="2026-05-17T00:19:40"
-     AsOfDateTime="2026-05-17T00:19:40"
+     FileOID="CTX-NSCLC-301.20260517003101"
+     CreationDateTime="2026-05-17T00:31:00"
+     AsOfDateTime="2026-05-17T00:31:00"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -150,6 +150,22 @@
         <ItemRef ItemOID="IT.DS.DSSTDTC" OrderNumber="9" Mandatory="No"/>
         <def:leaf ID="LF.DS" xlink:href="ds.xpt">
           <def:title>ds.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.DV" Name="DV" Repeating="Yes" IsReferenceData="No" SASDatasetName="DV" Purpose="Tabulation" def:Structure="—" def:Class="RELATIONSHIP" def:ArchiveLocationID="LF.DV" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">dv</TranslatedText></Description>
+        <ItemRef ItemOID="IT.DV.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.DV.DOMAIN" OrderNumber="2" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.DV.DVSEQ" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVTERM" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVDECOD" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVCAT" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVSCAT" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVSTDTC" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.EPOCH" OrderNumber="10" Mandatory="No"/>
+        <def:leaf ID="LF.DV" xlink:href="dv.xpt">
+          <def:title>dv.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
       <ItemGroupDef OID="IG.EX" Name="EX" Repeating="Yes" IsReferenceData="No" SASDatasetName="EX" Domain="EX" Purpose="Tabulation" def:Structure="One record per subject per administration" def:Class="INTERVENTIONS" def:ArchiveLocationID="LF.EX" def:StandardOID="STD.SDTM">
@@ -560,9 +576,11 @@
         <ItemRef ItemOID="IT.ADDV.DVDECOD" OrderNumber="17" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADDV.DVCAT" OrderNumber="18" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADDV.DVSCAT" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ADT" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ADY" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ANL01FL" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSEV" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSTDTC" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADT" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADY" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ANL01FL" OrderNumber="24" Mandatory="No"/>
         <def:leaf ID="LF.ADDV" xlink:href="addv.xpt">
           <def:title>addv.xpt</def:title>
         </def:leaf>
@@ -1190,6 +1208,46 @@
       <ItemDef OID="IT.DS.DSSTDTC" Name="DSSTDTC" SASFieldName="DSSTDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">Start Date/Time of Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DOMAIN" Name="DOMAIN" SASFieldName="DOMAIN" DataType="text" Length="2">
+        <Description><TranslatedText xml:lang="en">Domain Abbreviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVSEQ" Name="DVSEQ" SASFieldName="DVSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVTERM" Name="DVTERM" SASFieldName="DVTERM" DataType="text" Length="77">
+        <Description><TranslatedText xml:lang="en">Reported Term for the Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVDECOD" Name="DVDECOD" SASFieldName="DVDECOD" DataType="text" Length="39">
+        <Description><TranslatedText xml:lang="en">Standardized Term for the Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVCAT" Name="DVCAT" SASFieldName="DVCAT" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">Category for Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="33">
+        <Description><TranslatedText xml:lang="en">Subcategory for Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVSTDTC" Name="DVSTDTC" SASFieldName="DVSTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.EX.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -2339,11 +2397,11 @@
         <Description><TranslatedText xml:lang="en">DTHFL</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="22">
+      <ItemDef OID="IT.ADDV.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
         <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="22">
+      <ItemDef OID="IT.ADDV.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
         <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2364,23 +2422,31 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.DVSEQ" Name="DVSEQ" SASFieldName="DVSEQ" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">DVSEQ</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.DVTERM" Name="DVTERM" SASFieldName="DVTERM" DataType="text" Length="26">
-        <Description><TranslatedText xml:lang="en">DVTERM</TranslatedText></Description>
+      <ItemDef OID="IT.ADDV.DVTERM" Name="DVTERM" SASFieldName="DVTERM" DataType="text" Length="77">
+        <Description><TranslatedText xml:lang="en">Reported Term for the Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.DVDECOD" Name="DVDECOD" SASFieldName="DVDECOD" DataType="text" Length="11">
-        <Description><TranslatedText xml:lang="en">DVDECOD</TranslatedText></Description>
+      <ItemDef OID="IT.ADDV.DVDECOD" Name="DVDECOD" SASFieldName="DVDECOD" DataType="text" Length="39">
+        <Description><TranslatedText xml:lang="en">Standardized Term for the Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.DVCAT" Name="DVCAT" SASFieldName="DVCAT" DataType="text" Length="5">
-        <Description><TranslatedText xml:lang="en">DVCAT</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Category for Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="22">
-        <Description><TranslatedText xml:lang="en">DVSCAT</TranslatedText></Description>
+      <ItemDef OID="IT.ADDV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="33">
+        <Description><TranslatedText xml:lang="en">Subcategory for Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVSEV" Name="DVSEV" SASFieldName="DVSEV" DataType="text" Length="5">
+        <Description><TranslatedText xml:lang="en">Category for Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADDV.DVSTDTC" Name="DVSTDTC" SASFieldName="DVSTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">

@@ -19,7 +19,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓
 3. Simulated Database ✅ COMPLETE (2026-04-07)
    ↓  (phases 3 & 4 unified: programs/raw/ scripts produce raw CSV + SDTM parquet)
-4. SDTM (21 domains incl. DA + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — 21 Parquet files, SDTMIG v3.4 labelled (back-filled 2026-05-16)
+4. SDTM (22 domains incl. DA + DV + RELREC + SUPPAE/CM/LB/DM/SU) ✅ COMPLETE — 22 Parquet files, SDTMIG v3.4 labelled (DV added 2026-05-17)
    ↓
 4.5. SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓

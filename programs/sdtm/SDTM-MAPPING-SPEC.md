@@ -47,6 +47,7 @@
 | 19 | SUPPCM | Relationship | `cm.parquet` | `suppcm.parquet` | 4,444 |
 | 20 | SUPPLB | Relationship | `lb.parquet` | `supplb.parquet` | 230,788 |
 | 21 | RELREC | Relationship | `tu.parquet` + `tr.parquet` + `rs.parquet` | `relrec.parquet` | 17,708 |
+| 22 | DV     | Special purpose | `protocol_deviations.csv` | `dv.parquet` | 337 |
 
 **Execution order** matters for SUPP* and RELREC (they depend on parent
 SDTM parquets being written first). See `programs/sdtm/00_run_sdtm.R` for
@@ -945,6 +946,33 @@ relrec_resp = UNION(rs_rows, tr_rows)
 
 ---
 
+# 22. DV — Protocol Deviations
+
+**Source:** `raw/protocol_deviations.csv`  · **Output:** `datasets/sdtm/dv.parquet`
+**SDTMIG section:** 6.3 (DV)  · **Class:** Special purpose  · **Structure:** One record per deviation per subject
+**Keys:** STUDYID, USUBJID, DVSEQ
+
+### 22.1 Variable derivations
+
+| # | SDTM var | Type/Length | Source | Derivation |
+|---|----------|-------------|--------|------------|
+| 1 | STUDYID  | Char/20 | Constant | — |
+| 2 | DOMAIN   | Char/2  | Constant | `"DV"` |
+| 3 | USUBJID  | Char/40 | Derived | `paste(STUDYID, SUBJECT_ID, sep="-")` |
+| 4 | DVSEQ    | Num     | Derived | Per-USUBJID row_number after sort `(USUBJID, DV_DATE)` |
+| 5 | DVTERM   | Char/200 | `DV_TERM` | trim |
+| 6 | DVDECOD  | Char/200 | `DV_DECODE` | trim + upper |
+| 7 | DVCAT    | Char/20 | `DV_SEVERITY` | trim + upper — values: `MAJOR`, `MINOR` |
+| 8 | DVSCAT   | Char/40 | `DV_CATEGORY` | trim + upper — deviation category (e.g. `ELIGIBILITY VIOLATION`, `VISIT WINDOW VIOLATION`) |
+| 9 | DVSTDTC  | Char/10 | `DV_DATE`  | ISO 8601 direct |
+| 10 | EPOCH   | Char/20 | `DV_EPOCH` | trim + upper — `SCREENING` / `TREATMENT` / `FOLLOW-UP` |
+
+**Sort:** `(USUBJID, DV_DATE)` before sequencing.
+
+**Note on data semantics:** `DVCAT` carries the SEVERITY (MAJOR/MINOR) — used by ADaM to derive `ADSL.PPROTFL` (Y when no MAJOR deviation). `DVSCAT` carries the deviation category for sub-categorical tables (T-DV-01).
+
+---
+
 ## QC checks (recommended for double programming)
 
 After both implementations are complete, compare on these features per domain
@@ -971,6 +999,7 @@ notes.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial complete spec covering all 21 SDTM datasets (incl. v0.2/v0.3 back-fills: DA, RELREC, SUPPAE, SUPPCM, SUPPLB). SUPPSU flagged as legacy artifact pending successor script. |
+| 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Added §22 DV — Protocol Deviations. Sourced from new `raw/protocol_deviations.csv` simulator (~7% subjects with MAJOR, ~37% with MINOR). Removes accepted limitations AL-02/AL-03/AL-09. Total SDTM datasets now 22. |
 
 ---
 

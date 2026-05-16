@@ -137,6 +137,15 @@ DOMAIN_LABELS <- list(
     EXTRT    = "Name of Treatment"
   )),
 
+  dv = c(SHARED, list(
+    DVSEQ    = "Sequence Number",
+    DVTERM   = "Reported Term for the Protocol Deviation",
+    DVDECOD  = "Standardized Term for the Protocol Deviation",
+    DVCAT    = "Category for Protocol Deviation",
+    DVSCAT   = "Subcategory for Protocol Deviation",
+    DVSTDTC  = "Start Date/Time of Protocol Deviation"
+  )),
+
   ds = c(SHARED, list(
     DSSEQ    = "Sequence Number",
     DSTERM   = "Reported Term for the Disposition Event",

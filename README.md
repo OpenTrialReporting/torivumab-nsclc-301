@@ -34,8 +34,8 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 |-------|-------------|--------|
 | 1 | Protocol Synopsis | ✅ Complete (v1.1, 2026-03-30) |
 | 2 | Annotated CRF (aCRF) | ✅ Complete — Gate 2 APPROVED (2026-04-01) |
-| 3 | Simulated raw eCRF data | ✅ Complete — 14 domain CSVs (`programs/raw/`); v0.3 covariate-driven simulation |
-| 4 | SDTM (21 domains) | ✅ Complete — 21 Parquet domains, SDTMIG v3.4 labelled (`datasets/sdtm/`) |
+| 3 | Simulated raw eCRF data | ✅ Complete — 15 domain CSVs (`programs/raw/`); v0.3 covariate-driven simulation incl. protocol deviations |
+| 4 | SDTM (22 domains) | ✅ Complete — 22 Parquet domains incl. DV (Protocol Deviations), SDTMIG v3.4 labelled (`datasets/sdtm/`) |
 | 4.5 | SAP v0.2 + TFL shells v0.3 | ✅ Complete — Gate 3.5 PASSED; SAP includes full ICH E9(R1) estimand framework |
 | 5 | ADaM (12 datasets) | ✅ Complete — 6 efficacy/safety + 6 pharma-standard descriptive (ADDS, ADDV, ADEX, ADCM, ADVS, ADMH) |
 | 6 | TFLs (43 outputs) | ✅ Complete — all 43 outputs in RTF + DOCX + HTML + PNG (`tfl/`) |

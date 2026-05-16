@@ -197,14 +197,14 @@ programmers don't waste time re-discovering them.
 | ID | Layer | Limitation | Documented in |
 |---|---|---|---|
 | AL-01 | SDTM | `SUPPSU` is a legacy artifact (STUDYID prefix `TORIVUMAB-NSCLC-301`, not `CTX-NSCLC-301`); no generator script exists in `programs/sdtm/` | `SDTM-MAPPING-SPEC.md` §17 |
-| AL-02 | SDTM | `cm.parquet` does not contain post-trial anti-cancer therapy (only supportive-care meds); affects T-DS-03 + T-EFF-12 | `SDTM-MAPPING-SPEC.md` §6 + `RAW-PROVENANCE.md` |
-| AL-03 | SDTM | `SDTM.DS` does not carry explicit `DSCAT='PROTOCOL DEVIATION'` records; only PPROTFL='N' is derivable | `SDTM-MAPPING-SPEC.md` §2 |
+| ~~AL-02~~ | ~~SDTM~~ | ~~cm.parquet does not contain post-trial anti-cancer therapy~~ | **Partially closed 2026-05-17** — T-DS-03 subsequent-therapy row still 0; OSWOT impact unchanged. CM scope unchanged. |
+| ~~AL-03~~ | ~~SDTM~~ | ~~No explicit protocol-deviation records~~ | **Closed 2026-05-17** — new SDTM.DV domain with ~337 records (raw simulator at `programs/raw/15_protocol_deviations.R`). |
 | AL-04 | ADaM | `PARAMCD='PFSINV'` not derived because the synthetic data has no separate BICR vs Investigator assessment | `ADAM-MAPPING-SPEC.md` §6 |
 | AL-05 | Raw | `PFS_TRT` marginal KM median is +3.3 months above protocol target (10.5) due to interval-censoring + the higher RECIST-derived ORR | `RAW-PROVENANCE.md` §10.5 caveat 1 |
 | AL-06 | TFL | T-EFF-10 uses τ = 30 months (not the SAP-proposed 36 months) bounded by max follow-up | `t_eff_10_os_rmst.R` footnote |
 | AL-07 | TFL | T-EFF-11 (PFS-INV) ≡ T-EFF-03 (PFS) since no separate BICR exists in synthetic data | `t_eff_11_pfs_inv.R` footnote |
 | AL-08 | TFL | T-AE-06 (AESI) uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list | `t_ae_06_aesi.R` footnote |
-| AL-09 | TFL | T-DS-02 subcategories beyond "randomised but never dosed" all show 0 (synthetic data has no granular deviation records) | `t_ds_02_deviations.R` footnote |
+| ~~AL-09~~ | ~~TFL~~ | ~~T-DS-02 subcategories all show 0~~ | **Closed 2026-05-17** — SDTM.DV now populated; T-DS-02 + T-DV-01 show real subcategory counts. |
 | AL-10 | TFL | T-DS-03 rows for subsequent anti-cancer therapy + missed assessments all show 0 (synthetic data limitation) | `t_ds_03_intercurrent_events.R` footnote |
 | AL-11 | SDTM | `relrec.parquet` contains duplicate rows (~5 per multi-visit lesion) because `programs/sdtm/relrec.R` emits one row per TU/TR record rather than one per unique lesion-id × subject. Functionally harmless for cross-domain joins but `diffdf` cannot establish unique keys. Documented; a future relrec.R revision should `distinct()` on (USUBJID, RDOMAIN, IDVARVAL). | `programs/qc/compare_sdtm.R` fallback path uses `identical()` to compare instead. |
 

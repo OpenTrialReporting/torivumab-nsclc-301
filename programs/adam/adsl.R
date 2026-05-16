@@ -27,6 +27,10 @@ ds     <- as.data.frame(read_parquet(file.path(SDTM_DIR, "ds.parquet")))
 ex     <- as.data.frame(read_parquet(file.path(SDTM_DIR, "ex.parquet")))
 suppdm <- as.data.frame(read_parquet(file.path(SDTM_DIR, "suppdm.parquet")))
 dd     <- as.data.frame(read_parquet(file.path(SDTM_DIR, "dd.parquet")))
+dv     <- as.data.frame(read_parquet(file.path(SDTM_DIR, "dv.parquet")))
+
+# Subjects with at least one MAJOR protocol deviation — drives PPROTFL='N'
+major_dev_subj <- unique(dv$USUBJID[dv$DVCAT == "MAJOR"])
 
 # 2. SUPPDM — pivot to wide
 suppdm_wide <- suppdm |>
@@ -86,7 +90,9 @@ adsl <- dm |>
     TRT01AN = TRT01PN,
     ITTFL   = if_else(is.na(ARMNRS) | ARMNRS != "SCREEN FAILURE", "Y", "N"),
     SAFFL   = if_else(!is.na(TRTSDT), "Y", "N"),
-    PPROTFL = if_else(!is.na(TRTSDT), "Y", "N"),
+    # PPROTFL = SAFFL='Y' AND no MAJOR protocol deviation. Updated 2026-05-17
+    # to consume SDTM.DV (was a placeholder SAFFL alias).
+    PPROTFL = if_else(!is.na(TRTSDT) & !(USUBJID %in% major_dev_subj), "Y", "N"),
     DTHFL   = if_else(!is.na(DTHDT), "Y", "N"),
     ECOG    = as.integer(ECOGBSL),
     PDL1CAT = PDL1GRP,
