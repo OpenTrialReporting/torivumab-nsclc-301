@@ -51,7 +51,23 @@ tfl_programs <- c(
   "f_eff_03_waterfall.R",           # Waterfall — best % change SLD
   "f_eff_04_spider.R",              # Spider — SLD over time
   "f_eff_05_forest.R",              # Forest — OS HR by subgroup
-  "f_eff_06_swimmer.R"              # Swimmer — responder timelines
+  "f_eff_06_swimmer.R",             # Swimmer — responder timelines
+  # Phase 6d — safety tables
+  "t_ae_01_overall.R",              # Overall summary of AEs
+  "t_ae_02_soc_pt.R",               # TEAEs by SOC + PT (>=5%)
+  "t_ae_03_g3_plus.R",              # Grade >=3 TEAEs
+  "t_ae_04_sae.R",                  # Serious AEs
+  "t_ae_05_irae.R",                 # Immune-related AEs
+  "t_ae_06_aesi.R",                 # AESIs by category
+  "t_ae_07_deaths.R",               # Deaths summary
+  "t_lb_01_shift.R",                # Lab shift table
+  "t_lb_02_g3_plus.R",              # Lab Grade >=3
+  # Phase 6d — listings
+  "l_ae_01_sae.R",                  # SAE listing
+  "l_ae_02_deaths.R",               # Deaths listing
+  "l_ae_03_disc.R",                 # AEs leading to discontinuation
+  "l_lb_01_g3_plus.R",              # Grade >=3 lab values listing
+  "l_ds_01_deviations.R"            # Major protocol deviations listing
 )
 
 run_tfl <- function(script) {

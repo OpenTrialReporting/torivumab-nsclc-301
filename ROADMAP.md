@@ -243,7 +243,7 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 ## Phase 6: TFLs (Tables, Figures, Listings) ⏳ IN PROGRESS
 
-**Status:** Phases 6a + 6b + 6c COMPLETE (2026-05-16) — 24 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6d (safety + listings) to follow (remaining 14 outputs).
+**Status:** Phase 6 COMPLETE (2026-05-16) — **all 38 of 38 outputs delivered** in RTF + DOCX + HTML + PNG. Production-ready pipeline.
 
 **Phase 6a (efficacy pilot):**
 - `programs/tfl/00_run_tfl.R` orchestrator, `_helpers.R` shared utilities, `_km_plot.R` KM helper
@@ -262,6 +262,16 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 - All 11 sensitivity Cox/MH HRs computed; ORR TRT 39.1% vs PBO 15.1% (RD 24.0, p<0.001)
 
 Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 outputs.
+
+**Phase 6d (safety + listings — 14 outputs):**
+- Tables: T-AE-01 (overall), T-AE-02 (SOC×PT ≥5%), T-AE-03 (G3+), T-AE-04 (SAE), T-AE-05 (irAE), T-AE-06 (AESI), T-AE-07 (Deaths), T-LB-01 (shift), T-LB-02 (G3+ labs)
+- Listings: L-AE-01 (SAEs), L-AE-02 (Deaths), L-AE-03 (AEs leading to disc), L-LB-01 (G3+ labs), L-DS-01 (deviations)
+- All listings render in landscape DOCX + RTF + HTML
+
+**Combined deliverables (all 38 outputs):**
+- `tfl/TFL-OUTPUTS.html` (browser view)
+- `tfl/TFL-OUTPUTS.docx` (Word view with cover + per-output cross-references)
+- 96 standalone table/listing files + 6 PNG figures in `tfl/`
 
 **Tables:**
 - T-DM-01: Demographic and baseline characteristics (ITT)

@@ -197,6 +197,153 @@ add_region <- function(adsl) {
     ))
 }
 
+# ---- AE SOC × PT table builder (used by T-AE-02/03/04/05/06) --------------
+# Builds a SOC-then-PT incidence table from a pre-filtered ADAE.
+# adae_sub: ADAE filtered to the event subset of interest (e.g. SAEs).
+# n_trt / n_pbo: denominator subject counts per arm.
+# min_pct: threshold for including a PT (≥ this % in either arm).
+build_ae_soc_pt_ft <- function(adae_sub, n_trt, n_pbo, min_pct = 0,
+                                soc_var = "AESOC", pt_var = "AEDECOD",
+                                col1_w = 4.0) {
+  inc <- adae_sub |>
+    filter(!is.na(.data[[soc_var]]), !is.na(.data[[pt_var]])) |>
+    group_by(.data[[soc_var]], .data[[pt_var]], TRT01A) |>
+    summarise(n = n_distinct(USUBJID), .groups = "drop") |>
+    tidyr::pivot_wider(names_from = TRT01A, values_from = n, values_fill = 0)
+  names(inc) <- c("SOC", "PT", "TRT", "PBO")
+  inc <- inc |>
+    mutate(pct_trt = 100 * TRT / n_trt,
+            pct_pbo = 100 * PBO / n_pbo,
+            max_pct = pmax(pct_trt, pct_pbo)) |>
+    filter(max_pct >= min_pct) |>
+    arrange(SOC, desc(max_pct))
+
+  soc_inc <- adae_sub |>
+    group_by(.data[[soc_var]], TRT01A) |>
+    summarise(n = n_distinct(USUBJID), .groups = "drop") |>
+    tidyr::pivot_wider(names_from = TRT01A, values_from = n, values_fill = 0)
+  names(soc_inc) <- c("SOC", "TRT", "PBO")
+
+  rows <- list(); section_rows <- integer(0); indent_rows <- integer(0)
+  rid <- 0L
+  add <- function(label, t, p, sec = FALSE) {
+    rid <<- rid + 1L
+    rows[[rid]] <<- data.frame(
+      Label = label,
+      TRT   = fmt_n_pct(t, n_trt),
+      PBO   = fmt_n_pct(p, n_pbo),
+      stringsAsFactors = FALSE, check.names = FALSE)
+    if (sec) section_rows <<- c(section_rows, rid)
+    else     indent_rows  <<- c(indent_rows,  rid)
+  }
+
+  for (soc in sort(unique(inc$SOC))) {
+    soc_t <- soc_inc$TRT[soc_inc$SOC == soc]
+    soc_p <- soc_inc$PBO[soc_inc$SOC == soc]
+    add(soc, soc_t, soc_p, sec = TRUE)
+    pts <- inc |> filter(SOC == soc)
+    for (i in seq_len(nrow(pts))) {
+      add(paste0("  ", pts$PT[i]), pts$TRT[i], pts$PBO[i])
+    }
+  }
+  if (length(rows) == 0) {
+    rows[[1]] <- data.frame(Label = "(no events meeting criteria)",
+                             TRT = "0 (0.0)", PBO = "0 (0.0)",
+                             stringsAsFactors = FALSE, check.names = FALSE)
+  }
+  tbl <- do.call(rbind, rows)
+  names(tbl) <- c(" ",
+                  arm_label("Torivumab + Chemotherapy", n_trt),
+                  arm_label("Placebo + Chemotherapy",   n_pbo))
+  ft <- flextable(tbl) |> tfl_theme_ft(col1_w = col1_w)
+  if (length(section_rows) > 0) ft <- bold_section_ft(ft, section_rows)
+  if (length(indent_rows)  > 0) ft <- indent_ft(ft, indent_rows, levels = 1)
+  list(ft = ft, n_pts = length(indent_rows), n_socs = length(section_rows))
+}
+
+# ---- Listing writer (wide single-format DOCX + HTML) ----------------------
+# Listings are typically wide; RTF too. We produce DOCX + HTML + RTF.
+write_listing_all_formats <- function(df, id, title, population,
+                                       notes = character(0), col_widths = NULL) {
+  base <- file.path(TFL_TABLES_DIR, id)  # listings live in same dir as tables
+
+  ft <- flextable(df)
+  ft <- font(ft, fontname = F_SANS, part = "all")
+  ft <- fontsize(ft, size = 8, part = "body")
+  ft <- fontsize(ft, size = 8, part = "header")
+  ft <- bold(ft, part = "header")
+  ft <- bg(ft, bg = C_NAVY,  part = "header")
+  ft <- color(ft, color = C_WHITE, part = "header")
+  ft <- bg(ft, bg = C_WHITE, part = "body")
+  ft <- border_outer(ft, border = fp_border(color = "#666666", width = 1), part = "all")
+  ft <- border_inner_h(ft, border = fp_border(color = C_MID, width = 0.4), part = "body")
+  ft <- border_inner_v(ft, border = fp_border(color = C_MID, width = 0.4), part = "all")
+  ft <- align(ft, align = "left", part = "all")
+  ft <- padding(ft, padding.left = 4, padding.right = 4,
+                padding.top = 1.5, padding.bottom = 1.5, part = "all")
+  if (!is.null(col_widths)) {
+    for (j in seq_along(col_widths)) ft <- width(ft, j = j, width = col_widths[j])
+  } else {
+    ft <- set_table_properties(ft, layout = "autofit", width = 1)
+  }
+
+  # DOCX — landscape page since listings are wide
+  doc <- read_docx()
+  doc <- body_set_default_section(doc, prop_section(
+    page_size    = page_size(width = 11.69, height = 8.27, orient = "landscape"),
+    page_margins = page_mar(top = 0.6, bottom = 0.6, left = 0.7, right = 0.7)
+  ))
+  for (p in make_title_fpar(id, title, population)) doc <- body_add_fpar(doc, p)
+  doc <- body_add_par(doc, " ")
+  doc <- body_add_flextable(doc, ft, align = "left")
+  doc <- body_add_par(doc, " ")
+  for (p in make_footnote_fpar(notes)) doc <- body_add_fpar(doc, p)
+  print(doc, target = paste0(base, ".docx"))
+
+  save_as_rtf(ft, path = paste0(base, ".rtf"))
+
+  # HTML: render as plain <table> for listings (flextable HTML bloats with
+  # large row counts due to inline per-cell styles + base64 SVG fonts).
+  # Plain HTML keeps L-LB-01 ≈ 1 MB instead of 99 MB.
+  esc <- function(x) htmltools::htmlEscape(as.character(x), attribute = FALSE)
+  th_row <- paste0("<th>", esc(names(df)), "</th>", collapse = "")
+  td_rows <- vapply(seq_len(nrow(df)), function(i) {
+    paste0("<tr>",
+           paste0("<td>", esc(unlist(df[i, ])), "</td>", collapse = ""),
+           "</tr>")
+  }, character(1))
+  html_str <- paste0(
+    "<!doctype html>\n<html><head><meta charset='utf-8'>",
+    "<title>", id, " — ", title, "</title>",
+    "<style>",
+    "body{font-family:Arial,sans-serif;margin:24px;color:#222;}",
+    ".tfl-title{font-weight:bold;color:#1F3864;font-size:16px;}",
+    ".tfl-sub{color:#555;font-size:12px;margin-bottom:8px;}",
+    ".tfl-note{font-size:11px;color:#444;margin-top:8px;}",
+    ".tfl-draft{font-size:10px;color:#C0392B;font-style:italic;margin-top:10px;}",
+    "table{border-collapse:collapse;font-size:10px;width:100%;margin-top:8px;}",
+    "th{background:#1F3864;color:#fff;padding:4px 6px;text-align:left;}",
+    "td{padding:3px 6px;border-bottom:1px solid #ddd;}",
+    "tr:nth-child(even) td{background:#f7f9fc;}",
+    "</style></head><body>\n",
+    "<div class='tfl-sub'>", SPONSOR, " &middot; ", PROTOCOL,
+    " &middot; Data cutoff: ", DATA_CUTOFF, "</div>",
+    "<div class='tfl-title'>", id, " &mdash; ", title, "</div>",
+    "<div class='tfl-sub'>", population, "</div>\n",
+    "<table><thead><tr>", th_row, "</tr></thead><tbody>",
+    paste(td_rows, collapse = ""),
+    "</tbody></table>",
+    paste0("<div class='tfl-note'>",
+           paste(htmltools::htmlEscape(notes), collapse = "<br>"),
+           "</div>"),
+    "<div class='tfl-draft'>", DRAFT_TAG, "</div>",
+    "</body></html>"
+  )
+  writeLines(html_str, paste0(base, ".html"))
+
+  invisible(list(id = id, base = base, n = nrow(df)))
+}
+
 # ---- Multi-format writer for tables ----------------------------------------
 # Writes <id>.rtf, <id>.docx, <id>.html into tfl/tables/.
 # DOCX includes header + table + footnotes (full submission look).

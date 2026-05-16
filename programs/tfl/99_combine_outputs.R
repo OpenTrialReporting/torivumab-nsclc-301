@@ -34,7 +34,23 @@ PILOT_OUTPUTS <- list(
   list(id = "F-EFF-03", title = "Waterfall — Best % Change in Sum of Diameters",  kind = "figure"),
   list(id = "F-EFF-04", title = "Spider — Sum of Diameters Over Time",        kind = "figure"),
   list(id = "F-EFF-05", title = "Forest — OS HR by Subgroup",                 kind = "figure"),
-  list(id = "F-EFF-06", title = "Swimmer — Responder Timelines",              kind = "figure")
+  list(id = "F-EFF-06", title = "Swimmer — Responder Timelines",              kind = "figure"),
+  # Safety
+  list(id = "T-AE-01",  title = "Overall Summary of Adverse Events",          kind = "table"),
+  list(id = "T-AE-02",  title = "TEAEs by SOC and PT (≥5% any arm)",          kind = "table"),
+  list(id = "T-AE-03",  title = "Grade ≥3 TEAEs by SOC and PT",               kind = "table"),
+  list(id = "T-AE-04",  title = "Serious Adverse Events by SOC and PT",       kind = "table"),
+  list(id = "T-AE-05",  title = "Immune-Related Adverse Events",              kind = "table"),
+  list(id = "T-AE-06",  title = "Adverse Events of Special Interest",         kind = "table"),
+  list(id = "T-AE-07",  title = "Deaths",                                     kind = "table"),
+  list(id = "T-LB-01",  title = "Laboratory Abnormalities Shift",             kind = "table"),
+  list(id = "T-LB-02",  title = "Laboratory CTCAE Grade ≥3",                  kind = "table"),
+  # Listings
+  list(id = "L-AE-01",  title = "Listing of Serious Adverse Events",          kind = "listing"),
+  list(id = "L-AE-02",  title = "Listing of Deaths",                          kind = "listing"),
+  list(id = "L-AE-03",  title = "Listing of AEs Leading to Discontinuation",  kind = "listing"),
+  list(id = "L-LB-01",  title = "Listing of Grade ≥3 Lab Abnormalities",      kind = "listing"),
+  list(id = "L-DS-01",  title = "Listing of Major Protocol Deviations",       kind = "listing")
 )
 
 # ---- HTML combined ---------------------------------------------------------
@@ -67,7 +83,7 @@ for (o in PILOT_OUTPUTS) {
     sprintf("<div class='output-id'>%s</div>", o$id),
     sprintf("<div class='output-title'>%s</div>", o$title))
 
-  if (o$kind == "table") {
+  if (o$kind %in% c("table", "listing")) {
     # Inline the table's existing standalone HTML body (strip <html>/<head>)
     f <- file.path(TFL_TABLES_DIR, paste0(o$id, ".html"))
     if (file.exists(f)) {
@@ -135,10 +151,7 @@ for (o in PILOT_OUTPUTS) {
     prop = fp_text(font.family = F_SANS, font.size = 14, bold = TRUE, color = C_NAVY))))
   doc <- body_add_par(doc, " ")
 
-  if (o$kind == "table") {
-    # Embed by extracting from the per-table DOCX is complex; simpler: just
-    # write a hyperlink note and instruct the reader.  Since the table content
-    # also exists in tfl/tables/<id>.docx, we cross-reference there.
+  if (o$kind %in% c("table", "listing")) {
     f_docx <- file.path(TFL_TABLES_DIR, paste0(o$id, ".docx"))
     doc <- body_add_fpar(doc, fpar(ftext(
       sprintf("→ See tfl/tables/%s.docx for the formatted table.", o$id),

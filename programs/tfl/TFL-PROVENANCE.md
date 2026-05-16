@@ -65,7 +65,32 @@ clinical trial and **are not intended for regulatory submission**.
 | F-EFF-06 | Figure | Swimmer — Responder Timelines                 | §5.4 |
 
 Total delivered so far: **24 / 38 outputs**. Remaining 14 (Phase 6d):
-T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/listings. The pilot architecture is designed so adding a
+T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/listings.
+
+### 6d (2026-05-16) — 14 outputs, safety + listings
+
+| ID | Kind | Title | Source |
+|---|---|---|---|
+| T-AE-01 | Table | Overall Summary of AEs | ADAE + ADSL |
+| T-AE-02 | Table | TEAEs by SOC and PT (≥5% any arm) | ADAE TRTEMFL=Y |
+| T-AE-03 | Table | Grade ≥3 TEAEs by SOC and PT | ADAE TRTEMFL=Y AND AETOXGRN≥3 |
+| T-AE-04 | Table | Serious AEs by SOC and PT | ADAE TRTEMFL=Y AND AESER=Y |
+| T-AE-05 | Table | Immune-Related AEs | ADAE IRAEFL=Y |
+| T-AE-06 | Table | Adverse Events of Special Interest (AESI) | ADAE AEDECOD ∈ AESI regex |
+| T-AE-07 | Table | Deaths (overall + cause) | ADSL DTHFL=Y + SDTM.DD |
+| T-LB-01 | Table | Lab abnormalities shift (baseline → worst) | ADLB NRIND |
+| T-LB-02 | Table | Lab CTCAE Grade ≥3 worst post-baseline | ADLB ATOXGRN |
+| L-AE-01 | Listing | Serious Adverse Events | ADAE AESER=Y |
+| L-AE-02 | Listing | Deaths | ADSL DTHFL=Y + SDTM.DD |
+| L-AE-03 | Listing | AEs Leading to Discontinuation | ADAE AEACN ~ "WITHDRAWN" |
+| L-LB-01 | Listing | Grade ≥3 Lab Abnormalities | ADLB ATOXGRN ≥ 3 |
+| L-DS-01 | Listing | Major Protocol Deviations | ADSL PPROTFL=N |
+
+**Phase 6 COMPLETE. All 38 of 38 outputs delivered.**
+
+Added infrastructure for Phase 6d:
+- `build_ae_soc_pt_ft()` shared helper in `_helpers.R` — used by T-AE-02/03/04/05/06 (same SOC×PT structure, different filter)
+- `write_listing_all_formats()` shared helper — DOCX in landscape orientation, smaller font (8pt), RTF + HTML siblings The pilot architecture is designed so adding a
 new output is a single new script in `programs/tfl/` plus one line in
 `00_run_tfl.R::tfl_programs`.
 
@@ -245,6 +270,7 @@ pace (~10–15 min per straightforward table, ~30 min per figure).
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial Phase 6a pilot: scaffolded `programs/tfl/`, built shared helpers + KM-curve helper, produced 5 outputs in RTF + DOCX + HTML (tables) and PNG (figures). Two combined deliverables: `tfl/TFL-OUTPUTS.html` and `tfl/TFL-OUTPUTS.docx`. Full pipeline runs in 1.3 seconds. All three Cox HRs within 95% CIs of protocol-assumed values. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6b: added 4 disposition+exposure tables (T-DS-01, T-DS-02, T-DS-03, T-EX-01). Now 9 of 38 outputs delivered. Two synthetic-data limitations noted as footnotes: (a) no explicit SDTM.DS protocol-deviation records, so T-DS-02 subcategories beyond "randomised but never dosed" appear as 0; (b) no subsequent anti-cancer therapy in CM, so T-DS-03 rows for subsequent therapy and missed-assessment IEs appear as 0. |
 | 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6c: added all 15 remaining efficacy outputs — 11 tables (T-EFF-02/04/05/06/07/08/09/10/11/12/13) + 4 figures (F-EFF-03/04/05/06). Now 24 of 38 outputs delivered. Added shared helpers in `_helpers.R`: `km_landmark_probs`, `stratified_cox`, `stratified_logrank`, `add_region`. Installed `survRM2` for T-EFF-10 RMST. Synthetic-data limitations noted in footnotes: T-EFF-11 PFSINV ≡ PFS (no separate BICR simulated); T-EFF-10 τ=30m instead of SAP-proposed 36m (bounded by max follow-up). Phase 6d (safety + listings) remaining: 14 outputs. |
+| 0.4 | 2026-05-16 | LG (w/ Claude Opus 4.7) | **Phase 6d complete — all 38 of 38 outputs delivered.** Added 9 safety tables (T-AE-01..07, T-LB-01/02) + 5 listings (L-AE-01/02/03, L-LB-01, L-DS-01). Two new shared helpers: `build_ae_soc_pt_ft()` (reused by T-AE-02/03/04/05/06) and `write_listing_all_formats()` (landscape DOCX + 8pt font for wide listings). Combined HTML/DOCX rendering extended for the new `kind == "listing"` output type. AESI categorisation uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list; documented in T-AE-06 footnote. |
 
 ---
 
