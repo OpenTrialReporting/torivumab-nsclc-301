@@ -7,16 +7,34 @@
 # =============================================================================
 
 PILOT_OUTPUTS <- list(
-  # Phase 6a
+  # Demographics & disposition
   list(id = "T-DM-01",  title = "Demographic and Baseline Characteristics", kind = "table"),
   list(id = "T-DS-01",  title = "Subject Disposition",                       kind = "table"),
   list(id = "T-DS-02",  title = "Major Protocol Deviations",                 kind = "table"),
   list(id = "T-DS-03",  title = "Intercurrent Events Summary",               kind = "table"),
   list(id = "T-EX-01",  title = "Study Drug Exposure",                       kind = "table"),
+  # Primary efficacy
   list(id = "T-EFF-01", title = "Overall Survival Analysis (Primary)",       kind = "table"),
+  list(id = "T-EFF-02", title = "Kaplan-Meier Survival Probabilities — OS",  kind = "table"),
   list(id = "T-EFF-03", title = "Progression-Free Survival Analysis (BICR)", kind = "table"),
+  list(id = "T-EFF-04", title = "Kaplan-Meier Survival Probabilities — PFS", kind = "table"),
+  list(id = "T-EFF-05", title = "Objective Response Rate",                    kind = "table"),
+  list(id = "T-EFF-06", title = "Disease Control Rate",                       kind = "table"),
+  list(id = "T-EFF-07", title = "Duration of Response",                       kind = "table"),
+  # Sensitivity estimands
+  list(id = "T-EFF-08", title = "OS in Per-Protocol Population (Sensitivity)", kind = "table"),
+  list(id = "T-EFF-09", title = "OS Landmark Analysis (Sensitivity)",         kind = "table"),
+  list(id = "T-EFF-10", title = "Restricted Mean Survival Time — OS (E1a)",  kind = "table"),
+  list(id = "T-EFF-11", title = "PFS by Investigator (Sensitivity, E2a)",     kind = "table"),
+  list(id = "T-EFF-12", title = "OS — While-on-Treatment Sensitivity (E1b)", kind = "table"),
+  list(id = "T-EFF-13", title = "ORR — ITT Denominator (Sensitivity, E3a)",  kind = "table"),
+  # Figures
   list(id = "F-EFF-01", title = "Kaplan-Meier Curve — Overall Survival",     kind = "figure"),
-  list(id = "F-EFF-02", title = "Kaplan-Meier Curve — Progression-Free Survival", kind = "figure")
+  list(id = "F-EFF-02", title = "Kaplan-Meier Curve — Progression-Free Survival", kind = "figure"),
+  list(id = "F-EFF-03", title = "Waterfall — Best % Change in Sum of Diameters",  kind = "figure"),
+  list(id = "F-EFF-04", title = "Spider — Sum of Diameters Over Time",        kind = "figure"),
+  list(id = "F-EFF-05", title = "Forest — OS HR by Subgroup",                 kind = "figure"),
+  list(id = "F-EFF-06", title = "Swimmer — Responder Timelines",              kind = "figure")
 )
 
 # ---- HTML combined ---------------------------------------------------------

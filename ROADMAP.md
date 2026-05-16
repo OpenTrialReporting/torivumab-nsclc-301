@@ -243,7 +243,7 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 ## Phase 6: TFLs (Tables, Figures, Listings) ⏳ IN PROGRESS
 
-**Status:** Phases 6a + 6b COMPLETE (2026-05-16) — 9 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6c/d to follow (remaining 29 outputs).
+**Status:** Phases 6a + 6b + 6c COMPLETE (2026-05-16) — 24 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6d (safety + listings) to follow (remaining 14 outputs).
 
 **Phase 6a (efficacy pilot):**
 - `programs/tfl/00_run_tfl.R` orchestrator, `_helpers.R` shared utilities, `_km_plot.R` KM helper
@@ -255,7 +255,13 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 - T-DS-03 (Intercurrent Events Summary — operationalises SAP §13.3)
 - T-EX-01 (Study Drug Exposure)
 
-Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 9 outputs.
+**Phase 6c (efficacy completion — 15 outputs):**
+- T-EFF-02/04 (KM landmark probabilities OS/PFS), T-EFF-05/06/07 (ORR/DCR/DoR)
+- Sensitivity estimands: T-EFF-08 (OS-PP), T-EFF-09 (OS Landmark), T-EFF-10 (OS RMST = E1a), T-EFF-11 (PFS-INV = E2a), T-EFF-12 (OS-WOT = E1b), T-EFF-13 (ORR-ITT = E3a)
+- Figures: F-EFF-03 (Waterfall), F-EFF-04 (Spider), F-EFF-05 (Forest), F-EFF-06 (Swimmer)
+- All 11 sensitivity Cox/MH HRs computed; ORR TRT 39.1% vs PBO 15.1% (RD 24.0, p<0.001)
+
+Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 outputs.
 
 **Tables:**
 - T-DM-01: Demographic and baseline characteristics (ITT)

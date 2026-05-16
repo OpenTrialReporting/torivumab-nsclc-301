@@ -44,9 +44,28 @@ clinical trial and **are not intended for regulatory submission**.
 | T-DS-03 | Table | Intercurrent Events Summary    | §13.3 (IE taxonomy) |
 | T-EX-01 | Table | Study Drug Exposure           | §5.5 (descriptive) |
 
-Total delivered so far: **9 / 38 outputs**. Remaining 29 shells
-(T-EFF-02/04/05/06/07/08/09/10/11/12/13, T-AE-01..07, T-LB-01/02,
-F-EFF-03/04/05/06, L-AE-01/02/03, L-LB-01, L-DS-01) for Phase 6c/d. The pilot architecture is designed so adding a
+### 6c (2026-05-16) — 15 outputs, all remaining efficacy
+
+| ID | Kind | Title | SAP / Estimand |
+|---|---|---|---|
+| T-EFF-02 | Table  | KM Probabilities — OS                         | §5.1 / E1 supplement |
+| T-EFF-04 | Table  | KM Probabilities — PFS                        | §5.2 / E2 supplement |
+| T-EFF-05 | Table  | Objective Response Rate                       | §5.3 / E3 |
+| T-EFF-06 | Table  | Disease Control Rate                          | §5.3 / E5 |
+| T-EFF-07 | Table  | Duration of Response                          | §5.4 / E4 |
+| T-EFF-08 | Table  | OS in Per-Protocol Population (Sensitivity)   | §11 sensitivity |
+| T-EFF-09 | Table  | OS Landmark Analysis (Sensitivity)            | §11 sensitivity |
+| T-EFF-10 | Table  | OS Restricted Mean Survival Time              | §13.4 / E1a |
+| T-EFF-11 | Table  | PFS by Investigator (Sensitivity)             | §13.5 / E2a |
+| T-EFF-12 | Table  | OS While-on-Treatment (Sensitivity)           | §13.4 / E1b |
+| T-EFF-13 | Table  | ORR ITT Denominator (Sensitivity)             | §13.6 / E3a |
+| F-EFF-03 | Figure | Waterfall — Best % Change in SLD              | §5.3 |
+| F-EFF-04 | Figure | Spider — SLD Over Time                        | §5.3 |
+| F-EFF-05 | Figure | Forest — OS HR by Subgroup                    | §10 subgroup |
+| F-EFF-06 | Figure | Swimmer — Responder Timelines                 | §5.4 |
+
+Total delivered so far: **24 / 38 outputs**. Remaining 14 (Phase 6d):
+T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/listings. The pilot architecture is designed so adding a
 new output is a single new script in `programs/tfl/` plus one line in
 `00_run_tfl.R::tfl_programs`.
 
@@ -138,6 +157,26 @@ the v0.3 Tier A+B simulation flows through to the analysis layer intact.
 | T-DS-03 | 361 treatment discontinuations, 18 with no post-baseline assessment, 18 deaths before first assessment, 9 withdrawals — subsequent therapy + missed-assessment rows = 0 (synthetic-data limitation noted in footnote). |
 | T-EX-01 | Treatment duration medians: TRT 440d vs PBO 314d (+126d). Median cycles: 6 in both arms. Cumulative torivumab dose recovered. |
 
+### Phase 6c (efficacy completion)
+
+| Output | Result |
+|---|---|
+| T-EFF-02 | 12-month OS landmarks: TRT 70%+ vs PBO 55%; 24-month TRT ~45% vs PBO ~25% |
+| T-EFF-04 | 12-month PFS landmarks: TRT ~55% vs PBO ~30% |
+| T-EFF-05 | ORR (RE pop): TRT 39.1% vs PBO 15.1%; RD = 24.0 (95% CI 15.9, 32.0); p<0.001 |
+| T-EFF-06 | DCR: TRT 82.7% vs PBO 68.4%; RD = 14.3; p<0.001 |
+| T-EFF-07 | Median DoR: TRT 17.9m vs PBO 12.8m (descriptive only) |
+| T-EFF-08 | OS in PP: HR 0.576 (matches T-EFF-01 to 3 sig figs — PP and ITT identical in this dataset) |
+| T-EFF-09 | OS landmark analysis: arm-difference probabilities at 6/12/18/24/30 months, all significant |
+| T-EFF-10 | RMST(τ=30m): TRT − PBO = +4.56 months (estimand E1a) |
+| T-EFF-11 | PFS-INV HR 0.504 (identical to T-EFF-03 — BICR not simulated in synthetic data, footnote explains) |
+| T-EFF-12 | OS-WOT HR 0.485 (95% CI 0.378, 0.624) — stronger than full OS HR 0.576 as expected; estimand E1b |
+| T-EFF-13 | ORR ITT-denom: TRT 38.2% vs PBO 14.2%; RD 24.0 (≈identical to T-EFF-05 since only 18 NoPBA subjects across 450) |
+| F-EFF-03 | Waterfall — 432 evaluable subjects with best-response data; visible TRT vs PBO separation |
+| F-EFF-04 | Spider — 449 subjects, 3,183 SLD records over 24 months |
+| F-EFF-05 | Forest — 11 subgroups: Overall, Sex, Age, Histology, Region, ECOG PS, PD-L1 group |
+| F-EFF-06 | Swimmer — 118 confirmed responders with treatment / response / PD / death markers |
+
 ---
 
 ## 7. How to Run
@@ -205,6 +244,7 @@ pace (~10–15 min per straightforward table, ~30 min per figure).
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial Phase 6a pilot: scaffolded `programs/tfl/`, built shared helpers + KM-curve helper, produced 5 outputs in RTF + DOCX + HTML (tables) and PNG (figures). Two combined deliverables: `tfl/TFL-OUTPUTS.html` and `tfl/TFL-OUTPUTS.docx`. Full pipeline runs in 1.3 seconds. All three Cox HRs within 95% CIs of protocol-assumed values. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6b: added 4 disposition+exposure tables (T-DS-01, T-DS-02, T-DS-03, T-EX-01). Now 9 of 38 outputs delivered. Two synthetic-data limitations noted as footnotes: (a) no explicit SDTM.DS protocol-deviation records, so T-DS-02 subcategories beyond "randomised but never dosed" appear as 0; (b) no subsequent anti-cancer therapy in CM, so T-DS-03 rows for subsequent therapy and missed-assessment IEs appear as 0. |
+| 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6c: added all 15 remaining efficacy outputs — 11 tables (T-EFF-02/04/05/06/07/08/09/10/11/12/13) + 4 figures (F-EFF-03/04/05/06). Now 24 of 38 outputs delivered. Added shared helpers in `_helpers.R`: `km_landmark_probs`, `stratified_cox`, `stratified_logrank`, `add_region`. Installed `survRM2` for T-EFF-10 RMST. Synthetic-data limitations noted in footnotes: T-EFF-11 PFSINV ≡ PFS (no separate BICR simulated); T-EFF-10 τ=30m instead of SAP-proposed 36m (bounded by max follow-up). Phase 6d (safety + listings) remaining: 14 outputs. |
 
 ---
 

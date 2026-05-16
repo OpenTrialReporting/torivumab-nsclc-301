@@ -146,6 +146,57 @@ make_footnote_fpar <- function(notes = character(0)) {
   pieces
 }
 
+# ---- Survival-analysis helpers (shared across efficacy tables) ------------
+# Greenwood-CI survival probability at given timepoints (months).
+# Returns a data frame: tp_months, surv, lo, hi.
+km_landmark_probs <- function(data, time_var = "AVAL_MO", event_var = "CNSR",
+                              event_value = 0, timepoints) {
+  tt  <- data[[time_var]]
+  evt <- data[[event_var]] == event_value
+  fit <- survfit(Surv(tt, evt) ~ 1, conf.type = "log-log")
+  s   <- summary(fit, times = timepoints, extend = TRUE)
+  data.frame(
+    tp_months = s$time,
+    surv      = s$surv,
+    lo        = s$lower,
+    hi        = s$upper
+  )
+}
+
+# Stratified Cox HR for a TRT vs PBO comparison.
+# data must have: AVAL_MO, CNSR, is_trt (logical or 0/1), HISTCAT, REGION.
+# Coerces is_trt to integer internally so the model coefficient name is
+# stable ("is_trt") regardless of input type.
+stratified_cox <- function(data) {
+  data$is_trt <- as.integer(data$is_trt)
+  fit <- coxph(Surv(AVAL_MO, CNSR == 0) ~ is_trt + strata(HISTCAT, REGION),
+               data = data)
+  s   <- summary(fit)$conf.int
+  list(hr = s["is_trt","exp(coef)"],
+       lo = s["is_trt","lower .95"],
+       hi = s["is_trt","upper .95"])
+}
+
+# Stratified log-rank p
+stratified_logrank <- function(data) {
+  data$is_trt <- as.integer(data$is_trt)
+  sd <- survdiff(Surv(AVAL_MO, CNSR == 0) ~ is_trt + strata(HISTCAT, REGION),
+                 data = data)
+  1 - pchisq(sd$chisq, df = 1)
+}
+
+# Region derivation (matches T-DM-01 and all efficacy tables)
+add_region <- function(adsl) {
+  adsl |>
+    mutate(REGION = case_when(
+      COUNTRY %in% c("UNITED STATES", "CANADA")                           ~ "NA",
+      COUNTRY %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
+                      "ITALY", "NETHERLANDS", "POLAND")                   ~ "EU",
+      COUNTRY %in% c("JAPAN", "SOUTH KOREA", "AUSTRALIA")                 ~ "APAC",
+      TRUE                                                                ~ "OTHER"
+    ))
+}
+
 # ---- Multi-format writer for tables ----------------------------------------
 # Writes <id>.rtf, <id>.docx, <id>.html into tfl/tables/.
 # DOCX includes header + table + footnotes (full submission look).

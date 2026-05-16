@@ -34,7 +34,24 @@ tfl_programs <- c(
   "t_ds_01_disposition.R",          # Subject Disposition
   "t_ds_02_deviations.R",           # Major Protocol Deviations
   "t_ds_03_intercurrent_events.R",  # Intercurrent Events Summary (SAP §13.3)
-  "t_ex_01_exposure.R"              # Study Drug Exposure
+  "t_ex_01_exposure.R",             # Study Drug Exposure
+  # Phase 6c — efficacy completion (tables)
+  "t_eff_02_km_probs_os.R",         # KM landmark probabilities — OS
+  "t_eff_04_km_probs_pfs.R",        # KM landmark probabilities — PFS
+  "t_eff_05_orr.R",                 # Objective Response Rate (BICR — Investigator here)
+  "t_eff_06_dcr.R",                 # Disease Control Rate
+  "t_eff_07_dor.R",                 # Duration of Response
+  "t_eff_08_os_pp.R",               # OS in Per-Protocol Population (sensitivity)
+  "t_eff_09_os_landmark.R",         # OS Landmark Analysis (sensitivity)
+  "t_eff_10_os_rmst.R",             # OS RMST (estimand E1a)
+  "t_eff_11_pfs_inv.R",             # PFS by Investigator (estimand E2a)
+  "t_eff_12_os_wot.R",              # OS While-on-Treatment (estimand E1b)
+  "t_eff_13_orr_itt.R",             # ORR ITT denominator (estimand E3a)
+  # Phase 6c — efficacy completion (figures)
+  "f_eff_03_waterfall.R",           # Waterfall — best % change SLD
+  "f_eff_04_spider.R",              # Spider — SLD over time
+  "f_eff_05_forest.R",              # Forest — OS HR by subgroup
+  "f_eff_06_swimmer.R"              # Swimmer — responder timelines
 )
 
 run_tfl <- function(script) {
