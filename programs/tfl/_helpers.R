@@ -383,7 +383,7 @@ write_table_all_formats <- function(ft, id, title, population, notes = character
     " &middot; Data cutoff: ", DATA_CUTOFF, "</div>",
     "<div class='tfl-title'>", id, " &mdash; ", title, "</div>",
     "<div class='tfl-sub'>", population, "</div>\n",
-    htmltools_value(ft),
+    as.character(flextable::htmltools_value(ft)),
     paste0("<div class='tfl-note'>",
            paste(htmltools::htmlEscape(notes), collapse = "<br>"),
            "</div>"),
@@ -393,11 +393,6 @@ write_table_all_formats <- function(ft, id, title, population, notes = character
   writeLines(html_str, paste0(base, ".html"))
 
   invisible(list(id = id, base = base))
-}
-
-# flextable's htmltools_value — wraps as_raster + as_html via the package
-htmltools_value <- function(ft) {
-  paste0(htmltools::HTML(format(ft, type = "html")))
 }
 
 # ---- Figure writer ---------------------------------------------------------
