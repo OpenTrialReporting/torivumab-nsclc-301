@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260516204403"
-     CreationDateTime="2026-05-16T20:44:02"
-     AsOfDateTime="2026-05-16T20:44:02"
+     FileOID="CTX-NSCLC-301.20260516205709"
+     CreationDateTime="2026-05-16T20:57:08"
+     AsOfDateTime="2026-05-16T20:57:08"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -33,23 +33,25 @@
         <ItemRef ItemOID="IT.AE.AETERM" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEDECOD" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEBODSYS" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEREL" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESDTH" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESHOSP" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESLIFE" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="22" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="23" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEDISCOD" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESOC" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AETOXGR" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEREL" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESDTH" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESHOSP" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESLIFE" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEDISCOD" OrderNumber="26" Mandatory="No"/>
         <def:leaf ID="LF.AE" xlink:href="ae.xpt">
           <def:title>ae.xpt</def:title>
         </def:leaf>
@@ -649,11 +651,11 @@
         <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AETERM" Name="AETERM" SASFieldName="AETERM" DataType="text" Length="39">
+      <ItemDef OID="IT.AE.AETERM" Name="AETERM" SASFieldName="AETERM" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Reported Term for the Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="39">
+      <ItemDef OID="IT.AE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
@@ -661,11 +663,15 @@
         <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.AE.AESOC" Name="AESOC" SASFieldName="AESOC" DataType="text" Length="52">
+        <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
       <ItemDef OID="IT.AE.AEHLT" Name="AEHLT" SASFieldName="AEHLT" DataType="text" Length="36">
         <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="39">
+      <ItemDef OID="IT.AE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
@@ -679,6 +685,10 @@
       </ItemDef>
       <ItemDef OID="IT.AE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="16">
         <Description><TranslatedText xml:lang="en">Severity/Intensity</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AETOXGR" Name="AETOXGR" SASFieldName="AETOXGR" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Standard Toxicity Grade</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESER" Name="AESER" SASFieldName="AESER" DataType="text" Length="1">

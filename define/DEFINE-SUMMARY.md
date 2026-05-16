@@ -3,33 +3,33 @@
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
 **Generated:** 2026-05-16
 **File:** `define/define.xml`
-**Datasets:** 27  ·  **Variables:** 447
+**Datasets:** 27  ·  **Variables:** 449
 
 ## Datasets
 
 | Dataset | Class | Records | Variables | Structure |
 |---------|-------|--------:|----------:|-----------|
-| AE | EVENTS | 2,837 | 24 | One record per subject per adverse event |
-| CM | INTERVENTIONS | 2,222 | 13 | One record per subject per medication per occurrence |
-| DA | INTERVENTIONS | 28,108 | 15 | One record per subject per accountability measure per drug per visit |
-| DD | EVENTS | 284 | 12 | One record per subject per death detail |
+| AE | EVENTS | 2,841 | 26 | One record per subject per adverse event |
+| CM | INTERVENTIONS | 2,197 | 13 | One record per subject per medication per occurrence |
+| DA | INTERVENTIONS | 31,866 | 15 | One record per subject per accountability measure per drug per visit |
+| DD | EVENTS | 312 | 12 | One record per subject per death detail |
 | DM | SPECIAL PURPOSE | 450 | 17 | One record per subject |
 | DS | EVENTS | 1,350 | 9 | One record per subject per disposition event |
-| EX | INTERVENTIONS | 11,710 | 13 | One record per subject per administration |
-| LB | FINDINGS | 115,394 | 19 | One record per subject per lab test per visit |
-| MH | EVENTS | 2,051 | 11 | One record per subject per medical history event |
-| PE | FINDINGS | 22,662 | 12 | One record per subject per body system per visit |
-| RELREC | RELATIONSHIP | 17,708 | 7 | One record per related record |
-| RS | FINDINGS | 2,260 | 14 | One record per subject per assessment per visit |
-| SU | INTERVENTIONS | 1,236 | 11 | One record per subject per substance use occurrence |
-| SUPPAE | RELATIONSHIP | 8,511 | 10 | One record per parent record per qualifier |
-| SUPPCM | RELATIONSHIP | 4,444 | 10 | One record per parent record per qualifier |
+| EX | INTERVENTIONS | 13,403 | 13 | One record per subject per administration |
+| LB | FINDINGS | 122,601 | 19 | One record per subject per lab test per visit |
+| MH | EVENTS | 2,061 | 11 | One record per subject per medical history event |
+| PE | FINDINGS | 25,596 | 12 | One record per subject per body system per visit |
+| RELREC | RELATIONSHIP | 21,162 | 7 | One record per related record |
+| RS | FINDINGS | 2,762 | 14 | One record per subject per assessment per visit |
+| SU | INTERVENTIONS | 1,217 | 11 | One record per subject per substance use occurrence |
+| SUPPAE | RELATIONSHIP | 8,523 | 10 | One record per parent record per qualifier |
+| SUPPCM | RELATIONSHIP | 4,394 | 10 | One record per parent record per qualifier |
 | SUPPDM | RELATIONSHIP | 1,799 | 10 | One record per subject per qualifier |
-| SUPPLB | RELATIONSHIP | 230,788 | 10 | One record per parent record per qualifier |
+| SUPPLB | RELATIONSHIP | 245,202 | 10 | One record per parent record per qualifier |
 | SUPPSU | RELATIONSHIP | 450 | 10 | One record per parent record per qualifier |
-| TR | FINDINGS | 7,724 | 15 | One record per subject per lesion per measurement per visit |
-| TU | FINDINGS | 7,686 | 14 | One record per subject per lesion per visit (tumor identification) |
-| VS | FINDINGS | 46,095 | 14 | One record per subject per vital sign measurement per visit |
+| TR | FINDINGS | 9,200 | 15 | One record per subject per lesion per measurement per visit |
+| TU | FINDINGS | 9,148 | 14 | One record per subject per lesion per visit (tumor identification) |
+| VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
 | ADAE | OCCURRENCE DATA STRUCTURE | 2,837 | 45 | One record per subject per adverse event |
 | ADLB | BASIC DATA STRUCTURE | 115,394 | 35 | One record per subject per parameter per analysis visit |
 | ADRS | BASIC DATA STRUCTURE | 3,160 | 20 | One record per subject per parameter per analysis visit |

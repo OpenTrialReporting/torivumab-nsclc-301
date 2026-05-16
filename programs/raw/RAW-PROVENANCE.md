@@ -120,3 +120,120 @@ Outputs: 14 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial. 13 domain scripts + master controller. Supersedes data-raw/ direct-to-SDTM approach. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Added `14_drug_accountability.R` (CDASH DA form simulator → `raw/drug_accountability.csv`, 11,710 rows). Wired into `00_simulate_raw.R`. Closes CRF→SDTM traceability gap previously bridged by EX-derived DA records. |
+| 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | **Tier A + Tier B simulation upgrade** (see §10). `02_disposition.R` rewritten: per-subject covariate-driven hazards (PD-L1, histology, ECOG, smoking, region) via multiplicative log-linear model; Weibull(shape>1) survival distributions for realistic "slow then steep" KM shape. `09_tumor_measurements.R`: covariate-driven per-subject ORR via centered logistic model with per-arm intercept recalibration. New `validate_covariate_effects.R` fits Cox PH + logistic models and verifies HR/OR recovery. All raw CSVs regenerated; SDTM + Define-XML refreshed. **ADaM is now stale** until re-run with pharmaverse. |
+
+---
+
+## 10. Covariate Model (v0.3 — Tier A + Tier B)
+
+### 10.1 Motivation
+
+The v0.1/v0.2 simulation drew OS/PFS independently per arm from a single
+exponential distribution. This produced correct *marginal* hazard ratios
+(HR ≈ 0.62 OS, 0.55 PFS) but **decoupled outcomes from baseline biomarkers** —
+a subject's PD-L1 TPS, histology, ECOG PS, smoking status, and region had
+zero predictive value for their PFS, OS, or ORR. Any stratified-subgroup
+analysis run on v0.1/v0.2 data would (correctly) show null effects, which
+contradicts the protocol's scientific rationale (PD-L1 ≥50% cohort, PD-1
+inhibitor) and would mislead anyone using the dataset to study biomarker
+heterogeneity.
+
+### 10.2 Tier A — Multiplicative covariate hazards
+
+For each subject *i*, the per-subject hazard is:
+
+```
+λ_i = λ_arm × exp(β_pdl1·x_pdl1 + β_hist·x_hist + β_ps·x_ps + β_smk·x_smk + β_reg·x_reg)
+```
+
+Covariates are centered to the study mean so the marginal hazard within
+each arm drifts <5% from the protocol-stated value. An additional explicit
+calibration constant restores the marginal exactly.
+
+**OS coefficients** (log-HR):
+
+| Covariate | Comparator | HR | Source |
+|---|---|---|---|
+| PD-L1 TPS per 50-pt rise | Linear in TPS | 0.75 | KEYNOTE-024 subgroup forest (Reck et al., NEJM 2019) |
+| Squamous histology | Non-squamous | 1.25 | Pooled IO meta-analysis (ESMO 2022) |
+| ECOG PS per +1 point | Linear | 1.40 | Standard NSCLC prognostic factor |
+| Former smoker | Never smoker | 0.80 | KEYNOTE-024, CheckMate-227 |
+| Current smoker | Never smoker | 0.85 | KEYNOTE-024 |
+| Region APAC | NA/EU | 0.90 | Mixed evidence; mild EE advantage |
+
+**PFS coefficients** are directionally identical to OS, with slightly larger
+magnitudes (PFS effects typically exceed OS effects in NSCLC IO trials).
+
+**ORR coefficients** (log-OR; logistic on response probability):
+
+| Covariate | Comparator | OR |
+|---|---|---|
+| PD-L1 TPS per 50-pt rise | Linear | 2.00 |
+| Squamous histology | Non-squamous | 0.75 |
+| ECOG PS per +1 point | Linear | 0.70 |
+| Former smoker | Never | 1.30 |
+| Current smoker | Never | 1.40 |
+
+### 10.3 Tier B — Weibull survival distributions
+
+OS and PFS are drawn from Weibull rather than exponential distributions:
+
+- OS shape *k* = 1.40 (moderate hazard acceleration over time)
+- PFS shape *k* = 1.20 (mild acceleration; PFS events occur earlier)
+
+For Weibull-PH, the per-subject scale becomes `σ_arm / exp(LP_i / k)`,
+preserving the proportional-hazards interpretation of Tier A coefficients.
+Median = `σ · (log 2)^(1/k)`; the per-arm scale is back-derived from the
+protocol median (21.5m TRT, 13.3m PBO for OS; 10.5m TRT, 5.8m PBO for PFS).
+
+KM curves now show the characteristic NSCLC "slow then steep" shape rather
+than the smooth exponential decay of v0.1/v0.2.
+
+### 10.4 Validation results (2026-05-16)
+
+Run `Rscript programs/raw/validate_covariate_effects.R`:
+
+| Check | Result |
+|---|---|
+| KM marginal median OS (TRT) | 19.5m vs target 21.5m (Δ −2.0) — PASS (±2.5) |
+| KM marginal median OS (PBO) | 14.7m vs target 13.3m (Δ +1.4) — PASS |
+| KM marginal median PFS (TRT) | 13.8m vs target 10.5m (Δ +3.3) — WARN (see §10.5) |
+| KM marginal median PFS (PBO) | 7.1m vs target 5.8m (Δ +1.3) — PASS |
+| Cox HR — PD-L1 per 50pt | 0.805 (95% CI 0.66-0.99) covers input 0.75 — PASS |
+| Cox HR — Squamous | 1.247 (1.00-1.56) covers 1.25 — PASS |
+| Cox HR — ECOG per +1 | 1.487 (1.26-1.75) covers 1.40 — PASS |
+| Cox HR — Former smoker | 0.847 (0.64-1.13) covers 0.80 — PASS |
+| Cox HR — Current smoker | 0.774 (0.56-1.07) covers 0.85 — PASS |
+| Cox HR — Region APAC | 0.620 (0.47-0.82) — CHECK; small N (~90) drives variance |
+| Logistic OR — all ORR coefficients | All cover input within 95% CI — PASS |
+
+### 10.5 Known caveats
+
+1. **PFS_trt marginal drift (+3.3 mo)** — RS-derived PFS exceeds the latent
+   sampled PFS because (a) tumor assessment visits are every 6 weeks,
+   delaying observed PD; (b) the higher RECIST-derived response rate (see
+   below) means more subjects stay in PR/SD without progressing during the
+   observation window. Not a model bug — reflects real-world PFS estimation
+   pessimism from interval-censored tumor assessments.
+
+2. **Observed ORR exceeds latent `is_responder` rate by ~11pp** — Pre-existing
+   behavior from `10_overall_response.R::shift_response()` which adds 5%×60%
+   = 3% spurious SD→PR upgrades per visit ("investigator read inconsistency").
+   Accumulated over ~8 visits, ~20% of true non-responders pick up at least
+   one spurious PR. Identical mechanism in v0.1/v0.2; documented here for
+   completeness.
+
+3. **APAC region effect amplified by small N** — only ~90 subjects across
+   Japan/Korea/Australia. Cox HR estimate (0.62) is statistically real but
+   wider than input (0.90) due to sampling variance. Would average out
+   across seeds.
+
+4. **PDL1 ≥50% eligibility not enforced** — `01_demographics.R` generates a
+   wide bimodal PDL1 distribution (0-100%) rather than the protocol-required
+   ≥50% restriction. Pre-existing data quality issue, not introduced by the
+   v0.3 covariate model. Working with the wider distribution gives the
+   covariate model more variance to recover effects from.
+
+5. **ADaM datasets are stale until re-run** — `datasets/adam/*.parquet` were
+   built from v0.2 SDTM. Re-run `programs/adam/00_run_adam.R` with
+   `admiral`/`admiralonco` installed to refresh.

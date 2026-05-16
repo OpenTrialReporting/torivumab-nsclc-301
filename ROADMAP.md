@@ -368,7 +368,9 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 - [x] All 6 ADaM R scripts run end-to-end (`programs/adam/`)
 - [x] All 6 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25
 - [x] SDTM back-fill complete — DA, RELREC, SUPPAE/CM/LB added (2026-05-16); 21 domains total
-- [x] Define-XML v2.1 v0.1 draft generated (covers 27 datasets, 446 vars; VLM/CodeLists deferred)
+- [x] Raw simulation v0.3 — Tier A (covariate-driven hazards) + Tier B (Weibull KM shape) (2026-05-16)
+- [x] Define-XML v2.1 v0.1 draft generated (covers 27 datasets, 449 vars; VLM/CodeLists deferred)
+- [ ] **ADaM re-run pending** — datasets/adam/*.parquet built from v0.2 SDTM; need refresh after Tier A+B raw regen
 - [ ] TFLs publication-ready (no manual edits)
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound

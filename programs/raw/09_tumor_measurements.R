@@ -28,6 +28,60 @@ nontarget_locs <- c("Bone - pelvis", "Pleural effusion", "Pericardial effusion",
 tumor_visit_offsets <- seq(42, 42 * 20, by = 42)  # up to ~Week 84
 tumor_visit_names   <- paste0("TUMOR_ASSESS_WK", tumor_visit_offsets / 7)
 
+# =============================================================================
+# Tier A — Covariate-driven ORR (per-subject response probability)
+# =============================================================================
+# logit(p_i) = logit(orr_arm) + Σ β_k · x_ki_centered
+# Coefficients (log-odds, ORR direction — higher = more response):
+#   PD-L1 per 50-pt rise: log(2.0)   = +0.693   (KEYNOTE-024: TPS-driven ORR)
+#   Squamous vs non-sq:  log(0.75)  = -0.288
+#   ECOG per +1 point:    log(0.70)  = -0.357
+#   Former smoker:        log(1.30)  = +0.262
+#   Current smoker:       log(1.40)  = +0.336
+# Centering preserves marginal ORR within ~1pp; explicit re-calibration
+# (intercept shift) below restores ORR_TRT / ORR_PBO exactly.
+BETA_ORR <- list(
+  pdl1_per_50pt    = log(2.0),
+  squamous         = log(0.75),
+  ecog_per_1pt     = log(0.70),
+  smoke_former     = log(1.30),
+  smoke_current    = log(1.40)
+)
+
+logit  <- function(p) log(p / (1 - p))
+expit  <- function(x) 1 / (1 + exp(-x))
+# NA-tolerant centering (imputes NA with mean → zero LP contribution)
+cen    <- function(x) {
+  m <- mean(x, na.rm = TRUE)
+  x[is.na(x)] <- m
+  x - m
+}
+
+xo_pdl1  <- cen(dm$PDL1_SCORE / 50)
+xo_squam <- cen(as.integer(dm$HISTOLOGY == "Squamous"))
+xo_ecog  <- cen(as.integer(dm$ECOG_BASELINE))
+xo_smkF  <- cen(as.integer(dm$SMOKING_STATUS == "Former"))
+xo_smkC  <- cen(as.integer(dm$SMOKING_STATUS == "Current"))
+
+lp_orr <- BETA_ORR$pdl1_per_50pt * xo_pdl1 +
+          BETA_ORR$squamous       * xo_squam +
+          BETA_ORR$ecog_per_1pt   * xo_ecog +
+          BETA_ORR$smoke_former   * xo_smkF +
+          BETA_ORR$smoke_current  * xo_smkC
+
+# Per-subject ORR probability; per-arm intercept re-calibration ensures
+# marginal ORR within arm equals protocol-stated ORR_TRT / ORR_PBO.
+orr_prob <- numeric(n)
+for (arm_flag in c(TRUE, FALSE)) {
+  idx       <- which(is_trt == arm_flag)
+  arm_orr   <- if (arm_flag) ORR_TRT else ORR_PBO
+  intercept <- logit(arm_orr)
+  raw_p     <- expit(intercept + lp_orr[idx])
+  # Re-calibrate intercept so mean(p) == arm_orr (handles convexity drift)
+  shift     <- logit(arm_orr) - logit(mean(raw_p))
+  orr_prob[idx] <- expit(intercept + shift + lp_orr[idx])
+}
+
 tm_list <- vector("list", n)
 
 for (i in seq_len(n)) {
@@ -39,9 +93,8 @@ for (i in seq_len(n)) {
   last_obs_dt <- if (!is.na(disposition$LAST_CONTACT_DATE[i]))
     as.Date(disposition$LAST_CONTACT_DATE[i]) else DATA_CUTOFF
 
-  # ── determine response trajectory ────────────────────────────────────
-  orr_p  <- if (trt) ORR_TRT else ORR_PBO
-  is_responder <- runif(1) < orr_p  # CR or PR — not stored as column
+  # ── determine response trajectory (covariate-driven per-subject) ─────
+  is_responder <- runif(1) < orr_prob[i]  # CR or PR — not stored as column
 
   # CR vs PR split (among responders)
   is_cr  <- is_responder && (runif(1) < 0.12)
