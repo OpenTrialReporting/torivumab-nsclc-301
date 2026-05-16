@@ -14,9 +14,9 @@
 | **Study** | SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301) — TORIVA-LUNG 301 |
 | **Protocol reference** | Protocol v1.1 (2026-03-30), `protocol/synopsis.md` |
 | **Sponsor** | Celindra Therapeutics *(fictional)* |
-| **SAP version** | 0.1 DRAFT |
+| **SAP version** | 0.2 DRAFT |
 | **SAP author** | Lovemore Gakava |
-| **Date** | 2026-04-20 |
+| **Date** | 2026-05-16 |
 | **Gate** | 3.5 — blocks Phase 5 ADaM |
 | **Finalisation rule** | SAP must be locked *before* database lock and unblinding (ICH E9) |
 
@@ -357,32 +357,135 @@ Analysis visit windows for protocol assessments (tumour imaging Q6W for 54 weeks
 
 ## 13. Estimands (ICH E9(R1))
 
-Primary estimand for OS:
+### 13.1 Framework
+
+Each clinical question in this trial is operationalised as an **estimand** — a precise description of the treatment effect reflecting the clinical question, structured by the five attributes specified in ICH E9(R1) (2019): *Population*, *Variable*, *Treatment*, *Intercurrent Event handling*, and *Population-level Summary*. For each estimand, this SAP also names the **estimator** (the statistical method that produces an estimate) and one or more **sensitivity estimands** addressing the same clinical question under alternative IE handling assumptions.
+
+Strategies for handling intercurrent events follow ICH E9(R1) §A.4.3:
+
+| Strategy | What it means | When used here |
+|---|---|---|
+| **Treatment policy** | Endpoint observed as occurred, regardless of IE | OS analyses (any-cause death is captured regardless of subsequent therapy) |
+| **Hypothetical** | Estimate effect *as if* IE had not occurred | PFS censoring at new anti-cancer therapy or missed assessments (FDA 2018 guidance) |
+| **Composite** | IE itself becomes part of the endpoint | ORR: no post-baseline assessment → non-responder |
+| **While-on-treatment** | Endpoint considered only while on randomised treatment | OS sensitivity estimand (treatment-period effect) |
+| **Principal stratum** | Subset population that would not experience IE | Not used in primary or sensitivity estimands |
+
+### 13.2 Shared attributes
+
+The **Population** attribute is defined per-estimand below; the **Treatment** attribute is shared:
+
+| Treatment arm | Specification |
+|---|---|
+| Experimental | Torivumab 200 mg IV Q3W + chemotherapy backbone (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W) for up to 6 induction cycles, then pemetrexed maintenance Q3W until PD/toxicity/withdrawal (max 35 cycles total) |
+| Control      | Placebo IV Q3W + identical chemotherapy backbone, same duration rules |
+
+### 13.3 Intercurrent event taxonomy
+
+Pre-specified IEs anticipated in this trial, and the default handling strategy per endpoint family:
+
+| Intercurrent event | OS | PFS | ORR | DOR |
+|---|---|---|---|---|
+| Treatment discontinuation (any reason) | Treatment policy | Treatment policy | Treatment policy | Treatment policy |
+| Initiation of subsequent anti-cancer therapy | Treatment policy | Hypothetical (censor at last adequate assessment before therapy) | Treatment policy | Hypothetical |
+| ≥2 consecutive missed scheduled tumour assessments | n/a | Hypothetical (censor at last adequate before gap) | Treatment policy | Hypothetical |
+| No post-baseline tumour assessment | n/a | Hypothetical (censor at randomisation) | **Composite (non-responder)** | n/a (not a responder by definition) |
+| Death before first response assessment | Event | Event | **Composite (non-responder)** | n/a |
+| Withdrawal of consent from data collection | Censor at withdrawal date | Censor at last adequate assessment | Composite (non-responder) | Censor at withdrawal |
+
+### 13.4 Primary estimand — Overall Survival (OS)
 
 | Attribute | Specification |
 |---|---|
-| **Population** | All randomised subjects with PD-L1 TPS ≥50% NSCLC per Protocol §4 |
-| **Endpoint variable** | Time from randomisation to death from any cause |
-| **Summary measure** | Stratified HR (torivumab / placebo) |
-| **Intercurrent events** | Treatment discontinuation, new anti-cancer therapy — handled by **treatment policy** strategy (events after these are included) |
+| **Population** | All randomised subjects (ITT; `ITTFL = "Y"`) with treatment-naïve metastatic NSCLC, PD-L1 TPS ≥50%, no sensitising EGFR mutations or ALK rearrangements, ECOG PS 0–1 |
+| **Variable** | Time (months) from randomisation to death from any cause; censored at last date known to be alive on or before `DCUTDT = 2025-01-31` |
+| **Treatment** | As §13.2 |
+| **Intercurrent events** | Treatment policy for all IEs (treatment discontinuation, subsequent anti-cancer therapy, palliative care). Death itself is the event, not an IE. Withdrawal of survival consent → censor at withdrawal date. |
+| **Population-level summary** | Stratified hazard ratio (torivumab / placebo) with 95% CI; strata = histology (squamous/non-squamous) × region (NA/EU/APAC). Supplementary KM medians and 12/18/24-month survival probabilities per arm. |
 
-Primary estimand for PFS:
+**Estimator:** Stratified Cox proportional-hazards regression (`survival::coxph(Surv(AVAL, 1-CNSR) ~ TRT01PN + strata(STRAT2, STRAT3), data = adtte_os)`). KM estimates via `survival::survfit` with `conf.type = "log-log"` for medians (Brookmeyer–Crowley) and Greenwood SE for landmark probabilities. Stratified two-sided log-rank for the primary hypothesis test.
+
+**Aligned sensitivity estimands:**
+
+| Sensitivity estimand | Difference vs primary | Purpose | Estimator |
+|---|---|---|---|
+| **OS — Restricted Mean Survival Time (RMST)** | Population-level summary changes from HR to **difference in RMST at τ = 36 months** | Addresses PH assumption robustness; interpretable as "average months survived over 3 years" | `survRM2::rmst2()` with method = "augmented"; stratification handled via inverse-probability weighting |
+| **OS — While-on-treatment** | Intercurrent event handling for subsequent anti-cancer therapy changes from *treatment policy* to **while-on-treatment** (censor at start of subsequent therapy or at TRTEDT + 30 days, whichever earlier) | Quantifies the effect of torivumab *during* the randomised treatment period, separate from any downstream therapy effects | Same Cox PH model with revised censoring rule in ADTTE `PARAMCD = "OSWOT"` |
+
+### 13.5 Key secondary estimand — Progression-Free Survival (PFS)
 
 | Attribute | Specification |
 |---|---|
-| **Population** | Same as OS |
-| **Endpoint variable** | Time from randomisation to earliest of PD (BICR) or death |
-| **Summary measure** | Stratified HR |
-| **Intercurrent events** | New anti-cancer therapy before PD → **composite** strategy (censor at last adequate assessment before therapy); ≥2 missed assessments → **composite** (censor at last adequate before gap) |
+| **Population** | ITT (same as OS) |
+| **Variable** | Time (months) from randomisation to earliest of (a) documented PD per RECIST 1.1 by **BICR**, or (b) death from any cause |
+| **Treatment** | As §13.2 |
+| **Intercurrent events** | New anti-cancer therapy before PD → **hypothetical** (censor at last adequate assessment before therapy); ≥2 consecutive missed scheduled assessments before PD → **hypothetical** (censor at last adequate before gap); treatment discontinuation without subsequent therapy → treatment policy (continue PFS follow-up) |
+| **Population-level summary** | Stratified HR (torivumab / placebo) with 95% CI, same strata as OS |
 
-Primary estimand for ORR:
+**Estimator:** Stratified Cox PH on ADTTE `PARAMCD = "PFS"`. Censoring rules implemented per `admiral::derive_param_tte()` with FDA-2018-aligned event-/censor-source definitions (`pd_event`, `death_event`, `last_adeq_censor`, `rand_censor`).
+
+**Sensitivity estimand:**
+
+| Sensitivity estimand | Difference vs primary | Purpose | Estimator |
+|---|---|---|---|
+| **PFS by Investigator (PFSINV)** | Variable changes — uses Investigator-assessed PD (`RSEVAL = "INVESTIGATOR"`) rather than BICR | Assesses concordance of BICR with site read; standard regulatory sensitivity for blinded oncology trials | Same Cox PH model on ADTTE `PARAMCD = "PFSINV"` |
+
+### 13.6 Key secondary estimand — Objective Response Rate (ORR)
 
 | Attribute | Specification |
 |---|---|
-| **Population** | Response Evaluable |
-| **Endpoint variable** | Confirmed BOR ∈ {CR, PR} (binary) |
-| **Summary measure** | Stratified MH risk difference |
-| **Intercurrent events** | No post-baseline assessment → **composite** (counted as non-responder) |
+| **Population** | Response Evaluable (ITT with ≥1 post-baseline tumour assessment OR clinical progression before first assessment; `EFFFL = "Y"` on ADRS) |
+| **Variable** | Binary indicator of confirmed Best Overall Response ∈ {CR, PR} per RECIST 1.1 by BICR; confirmation requires second CR/PR ≥28 days later with no intervening PD |
+| **Treatment** | As §13.2 |
+| **Intercurrent events** | No post-baseline assessment → **composite** (counted as non-responder); treatment discontinuation before adequate assessment → composite (non-responder); subsequent anti-cancer therapy before adequate assessment → composite (non-responder, pre-specified to avoid attribution bias) |
+| **Population-level summary** | Stratified Mantel–Haenszel risk difference (torivumab − placebo) with 95% CI; strata = histology × region. Supplementary per-arm Clopper–Pearson exact 95% CI for the proportion. |
+
+**Estimator:** `stats::mantelhaen.test()` on the 2 × 2 × stratum table; per-arm proportions via `binom.test()`. Sensitivity using Wilson score CI (`PropCIs::scoreci()`).
+
+**Sensitivity estimand:**
+
+| Sensitivity estimand | Difference vs primary | Purpose | Estimator |
+|---|---|---|---|
+| **ORR — ITT denominator** | Population changes from Response Evaluable to **full ITT**, retaining the composite IE handling | Removes the implicit best-case selection that Response Evaluable can introduce; conservative regulatory-style read | Same MH model with `ANL01FL = "Y"` (ITT) rather than `EFFFL = "Y"` |
+
+### 13.7 Other secondary endpoints
+
+**Duration of Response (DOR):**
+
+| Attribute | Specification |
+|---|---|
+| Population | Confirmed responders only (subset of Response Evaluable) |
+| Variable | Time from first confirmed CR/PR to earliest of PD (BICR) or death |
+| Treatment | As §13.2 |
+| Intercurrent events | Same as PFS (hypothetical for new therapy and missed assessments) |
+| Population-level summary | KM median per arm with 95% CI; no formal between-arm hypothesis test (descriptive / hypothesis-generating) |
+
+**Disease Control Rate (DCR):** Same structure as ORR but variable = confirmed BOR ∈ {CR, PR, SD}, where SD requires duration ≥8 weeks from randomisation. Same composite IE strategy.
+
+**Safety endpoints:** Estimands here are descriptive rather than inferential. Three implicit estimands are operationalised:
+
+| Safety estimand | IE handling | Summary |
+|---|---|---|
+| TEAE incidence | Treatment policy (count any AE with onset ≥ TRTSDT and ≤ TRTEDT + 30 d) | n (%) per arm |
+| Exposure-adjusted TEAE rate | While-on-treatment (person-time = TRTEDT − TRTSDT + 1) | Events per 100 patient-years per arm |
+| irAE-specific incidence and time-to-onset | Treatment policy for incidence; KM for time-to-onset / time-to-resolution | Per arm; descriptive |
+
+### 13.8 Summary table
+
+| # | Estimand | Population | Variable | IE strategy (key) | Summary measure | Estimator |
+|---|---|---|---|---|---|---|
+| E1 | OS — primary | ITT | TTE death | Treatment policy | Stratified HR | Stratified Cox PH |
+| E1a | OS — RMST | ITT | TTE death (τ=36m) | Treatment policy | Difference in RMST | `survRM2::rmst2()` |
+| E1b | OS — while-on-treatment | ITT | TTE death (censored at therapy/TRTEDT+30) | While-on-treatment for subsequent therapy | Stratified HR | Stratified Cox PH |
+| E2 | PFS — primary | ITT | TTE PD (BICR) or death | Hypothetical (new tx, missed) | Stratified HR | Stratified Cox PH |
+| E2a | PFS — Investigator | ITT | TTE PD (INV) or death | Same as E2 | Stratified HR | Stratified Cox PH |
+| E3 | ORR — primary | Response Evaluable | Confirmed BOR ∈ {CR, PR} | Composite (non-responder) | Stratified MH RD | CMH test |
+| E3a | ORR — ITT denom | ITT | Confirmed BOR ∈ {CR, PR} | Composite | Stratified MH RD | CMH test |
+| E4 | DOR | Confirmed responders | TTE PD or death from first CR/PR | Hypothetical | KM median | `survival::survfit` |
+| E5 | DCR | Response Evaluable | Confirmed BOR ∈ {CR, PR, SD≥8w} | Composite | Stratified MH RD | CMH test |
+| S1 | TEAE incidence | Safety | Count of subjects with ≥1 TEAE | Treatment policy | n (%) | Descriptive |
+| S2 | Exposure-adjusted TEAE | Safety | TEAE events per 100 PY | While-on-treatment | Rate | Descriptive |
+| S3 | irAE time-to-onset | Safety | TTE first irAE | Treatment policy | KM median | `survival::survfit` |
 
 ---
 
@@ -397,3 +500,4 @@ To be completed in `tfl/TFL-SHELLS.md`. Each numbered SAP method (§5.1 … §5.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-04-20 | LG | Initial draft — aligned with Protocol v1.1 §8, §11. Gate 3.5 deliverable. |
+| 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | §13 rewritten with full ICH E9(R1) estimand framework: framework intro + IE-strategy taxonomy (§13.1), shared population/treatment attributes (§13.2–§13.3), per-endpoint estimands with estimators and sensitivity estimands for OS (RMST, while-on-treatment), PFS (Investigator), ORR (ITT denominator), plus DOR/DCR/safety estimands (§13.4–§13.7), and a one-page summary table (§13.8). No changes to analytic methodology — only formalises what §5 already specifies. |

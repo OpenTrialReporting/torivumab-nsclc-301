@@ -41,7 +41,8 @@ the SAP has not been reviewed by a regulatory authority and is not intended for 
 | Subgroup analyses (§10) | AI — proposed subgroup list from Protocol stratification factors | LG — flagged BECOG / PDL1GR gap; deferred TMB cutoff |
 | Sensitivity analyses (§11) | AI — proposed RMST, landmark, weighted log-rank, Wilson CI | LG — confirmed τ = 36 months for RMST, ITT vs PP re-run |
 | Reporting conventions (§12) | AI — proposed precision rules | LG — confirmed |
-| Estimands (§13) | AI — structured ICH E9(R1) attributes; proposed intercurrent event strategies | LG — confirmed treatment policy for OS, composite for PFS / ORR |
+| Estimands (§13) — v0.1 stub | AI — structured ICH E9(R1) attributes; proposed intercurrent event strategies | LG — confirmed treatment policy for OS, composite for PFS / ORR |
+| Estimands (§13) — v0.2 full framework | AI (Claude Opus 4.7) — expanded to 8 subsections including IE-strategy taxonomy, shared treatment attribute, full primary + sensitivity estimands per endpoint, estimator naming, and consolidated summary table | LG — to confirm sensitivity choices (RMST τ, while-on-treatment cut, ITT-denominator ORR sensitivity) |
 
 ---
 
@@ -83,6 +84,9 @@ Decisions that required no deliberation (e.g. OS is primary — per protocol) ar
 | SAP-D-09 | ORR CI method | (a) Wald; (b) Wilson; (c) Clopper-Pearson exact | (c) Clopper-Pearson as primary; Wilson as sensitivity | Clopper-Pearson is conservative and exact; Wilson as sensitivity per FDA preference |
 | SAP-D-10 | RMST time horizon (τ) | 24 months; 36 months; 48 months | 36 months | Sufficient follow-up expected for most subjects; interpretable horizon for a ~21.5 month median OS |
 | SAP-D-11 | SD definition for DCR | ≥6 weeks; ≥8 weeks | ≥8 weeks from randomisation | RECIST 1.1 specifies a minimum interval; 8 weeks is more stringent and standard in immunotherapy trials |
+| SAP-D-12 | OS sensitivity estimand structure | (a) RMST only; (b) while-on-treatment only; (c) both | (c) both | RMST addresses PH-assumption robustness; while-on-treatment isolates the randomised-treatment-period effect from downstream therapy contamination. Together they cover the two main critiques of treatment-policy OS estimands. |
+| SAP-D-13 | PFS sensitivity estimand | (a) Investigator vs BICR; (b) sensitivity by treatment policy for all IEs (no censoring); (c) both | (a) Investigator vs BICR | Standard regulatory sensitivity for blinded trials with BICR-primary. The "censor nothing" treatment-policy variant tends to push the estimate toward null and is more commonly used as exploratory than confirmatory sensitivity. |
+| SAP-D-14 | ORR sensitivity estimand | (a) Wilson vs Clopper-Pearson CI; (b) ITT denominator vs Response Evaluable; (c) both | (b) ITT denominator (sensitivity) | The CI-method choice (Wilson vs CP) is already covered in §11; the more meaningful sensitivity is the denominator switch which addresses the implicit selection in "Response Evaluable" and gives a more conservative read. |
 
 ---
 
@@ -129,8 +133,9 @@ The following items are flagged in the SAP body but deferred to SAP lock (Gate 3
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-04-20 | LG | Initial draft. Aligned with Protocol v1.1 §8 and §11. Gate 3.5 deliverable. |
-| 0.2 | — | — | SAP lock: add multiplicity.csv, AESI list, irAE categories, BECOG/PDL1GR ADSL flags. |
+| 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | §13 expanded to full ICH E9(R1) estimand framework: 8 subsections covering IE-strategy taxonomy, shared population/treatment attributes, primary + sensitivity estimands per endpoint with named estimators, plus consolidated 12-row summary table (E1, E1a, E1b, E2, E2a, E3, E3a, E4, E5, S1–S3). Three new decisions logged (SAP-D-12 / -13 / -14). No changes to analytic methodology — formalises what §5 already specifies. |
+| 0.3 | — | — | SAP lock: add multiplicity.csv, AESI list, irAE categories, BECOG/PDL1GR ADSL flags. |
 
 ---
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-05-16*
