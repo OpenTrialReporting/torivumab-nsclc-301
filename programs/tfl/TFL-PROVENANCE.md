@@ -23,10 +23,9 @@ clinical trial and **are not intended for regulatory submission**.
 
 ---
 
-## 3. Phase 6a — Pilot Scope
+## 3. Phase 6 — Output Scope
 
-Five outputs to validate the end-to-end architecture before scaling to the
-remaining 33 shells:
+### 6a (2026-05-16) — 5 outputs, pilot
 
 | ID | Kind | Title | SAP / Estimand |
 |---|---|---|---|
@@ -36,9 +35,18 @@ remaining 33 shells:
 | F-EFF-01 | Figure | Kaplan-Meier Curve — Overall Survival       | §5.1 / E1 |
 | F-EFF-02 | Figure | Kaplan-Meier Curve — Progression-Free Surv. | §5.2 / E2 |
 
-Remaining 33 shells (T-DS-01/02/03, T-EX-01, T-EFF-02/04/05/06/07/08/09/10/11/12/13,
-T-AE-01..07, T-LB-01/02, F-EFF-03/04/05/06, L-AE-01/02/03, L-LB-01, L-DS-01)
-will be added in Phase 6b/c/d. The pilot architecture is designed so adding a
+### 6b (2026-05-16) — 4 outputs, disposition + exposure
+
+| ID | Kind | Title | SAP / Estimand |
+|---|---|---|---|
+| T-DS-01 | Table | Subject Disposition           | §3 (descriptive) |
+| T-DS-02 | Table | Major Protocol Deviations     | §3.2 (descriptive) |
+| T-DS-03 | Table | Intercurrent Events Summary    | §13.3 (IE taxonomy) |
+| T-EX-01 | Table | Study Drug Exposure           | §5.5 (descriptive) |
+
+Total delivered so far: **9 / 38 outputs**. Remaining 29 shells
+(T-EFF-02/04/05/06/07/08/09/10/11/12/13, T-AE-01..07, T-LB-01/02,
+F-EFF-03/04/05/06, L-AE-01/02/03, L-LB-01, L-DS-01) for Phase 6c/d. The pilot architecture is designed so adding a
 new output is a single new script in `programs/tfl/` plus one line in
 `00_run_tfl.R::tfl_programs`.
 
@@ -106,7 +114,9 @@ across Phase 4.5 (shells) and Phase 6 (production TFLs).
 
 ---
 
-## 6. Validation results (Phase 6a)
+## 6. Validation results
+
+### Phase 6a (efficacy)
 
 | Output | Result |
 |---|---|
@@ -118,6 +128,15 @@ across Phase 4.5 (shells) and Phase 6 (production TFLs).
 
 All three Cox HRs are within 95% CIs of protocol-assumed values, confirming
 the v0.3 Tier A+B simulation flows through to the analysis layer intact.
+
+### Phase 6b (disposition + exposure)
+
+| Output | Result |
+|---|---|
+| T-DS-01 | 449 dosed / 449 PP / 89 completed / 361 discontinued (251 PD + 71 AE + 28 Other + 9 WBS + 2 PD) / 312 deaths — totals reconcile with raw simulation |
+| T-DS-02 | 1 major deviation (the single randomised-never-dosed placebo subject). Other subcategories (eligibility violations, prohibited conmed, missed assessments) appear as 0 — the synthetic data does not generate explicit SDTM.DS protocol-deviation records, noted in footnote. |
+| T-DS-03 | 361 treatment discontinuations, 18 with no post-baseline assessment, 18 deaths before first assessment, 9 withdrawals — subsequent therapy + missed-assessment rows = 0 (synthetic-data limitation noted in footnote). |
+| T-EX-01 | Treatment duration medians: TRT 440d vs PBO 314d (+126d). Median cycles: 6 in both arms. Cumulative torivumab dose recovered. |
 
 ---
 
@@ -139,10 +158,10 @@ To add a new output:
 
 ---
 
-## 8. Open items / Phase 6b roadmap
+## 8. Open items / Phase 6c-d roadmap
 
-- T-DS-01 / T-DS-02 / T-DS-03 — Disposition + Deviations + Intercurrent Events
-- T-EX-01 — Study Drug Exposure (will need ADEX or aggregate from EX)
+Phase 6b items (T-DS-01/02/03, T-EX-01) all delivered 2026-05-16. Remaining:
+
 - T-EFF-02 / T-EFF-04 — Landmark survival probabilities for OS / PFS
 - T-EFF-05 / T-EFF-06 — ORR / DCR (need ADRS responder flags)
 - T-EFF-07 — DoR among responders
@@ -185,6 +204,7 @@ pace (~10–15 min per straightforward table, ~30 min per figure).
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial Phase 6a pilot: scaffolded `programs/tfl/`, built shared helpers + KM-curve helper, produced 5 outputs in RTF + DOCX + HTML (tables) and PNG (figures). Two combined deliverables: `tfl/TFL-OUTPUTS.html` and `tfl/TFL-OUTPUTS.docx`. Full pipeline runs in 1.3 seconds. All three Cox HRs within 95% CIs of protocol-assumed values. |
+| 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6b: added 4 disposition+exposure tables (T-DS-01, T-DS-02, T-DS-03, T-EX-01). Now 9 of 38 outputs delivered. Two synthetic-data limitations noted as footnotes: (a) no explicit SDTM.DS protocol-deviation records, so T-DS-02 subcategories beyond "randomised but never dosed" appear as 0; (b) no subsequent anti-cancer therapy in CM, so T-DS-03 rows for subsequent therapy and missed-assessment IEs appear as 0. |
 
 ---
 

@@ -24,11 +24,17 @@ PROGRAMS_TFL_DIR <- "programs/tfl"
 source(file.path(PROGRAMS_TFL_DIR, "_helpers.R"))
 
 tfl_programs <- c(
-  "t_dm_01_demographics.R",   # Demographic & baseline characteristics
-  "t_eff_01_os.R",             # Overall Survival primary analysis
-  "t_eff_03_pfs.R",            # Progression-Free Survival
-  "f_eff_01_km_os.R",          # KM curve — OS
-  "f_eff_02_km_pfs.R"          # KM curve — PFS
+  # Phase 6a — efficacy + demographics
+  "t_dm_01_demographics.R",        # Demographic & baseline characteristics
+  "t_eff_01_os.R",                  # Overall Survival primary analysis
+  "t_eff_03_pfs.R",                 # Progression-Free Survival
+  "f_eff_01_km_os.R",               # KM curve — OS
+  "f_eff_02_km_pfs.R",              # KM curve — PFS
+  # Phase 6b — disposition + exposure
+  "t_ds_01_disposition.R",          # Subject Disposition
+  "t_ds_02_deviations.R",           # Major Protocol Deviations
+  "t_ds_03_intercurrent_events.R",  # Intercurrent Events Summary (SAP §13.3)
+  "t_ex_01_exposure.R"              # Study Drug Exposure
 )
 
 run_tfl <- function(script) {

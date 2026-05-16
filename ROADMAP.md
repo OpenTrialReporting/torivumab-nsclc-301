@@ -243,13 +243,19 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 ## Phase 6: TFLs (Tables, Figures, Listings) ⏳ IN PROGRESS
 
-**Status:** Phase 6a pilot COMPLETE (2026-05-16) — 5 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6b/c/d to follow (remaining 33 outputs).
+**Status:** Phases 6a + 6b COMPLETE (2026-05-16) — 9 of 38 outputs delivered in RTF + DOCX + HTML + PNG. Infrastructure validated. Phase 6c/d to follow (remaining 29 outputs).
 
-**Phase 6a deliverables:**
+**Phase 6a (efficacy pilot):**
 - `programs/tfl/00_run_tfl.R` orchestrator, `_helpers.R` shared utilities, `_km_plot.R` KM helper
 - T-DM-01 (Demographics), T-EFF-01 (OS), T-EFF-03 (PFS), F-EFF-01 (KM-OS), F-EFF-02 (KM-PFS)
-- Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` for stakeholder review
 - Cox HR validation: OS 0.576 (CI 0.458–0.724, target 0.65 ✓), PFS 0.504 (CI 0.405–0.628, target 0.55 ✓)
+
+**Phase 6b (disposition + exposure):**
+- T-DS-01 (Subject Disposition), T-DS-02 (Major Protocol Deviations)
+- T-DS-03 (Intercurrent Events Summary — operationalises SAP §13.3)
+- T-EX-01 (Study Drug Exposure)
+
+Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 9 outputs.
 
 **Tables:**
 - T-DM-01: Demographic and baseline characteristics (ITT)

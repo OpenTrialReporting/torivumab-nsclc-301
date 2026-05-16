@@ -7,7 +7,12 @@
 # =============================================================================
 
 PILOT_OUTPUTS <- list(
-  list(id = "T-DM-01", title = "Demographic and Baseline Characteristics", kind = "table"),
+  # Phase 6a
+  list(id = "T-DM-01",  title = "Demographic and Baseline Characteristics", kind = "table"),
+  list(id = "T-DS-01",  title = "Subject Disposition",                       kind = "table"),
+  list(id = "T-DS-02",  title = "Major Protocol Deviations",                 kind = "table"),
+  list(id = "T-DS-03",  title = "Intercurrent Events Summary",               kind = "table"),
+  list(id = "T-EX-01",  title = "Study Drug Exposure",                       kind = "table"),
   list(id = "T-EFF-01", title = "Overall Survival Analysis (Primary)",       kind = "table"),
   list(id = "T-EFF-03", title = "Progression-Free Survival Analysis (BICR)", kind = "table"),
   list(id = "F-EFF-01", title = "Kaplan-Meier Curve — Overall Survival",     kind = "figure"),
