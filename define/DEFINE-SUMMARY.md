@@ -35,7 +35,7 @@
 | ADRS | BASIC DATA STRUCTURE | 3,662 | 20 | One record per subject per parameter per analysis visit |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 32 | One record per subject |
 | ADTR | BASIC DATA STRUCTURE | 9,378 | 26 | One record per subject per parameter per analysis visit |
-| ADTTE | BASIC DATA STRUCTURE | 1,468 | 19 | One record per subject per time-to-event parameter |
+| ADTTE | BASIC DATA STRUCTURE | 1,918 | 19 | One record per subject per time-to-event parameter |
 
 ## Standards
 

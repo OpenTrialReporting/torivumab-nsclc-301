@@ -8,7 +8,7 @@
 | **Label** | Time-to-Event Analysis Dataset |
 | **Class** | BASIC DATA STRUCTURE |
 | **Structure** | One record per subject per TTE parameter |
-| **Expected N** | ~1,800 records (4 parameters × 450 subjects; DoR/TTR restricted to responders ~225) |
+| **Expected N** | ~2,250 records (5 parameters × 450 subjects; DoR restricted to confirmed responders) |
 | **Key variables** | `USUBJID`, `PARAMCD` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -16,7 +16,7 @@
 
 ## Purpose
 
-ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), PFS (T-EFF-03, F-EFF-02), DoR (T-EFF-08), TTR (T-EFF-09), and the subgroup forest plots (F-EFF-05). Censoring rules follow FDA 2018 guidance and are fully specified in SAP §4.1–§4.4. Parameters: OS, PFS, DOR, TTR.
+ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSWOT (T-EFF-12, sensitivity estimand E1b), PFS (T-EFF-03, F-EFF-02), DoR (T-EFF-08), TTR (T-EFF-09), and the subgroup forest plots (F-EFF-05). Censoring rules follow FDA 2018 guidance and are fully specified in SAP §4.1–§4.4 and §13.4. Parameters: OS, OSWOT, PFS, DOR, TTR.
 
 ## Dependencies
 
@@ -32,6 +32,7 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), PFS
 | PARAMCD | PARAM | Start Date | Event | Censor | Population |
 |---|---|---|---|---|---|
 | OS | Overall Survival | TRTSDT | Death (any cause) | Last known alive date = max(last contact, last assessment, DCO) | ITT |
+| OSWOT | Overall Survival - While-on-Treatment Sensitivity | TRTSDT | Death on or within 30 days of last study treatment (TRTEDT + 30 days) | min(TRTEDT + 30 days, LSTALVDT). Synthetic data limitation: no subsequent anti-cancer therapy is captured in CM, so the full SAP §13.4 censoring rule (min of TRTEDT + 30d AND subsequent therapy start) reduces to TRTEDT + 30d only. | ITT |
 | PFS | Progression-Free Survival | TRTSDT | Confirmed PD or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
 | DOR | Duration of Response | First confirmed CR/PR date (RSPDT) | PD or death | Last adequate assessment if no PD/death | Confirmed responders (RSPFL="Y") |
 | TTR | Time to Response | TRTSDT | First confirmed CR/PR | Last adequate assessment if no response | ITT (non-responders censored) |
@@ -51,7 +52,7 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), PFS
 | 9 | TRTSDT | Date of First Dose | Date | — | Derived | — | Merged from ADSL |
 | 10 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL |
 | 11 | PARAM | Parameter Description | Char | 200 | Derived | — | See Parameters table |
-| 12 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OS / PFS / DOR / TTR |
+| 12 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OS / OSWOT / PFS / DOR / TTR |
 | 13 | ADT | Analysis Date (event or censor) | Date | — | Derived | — | `admiral::derive_param_tte()` — event or censor date |
 | 14 | AVAL | Analysis Value (days) | Num | 8 | Derived | — | `ADT − TRTSDT` (for OS/PFS/TTR); `ADT − RSPDT` (for DOR); in days |
 | 15 | AVALU | Unit of AVAL | Char | 8 | Derived | — | "DAYS" |

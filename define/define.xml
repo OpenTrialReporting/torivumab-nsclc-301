@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260516210130"
-     CreationDateTime="2026-05-16T21:01:29"
-     AsOfDateTime="2026-05-16T21:01:29"
+     FileOID="CTX-NSCLC-301.20260516212847"
+     CreationDateTime="2026-05-16T21:28:47"
+     AsOfDateTime="2026-05-16T21:28:47"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -2395,11 +2395,11 @@
         <Description><TranslatedText xml:lang="en">TRTEDT</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTTE.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="25">
+      <ItemDef OID="IT.ADTTE.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="49">
         <Description><TranslatedText xml:lang="en">PARAM</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTTE.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="3">
+      <ItemDef OID="IT.ADTTE.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="5">
         <Description><TranslatedText xml:lang="en">PARAMCD</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>

@@ -69,6 +69,34 @@ adtte_os <- subj |>
     SRCDOM   = if_else(DTHFL == "Y", "DD", "ADSL")
   )
 
+# 3b. Overall Survival — While-on-Treatment (OSWOT) sensitivity estimand E1b
+#
+# Censoring rule per SAP §13.4: censor at min(start of subsequent anti-cancer
+# therapy, TRTEDT + 30 days). The synthetic CM data does not include subsequent
+# anti-cancer therapy records (raw/codelists/atc_conmed.csv covers supportive
+# care only), so only the TRTEDT + 30 day component is applied. For real-world
+# data, add a subsequent-therapy date lookup and take pmin.
+#
+# Event = death occurring on or within 30 days of last study treatment.
+# Censored = alive at TRTEDT + 30 days, OR last known alive earlier than that.
+adtte_oswot <- subj |>
+  mutate(
+    OSWOT_CUT     = TRTEDT + 30,
+    OSWOT_CENSOR  = pmin(OSWOT_CUT, LSTALVDT, na.rm = TRUE),
+    OSWOT_EVENT   = DTHFL == "Y" & !is.na(DTHDT) & DTHDT <= OSWOT_CUT,
+    PARAMCD       = "OSWOT",
+    PARAM         = "Overall Survival - While-on-Treatment Sensitivity",
+    CNSR          = if_else(OSWOT_EVENT, 0L, 1L),
+    ADT           = if_else(OSWOT_EVENT, DTHDT, OSWOT_CENSOR),
+    EVNTDESC      = case_when(
+      OSWOT_EVENT                                ~ "DEATH ON/WITHIN 30D OF LAST DOSE",
+      !is.na(LSTALVDT) & LSTALVDT < OSWOT_CUT    ~ "CENSORED - LOST BEFORE TRTEDT+30D",
+      TRUE                                       ~ "CENSORED - ALIVE AT TRTEDT+30D"
+    ),
+    SRCDOM        = if_else(OSWOT_EVENT, "DD", "ADSL")
+  ) |>
+  select(-OSWOT_CUT, -OSWOT_CENSOR, -OSWOT_EVENT)
+
 # 4. Progression-Free Survival (PFS)
 adtte_pfs <- subj |>
   mutate(
@@ -147,13 +175,14 @@ add_aval <- function(dat, start_var) {
   )
 }
 
-adtte_os  <- add_aval(adtte_os,  "TRTSDT")
-adtte_pfs <- add_aval(adtte_pfs, "TRTSDT")
-adtte_dor <- add_aval(adtte_dor, "RSPDT")
-adtte_ttr <- add_aval(adtte_ttr, "TRTSDT")
+adtte_os    <- add_aval(adtte_os,    "TRTSDT")
+adtte_oswot <- add_aval(adtte_oswot, "TRTSDT")
+adtte_pfs   <- add_aval(adtte_pfs,   "TRTSDT")
+adtte_dor   <- add_aval(adtte_dor,   "RSPDT")
+adtte_ttr   <- add_aval(adtte_ttr,   "TRTSDT")
 
 # 8. Stack, flag, select
-adtte <- bind_rows(adtte_os, adtte_pfs, adtte_dor, adtte_ttr) |>
+adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_dor, adtte_ttr) |>
   mutate(ANL01FL = "Y") |>
   select(
     STUDYID, USUBJID,
