@@ -32,7 +32,10 @@ Phase 4.5: SAP + TFL shells ✅ COMPLETE — Gate 3.5 PASSED (2026-04-20)
    ↓
 Phase 5: ADaM (6 datasets) ✅ COMPLETE — Gate 4 PASSED (2026-04-25); all 6 Parquets in datasets/adam/
    ↓
-Phase 6: TFLs (Tables, Figures, Listings) ⏳ NEXT
+Phase 6: TFLs (38 outputs in RTF + DOCX + HTML + PNG) ✅ COMPLETE (2026-05-16)
+   ↓
+QC layer: validation strategy + 3 Excel trackers + 5 tools ✅ IN PLACE
+          See qc/VALIDATION-PLAN.md and GitHub issues #1–#9.
    ↓
 Phase 7: CSR (Clinical Study Report)
    ↓
@@ -117,7 +120,19 @@ torivumab-nsclc-301/
 ├── sap/                                         ✅ Phase 4.5 — Gate 3.5 PASSED 2026-04-20
 │   ├── SAP.md (locked)
 │   └── shells/ (ARS-aligned TFL shells)
-├── tfl/                                         ⏳ Phase 6 production outputs (next)
+├── tfl/                                         ✅ Phase 6 complete — 38 outputs (96 table/listing files + 6 figures)
+│   ├── tables/  *.rtf|.docx|.html               (27 tables + 5 listings × 3 formats)
+│   ├── figures/ *.png                           (6 figures @ 300 dpi)
+│   └── TFL-OUTPUTS.{html,docx}                  (combined views)
+├── qc/                                          ✅ Validation strategy + trackers + tooling
+│   ├── VALIDATION-PLAN.md                       (SOP — read first)
+│   ├── {SDTM,ADAM,TFL}-PROGRAMMING-TRACKER.xlsx (21 + 6 + 38 rows; estimand-tagged)
+│   └── README.md                                (workflow guide)
+├── programs/qc/                                 ✅ Validation R scripts
+│   ├── build_trackers.R, _compare_helpers.R
+│   ├── run_reproducibility_check.R
+│   ├── compare_sdtm.R, compare_adam.R
+│   └── extract_tfl_values.R
 ├── define/                                      ✅ v0.1 draft 2026-05-16 (define.xml + DEFINE-SUMMARY.md)
 ├── programs/define/                             ✅ Define-XML builder (build_define.R)
 ├── csr/                                         ⏳ Phase 7
@@ -329,6 +344,8 @@ If you are an AI assistant working on this project:
    - SAP updates as analysis logic evolves
 9. **Add the comment `# torivumab guidelines loaded` at the top of new R files** — Confirms this AGENTS.md was read
 10. **Flag ambiguities:** If a spec is unclear, raise it in GitHub Issues — don't guess
+11. **Respect the QC layer:** Any change to a dataset / TFL / spec re-opens the relevant tracker row from `Locked` back to `Programmed — pending QC`. Update `qc/{SDTM,ADAM,TFL}-PROGRAMMING-TRACKER.xlsx` and re-run `programs/qc/compare_*.R` after the change. Never modify code in response to a "QC failed" finding by editing primary code without also updating the spec (`SDTM-MAPPING-SPEC.md` / `ADAM-MAPPING-SPEC.md`) so the QC programmer sees the authoritative version.
+12. **Accepted limitations** (AL-01 through AL-11) are documented in `qc/VALIDATION-PLAN.md` §8 and pre-loaded into the trackers. Don't re-discover them as defects; if a real defect is found, file a GitHub issue with the `defect` label.
 
 ---
 

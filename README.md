@@ -34,13 +34,16 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 |-------|-------------|--------|
 | 1 | Protocol Synopsis | ✅ Complete (v1.1, 2026-03-30) |
 | 2 | Annotated CRF (aCRF) | ✅ Complete — Gate 2 APPROVED (2026-04-01) |
-| 3 | Simulated raw eCRF data | ✅ Complete — 13 domain CSVs (`programs/raw/`) |
-| 4 | SDTM (15 domains + SUPPDM) | ✅ Complete — 16 Parquet domains, SDTMIG v3.4 labelled (`datasets/sdtm/`) |
-| 4.5 | SAP + TFL shells | ✅ Complete — Gate 3.5 PASSED (2026-04-20); SAP locked; shells in `sap/shells/` |
-| 5 | ADaM (6 datasets) | ✅ Complete — Gate 4 PASSED (2026-04-25); all 6 Parquets in `datasets/adam/` |
-| 6 | TFLs | ⏳ Next — scripts in `programs/tfl/`; outputs to `tfl/` |
+| 3 | Simulated raw eCRF data | ✅ Complete — 14 domain CSVs (`programs/raw/`); v0.3 covariate-driven simulation |
+| 4 | SDTM (21 domains) | ✅ Complete — 21 Parquet domains, SDTMIG v3.4 labelled (`datasets/sdtm/`) |
+| 4.5 | SAP v0.2 + TFL shells v0.3 | ✅ Complete — Gate 3.5 PASSED; SAP includes full ICH E9(R1) estimand framework |
+| 5 | ADaM (6 datasets) | ✅ Complete — Gate 4 PASSED; 6 Parquets in `datasets/adam/` incl. OSWOT |
+| 6 | TFLs (38 outputs) | ✅ Complete — all 38 outputs in RTF + DOCX + HTML + PNG (`tfl/`) |
+| **QC** | **Validation strategy + tooling + trackers** | ✅ **In place** — see `qc/VALIDATION-PLAN.md`, [GitHub issues #1–#9](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues) |
 | 7 | CSR | ⏳ Phase 7 |
 | 8 | ADRG | ⏳ Phase 8 |
+
+**Bonus deliverables:** Define-XML v0.1 (`define/`), submission-style TFL shell mockup (`sap/shells/TFL-SHELLS-DOC.docx`), double-programming mapping specs for SDTM + ADaM, plus 3 Excel QC programming trackers + 5 validation R scripts.
 
 See [ROADMAP.md](ROADMAP.md) for full details and timelines.
 
@@ -99,14 +102,30 @@ torivumab-nsclc-301/
 │       ├── render_shells_doc.R / validate_shells.R
 │       └── SHELLS-PROVENANCE.md
 │
-├── tfl/                                        Phase 6 production programs (empty — future)
+├── tfl/                                        ✅ Phase 6 outputs (38 TFLs, all formats)
+│   ├── tables/    *.rtf, *.docx, *.html        (one per output × 3 formats)
+│   ├── figures/   *.png                         (KM, waterfall, spider, forest, swimmer)
+│   ├── TFL-OUTPUTS.html                         (combined browser view)
+│   └── TFL-OUTPUTS.docx                         (combined Word view)
 │
 ├── adam/                                       ADaM provenance and session info
 │   ├── ADAM-PROVENANCE.md
 │   └── session_info_install.txt
 │
-├── define/                                     Phases 4–5: Define-XML (future)
-├── csr/                                        Phase 7
+├── define/                                     ✅ Define-XML v0.1 (define.xml + summary)
+├── qc/                                         ✅ Validation strategy + tracking + tooling
+│   ├── VALIDATION-PLAN.md                       (SOP — read first)
+│   ├── README.md                                (workflow + tooling overview)
+│   ├── SDTM-PROGRAMMING-TRACKER.xlsx            (21 rows)
+│   ├── ADAM-PROGRAMMING-TRACKER.xlsx            (6 rows)
+│   ├── TFL-PROGRAMMING-TRACKER.xlsx             (38 rows, with estimand IDs)
+│   └── reports/                                 (auto-generated; gitignored)
+├── programs/qc/                                R scripts for validation execution
+│   ├── build_trackers.R, _compare_helpers.R
+│   ├── run_reproducibility_check.R
+│   ├── compare_sdtm.R, compare_adam.R
+│   └── extract_tfl_values.R
+├── csr/                                        Phase 7 (pending)
 ├── NOTES.md / ROADMAP.md / AGENTS.md
 └── README.md
 ```
