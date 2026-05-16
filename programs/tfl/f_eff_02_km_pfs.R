@@ -30,5 +30,5 @@ p <- km_plot(
   output_id    = "F-EFF-02"
 )
 
-write_figure(p, "F-EFF-02", width = 8, height = 6, dpi = 300)
+write_figure(p, "F-EFF-02", width = 8, height = 7, dpi = 300)
 message("F-EFF-02 written")

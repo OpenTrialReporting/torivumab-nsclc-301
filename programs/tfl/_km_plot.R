@@ -36,13 +36,19 @@ km_plot <- function(data, endpoint, xlab, ylab, max_month, risk_breaks,
   )
   surv_df$strata <- factor(surv_df$strata, levels = levels(data$arm))
 
-  # Cox HR + log-rank p for annotation
-  cox <- summary(coxph(Surv(AVAL_MO, CNSR == 0) ~ arm, data = data))
+  # Cox HR + log-rank p for annotation.
+  # Use an explicit binary indicator so HR is unambiguously "Torivumab vs
+  # Placebo" (matches the convention used in T-EFF-01 / T-EFF-03). Otherwise
+  # coxph treats the factor's *first* level as the reference, which would
+  # report the inverse direction.
+  dat_fit <- data
+  dat_fit$is_trt <- as.integer(dat_fit$arm == "Torivumab + Chemo")
+  cox <- summary(coxph(Surv(AVAL_MO, CNSR == 0) ~ is_trt, data = dat_fit))
   hr  <- cox$conf.int[1, "exp(coef)"]
   lo  <- cox$conf.int[1, "lower .95"]
   hi  <- cox$conf.int[1, "upper .95"]
-  sd  <- survdiff(Surv(AVAL_MO, CNSR == 0) ~ arm, data = data)
-  p_lr <- 1 - pchisq(sd$chisq, df = length(sd$n) - 1)
+  sd  <- survdiff(Surv(AVAL_MO, CNSR == 0) ~ is_trt, data = dat_fit)
+  p_lr <- 1 - pchisq(sd$chisq, df = 1)
 
   # Median per arm
   med_tbl <- summary(fit)$table
@@ -71,7 +77,7 @@ km_plot <- function(data, endpoint, xlab, ylab, max_month, risk_breaks,
                        breaks = seq(0, 1, by = 0.2),
                        labels = percent_format(accuracy = 1)) +
     annotate("label",
-             x = max_month * 0.55, y = 0.85, label = ann,
+             x = max_month * 0.04, y = 0.10, label = ann,
              hjust = 0, vjust = 0.5, size = 3.2, lineheight = 1.0,
              colour = "#1F3864", fill = "white",
              label.padding = unit(0.4, "lines"),
@@ -89,9 +95,13 @@ km_plot <- function(data, endpoint, xlab, ylab, max_month, risk_breaks,
       plot.caption     = element_text(colour = "#C0392B", size = 7,
                                        face = "italic", hjust = 0),
       legend.position  = "top",
+      legend.justification = "left",
       legend.text      = element_text(size = 10),
+      legend.margin    = margin(t = 4, r = 0, b = 4, l = 0),
+      legend.box.margin = margin(t = 0, r = 0, b = 4, l = 0),
       panel.grid.minor = element_blank(),
-      axis.title       = element_text(face = "bold", size = 10)
+      axis.title       = element_text(face = "bold", size = 10),
+      plot.margin      = margin(t = 12, r = 15, b = 6, l = 6)
     )
 
   # ---- Number-at-risk table ------------------------------------------
@@ -104,22 +114,35 @@ km_plot <- function(data, endpoint, xlab, ylab, max_month, risk_breaks,
   )
   risk_tbl$strata <- factor(risk_tbl$strata, levels = levels(data$arm))
 
+  # Expand the y-axis category width so the strata labels don't crowd the
+  # first time-point value. Also pad x-axis on both sides so the leftmost
+  # value (at time = 0) and rightmost value (at max_month) don't touch the
+  # plot edges. Match the main plot's plot.margin so axes line up.
   p_risk <- ggplot(risk_tbl, aes(x = time, y = strata, label = n_risk)) +
     geom_text(aes(colour = strata), size = 3.2, family = F_SANS) +
     scale_x_continuous(breaks = risk_breaks, limits = c(0, max_month),
-                       expand = c(0, 0), position = "top") +
-    scale_y_discrete(limits = rev(levels(risk_tbl$strata))) +
+                       expand = expansion(add = c(1.5, 1.5)),
+                       position = "top") +
+    scale_y_discrete(limits = rev(levels(risk_tbl$strata)),
+                     expand = expansion(add = c(0.5, 0.5))) +
     scale_colour_manual(values = ARM_COL, guide = "none") +
     labs(title = "Number at risk", x = NULL, y = NULL) +
     theme_minimal(base_family = F_SANS, base_size = 9) +
     theme(
-      plot.title       = element_text(face = "bold", size = 9, colour = "#444444"),
+      plot.title       = element_text(face = "bold", size = 9, colour = "#444444",
+                                       margin = margin(b = 2)),
       panel.grid       = element_blank(),
       axis.text.x      = element_blank(),
-      axis.text.y      = element_text(face = "bold", size = 8.5),
-      plot.margin      = margin(2, 5, 2, 5)
+      axis.text.y      = element_text(face = "bold", size = 8.5,
+                                       margin = margin(r = 6)),
+      plot.margin      = margin(t = 4, r = 15, b = 4, l = 6)
     )
 
-  # Combine — KM on top, risk table below, sharing x-axis approximately
-  p_main / p_risk + plot_layout(heights = c(5, 1))
+  # Combine — KM on top, risk table below, sharing x-axis approximately.
+  # `guides = "collect"` centralises legend management so patchwork allocates
+  # space for the legend at the composition level (prevents top-edge clipping).
+  p_main / p_risk +
+    plot_layout(heights = c(5, 1), guides = "collect") &
+    theme(legend.position = "top",
+          legend.justification = "left")
 }
