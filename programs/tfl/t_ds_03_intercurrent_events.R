@@ -42,12 +42,24 @@ if (!is.null(adcm) && "SUBSQTFL" %in% names(adcm)) {
   ie3 <- list(trt = 0L, pbo = 0L, tot = 0L)
 }
 
-# IE 4: ≥2 consecutive missed scheduled tumour assessments — NOT directly tracked
-ie4 <- list(trt = 0L, pbo = 0L, tot = 0L)
-
 # IE 5: No post-baseline tumour assessment (subjects in ITT with no OVR records)
 overall_rs <- adrs |> filter(PARAMCD == "OVR")
 has_post_baseline <- unique(overall_rs$USUBJID)
+
+# IE 4: ≥2 consecutive missed scheduled tumour assessments (closes AL-12, 2026-05-17).
+# Per subject, walk through ADRS OVR records (Investigator reads, sorted by date)
+# and detect any gap > 16 weeks (= 112 days). The scheduled grid is Q6W (42 days),
+# so a gap of 16+ weeks implies ≥2 consecutive missed Q6W scans. Subjects who
+# died or discontinued cleanly (no in-window gap) are excluded.
+gap_subjects <- overall_rs |>
+  filter(!is.na(ADT)) |>
+  arrange(USUBJID, ADT) |>
+  group_by(USUBJID) |>
+  mutate(gap_days = as.integer(as.Date(ADT) - lag(as.Date(ADT)))) |>
+  filter(!is.na(gap_days), gap_days > 112L) |>
+  pull(USUBJID) |>
+  unique()
+ie4 <- n_arm(gap_subjects)
 no_pba <- setdiff(adsl$USUBJID, has_post_baseline)
 ie5 <- n_arm(no_pba)
 
@@ -101,10 +113,10 @@ write_table_all_formats(
   population = pop_label(counts$n_tot, "ITTFL"),
   notes      = c(
     "Operationalises the intercurrent event taxonomy in SAP §13.3.",
-    "Subsequent anti-cancer therapy is not simulated in the synthetic CM data (counts = 0). In a real study these would come from ADCM or SDTM.CM with CMCAT='ANTI-CANCER'.",
-    "≥ 2 consecutive missed tumour assessments not directly captured in this dataset (counts = 0). Real studies derive this from ADRS gap analysis.",
+    "Subsequent anti-cancer therapy: real counts from ADCM.SUBSQTFL='Y' (added 2026-05-17; raw simulator `16_subsequent_therapy.R`).",
+    "≥ 2 consecutive missed tumour assessments: detected from ADRS OVR by gaps > 16 weeks against the scheduled Q6W grid (~6% subjects carry a stochastic 2-3 visit miss episode from `09_tumor_measurements.R`).",
     "A subject may experience multiple IEs and appear in multiple rows.",
-    "Source: ADSL, ADRS (PARAMCD='OVR'), SDTM.DS"
+    "Source: ADSL, ADRS (PARAMCD='OVR'), SDTM.DS, ADCM"
   )
 )
 message(sprintf("T-DS-03 written: discontinuations=%d, no-PBA=%d, death-before-assess=%d, withdraw=%d",

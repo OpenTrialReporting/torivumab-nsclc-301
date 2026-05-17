@@ -68,7 +68,7 @@ write_table_all_formats(
   population = pop_label(counts$n_tot, "ITTFL"),
   notes = c(
     sprintf("RMST(τ=%d months) — area under the KM curve up to τ.", TAU),
-    "τ = 30 months reflects the minimum of arm-specific maximum follow-up (35 mo TRT, ~32 mo PBO at-risk). SAP §13.4 proposes 36 months as the protocol-defined horizon; this can be revisited once accrual extends.",
+    "τ = 30 months reflects the minimum of arm-specific maximum follow-up (35 mo TRT, ~32 mo PBO at-risk). SAP §13.4 proposes 36 months as the protocol-defined horizon; the 6-month gap is accepted as a permanent structural limitation (AL-06 in qc/VALIDATION-PLAN.md) because lifting τ would require extending the data cutoff and re-cascading the full pipeline. Revisitable only if accrual is extended.",
     "Estimand E1a (SAP §13.4): sensitivity to the proportional-hazards assumption underlying T-EFF-01.",
     "Estimated via survRM2::rmst2() (unadjusted, stratification handled via inverse-probability weighting in the package; same arms as primary).",
     "Source: datasets/adam/adtte.parquet WHERE PARAMCD='OS'."

@@ -218,7 +218,10 @@ Run `Rscript programs/raw/validate_covariate_effects.R`:
    delaying observed PD; (b) the higher RECIST-derived response rate (see
    below) means more subjects stay in PR/SD without progressing during the
    observation window. Not a model bug — reflects real-world PFS estimation
-   pessimism from interval-censored tumor assessments.
+   pessimism from interval-censored tumor assessments. **Permanent accepted
+   limitation AL-05**: closing it would require tightening the assessment
+   grid (compromises realism) or removing read variability (compromises
+   realism), so the drift is retained as a realistic structural feature.
 
 2. **Observed ORR exceeds latent `is_responder` rate by ~11pp** — Pre-existing
    behavior from `10_overall_response.R::shift_response()` which adds 5%×60%

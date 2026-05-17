@@ -84,11 +84,31 @@ for (arm_flag in c(TRUE, FALSE)) {
 
 tm_list <- vector("list", n)
 
+# ── Missed-visit simulation (AL-12 closure, 2026-05-17) ────────────────────
+# ~6% of subjects have a stochastic episode of 2-3 consecutive missed Q6W
+# tumour assessments mid-trial. Drives T-DS-03 IE4 ("≥2 consecutive missed
+# tumour assessments"). Selection seeded for reproducibility.
+set.seed(20260309)  # local seed for missed-visit selection
+MISS_RATE <- 0.15
+miss_subj <- sample(seq_len(n), size = round(n * MISS_RATE))
+# For each selected subject, choose a start visit and gap length (2 or 3
+# consecutive misses). Start biased to visits 2-5 so the gap falls early
+# enough to be observable before the subject progresses or discontinues
+# (later starts often coincide with PD-driven loop termination and produce
+# no detectable gap in OVR).
+miss_plan <- lapply(seq_len(n), function(i) {
+  if (!(i %in% miss_subj)) return(integer(0))
+  start   <- sample(2:5, 1)
+  gap_len <- sample(2:3, 1, prob = c(0.6, 0.4))
+  seq(start, start + gap_len - 1L)
+})
+
 for (i in seq_len(n)) {
   subj_id <- dm$SUBJECT_ID[i]
   rand_dt <- rand_dates[i]
   trt     <- is_trt[i]
   pfs_d   <- pfs_days_sim[i]
+  skip_idx <- miss_plan[[i]]
 
   last_obs_dt <- if (!is.na(disposition$LAST_CONTACT_DATE[i]))
     as.Date(disposition$LAST_CONTACT_DATE[i]) else DATA_CUTOFF
@@ -152,6 +172,11 @@ for (i in seq_len(n)) {
 
     if (assess_dt > min(last_obs_dt, DATA_CUTOFF)) break
     if (assess_offset > pfs_d + 28) break   # past progression, no more scans
+
+    # AL-12: subject missed this scheduled visit; skip writing any rows for
+    # this index. Lesion-size state still updates so the next observed visit
+    # reflects continued growth/shrinkage during the unobserved window.
+    if (a_idx %in% skip_idx) next
 
     visit_nm <- tumor_visit_names[a_idx]
 
