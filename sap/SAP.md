@@ -82,7 +82,7 @@ All flags are stored on ADSL and inherited by downstream ADaM datasets.
 | Per-Protocol (PP) | `PPROTFL = "Y"` | ITT ∩ SAFFL ∩ no major protocol deviations | ≥405 |
 | Response Evaluable | `EFFFL = "Y"` on ADRS (not ADSL) | ITT with ≥1 post-baseline tumour assessment OR clinical progression before first assessment | ~440 |
 
-\* In the synthetic data all 450 randomised subjects are dosed (see `data-raw/02_ex.R`).
+\* In the synthetic data all 450 randomised subjects are dosed (see `programs/raw/03_exposure.R`).
 
 ### 3.1 Treatment assignment rule
 
@@ -350,8 +350,8 @@ Analysis visit windows for protocol assessments (tumour imaging Q6W for 54 weeks
 ### 12.4 Software and reproducibility
 
 - R ≥ 4.5.3, pharmaverse stack (`admiral`, `admiralonco`, `tern`, `rtables`), versions pinned in `adam/session_info_install.txt`.
-- All analyses reproduce from committed SDTM Parquet → ADaM Parquet → TFL via `Rscript` in subprocess (see `data-raw/00_run_all.R` precedent).
-- Random seeds: no analysis is simulation-based; the synthetic *data* uses seeds 301–314 (`data-raw/`).
+- All analyses reproduce from committed SDTM Parquet → ADaM Parquet → TFL via `Rscript` in subprocess (see `programs/raw/00_simulate_raw.R` precedent).
+- Random seeds: no analysis is simulation-based; the synthetic *data* uses seeds 301–316 (`programs/raw/`).
 
 ---
 

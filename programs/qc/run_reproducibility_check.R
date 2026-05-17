@@ -36,7 +36,7 @@ cat(sprintf("Staging directory: %s\n", STAGE))
 # spec markdown). Outputs (datasets/sdtm, datasets/adam, define, tfl)
 # are NOT copied — they're what we'll re-derive and compare.
 COPY_DIRS <- c("raw", "programs", "sap", "programming-specs",
-                "data-raw", "protocol", "crf")
+                "protocol", "crf")
 for (d in COPY_DIRS) {
   src <- file.path(PROJECT_ROOT, d)
   if (dir.exists(src)) {

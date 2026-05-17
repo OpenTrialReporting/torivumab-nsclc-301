@@ -96,7 +96,10 @@ sdtm_relrec <- bind_rows(relrec_lesion, relrec_resp) |>
     IDVARVAL,
     RELTYPE,
     RELID
-  )
+  ) |>
+  distinct(STUDYID, USUBJID, RDOMAIN, IDVAR, IDVARVAL, RELTYPE, RELID)
+# AL-11 closure (2026-05-17): final distinct() on the full key tuple guarantees
+# unique relationship rows after the bind_rows of lesion + response sets.
 
 dir.create(SDTM_DIR, showWarnings = FALSE, recursive = TRUE)
 arrow::write_parquet(sdtm_relrec, file.path(SDTM_DIR, "relrec.parquet"))

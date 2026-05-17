@@ -111,7 +111,7 @@ These are documented in full in `sap/shells/SHELLS-FORMAT-RATIONALE.md`. Summari
 | `programming-specs/AD*-spec.md` | **Child.** `validate_shells.R` checks that every ADaM variable in the specs is cited by ≥1 shell. Orphan variables are flagged as potentially unnecessary. |
 | `adam/*.R` | **Grandchild.** TFL code in Phase 6 reads shell metadata directly from `shells.yaml` to obtain population filters, strata, and method parameters. |
 | `sap/SAP-PROVENANCE.md` | **Sibling.** Records how the SAP was developed; this document records how the outputs of that SAP were catalogued. |
-| `data-raw/PROVENANCE.md` | **Sibling.** Records how the underlying synthetic SDTM data was generated. |
+| `programs/raw/RAW-PROVENANCE.md` | **Sibling.** Records how the underlying synthetic raw + SDTM data was generated. |
 
 ---
 

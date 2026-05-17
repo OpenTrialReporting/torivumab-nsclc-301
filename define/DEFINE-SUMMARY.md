@@ -41,7 +41,7 @@
 | ADRS | BASIC DATA STRUCTURE | 3,662 | 20 | One record per subject per parameter per analysis visit |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 32 | One record per subject |
 | ADTR | BASIC DATA STRUCTURE | 9,378 | 26 | One record per subject per parameter per analysis visit |
-| ADTTE | BASIC DATA STRUCTURE | 1,918 | 19 | One record per subject per time-to-event parameter |
+| ADTTE | BASIC DATA STRUCTURE | 2,368 | 19 | One record per subject per time-to-event parameter (6 PARAMCDs: OS, OSWOT, PFS [BICR], PFSINV [Investigator], DOR, TTR) |
 | ADVS | BASIC DATA STRUCTURE | 52,864 | 28 | One record per subject per vital-sign parameter per analysis visit |
 
 ## Standards
@@ -57,4 +57,8 @@
 - WhereClauseDefs not yet emitted (typical for ADTTE PARAMCD-based VLM).
 - ItemDef OIDs are domain-scoped (e.g. `IT.DM.STUDYID`); the SHARED ItemDef
   pattern is deferred to a future iteration.
+- `define.xml` was last fully regenerated 2026-05-17 (covers DV, SUPPSU rebuild,
+  RELREC dedupe, all 12 ADaMs). ADTTE record count in this summary (2,368) was
+  refreshed after the PFSINV PARAMCD was added; rerun `programs/define/build_define.R`
+  to refresh remaining counts if SDTM/ADaM datasets are regenerated.
 

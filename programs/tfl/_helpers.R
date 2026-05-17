@@ -185,16 +185,22 @@ stratified_logrank <- function(data) {
   1 - pchisq(sd$chisq, df = 1)
 }
 
-# Region derivation (matches T-DM-01 and all efficacy tables)
+# Region alias — REGION1 is now derived in ADSL (programs/adam/adsl.R, 2026-05-17).
+# Kept as a thin wrapper so existing TFL code that references REGION continues to work.
 add_region <- function(adsl) {
-  adsl |>
-    mutate(REGION = case_when(
-      COUNTRY %in% c("UNITED STATES", "CANADA")                           ~ "NA",
-      COUNTRY %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
-                      "ITALY", "NETHERLANDS", "POLAND")                   ~ "EU",
-      COUNTRY %in% c("JAPAN", "SOUTH KOREA", "AUSTRALIA")                 ~ "APAC",
-      TRUE                                                                ~ "OTHER"
-    ))
+  if ("REGION1" %in% names(adsl)) {
+    adsl |> mutate(REGION = REGION1)
+  } else {
+    adsl |>
+      mutate(REGION = case_when(
+        toupper(COUNTRY) %in% c("UNITED STATES", "CANADA", "USA")              ~ "NA",
+        toupper(COUNTRY) %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
+                                "ITALY", "NETHERLANDS", "POLAND", "UK")         ~ "EU",
+        toupper(COUNTRY) %in% c("JAPAN", "SOUTH KOREA", "KOREA", "AUSTRALIA")   ~ "APAC",
+        toupper(COUNTRY) %in% c("BRAZIL", "MEXICO", "ARGENTINA", "CHILE")       ~ "LATAM",
+        TRUE                                                                    ~ "OTHER"
+      ))
+  }
 }
 
 # ---- AE SOC × PT table builder (used by T-AE-02/03/04/05/06) --------------

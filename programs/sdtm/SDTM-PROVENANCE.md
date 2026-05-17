@@ -57,14 +57,15 @@ regulatory submission.
 | RS — Disease Response | `programs/sdtm/rs.R` | Onco suppl. | 2,260 | Scripted |
 | DD — Death Details | `programs/sdtm/dd.R` | Onco suppl. | 284 | Scripted |
 | SU — Substance Use | `programs/sdtm/su.R` | 6.2.10 | 1,236 | Scripted |
+| DV — Protocol Deviations | `programs/sdtm/dv.R` ← `raw/protocol_deviations.csv` | 6.5 | ~337 | Scripted (v0.4 2026-05-17; closes AL-03) |
 | SUPPDM | `programs/sdtm/suppdm.R` | 8.4 | 1,799 | Scripted |
 | SUPPAE | `programs/sdtm/suppae.R` | 8.4 | 8,511 | Scripted (v0.2 back-fill 2026-05-16) |
 | SUPPCM | `programs/sdtm/suppcm.R` | 8.4 | 4,444 | Scripted (v0.2 back-fill 2026-05-16) |
 | SUPPLB | `programs/sdtm/supplb.R` | 8.4 | 230,788 | Scripted (v0.2 back-fill 2026-05-16) |
-| SUPPSU | `programs/sdtm/su.R` (inline) | 8.4 | 450 | Scripted |
-| RELREC | `programs/sdtm/relrec.R` | 8.5 | 17,708 | Scripted (v0.2 back-fill 2026-05-16) |
+| SUPPSU | `programs/sdtm/suppsu.R` | 8.4 | one SMKSTAT row per tobacco-using subject | Scripted (v0.4 rebuild 2026-05-17; closes AL-01) |
+| RELREC | `programs/sdtm/relrec.R` | 8.5 | deduped per unique relationship | Scripted (v0.2 back-fill 2026-05-16; deduped v0.4 2026-05-17; closes AL-11) |
 
-**Total: 21 SDTM datasets.**
+**Total: 22 SDTM datasets.**
 
 ---
 
@@ -149,9 +150,9 @@ Rscript programs/sdtm/00_run_sdtm.R
 
 | Document | Relationship |
 |---|---|
-| `programs/sdtm/SDTM-MAPPING-SPEC.md` | **Companion.** Variable-level mapping spec written for independent double programming — covers all 21 SDTM datasets from raw inputs. The R scripts in this directory are one implementation; the spec is the authoritative description. |
+| `programs/sdtm/SDTM-MAPPING-SPEC.md` | **Companion.** Variable-level mapping spec written for independent double programming — covers all 22 SDTM datasets from raw inputs. The R scripts in this directory are one implementation; the spec is the authoritative description. |
 | `programs/raw/RAW-PROVENANCE.md` | **Parent.** Raw CSVs are the input to these mapping programs. |
-| `datasets/sdtm/` | **Output.** 15 parquet files produced by these programs. |
+| `datasets/sdtm/` | **Output.** 22 parquet files produced by these programs. |
 | `sap/shells/shells.yaml` | **Sibling.** Shell annotations reference SDTM variables; Phase 2 annotation update will cross-check. |
 | `programs/adam/` | **Downstream.** ADaM programs read from datasets/sdtm/. |
 | `adam/ADAM-PROVENANCE.md` | **Child.** ADaM derivation builds on these SDTM datasets. |
@@ -164,7 +165,7 @@ Rscript programs/sdtm/00_run_sdtm.R
 |---|---|---|
 | ~~SUPPCM for ATC code~~ | CM | ✅ Resolved 2026-05-16 — `programs/sdtm/suppcm.R` writes CMATC + CMIRAEFL. CMATC remains denormalised on parent CM for ADaM back-compat. |
 | ~~SUPPAE for additional AE qualifiers~~ | AE | ✅ Resolved 2026-05-16 — `programs/sdtm/suppae.R` writes IRAEFL, AEDISFL, AEACTFL. |
-| BICR response assessments | RS | Add RSCAT="BICR" records if BICR data becomes available |
+| ~~BICR response assessments~~ | RS | ✅ Resolved 2026-05-17 — `programs/raw/10_overall_response.R` emits both INVESTIGATOR and INDEPENDENT ASSESSOR reads (~10% discordance, conservative tilt). SDTM.RS now carries `RSEVAL`; downstream ADTTE derives PFS (BICR) + PFSINV (Investigator). |
 | LAB reference ranges | LB | Current ranges are generic; should be replaced with site-specific or sponsor-defined ranges |
 | Parent-domain label gaps | AE/CM/DD/SU | Pre-existing: AEDISCOD, CMATC, DDSCAT, SUPACKYRS not in label dictionary; `suppsu` has no entry. Cosmetic — does not block submission readiness. |
 | Define-XML v1.0 | All | ✅ v0.1 draft 2026-05-16 (`programs/define/build_define.R` → `define/define.xml`). v1.0 still requires Value-Level Metadata, full CodeListDef references, MethodDef chains, WhereClauseDef blocks, and XSL→PDF rendering. |
@@ -178,3 +179,4 @@ Rscript programs/sdtm/00_run_sdtm.R
 | 0.1 | 2026-04-25 | LG | Initial. 15 domain mapping programs written. Curated MedDRA/ATC codelists in place. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Back-fill: added DA (24,613 rec), RELREC (17,708 rec / 2,266 groups), SUPPAE (8,511), SUPPCM (4,444), SUPPLB (230,788). Extended `00_run_sdtm.R` orchestrator + `16_label_domains.R` label dictionary. Resolved SUPPAE/SUPPCM open items. Generated Define-XML v0.1 (`define/define.xml`, 27 ItemGroupDefs, 446 ItemDefs). DA initially derived from `raw/exposure.csv` as an architectural shortcut. |
 | 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | DA lineage corrected: added `programs/raw/14_drug_accountability.R` (CDASH DA form simulator → `raw/drug_accountability.csv`, 11,710 rows incl. simulated vial losses). Rewrote `programs/sdtm/da.R` to read the new raw CSV. DA now 28,108 records (gained LOSTAMT test + VISIT variable). Define-XML refreshed: 447 variables. |
+| 0.4 | 2026-05-17 | LG (w/ Claude Opus 4.7) | **22 domains.** Added SDTM.DV (Protocol Deviations) via `programs/sdtm/dv.R` ← `raw/protocol_deviations.csv` (closes AL-03). Rebuilt SUPPSU via dedicated `programs/sdtm/suppsu.R` under canonical STUDYID with the standardised SMKSTAT QNAM (CURRENT SMOKER / EX-SMOKER / NEVER SMOKED) decoded from SU.SUSCAT (closes AL-01). Deduped RELREC via `distinct()` on (STUDYID, USUBJID, RDOMAIN, RSUBJID, IDVAR, IDVARVAL, RELTYPE, RELID) (closes AL-11). Added BICR reader to SDTM.RS (`RSEVAL ∈ {INVESTIGATOR, INDEPENDENT ASSESSOR}`) via upstream `programs/raw/10_overall_response.R` (enables AL-04/AL-07 closure downstream). Define-XML refreshed: 34 ItemGroupDefs / 613 variables. |

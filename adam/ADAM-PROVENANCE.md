@@ -24,7 +24,7 @@ but has not been validated against real clinical trial data or reviewed by a reg
 | **Role** | Drafting programming specifications, scaffolding R derivation scripts, admiral function selection |
 | **Human oversight** | Lovemore Gakava — domain expert review of all specs; all derivation decisions confirmed by LG |
 | **Phase 5 started** | 2026-04-25 |
-| **Spec version recorded here** | v0.1 DRAFT |
+| **Spec version recorded here** | v0.5 (12 ADaMs delivered; 2026-05-17) |
 
 ### Division of labour
 
@@ -67,15 +67,21 @@ flags and treatment dates onto its own rows.
 
 | # | Dataset | Script | Depends on | Status |
 |---|---|---|---|---|
-| 1 | ADSL | `adam/adsl.R` | DM, DS, EX, SUPPDM | 🔲 Stub — ready to complete |
-| 2 | ADAE | `adam/adae.R` | ADSL + AE | 🔲 Stub — ready to complete |
-| 3 | ADLB | `adam/adlb.R` | ADSL + LB | 🔲 Stub — ready to complete |
-| 4 | ADTR | `adam/adtr.R` | ADSL + TR, TU | 🔲 Stub — ready to complete |
-| 5 | ADRS | `adam/adrs.R` | ADSL + ADTR + RS | 🔲 Stub — ready to complete |
-| 6 | ADTTE | `adam/adtte.R` | ADSL + ADRS + DS, DD | 🔲 Stub — ready to complete |
+| 1 | ADSL | `programs/adam/adsl.R` | DM, DS, EX, SUPPDM, DV | ✅ Complete (real PPROTFL from SDTM.DV as of 2026-05-17) |
+| 2 | ADAE | `programs/adam/adae.R` | ADSL + AE + SUPPAE | ✅ Complete |
+| 3 | ADLB | `programs/adam/adlb.R` | ADSL + LB + SUPPLB | ✅ Complete |
+| 4 | ADTR | `programs/adam/adtr.R` | ADSL + TR, TU | ✅ Complete |
+| 5 | ADRS | `programs/adam/adrs.R` | ADSL + ADTR + RS (Investigator) | ✅ Complete |
+| 6 | ADTTE | `programs/adam/adtte.R` | ADSL + ADRS + DS, DD, RS (BICR+INV), ADCM | ✅ Complete — 6 PARAMCDs: OS, OSWOT, PFS (BICR), PFSINV (Investigator), DOR, TTR |
+| 7 | ADCM | `programs/adam/adcm.R` | ADSL + CM + SUPPCM | ✅ Complete (incl. real SUBSQTFL from subsequent therapy raw simulator) |
+| 8 | ADDS | `programs/adam/adds.R` | ADSL + DS | ✅ Complete |
+| 9 | ADDV | `programs/adam/addv.R` | ADSL + DV | ✅ Complete (real SDTM.DV; no longer placeholder) |
+| 10 | ADEX | `programs/adam/adex.R` | ADSL + EX + DA | ✅ Complete |
+| 11 | ADMH | `programs/adam/admh.R` | ADSL + MH | ✅ Complete |
+| 12 | ADVS | `programs/adam/advs.R` | ADSL + VS | ✅ Complete |
 
-**Gate 4 exit criteria:** All 6 datasets written, validated via `xportr`, and Parquet outputs committed.
-OS/PFS HRs reconcile with data-raw seed assumptions (HR ≈ 0.65 / 0.55 ±0.1).
+**Gate 4 exit criteria (PASSED 2026-04-25 for items 1-6; extended 2026-05-17 for items 7-12):** All 12 datasets written, validated via `xportr`, and Parquet outputs committed.
+OS/PFS HRs reconcile with raw-simulator seed assumptions (OS 0.567, PFS BICR 0.568, PFSINV 0.522; targets 0.65 / 0.55).
 
 ---
 
@@ -98,14 +104,14 @@ OS/PFS HRs reconcile with data-raw seed assumptions (HR ≈ 0.65 / 0.55 ±0.1).
 
 | Item | Dataset | Status |
 |---|---|---|
-| BECOG (ECOG PS) on ADSL | ADSL | Missing from spec; required for forest plot subgroups (SAP §10) |
-| PDL1GR (PD-L1 TPS group) on ADSL | ADSL | Missing from spec; required for forest plot subgroups |
-| IRAEFL source confirmation | ADAE | AECAT coding to be confirmed with CDM/CRF team |
-| Partial SLD handling rule | ADTR | To be confirmed: include partial visit SLD or exclude? |
-| BICR response assessments | ADRS | BICR data (RSCAT = "BICR") present in sdtm/rs.parquet? Check and add if so |
-| ATOXGR reference codelist | ADLB | NCI CTCAE v5 grade thresholds table to be loaded via metacore |
-| PARAMCD codelist for LB | ADLB | Mapping from LBTESTCD to PARAMCD per ADaMIG convention |
-| Unit conversion table | ADLB | Conventional → SI unit conversions for chemistry parameters |
+| ~~BECOG (ECOG PS) on ADSL~~ | ADSL | ✅ Resolved — ECOG derived from SUPPDM.ECOGBSL |
+| ~~PDL1GR (PD-L1 TPS group) on ADSL~~ | ADSL | ✅ Resolved — PDL1CAT/PDL1SCR derived from SUPPDM |
+| ~~IRAEFL source confirmation~~ | ADAE | ✅ Resolved — sourced from SUPPAE.IRAEFL |
+| Partial SLD handling rule | ADTR | Accepted: include partial visit SLD per RECIST 1.1 convention |
+| ~~BICR response assessments~~ | ADRS / ADTTE | ✅ Resolved 2026-05-17 — BICR reader added in raw simulator; SDTM.RS now carries RSEVAL; ADTTE derives both PFS (BICR primary) and PFSINV (Investigator sensitivity) |
+| ATOXGR reference codelist | ADLB | Accepted limitation — generic high/low flags used; full CTCAE v5 lab thresholds deferred |
+| PARAMCD codelist for LB | ADLB | Implemented via LBTESTCD → PARAMCD lookup in `adlb.R` |
+| Unit conversion table | ADLB | Accepted — uses original units; SI conversion deferred to v1.0 |
 
 ---
 
@@ -116,9 +122,9 @@ OS/PFS HRs reconcile with data-raw seed assumptions (HR ≈ 0.65 / 0.55 ±0.1).
 | `sap/SAP.md` (v0.1) | **Parent.** Every ADaM variable traces to an analysis in the SAP. No variable without a SAP reference. |
 | `sap/shells/shells.yaml` | **Sibling.** TFL shell annotations cite ADaM variables; `validate_shells.R` cross-checks against specs. |
 | `programming-specs/AD*-spec.md` | **Spec layer.** One spec per dataset; spec precedes and governs the R script. |
-| `adam/ad*.R` | **Implementation.** R scripts implement the spec; must reconcile with spec before Gate 4. |
-| `adam/adsl.parquet` … `adtte.parquet` | **Outputs.** Six Parquet files; also exported to XPT via `xportr` for submission package. |
-| `data-raw/PROVENANCE.md` | **Parent of inputs.** Records how the SDTM parquet files were generated. |
+| `programs/adam/ad*.R` | **Implementation.** R scripts implement the spec; must reconcile with spec before Gate 4. |
+| `datasets/adam/adsl.parquet` … `advs.parquet` | **Outputs.** 12 Parquet files; also exported to XPT via `xportr` for submission package. |
+| `programs/raw/RAW-PROVENANCE.md` | **Parent of inputs.** Records how the raw + SDTM parquet files were generated. |
 | `sap/SAP-PROVENANCE.md` | **Sibling.** SAP development record; the ADaM specs operationalise the SAP. |
 
 ---
@@ -128,8 +134,11 @@ OS/PFS HRs reconcile with data-raw seed assumptions (HR ≈ 0.65 / 0.55 ±0.1).
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial draft. Six R stubs and five specs scaffolded. Phase 5 work begins. Open items listed above. |
-| 0.2 | — | — | Complete derivation scripts; resolve open items; Gate 4 validation. |
+| 0.2 | 2026-04-25 | LG (w/ Claude Opus 4.7) | Gate 4 PASSED. All 6 efficacy/safety derivation scripts complete (ADSL, ADAE, ADLB, ADTR, ADRS, ADTTE). Open items resolved or accepted. |
+| 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Re-derived from SDTM v0.3 (raw v0.3 covariate-driven + Weibull KM shape). Cox HRs reconcile: OS 0.567 (target 0.65), PFS 0.522 (target 0.55). admiral 1.4.1. |
+| 0.4 | 2026-05-17 | LG (w/ Claude Opus 4.7) | **6 new pharma-standard descriptive ADaMs added:** ADCM, ADDS, ADDV, ADEX, ADMH, ADVS. Total 12 ADaM datasets. Spec coverage extended in `programs/adam/ADAM-MAPPING-SPEC.md` §7–§12. |
+| 0.5 | 2026-05-17 | LG (w/ Claude Opus 4.7) | **AL closures:** ADSL.PPROTFL now real-derived from SDTM.DV (SAFFL=Y AND no MAJOR deviation; ~412/450 Y); ADDV sources real SDTM.DV (~337 records, 190 subjects); ADCM.SUBSQTFL real (~133 subsequent-therapy CM rows); ADTTE gains PFSINV PARAMCD derived from RSEVAL='INVESTIGATOR' (PFS continues from RSEVAL='INDEPENDENT ASSESSOR'). Final stats: PFS BICR HR 0.568 (median 10.94 / 5.55 mo), PFSINV HR 0.522 (median 13.67 / 7.06 mo). Closes AL-02/03/04/07/10 at the ADaM layer. |
 
 ---
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-05-17*

@@ -145,7 +145,7 @@ adsl = DM
 | 22 | TRTDURD | Num     | Derived | `as.integer(TRTEDT - TRTSDT) + 1` |
 | 23 | ITTFL   | Char/1  | Derived | `"Y"` if `ARMNRS is NULL OR ARMNRS != "SCREEN FAILURE"`; else `"N"` |
 | 24 | SAFFL   | Char/1  | Derived | `"Y"` if `TRTSDT is not NULL`; else `"N"` |
-| 25 | PPROTFL | Char/1  | Derived | `"Y"` if `TRTSDT is not NULL`; else `"N"` (in this synthetic dataset PP = SAF; real studies would subtract major-deviation subjects) |
+| 25 | PPROTFL | Char/1  | Derived | `"Y"` if `SAFFL='Y'` AND `USUBJID NOT IN (subjects with any MAJOR deviation from SDTM.DV)`; else `"N"`. Real per-protocol derivation as of 2026-05-17 (~412/450 expected Y). See §8.3. |
 | 26 | DTHFL   | Char/1  | Derived | `"Y"` if `DTHDT is not NULL`; else `"N"` |
 | 27 | DTHDT   | Date    | DD-derived | Step C |
 | 28 | LSTALVDT| Date    | DS-derived | Step D |
@@ -153,6 +153,7 @@ adsl = DM
 | 30 | PDL1CAT | Char/40 | SUPPDM   | `= PDL1GRP` |
 | 31 | PDL1SCR | Num     | SUPPDM   | `as.numeric(PDL1SCR)` |
 | 32 | HISTCAT | Char/40 | SUPPDM   | `= HISTSCAT` |
+| 33 | REGION1 | Char/10 | Derived  | `case_when(COUNTRY)` → NA / EU / APAC / OTHER (SAP §11 forest stratum). Added 2026-05-17. |
 
 **Sort:** `USUBJID`. **Expected: 450 rows.**
 
@@ -434,7 +435,7 @@ ORRFL = "Y" if CBOR ∈ {"CR", "PR"}; else "N".
 **ADaMIG class:** BASIC DATA STRUCTURE
 **Structure:** One record per subject per time-to-event parameter
 **Keys:** STUDYID, USUBJID, PARAMCD
-**Output:** `datasets/adam/adtte.parquet` · **Expected N:** ~1,918 (5 params × 450, minus DOR restricted to responders)
+**Output:** `datasets/adam/adtte.parquet` · **Expected N:** ~2,368 (6 params × 450, minus DOR restricted to responders)
 **Estimand support:** E1 (OS), E1a (OSWOT via separate PARAMCD), E1b (OSWOT), E2 (PFS BICR), E2a (PFSINV), E4 (DOR)
 
 ### 6.1 Parameters

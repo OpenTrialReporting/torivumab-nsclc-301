@@ -1,6 +1,6 @@
 # Validation Plan — SIMULATED-TORIVUMAB-2026
 
-> **Status:** v0.1 DRAFT — 2026-05-16
+> **Status:** v0.2 DRAFT — 2026-05-17
 > **Scope:** Phases 3–6 deliverables (raw → SDTM → ADaM → Define-XML → TFLs).
 > Phase 7 (CSR) and Phase 8 (ADRG) are out of scope until those phases are written.
 > **Synthetic data:** Source-data verification (SDV) is **not in scope** — there
@@ -93,11 +93,11 @@ Recommended order, assuming one QC programmer and one reviewer working in parall
 | Phase | What | Duration |
 |---|---|---|
 | **A.** Reproducibility check | Run `run_reproducibility_check.R` on the as-committed state | 1 day |
-| **B.** Raw + SDTM double programming | 21 domains × 1 QC programmer per `SDTM-MAPPING-SPEC.md` | 5–7 days |
+| **B.** Raw + SDTM double programming | 22 domains × 1 QC programmer per `SDTM-MAPPING-SPEC.md` | 5–7 days |
 | **C.** Pinnacle 21 SDTM scan | Run against the QC-passed SDTM directory | 0.5 day |
-| **D.** ADaM double programming | 6 datasets × 1 QC programmer per `ADAM-MAPPING-SPEC.md` | 3–5 days |
+| **D.** ADaM double programming | 12 datasets × 1 QC programmer per `ADAM-MAPPING-SPEC.md` | 6–9 days |
 | **E.** Pinnacle 21 ADaM scan | Same approach as Phase C | 0.5 day |
-| **F.** TFL numerical match | 38 outputs; `extract_tfl_values.R` for cell extraction | 5–7 days |
+| **F.** TFL numerical match | 43 outputs; `extract_tfl_values.R` for cell extraction | 6–8 days |
 | **G.** Statistical sense checks | Biostat review of HRs / medians / ORR / waterfall direction | 1 day |
 | **H.** Lock + sign-off | Populate signature blocks on each tracker | 0.5 day |
 
@@ -136,7 +136,8 @@ runs in parallel (TFL programmers only need ADaM locked, not Pinnacle 21).
   primary and QC exactly
 - Cox HRs within ±0.05 of primary on:
   - OS (PARAMCD='OS')
-  - PFS (PARAMCD='PFS')
+  - PFS BICR (PARAMCD='PFS')
+  - PFS Investigator (PARAMCD='PFSINV')
   - OSWOT (PARAMCD='OSWOT')
 - KM medians within ±0.5 months of primary
 - Per-parameter row counts match exactly
@@ -196,7 +197,7 @@ programmers don't waste time re-discovering them.
 
 | ID | Layer | Limitation | Documented in |
 |---|---|---|---|
-| AL-01 | SDTM | `SUPPSU` is a legacy artifact (STUDYID prefix `TORIVUMAB-NSCLC-301`, not `CTX-NSCLC-301`); no generator script exists in `programs/sdtm/` | `SDTM-MAPPING-SPEC.md` §17 |
+| ~~AL-01~~ | ~~SDTM~~ | ~~`SUPPSU` is a legacy artifact (STUDYID prefix `TORIVUMAB-NSCLC-301`, not `CTX-NSCLC-301`); no generator script exists in `programs/sdtm/`~~ | **Closed 2026-05-17** — `programs/sdtm/suppsu.R` regenerates SUPPSU under the canonical STUDYID `CTX-NSCLC-301` with the standardised smoking-status QNAM (`SMKSTAT` ∈ {CURRENT SMOKER, EX-SMOKER, NEVER SMOKED}), decoded from `SU.SUSCAT` where `SUTRT='TOBACCO'`. |
 | ~~AL-02~~ | ~~SDTM~~ | ~~cm.parquet does not contain post-trial anti-cancer therapy~~ | **Closed 2026-05-17** — `programs/raw/16_subsequent_therapy.R` appends ~133 subsequent-therapy CM rows; ADCM derives `SUBSQTFL`; OSWOT (PARAMCD='OSWOT') now censors at first subsequent therapy. |
 | ~~AL-03~~ | ~~SDTM~~ | ~~No explicit protocol-deviation records~~ | **Closed 2026-05-17** — new SDTM.DV domain with ~337 records (raw simulator at `programs/raw/15_protocol_deviations.R`). |
 | ~~AL-04~~ | ~~ADaM~~ | ~~`PARAMCD='PFSINV'` not derived because the synthetic data has no separate BICR vs Investigator~~ | **Closed 2026-05-17** — BICR reader added in `programs/raw/10_overall_response.R` (~10% discordance, conservative tilt); SDTM.RS now carries `RSEVAL∈{INVESTIGATOR,INDEPENDENT ASSESSOR}`; ADTTE derives PFS from BICR PD dates and PFSINV from Investigator PD dates. |
@@ -206,7 +207,7 @@ programmers don't waste time re-discovering them.
 | ~~AL-08~~ | ~~TFL~~ | ~~T-AE-06 (AESI) uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list~~ | **Closed 2026-05-17** — sponsor AESI codelist at `raw/codelists/aesi_meddra_pts.csv` (56 PTs, 11 categories) drives T-AE-06; categories surfaced by AESICAT with per-PT grade rule (any/G2+/G3+). |
 | ~~AL-09~~ | ~~TFL~~ | ~~T-DS-02 subcategories all show 0~~ | **Closed 2026-05-17** — SDTM.DV now populated; T-DS-02 + T-DV-01 show real subcategory counts. |
 | ~~AL-10~~ | ~~TFL~~ | ~~T-DS-03 rows for subsequent anti-cancer therapy + missed assessments all show 0~~ | **Closed 2026-05-17** (subsequent therapy) — ADCM.SUBSQTFL drives IE3 (non-zero). Missed-assessment row (IE4) remains 0 — see AL-12. |
-| AL-11 | SDTM | `relrec.parquet` contains duplicate rows (~5 per multi-visit lesion) because `programs/sdtm/relrec.R` emits one row per TU/TR record rather than one per unique lesion-id × subject. Functionally harmless for cross-domain joins but `diffdf` cannot establish unique keys. Documented; a future relrec.R revision should `distinct()` on (USUBJID, RDOMAIN, IDVARVAL). | `programs/qc/compare_sdtm.R` fallback path uses `identical()` to compare instead. |
+| ~~AL-11~~ | ~~SDTM~~ | ~~`relrec.parquet` contains duplicate rows (~5 per multi-visit lesion)~~ | **Closed 2026-05-17** — `programs/sdtm/relrec.R` now applies `distinct()` on (STUDYID, USUBJID, RDOMAIN, RSUBJID, IDVAR, IDVARVAL, RELTYPE, RELID). One row per unique relationship; `diffdf` can establish keys. |
 | AL-12 | TFL | T-DS-03 IE4 (≥2 consecutive missed tumour assessments) row shows 0 — no gap-detection logic in the synthetic data; a real implementation would derive this from ADRS visit-window gaps. | `t_ds_03_intercurrent_events.R` footnote |
 
 QC programmers may still raise findings on any of these if they spot
@@ -257,7 +258,8 @@ triggers re-QC (the cycle restarts).
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Initial draft. Multi-layer strategy, role definitions, tooling, phased execution, 10 pre-loaded accepted limitations, sign-off workflow. |
+| 0.2 | 2026-05-17 | LG (w/ Claude Opus 4.7) | Closed AL-01 (SUPPSU rebuild), AL-02 (subsequent therapy), AL-03 (SDTM.DV), AL-04 (PFSINV from BICR/Investigator separation), AL-07 (T-EFF-11 PFSINV), AL-08 (sponsor AESI codelist), AL-09 (T-DS-02 + new T-DV-01), AL-10 (T-DS-03 IE3 subsequent therapy), AL-11 (RELREC dedupe). Added AL-12 (T-DS-03 IE4 missed-assessment gap). Updated §5 Phase counts (22 SDTM / 12 ADaM / 43 TFL); §6.3 Cox HR tolerance now includes PFSINV. |
 
 ---
 
-*Last updated: 2026-05-16*
+*Last updated: 2026-05-17*

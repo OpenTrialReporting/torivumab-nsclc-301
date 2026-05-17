@@ -17,7 +17,7 @@ Context guide for AI coding assistants and human contributors working on the fic
 
 ## Phase Roadmap
 
-Current phase: **Phase 6 TFLs — NEXT (Gates 1–4 all PASSED)**
+Current phase: **Phase 7 CSR — NEXT (Gates 1–5 all PASSED)**
 
 ```
 Phase 1: Protocol ✅ DONE (2026-03-30)
@@ -108,25 +108,29 @@ torivumab-nsclc-301/
 │   │   └── 01_demographics.R … 13_physical_exam.R
 │   ├── sdtm/                                    Phase 4: map raw → SDTM
 │   │   ├── 00_run_sdtm.R (orchestrator)
-│   │   └── dm.R, ae.R, ex.R … suppdm.R (16 domain scripts)
-│   └── adam/                                    ✅ Phase 5 COMPLETE
+│   │   └── dm.R, ae.R, ex.R … dv.R (22 domain scripts)
+│   └── adam/                                    ✅ Phase 5 COMPLETE (extended 2026-05-17)
 │       ├── 00_run_adam.R (orchestrator)
-│       └── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R
+│       ├── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R   (6 efficacy/safety)
+│       └── adcm.R, adds.R, addv.R, adex.R, admh.R, advs.R   (6 pharma-standard descriptive)
 ├── datasets/                                    Outputs only — no code
-│   ├── sdtm/  *.parquet (21 domains)            ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16)
-│   └── adam/  *.parquet (6 datasets)            ✅ Gates 4 PASSED 2026-04-25
-├── programming-specs/                           ✅ Phase 5 — one spec per ADaM dataset
-│   └── ADSL-spec.md … ADTTE-spec.md
+│   ├── sdtm/  *.parquet (22 domains)            ✅ SDTMIG v3.4 labelled (v0.3 incl. DV 2026-05-17)
+│   └── adam/  *.parquet (12 datasets)           ✅ Gate 4 PASSED 2026-04-25; extended 2026-05-17
+├── programming-specs/                           ✅ Per-dataset specs (34: 22 SDTM + 12 ADaM)
+│   ├── README.md                                Inventory + 8-column template
+│   ├── SDTM-{domain}-spec.md                    22 SDTM domain specs
+│   └── AD{XX}-spec.md                           12 ADaM dataset specs
 ├── sap/                                         ✅ Phase 4.5 — Gate 3.5 PASSED 2026-04-20
 │   ├── SAP.md (locked)
 │   └── shells/ (ARS-aligned TFL shells)
-├── tfl/                                         ✅ Phase 6 complete — 38 outputs (96 table/listing files + 6 figures)
-│   ├── tables/  *.rtf|.docx|.html               (27 tables + 5 listings × 3 formats)
+├── tfl/                                         ✅ Phase 6 complete — 43 outputs
+│   ├── tables/  *.rtf|.docx|.html               (32 tables × 3 formats incl. T-DV-01 deviations)
 │   ├── figures/ *.png                           (6 figures @ 300 dpi)
+│   ├── listings/ *.html|.docx|.rtf              (5 listings × 3 formats)
 │   └── TFL-OUTPUTS.{html,docx}                  (combined views)
 ├── qc/                                          ✅ Validation strategy + trackers + tooling
 │   ├── VALIDATION-PLAN.md                       (SOP — read first)
-│   ├── {SDTM,ADAM,TFL}-PROGRAMMING-TRACKER.xlsx (21 + 6 + 38 rows; estimand-tagged)
+│   ├── {SDTM,ADAM,TFL}-PROGRAMMING-TRACKER.xlsx (22 + 12 + 43 rows; estimand-tagged)
 │   └── README.md                                (workflow guide)
 ├── programs/qc/                                 ✅ Validation R scripts
 │   ├── build_trackers.R, _compare_helpers.R
@@ -274,13 +278,14 @@ Phase 3 scripts (complete):
 Phase 4 scripts (complete):
 ├── programs/sdtm/00_run_sdtm.R     # orchestrator
 ├── programs/sdtm/dm.R              # DM + SUPPDM
-└── programs/sdtm/ae.R … suppdm.R  # remaining domain scripts
+└── programs/sdtm/ae.R … dv.R       # 22 SDTM domain scripts (incl. DA, DV, RELREC, SUPP*)
 
 Phase 5 scripts (complete ✅):
 ├── programs/adam/00_run_adam.R     # orchestrator
-├── programs/adam/adsl.R            # ADSL dataset
-├── programs/adam/adae.R            # ADAE dataset
-└── programs/adam/adlb.R, adtr.R, adrs.R, adtte.R
+├── programs/adam/adsl.R            # ADSL (real PPROTFL)
+├── programs/adam/adae.R            # ADAE
+├── programs/adam/adlb.R, adtr.R, adrs.R, adtte.R   # ADLB, ADTR, ADRS, ADTTE (6 PARAMCDs incl. PFSINV)
+└── programs/adam/adcm.R, adds.R, addv.R, adex.R, admh.R, advs.R   # 6 descriptive ADaMs
 ```
 
 ---
@@ -288,7 +293,7 @@ Phase 5 scripts (complete ✅):
 ## Testing & Validation
 
 ### SDTM Validation Checklist
-- [ ] All 19 domains present
+- [ ] All 22 domains present
 - [ ] No duplicate records
 - [ ] USUBJID consistency across domains
 - [ ] Variable names match SDTMIG v3.4
@@ -319,7 +324,7 @@ Phase 5 scripts (complete ✅):
 If you are an AI assistant working on this project:
 
 1. **Read this file and the ROADMAP first** — Understand the 8-phase workflow
-2. **Current phase:** Phase 6 (TFLs) — Gates 1–4 all PASSED; ADaM complete; Phase 6 is unblocked
+2. **Current phase:** Phase 7 (CSR) — Gates 1–5 all PASSED; SDTM/ADaM/TFL all complete (22 / 12 / 43); Phase 7 is unblocked
 3. **Respect the locked decisions:**
    - Protocol (v1.1) is final — no changes
    - CRF Strategy (v2.0) is final — no changes
@@ -345,7 +350,7 @@ If you are an AI assistant working on this project:
 9. **Add the comment `# torivumab guidelines loaded` at the top of new R files** — Confirms this AGENTS.md was read
 10. **Flag ambiguities:** If a spec is unclear, raise it in GitHub Issues — don't guess
 11. **Respect the QC layer:** Any change to a dataset / TFL / spec re-opens the relevant tracker row from `Locked` back to `Programmed — pending QC`. Update `qc/{SDTM,ADAM,TFL}-PROGRAMMING-TRACKER.xlsx` and re-run `programs/qc/compare_*.R` after the change. Never modify code in response to a "QC failed" finding by editing primary code without also updating the spec (`SDTM-MAPPING-SPEC.md` / `ADAM-MAPPING-SPEC.md`) so the QC programmer sees the authoritative version.
-12. **Accepted limitations** (AL-01 through AL-11) are documented in `qc/VALIDATION-PLAN.md` §8 and pre-loaded into the trackers. Don't re-discover them as defects; if a real defect is found, file a GitHub issue with the `defect` label.
+12. **Accepted limitations** (AL-01 through AL-12) are documented in `qc/VALIDATION-PLAN.md` §8 and pre-loaded into the trackers. As of 2026-05-17: AL-01/02/03/04/07/08/09/10/11 are CLOSED; AL-05/06 remain as structural limitations; AL-12 (IE4 missed-assessment gap) was added. Don't re-discover them as defects; if a real defect is found, file a GitHub issue with the `defect` label.
 
 ---
 
@@ -368,10 +373,10 @@ Each phase must pass a Gate Review before proceeding:
 - [x] PDF + HTML mockup created; aCRF HTML + PDF delivered
 - [x] LG approval — 2026-04-01
 
-**Gate 3 (Simulated Database + SDTM):** ✅ PASSED 2026-04-07
+**Gate 3 (Simulated Database + SDTM):** ✅ PASSED 2026-04-07; extended 2026-05-16 (back-fill) and 2026-05-17 (DV + SUPPSU rebuild + RELREC dedupe)
 - [x] All domain scripts run successfully (`programs/sdtm/00_run_sdtm.R`)
-- [x] 16 SDTM Parquet files generated and committed (`datasets/sdtm/`)
-- [x] SDTMIG v3.4 variable labels attached to all 16 domains
+- [x] 22 SDTM Parquet files generated and committed (`datasets/sdtm/`)
+- [x] SDTMIG v3.4 variable labels attached to all 22 domains
 - [x] Round-trip label check passed (USUBJID/AGE/RFSTDTC/DTHFL)
 
 **Gate 3.5 (SAP + TFL shells):** ✅ PASSED 2026-04-20
@@ -379,13 +384,17 @@ Each phase must pass a Gate Review before proceeding:
 - [x] ARS-aligned TFL shells delivered (`sap/shells/`)
 - [x] ADSL spec drafted (`programming-specs/ADSL-spec.md`)
 
-**Gate 4 (ADaM):** ✅ PASSED 2026-04-25
-- [x] All 6 ADaM programming specs written (`programming-specs/`)
-- [x] All 6 R scripts run end-to-end (`programs/adam/`)
-- [x] All 6 Parquet datasets committed (`datasets/adam/`)
+**Gate 4 (ADaM):** ✅ PASSED 2026-04-25 (efficacy/safety); extended 2026-05-17 (descriptive)
+- [x] All 6 efficacy/safety ADaM programming specs written (`programming-specs/`)
+- [x] All 12 R scripts run end-to-end (`programs/adam/`) — 6 efficacy/safety + 6 descriptive (ADCM, ADDS, ADDV, ADEX, ADMH, ADVS)
+- [x] All 12 Parquet datasets committed (`datasets/adam/`)
 
-**Future Gates (5–8):**
-- Gate 5: TFLs production-ready (no manual edits)
+**Gate 5 (TFLs):** ✅ PASSED 2026-05-16; T-DV-01 added 2026-05-17
+- [x] 43 outputs delivered (32 tables + 6 figures + 5 listings)
+- [x] All formats rendered (HTML + DOCX + RTF + PNG)
+- [x] Combined `tfl/TFL-OUTPUTS.{html,docx}` published
+
+**Future Gates (6–7):**
 - Gate 6: CSR narrative + results + discussion
 - Gate 7: ADRG + clinTrialData package ready
 
@@ -433,5 +442,5 @@ For questions about:
 
 ---
 
-*Last updated: 2026-04-25*
-*Phases 1–5 complete — Gates 1–4 PASSED → Phase 6 TFLs next*
+*Last updated: 2026-05-17*
+*Phases 1–6 complete (22 SDTM, 12 ADaM, 43 TFL) — Gates 1–5 PASSED → Phase 7 CSR next*

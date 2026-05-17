@@ -71,6 +71,8 @@ This mirrors real-world practice: raw CRF data contains dates, measurements, and
 | `raw/substance_use.csv` | Substance use | ~700 | Tobacco/alcohol per subject |
 | `raw/physical_exam.csv` | Physical exam | ~12,000 | 6 body systems per visit |
 | `raw/drug_accountability.csv` | Drug accountability | 11,710 | CDASH DA form — pharmacist dispensation log per cycle visit; vials checked out / returned / lost; compounded chemo dispensed = used. Added 2026-05-16. |
+| `raw/protocol_deviations.csv` | Protocol deviations | ~337 | CDASH DV form — sponsor-classified deviations (eligibility waivers, prohibited conmed, missed assessments, dose-mod errors, window violations). Drives SDTM.DV + ADSL.PPROTFL. Added 2026-05-17. |
+| `raw/subsequent_therapy.csv` | Subsequent anti-cancer therapy | ~133 | Post-discontinuation regimens (docetaxel, ramucirumab, atezolizumab, others). Appended to CM via `cm.R`; drives ADCM.SUBSQTFL and OSWOT censoring. Added 2026-05-17. |
 
 ---
 
@@ -81,6 +83,7 @@ This mirrors real-world practice: raw CRF data contains dates, measurements, and
 | `raw/codelists/meddra_oncology_subset.csv` | ~80 MedDRA terms (4-level hierarchy) for NSCLC immunotherapy AEs | Publicly documented PT codes from FDA labels, KEYNOTE-024 publications, CDISC examples. **Not a substitute for a licensed MedDRA dictionary.** |
 | `raw/codelists/atc_conmed.csv` | ~40 supportive care medications with WHO ATC codes | WHO ATC classification (freely published). |
 | `raw/codelists/cdisc_ct.csv` | Key CDISC Controlled Terminology items | CDISC CT (freely downloadable from CDISC website). |
+| `raw/codelists/aesi_meddra_pts.csv` | 56 PTs × 12 sponsor AESI categories with per-PT grade rule (always-AESI vs G2+ vs G3+). Added 2026-05-17. | Sponsor protocol §7.4 + standard PD-1/L1 irAE PTs from FDA labels (pembrolizumab, atezolizumab, nivolumab). Drives T-AE-06. |
 
 **Licensing note:** Real MedDRA dictionaries require an MSSO licence. WHODrug requires a UMC licence.
 For a production study, replace the curated subset with a licensed dictionary and an autocoding engine.
@@ -99,7 +102,7 @@ source("programs/raw/00_simulate_raw.R")
 Rscript programs/raw/00_simulate_raw.R
 ```
 
-Outputs: 14 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of controller plus per-script local seeds (e.g. `14_drug_accountability.R` uses `set.seed(20260314)`).
+Outputs: 16 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of controller plus per-script local seeds (e.g. `14_drug_accountability.R` uses `set.seed(20260314)`; `15_protocol_deviations.R` uses `set.seed(20260315)`; `16_subsequent_therapy.R` uses `set.seed(20260316)`).
 
 ---
 
@@ -121,6 +124,7 @@ Outputs: 14 CSV files in `raw/`. Reproducible via `set.seed(20260301)` at top of
 | 0.1 | 2026-04-25 | LG | Initial. 13 domain scripts + master controller. Supersedes data-raw/ direct-to-SDTM approach. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Added `14_drug_accountability.R` (CDASH DA form simulator → `raw/drug_accountability.csv`, 11,710 rows). Wired into `00_simulate_raw.R`. Closes CRF→SDTM traceability gap previously bridged by EX-derived DA records. |
 | 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | **Tier A + Tier B simulation upgrade** (see §10). `02_disposition.R` rewritten: per-subject covariate-driven hazards (PD-L1, histology, ECOG, smoking, region) via multiplicative log-linear model; Weibull(shape>1) survival distributions for realistic "slow then steep" KM shape. `09_tumor_measurements.R`: covariate-driven per-subject ORR via centered logistic model with per-arm intercept recalibration. New `validate_covariate_effects.R` fits Cox PH + logistic models and verifies HR/OR recovery. All raw CSVs regenerated; SDTM + Define-XML refreshed. **ADaM is now stale** until re-run with pharmaverse. |
+| 0.4 | 2026-05-17 | LG (w/ Claude Opus 4.7) | **Two new raw simulators + AESI codelist + BICR reader.** Added `15_protocol_deviations.R` (~337 sponsor-classified deviations → `raw/protocol_deviations.csv` → SDTM.DV; closes AL-03). Added `16_subsequent_therapy.R` (~133 post-discontinuation anti-cancer regimens → `raw/subsequent_therapy.csv`; appended to CM; drives ADCM.SUBSQTFL + OSWOT censoring; closes AL-02/AL-10). Added sponsor AESI codelist `raw/codelists/aesi_meddra_pts.csv` (56 PTs / 12 categories; per-PT grade rule; drives T-AE-06; closes AL-08). Extended `10_overall_response.R` with BICR reader (~10% discordance with Investigator, conservative tilt; supports SDTM.RS.RSEVAL; closes AL-04/AL-07 at downstream layers). |
 
 ---
 

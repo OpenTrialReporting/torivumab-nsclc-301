@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-05-16
-**Status:** SDTM back-fill complete (21 domains incl. DA, RELREC, SUPPAE/CM/LB) + Define-XML v2.1 draft delivered. Phase 6 (TFLs) next.
+**Last updated:** 2026-05-17
+**Status:** Phase 6 TFLs COMPLETE (43 outputs); 22 SDTM domains; 12 ADaM datasets (6 efficacy/safety + 6 pharma-standard descriptive); Define-XML v2.1 draft regenerated (34 datasets / 613 variables); 7 accepted limitations closed (AL-02/03/04/07/08/09/10). Phase 7 (CSR) next.
 
 ---
 
@@ -25,9 +25,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
    ↓
 5. ADaM (12 datasets — 6 efficacy/safety + 6 descriptive) ✅ COMPLETE — all 12 Parquets in datasets/adam/ (descriptive added 2026-05-17)
    ↓
-6. TFLs (Tables, Figures, Listings) ⏳ NEXT
+6. TFLs (Tables, Figures, Listings) ✅ COMPLETE (43 outputs in RTF + DOCX + HTML + PNG; 2026-05-16)
    ↓
-7. CSR (Clinical Study Report)
+7. CSR (Clinical Study Report) ⏳ NEXT
    ↓
 8. ADRG (Analysis Data Reviewer's Guide)
 ```
@@ -46,7 +46,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | Population | ✅ Locked | Section 4 of synopsis |
 | Endpoints | ✅ Locked | Section 2 of synopsis |
 | Statistical assumptions | ✅ Locked | Section 8 of synopsis |
-| PROVENANCE | ✅ Done | `data-raw/PROVENANCE.md` |
+| PROVENANCE | ✅ Done | `programs/raw/RAW-PROVENANCE.md` |
 
 **Deliverables locked:**
 - Study design: Phase 3, 2:1 randomisation, 450 subjects (300 active, 150 placebo)
@@ -121,10 +121,12 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 
 ## Phase 3: Simulated Database ✅ COMPLETE (2026-04-07)
 
-**Status:** Data generated and committed — 450 subjects, 16 SDTM Parquet domains, all SDTMIG v3.4 labels attached
+**Status:** Data generated and committed — 450 subjects, 22 SDTM Parquet domains, all SDTMIG v3.4 labels attached (15 base + DV + DA + RELREC + SUPPAE/CM/LB/SU)
 
-> Phases 3 and 4 are unified: each `data-raw/` script generates both a raw CSV
-> (`data-raw/raw_data/`) and an SDTM-ready Parquet file (`sdtm/`).
+> Phases 3 and 4 are split: `programs/raw/*.R` generates raw CSVs in `raw/`,
+> then `programs/sdtm/*.R` reads those CSVs and writes SDTM Parquet files to
+> `datasets/sdtm/`. (Legacy unified scripts in `data-raw/` were deleted
+> 2026-05-17 — see `programs/raw/RAW-PROVENANCE.md` change log v0.1.)
 
 **Purpose:** Generate realistic raw trial data (as if collected via eCRF) and SDTM domains.
 
@@ -147,7 +149,9 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | `12_tr.R` | 312 | TR | Per-visit lesion measurements; exponential growth/decay model |
 | `13_rs.R` | 313 | RS | RECIST 1.1 BICR: per-visit + BOR; CR/PR confirmation required |
 | `14_dd.R` | 314 | DD | Cause of death; 90% disease progression |
-| `15_label_domains.R` | — | Labels | Attaches SDTMIG v3.4 variable labels to all 16 Parquet files |
+| `15_protocol_deviations.R` | 315 | Raw DV | Eligibility waivers + dose mods + missed doses + window violations (used by SDTM.DV) |
+| `16_subsequent_therapy.R` | 316 | Raw subsequent CM | Post-discontinuation anti-cancer regimens (drives ADCM.SUBSQTFL + OS-WOT censoring) |
+| `15_label_domains.R` | — | Labels | Attaches SDTMIG v3.4 variable labels to all 22 Parquet files |
 
 **Backbone (`subject_backbone.csv`):** output of `01_dm.R` — joined by all downstream scripts; contains C1D1 date, PFS/OS event times, DTHFL, N_CYCLES, stratification variables.
 
@@ -156,13 +160,13 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 - 18-month accrual (2022-01-15 → 2023-07-15); data cutoff 2025-01-31
 - OS HR=0.65 (TOR 21.5m vs PBO 14.0m), PFS HR=0.55 (TOR 11.0m vs PBO 6.0m)
 - 10% administrative dropout (MCAR)
-- SDTM Parquet output to `sdtm/`; raw CSV output to `data-raw/raw_data/`
+- SDTM Parquet output to `datasets/sdtm/`; raw CSV output to `raw/`
 
 ---
 
 ## Phase 4: SDTM ✅ COMPLETE (2026-04-07)
 
-**Status:** 16 Parquet domains generated and committed. SDTMIG v3.4 variable labels attached to all domains via `15_label_domains.R`.
+**Status:** 22 Parquet domains generated and committed (16 base + 6 back-filled). SDTMIG v3.4 variable labels attached to all domains via `15_label_domains.R`.
 
 **Domains produced and committed:**
 
@@ -192,7 +196,12 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 - SUPPCM (CMATC, CMIRAEFL) — 4,444 records via `programs/sdtm/suppcm.R`
 - SUPPLB (BIOMRKFL, CENTRALFL) — 230,788 records via `programs/sdtm/supplb.R`
 
-All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_label_domains.R`.
+**v0.3 extension completed 2026-05-17:**
+- DV (Protocol Deviations) — sponsor-classified deviations via `programs/sdtm/dv.R` (replaces DS=PROT placeholder; drives T-DV-01)
+- SUPPSU rebuilt under canonical STUDYID with SMKSTAT QNAM (CURRENT SMOKER / EX-SMOKER / NEVER SMOKED, decoded from SU.SUSCAT) via `programs/sdtm/suppsu.R` (closes AL-01)
+- RELREC dedupe — duplicate group records collapsed via `programs/sdtm/relrec.R` (closes AL-11)
+
+All back-filled and v0.3 domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_label_domains.R`.
 
 **Technology:** R + arrow (Parquet output); admiral/admiralonco for ADaM phase
 
@@ -216,9 +225,9 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 ---
 
-## Phase 5: ADaM ✅ COMPLETE (2026-04-25) — Gate 4 PASSED
+## Phase 5: ADaM ✅ COMPLETE (2026-04-25; extended 2026-05-17) — Gate 4 PASSED
 
-**Status:** COMPLETE — all 6 ADaM datasets scripted, executed, and committed.
+**Status:** COMPLETE — all 12 ADaM datasets scripted, executed, and committed (6 efficacy/safety from Gate 4; 6 pharma-standard descriptive added 2026-05-17).
 
 **Approach:** Spec-first using the pharmaverse stack (`admiral` + `admiralonco` + `metacore` + `metatools` + `xportr`). See [`programs/adam/PHASE-5-APPROACH.md`](programs/adam/PHASE-5-APPROACH.md) for the full decision log.
 
@@ -226,24 +235,30 @@ All five new domains attached SDTMIG v3.4 variable labels via `programs/sdtm/16_
 
 | Dataset | Script | Parquet | Description |
 |---------|--------|---------|-------------|
-| ADSL | `programs/adam/adsl.R` | `datasets/adam/adsl.parquet` | Subject-level — population flags, treatment, disposition, baseline |
+| ADSL | `programs/adam/adsl.R` | `datasets/adam/adsl.parquet` | Subject-level — population flags (real PPROTFL), treatment, disposition, baseline |
 | ADAE | `programs/adam/adae.R` | `datasets/adam/adae.parquet` | Adverse events — CTCAE grade, treatment-emergent flags |
 | ADLB | `programs/adam/adlb.R` | `datasets/adam/adlb.parquet` | Laboratory — baseline, change from baseline, abnormal flags |
 | ADTR | `programs/adam/adtr.R` | `datasets/adam/adtr.parquet` | Tumour measurements — SLD, % change, nadir tracking |
-| ADRS | `programs/adam/adrs.R` | `datasets/adam/adrs.parquet` | Disease response — BOR, confirmed response, progression |
-| ADTTE | `programs/adam/adtte.R` | `datasets/adam/adtte.parquet` | Time-to-event — OS and PFS with RECIST-based censoring |
+| ADRS | `programs/adam/adrs.R` | `datasets/adam/adrs.parquet` | Disease response — BOR, confirmed response, progression (Investigator) |
+| ADTTE | `programs/adam/adtte.R` | `datasets/adam/adtte.parquet` | Time-to-event — 6 PARAMCDs: OS, OSWOT, PFS (BICR), PFSINV (Investigator), DOR, TTR |
+| ADCM | `programs/adam/adcm.R` | `datasets/adam/adcm.parquet` | Concomitant medications — ATC class, irAE-mgmt flag, real SUBSQTFL |
+| ADDS | `programs/adam/adds.R` | `datasets/adam/adds.parquet` | Disposition — DCSREAS, EOTSTT, EOSSTT |
+| ADDV | `programs/adam/addv.R` | `datasets/adam/addv.parquet` | Protocol deviations — DVCAT, DVDECOD, MAJDVFL |
+| ADEX | `programs/adam/adex.R` | `datasets/adam/adex.parquet` | Exposure — cumulative dose, intensity, duration |
+| ADMH | `programs/adam/admh.R` | `datasets/adam/admh.parquet` | Medical history — ongoing/historical, MedDRA-coded |
+| ADVS | `programs/adam/advs.R` | `datasets/adam/advs.parquet` | Vital signs — baseline, change, abnormal flags |
 
 **Orchestrator:** `programs/adam/00_run_adam.R`
 
-**Programming specs:** `programming-specs/ADSL-spec.md` through `ADTTE-spec.md` (all 6 datasets)
+**Programming specs:** `programming-specs/ADSL-spec.md` through `ADTTE-spec.md` (efficacy/safety set; descriptive ADaMs derive from SDTM directly via `programs/adam/ADAM-MAPPING-SPEC.md`)
 
 **Technology:** R + admiral + admiralonco + xportr
 
 ---
 
-## Phase 6: TFLs (Tables, Figures, Listings) ⏳ IN PROGRESS
+## Phase 6: TFLs (Tables, Figures, Listings) ✅ COMPLETE
 
-**Status:** Phase 6 COMPLETE (2026-05-16) — **all 38 of 38 outputs delivered** in RTF + DOCX + HTML + PNG. Production-ready pipeline.
+**Status:** Phase 6 COMPLETE (2026-05-16; extended 2026-05-17 with T-DV-01) — **all 43 of 43 outputs delivered** (32 tables + 6 figures + 5 listings) in RTF + DOCX + HTML + PNG. Production-ready pipeline.
 
 **Phase 6a (efficacy pilot):**
 - `programs/tfl/00_run_tfl.R` orchestrator, `_helpers.R` shared utilities, `_km_plot.R` KM helper
@@ -268,7 +283,7 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 out
 - Listings: L-AE-01 (SAEs), L-AE-02 (Deaths), L-AE-03 (AEs leading to disc), L-LB-01 (G3+ labs), L-DS-01 (deviations)
 - All listings render in landscape DOCX + RTF + HTML
 
-**Combined deliverables (all 38 outputs):**
+**Combined deliverables (all 43 outputs):**
 - `tfl/TFL-OUTPUTS.html` (browser view)
 - `tfl/TFL-OUTPUTS.docx` (Word view with cover + per-output cross-references)
 - 96 standalone table/listing files + 6 PNG figures in `tfl/`
@@ -311,9 +326,9 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 out
 
 | File | Rows | Source of truth |
 |---|---|---|
-| `qc/SDTM-PROGRAMMING-TRACKER.xlsx` | 21 | All SDTM domains; 4 pre-loaded with AL notes |
-| `qc/ADAM-PROGRAMMING-TRACKER.xlsx` | 6  | All ADaM datasets; 1 pre-loaded with AL note |
-| `qc/TFL-PROGRAMMING-TRACKER.xlsx`  | 38 | All shells; 6 pre-loaded with AL notes; each row tagged with SAP estimand ID |
+| `qc/SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | All SDTM domains; 2 pre-loaded with AL notes (SUPPSU, RELREC) |
+| `qc/ADAM-PROGRAMMING-TRACKER.xlsx` | 12 | All ADaM datasets |
+| `qc/TFL-PROGRAMMING-TRACKER.xlsx`  | 43 | All shells; 2 pre-loaded with AL notes (T-EFF-10, T-DS-03); each row tagged with SAP estimand ID |
 
 Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), status legend, sign-off block (7 roles).
 
@@ -333,14 +348,14 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 | # | Phase | What | Effort |
 |---|---|---|---|
 | #1 | A | Reproducibility check (byte-diff full pipeline) | 1 day |
-| #2 | B | SDTM independent double programming (21 domains) | 5–7 days |
+| #2 | B | SDTM independent double programming (22 domains) | 5–7 days |
 | #3 | C | Pinnacle 21 SDTM compliance scan | 0.5 day |
 | #4 | D | ADaM independent double programming (12 datasets) | 6–9 days |
 | #5 | E | Pinnacle 21 ADaM compliance scan | 0.5 day |
 | #6 | F | TFL numerical match (43 outputs) | 6–8 days |
 | #7 | G | Biostatistician statistical sense check | 1 day |
 | #8 | H | Lock + sign-off (populate 7-role signature blocks) | 0.5 day |
-| #9 | — | Defect: AL-11 RELREC dedupe (accepted; future fix) | Backlog |
+| #9 | — | ~~Defect: AL-11 RELREC dedupe~~ — CLOSED 2026-05-17 (dedupe fixed in `programs/sdtm/relrec.R`) | — |
 
 **Total: 15–22 working days** for one QC programmer + reviewer pair.
 
@@ -383,8 +398,8 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 ## Parallel Activities
 
 ### Define-XML v2.1
-- ✅ v0.1 draft generated 2026-05-16 (`programs/define/build_define.R`)
-- Covers all 21 SDTM domains + 6 ADaM datasets = 27 ItemGroupDefs, 446 variables
+- ✅ v0.1 draft generated 2026-05-16; regenerated 2026-05-17 (`programs/define/build_define.R`)
+- Covers all 22 SDTM domains + 12 ADaM datasets = 34 ItemGroupDefs, 613 variables
 - Toolchain: `xml2` + `arrow` + `labelled` (pharmaverse `metacore`/`xportr` not required for v0.1)
 - Outputs: `define/define.xml` + `define/DEFINE-SUMMARY.md`
 - **Known gaps (v0.1):** Value-Level Metadata, full CodeListDef references, MethodDef chains, WhereClauseDef blocks — see `define/DEFINE-SUMMARY.md`. PDF rendering deferred (requires CDISC `define2-1-0.xsl` stylesheet transformation).
@@ -404,12 +419,12 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 | 1. Protocol | ✅ Done (2026-03-30) | — | — |
 | 2. aCRF | ✅ Done (2026-04-01) | — | — |
 | 3. Simulated DB | ✅ Done (2026-04-07) | — | — |
-| 4. SDTM | ✅ Done — 16 domains, labelled (2026-04-07) | — | — |
+| 4. SDTM | ✅ Done — 22 domains, labelled (2026-04-07; back-fill 2026-05-16; DV added 2026-05-17) | — | — |
 | 4.5. SAP + TFL shells | ✅ Done — Gate 3.5 PASSED (2026-04-20) | — | — |
-| 5. ADaM | ✅ Done — Gate 4 PASSED (2026-04-25) | — | — |
-| 6. TFLs | ⏳ Next | 5 | 5 |
-| 7. CSR | ⏳ | 7 | 12 |
-| 8. ADRG | ⏳ | 4 | 16 |
+| 5. ADaM | ✅ Done — Gate 4 PASSED (2026-04-25; extended to 12 datasets 2026-05-17) | — | — |
+| 6. TFLs | ✅ Done — 43 outputs (2026-05-16; T-DV-01 added 2026-05-17) | — | — |
+| 7. CSR | ⏳ Next | 7 | 7 |
+| 8. ADRG | ⏳ | 4 | 11 |
 
 **Parallel validation & Define-XML:** +5 days (concurrent)
 **Realistic remaining timeline: ~4–5 weeks**
@@ -425,7 +440,7 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 | Gate 3 | Simulated Database + SDTM | ✅ PASSED | 2026-04-07 |
 | Gate 3.5 | SAP + TFL shells | ✅ PASSED | 2026-04-20 |
 | Gate 4 | ADaM | ✅ PASSED | 2026-04-25 |
-| Gate 5 | TFLs | ⏳ | — |
+| Gate 5 | TFLs | ✅ PASSED | 2026-05-16 |
 | Gate 6 | CSR + ADRG | ⏳ | — |
 
 ---
@@ -435,21 +450,22 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 - [x] aCRF complete & approved (Gate 2 — 2026-04-01)
 - [x] Data generation scripts written (15 scripts, seeds 301–314) + `15_label_domains.R`
 - [x] Simulated data executed & validated (2026-04-07)
-- [x] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03 (16 domains, all vars labelled)
+- [x] SDTM datasets conform to SDTMIG v3.4 & CDISC CT 2024-03 (22 domains, all vars labelled)
 - [x] SAP locked + ARS-aligned TFL shells delivered (Gate 3.5 — 2026-04-20)
-- [x] All 6 ADaM programming specs written (`programming-specs/`)
-- [x] All 6 ADaM R scripts run end-to-end (`programs/adam/`)
-- [x] All 6 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25
-- [x] SDTM back-fill complete — DA, RELREC, SUPPAE/CM/LB added (2026-05-16); 21 domains total
-- [x] Raw simulation v0.3 — Tier A (covariate-driven hazards) + Tier B (Weibull KM shape) (2026-05-16)
-- [x] Define-XML v2.1 v0.1 draft generated (covers 27 datasets, 449 vars; VLM/CodeLists deferred)
-- [x] ADaM re-derived from v0.3 SDTM (admiral 1.4.1) — Cox HR recovers protocol targets: OS 0.567 (target 0.65), PFS 0.522 (target 0.55), median OS TRT 21.4m ≈ 21.5m target
-- [x] Double-programming mapping specs: `programs/sdtm/SDTM-MAPPING-SPEC.md` (raw → SDTM, 21 domains) + `programs/adam/ADAM-MAPPING-SPEC.md` (SDTM → ADaM, 6 datasets) — self-contained for independent re-derivation
-- [ ] TFLs publication-ready (no manual edits)
+- [x] All 6 efficacy/safety ADaM programming specs written (`programming-specs/`)
+- [x] All 12 ADaM R scripts run end-to-end (`programs/adam/`)
+- [x] All 12 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25 (efficacy/safety); extended to 12 on 2026-05-17 (descriptive)
+- [x] SDTM back-fill complete — DA, RELREC, SUPPAE/CM/LB added (2026-05-16); DV added + SUPPSU rebuilt + RELREC deduped (2026-05-17); 22 domains total
+- [x] Raw simulation v0.3 — Tier A (covariate-driven hazards) + Tier B (Weibull KM shape) (2026-05-16); v0.4 adds protocol deviations + subsequent therapy (2026-05-17)
+- [x] Define-XML v2.1 v0.1 draft generated (covers 34 datasets / 613 vars; VLM/CodeLists deferred)
+- [x] ADaM re-derived from v0.4 SDTM (admiral 1.4.1) — Cox HR recovers protocol targets: OS 0.567 (target 0.65), PFS BICR 0.568 + PFSINV 0.522 (target 0.55), median OS TRT 21.4m ≈ 21.5m target
+- [x] Double-programming mapping specs: `programs/sdtm/SDTM-MAPPING-SPEC.md` (raw → SDTM, 22 domains) + `programs/adam/ADAM-MAPPING-SPEC.md` (SDTM → ADaM, 12 datasets) — self-contained for independent re-derivation
+- [x] TFLs publication-ready — 43 outputs, no manual edits
+- [x] 7 accepted limitations closed (AL-01/02/03/04/07/08/09/10/11); AL-12 added (IE4 missed-assessment gap)
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound
 - [ ] ADRG complete & referenced
-- [ ] All 19 SDTM + 6 ADaM datasets submitted to clinTrialData in Parquet format
+- [ ] All 22 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format
 - [ ] Repository clean & fully documented on GitHub
 
 ---
@@ -472,30 +488,32 @@ torivumab-nsclc-301/
 │   │   └── 01_demographics.R … 13_physical_exam.R
 │   ├── sdtm/                              Phase 4: map raw → SDTM
 │   │   ├── 00_run_sdtm.R                 (orchestrator)
-│   │   └── dm.R, ae.R, ex.R … suppdm.R  (16 domain scripts)
-│   └── adam/                              ✅ Phase 5 COMPLETE (Gate 4 PASSED 2026-04-25)
+│   │   └── dm.R, ae.R, ex.R … dv.R       (22 domain scripts)
+│   └── adam/                              ✅ Phase 5 COMPLETE (Gate 4 PASSED 2026-04-25; extended 2026-05-17)
 │       ├── 00_run_adam.R                 (orchestrator)
-│       ├── adsl.R, adae.R, adlb.R
-│       │   adtr.R, adrs.R, adtte.R
+│       ├── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R   (6 efficacy/safety)
+│       ├── adcm.R, adds.R, addv.R, adex.R, admh.R, advs.R   (6 pharma-standard descriptive)
 │       └── PHASE-5-APPROACH.md
 ├── datasets/                               Outputs only — no code
-│   ├── sdtm/  *.parquet (21 domains)      ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16)
-│   └── adam/  *.parquet (6 datasets)      ✅ Generated 2026-04-25
-├── programming-specs/                      ✅ Phase 5 — one spec per ADaM dataset
-│   └── ADSL-spec.md … ADTTE-spec.md
+│   ├── sdtm/  *.parquet (22 domains)      ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16; v0.3 DV 2026-05-17)
+│   └── adam/  *.parquet (12 datasets)     ✅ Generated 2026-04-25 (6); extended 2026-05-17 (+6)
+├── programming-specs/                      ✅ Per-dataset specs (34 total)
+│   ├── README.md                           Inventory + template + standards
+│   ├── SDTM-{DM,AE,CM,DS,EX,LB,MH,VS,PE,SU,DD,TU,TR,RS,DA,DV,
+│   │   SUPPDM,SUPPAE,SUPPCM,SUPPLB,SUPPSU,RELREC}-spec.md   (22 SDTM)
+│   └── ADSL,ADAE,ADCM,ADDS,ADDV,ADEX,ADLB,ADMH,ADRS,ADTR,ADTTE,ADVS-spec.md   (12 ADaM)
 ├── sap/                                    ✅ Phase 4.5 — Gate 3.5 PASSED 2026-04-20
 │   ├── SAP.md (locked)
 │   ├── SAP-PROVENANCE.md
 │   └── shells/
 │       ├── shells.yaml / TFL-SHELLS.md
 │       └── SHELLS-PROVENANCE.md
-├── tfl/                                    ⏳ Phase 6a COMPLETE (5/38); 6b/c/d ongoing
-│   ├── tables/  *.rtf|.docx|.html   (3 outputs × 3 formats)
-│   ├── figures/  *.png              (2 figures)
-│   ├── TFL-OUTPUTS.html             (combined view)
-│   └── TFL-OUTPUTS.docx             (combined view)
-│   ├── t_*.R, f_*.R, l_*.R
-│   └── tables/, figures/, listings/
+├── tfl/                                    ✅ Phase 6 COMPLETE (43/43 outputs)
+│   ├── tables/  *.rtf|.docx|.html   (32 tables × 3 formats)
+│   ├── figures/  *.png              (6 figures @ 300 dpi)
+│   ├── listings/ *.html|.docx|.rtf  (5 listings × 3 formats)
+│   ├── TFL-OUTPUTS.html             (combined browser view)
+│   └── TFL-OUTPUTS.docx             (combined Word view)
 ├── define/                                 ✅ v0.1 draft 2026-05-16 (VLM deferred to v1.0)
 │   ├── define.xml (v2.1)
 │   └── DEFINE-SUMMARY.md
@@ -513,5 +531,5 @@ torivumab-nsclc-301/
 
 ---
 
-*Last updated: 2026-05-16*
-*Phases 1–5 complete + SDTM v0.2 back-fill + Define-XML v0.1 — Gates 1–4 all PASSED → Phase 6 TFLs next*
+*Last updated: 2026-05-17*
+*Phases 1–6 complete (22 SDTM, 12 ADaM, 43 TFL) + Define-XML v0.1 (34/613) + 7 ALs closed — Gates 1–5 all PASSED → Phase 7 CSR next*

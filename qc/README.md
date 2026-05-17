@@ -2,16 +2,17 @@
 
 See **`VALIDATION-PLAN.md`** for the strategic SOP-style document covering
 scope, roles, tooling, layered approach, phased execution, acceptance
-criteria, and the 11 pre-loaded "accepted limitations".
+criteria, and the 12 pre-loaded "accepted limitations" (9 closed as of
+2026-05-17; 3 open — 2 structural + AL-12 IE4 gap).
 
 ## What's in this directory
 
 | Path | Purpose |
 |---|---|
 | `VALIDATION-PLAN.md` | Strategic plan (read first) |
-| `SDTM-PROGRAMMING-TRACKER.xlsx` | 21-row SDTM domain tracker |
-| `ADAM-PROGRAMMING-TRACKER.xlsx` | 6-row ADaM dataset tracker |
-| `TFL-PROGRAMMING-TRACKER.xlsx` | 38-row TFL output tracker |
+| `SDTM-PROGRAMMING-TRACKER.xlsx` | 22-row SDTM domain tracker |
+| `ADAM-PROGRAMMING-TRACKER.xlsx` | 12-row ADaM dataset tracker |
+| `TFL-PROGRAMMING-TRACKER.xlsx` | 43-row TFL output tracker |
 | `reports/<timestamp>/` | Comparison + reproducibility reports (auto-created) |
 | `sdtm/` and `adam/` | Where the QC programmer's parquets go (not committed) |
 | `tfl/tables/` | Where the QC programmer's DOCX/RTF/HTML go (not committed) |
@@ -37,9 +38,9 @@ file inventory + spec metadata.
 
 | File | Rows | Covers |
 |---|---:|---|
-| `SDTM-PROGRAMMING-TRACKER.xlsx` | 21 | All SDTM domains in `datasets/sdtm/` |
-| `ADAM-PROGRAMMING-TRACKER.xlsx` |  6 | All ADaM datasets in `datasets/adam/` |
-| `TFL-PROGRAMMING-TRACKER.xlsx`  | 38 | All shells in `sap/shells/shells.yaml` |
+| `SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | All SDTM domains in `datasets/sdtm/` |
+| `ADAM-PROGRAMMING-TRACKER.xlsx` | 12 | All ADaM datasets in `datasets/adam/` |
+| `TFL-PROGRAMMING-TRACKER.xlsx`  | 43 | All shells in `sap/shells/shells.yaml` |
 
 ## Sheets in each workbook
 

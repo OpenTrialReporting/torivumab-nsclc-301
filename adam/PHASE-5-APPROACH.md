@@ -147,7 +147,7 @@ A dataset is considered complete when **all** of the following are true:
 - All 6 R scripts run end-to-end from the committed SDTM parquet inputs.
 - All 6 Parquet outputs committed.
 - ADSL population counts reconcile with Protocol Section 8 (SAFFL=450, ITTFL=450, PPROTFL≥405 assumed 10% dropout).
-- OS/PFS HR in ADTTE reconcile with the seeds used in `data-raw/01_dm.R` (HR=0.65 / 0.55 ±0.1).
+- OS/PFS HR in ADTTE reconcile with the seeds used in `programs/raw/01_demographics.R` (HR=0.65 / 0.55 ±0.1).
 
 ---
 

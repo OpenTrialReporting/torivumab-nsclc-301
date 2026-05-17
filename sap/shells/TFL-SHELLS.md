@@ -14,10 +14,10 @@
 | Field | Value |
 |---|---|
 | **Study** | SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301) |
-| **SAP version** | v0.1 |
+| **SAP version** | v0.2 |
 | **Protocol version** | v1.1 |
-| **Shells version** | v0.1 |
-| **Date** | 2026-04-20 |
+| **Shells version** | v0.3 |
+| **Date** | 2026-05-17 |
 | **Author** | Lovemore Gakava |
 | **Gate** | 3.5 — blocks Phase 5 ADaM |
 | **ARS alignment** | CDISC ARS v1.0 concepts (not yet serialised to ARS JSON) |
@@ -484,7 +484,7 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Layout — rows** | AESI category × grade |
 | **Layout — columns** | TRT01A |
 
-**Notes:** Category flag from MedDRA PT list in Protocol §7.4.
+**Notes:** Category flag from sponsor AESI MedDRA PT codelist `raw/codelists/aesi_meddra_pts.csv` (56 PTs across 12 categories: Pneumonitis, Colitis, Hepatitis, Endocrine, Dermatologic, Renal, Cardiac, Neurologic, Infusion Reaction, Ocular, Hematologic, Musculoskeletal) per Protocol §7.4. Per-PT grade rule: most PTs are AESI at any grade; selected lab/symptom PTs require Grade≥3 (e.g. ALT/AST, AKI, rash, diarrhoea, pruritus); IRR requires Grade≥2.
 
 #### T-AE-07 — Deaths
 

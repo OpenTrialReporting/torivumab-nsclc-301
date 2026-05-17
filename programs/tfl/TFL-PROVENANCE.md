@@ -64,8 +64,7 @@ clinical trial and **are not intended for regulatory submission**.
 | F-EFF-05 | Figure | Forest — OS HR by Subgroup                    | §10 subgroup |
 | F-EFF-06 | Figure | Swimmer — Responder Timelines                 | §5.4 |
 
-Total delivered so far: **24 / 38 outputs**. Remaining 14 (Phase 6d):
-T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/listings.
+Total delivered to end of 6c: **24 / 43 outputs**. (Phase 6d adds 14, Phase 6e adds 1.)
 
 ### 6d (2026-05-16) — 14 outputs, safety + listings
 
@@ -76,7 +75,7 @@ T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/lis
 | T-AE-03 | Table | Grade ≥3 TEAEs by SOC and PT | ADAE TRTEMFL=Y AND AETOXGRN≥3 |
 | T-AE-04 | Table | Serious AEs by SOC and PT | ADAE TRTEMFL=Y AND AESER=Y |
 | T-AE-05 | Table | Immune-Related AEs | ADAE IRAEFL=Y |
-| T-AE-06 | Table | Adverse Events of Special Interest (AESI) | ADAE AEDECOD ∈ AESI regex |
+| T-AE-06 | Table | Adverse Events of Special Interest (AESI) | ADAE INNER JOIN `raw/codelists/aesi_meddra_pts.csv` (56 PTs / 12 categories; per-PT grade rule) |
 | T-AE-07 | Table | Deaths (overall + cause) | ADSL DTHFL=Y + SDTM.DD |
 | T-LB-01 | Table | Lab abnormalities shift (baseline → worst) | ADLB NRIND |
 | T-LB-02 | Table | Lab CTCAE Grade ≥3 worst post-baseline | ADLB ATOXGRN |
@@ -86,7 +85,13 @@ T-AE-01..07, T-LB-01/02, L-AE-01/02/03, L-LB-01, L-DS-01 — all safety/labs/lis
 | L-LB-01 | Listing | Grade ≥3 Lab Abnormalities | ADLB ATOXGRN ≥ 3 |
 | L-DS-01 | Listing | Major Protocol Deviations | ADSL PPROTFL=N |
 
-**Phase 6 COMPLETE. All 38 of 38 outputs delivered.**
+### 6e (2026-05-17) — 1 output added, protocol deviations table
+
+| ID | Kind | Title | SAP / Estimand |
+|---|---|---|---|
+| T-DV-01 | Table | Protocol Deviations by Category (sponsor-classified) | §3.2 (descriptive) — reads SDTM.DV |
+
+**Phase 6 COMPLETE. All 43 of 43 outputs delivered (32 tables + 6 figures + 5 listings).**
 
 Added infrastructure for Phase 6d:
 - `build_ae_soc_pt_ft()` shared helper in `_helpers.R` — used by T-AE-02/03/04/05/06 (same SOC×PT structure, different filter)
@@ -178,8 +183,8 @@ the v0.3 Tier A+B simulation flows through to the analysis layer intact.
 | Output | Result |
 |---|---|
 | T-DS-01 | 449 dosed / 449 PP / 89 completed / 361 discontinued (251 PD + 71 AE + 28 Other + 9 WBS + 2 PD) / 312 deaths — totals reconcile with raw simulation |
-| T-DS-02 | 1 major deviation (the single randomised-never-dosed placebo subject). Other subcategories (eligibility violations, prohibited conmed, missed assessments) appear as 0 — the synthetic data does not generate explicit SDTM.DS protocol-deviation records, noted in footnote. |
-| T-DS-03 | 361 treatment discontinuations, 18 with no post-baseline assessment, 18 deaths before first assessment, 9 withdrawals — subsequent therapy + missed-assessment rows = 0 (synthetic-data limitation noted in footnote). |
+| T-DS-02 | Real protocol-deviation counts now flow from SDTM.DV (added 2026-05-17): subcategories populated from sponsor-classified deviations. Closes AL-09. |
+| T-DS-03 | IE1–IE3 all non-zero following ADCM.SUBSQTFL addition (subsequent anti-cancer therapy ~133 subjects). IE4 (≥2 consecutive missed tumour assessments) row remains 0 — accepted as AL-12 (no gap-detection logic in synthetic data). Closes AL-10. |
 | T-EX-01 | Treatment duration medians: TRT 440d vs PBO 314d (+126d). Median cycles: 6 in both arms. Cumulative torivumab dose recovered. |
 
 ### Phase 6c (efficacy completion)
@@ -191,10 +196,10 @@ the v0.3 Tier A+B simulation flows through to the analysis layer intact.
 | T-EFF-05 | ORR (RE pop): TRT 39.1% vs PBO 15.1%; RD = 24.0 (95% CI 15.9, 32.0); p<0.001 |
 | T-EFF-06 | DCR: TRT 82.7% vs PBO 68.4%; RD = 14.3; p<0.001 |
 | T-EFF-07 | Median DoR: TRT 17.9m vs PBO 12.8m (descriptive only) |
-| T-EFF-08 | OS in PP: HR 0.576 (matches T-EFF-01 to 3 sig figs — PP and ITT identical in this dataset) |
+| T-EFF-08 | OS in PP: HR 0.545 (95% CI 0.430, 0.690) — PP now distinct from ITT after real PPROTFL derivation (412/450 Y; 2026-05-17). Closes AL-02. |
 | T-EFF-09 | OS landmark analysis: arm-difference probabilities at 6/12/18/24/30 months, all significant |
 | T-EFF-10 | RMST(τ=30m): TRT − PBO = +4.56 months (estimand E1a) |
-| T-EFF-11 | PFS-INV HR 0.504 (identical to T-EFF-03 — BICR not simulated in synthetic data, footnote explains) |
+| T-EFF-11 | PFS-INV HR 0.522 (95% CI 0.420, 0.649); median TRT 13.67m vs PBO 7.06m. Reads PARAMCD='PFSINV' (Investigator) — distinct from T-EFF-03 PFS (BICR HR 0.568, median 10.94 / 5.55m) following BICR/Investigator separation in raw simulator (2026-05-17). Closes AL-04/AL-07. |
 | T-EFF-12 | OS-WOT HR 0.485 (95% CI 0.378, 0.624) — stronger than full OS HR 0.576 as expected; estimand E1b |
 | T-EFF-13 | ORR ITT-denom: TRT 38.2% vs PBO 14.2%; RD 24.0 (≈identical to T-EFF-05 since only 18 NoPBA subjects across 450) |
 | F-EFF-03 | Waterfall — 432 evaluable subjects with best-response data; visible TRT vs PBO separation |
@@ -211,8 +216,8 @@ the v0.3 Tier A+B simulation flows through to the analysis layer intact.
 Rscript programs/tfl/00_run_tfl.R
 ```
 
-Produces all 11 output files (9 table-format triplets + 2 PNG) in `tfl/`
-in ~1.5 seconds.
+Produces all 43 outputs (32 tables × 3 formats + 6 figures + 5 listings × 3 formats) in `tfl/`
+in ~5–8 seconds.
 
 To add a new output:
 1. Create `programs/tfl/<id>.R` that builds a flextable (table) or ggplot (figure)
@@ -222,31 +227,12 @@ To add a new output:
 
 ---
 
-## 8. Open items / Phase 6c-d roadmap
+## 8. Open items
 
-Phase 6b items (T-DS-01/02/03, T-EX-01) all delivered 2026-05-16. Remaining:
+All 43 production outputs delivered. Two structural accepted limitations remain:
 
-- T-EFF-02 / T-EFF-04 — Landmark survival probabilities for OS / PFS
-- T-EFF-05 / T-EFF-06 — ORR / DCR (need ADRS responder flags)
-- T-EFF-07 — DoR among responders
-- T-EFF-08 — OS in PP population (sensitivity)
-- T-EFF-09 — OS landmark sensitivity
-- T-EFF-10 — OS RMST (estimand E1a) — requires `survRM2` package
-- T-EFF-11 — PFS by Investigator (estimand E2a)
-- T-EFF-12 — OS WOT (estimand E1b) — ADTTE PARAMCD='OSWOT' is in place
-- T-EFF-13 — ORR ITT denominator (estimand E3a)
-- T-AE-01..07 — Safety tables (require ADAE)
-- T-LB-01 / T-LB-02 — Lab abnormalities (require ADLB shift logic)
-- F-EFF-03 — Waterfall plot (best % change in SLD)
-- F-EFF-04 — Spider plot (SLD over time)
-- F-EFF-05 — Forest plot (subgroup OS HRs)
-- F-EFF-06 — Swimmer plot (responder duration)
-- L-AE-01 / L-AE-02 / L-AE-03 — AE listings
-- L-LB-01 — Grade ≥3 lab abnormalities listing
-- L-DS-01 — Major protocol deviations listing
-
-Estimated effort to add the remaining 33: ~6–8 hours total at the current
-pace (~10–15 min per straightforward table, ~30 min per figure).
+- **AL-06** (T-EFF-10): τ = 30 months (not SAP-proposed 36) bounded by max follow-up.
+- **AL-12** (T-DS-03 IE4): ≥2 consecutive missed tumour assessments row shows 0 — no gap-detection logic in synthetic ADRS.
 
 ---
 
@@ -271,7 +257,8 @@ pace (~10–15 min per straightforward table, ~30 min per figure).
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6b: added 4 disposition+exposure tables (T-DS-01, T-DS-02, T-DS-03, T-EX-01). Now 9 of 38 outputs delivered. Two synthetic-data limitations noted as footnotes: (a) no explicit SDTM.DS protocol-deviation records, so T-DS-02 subcategories beyond "randomised but never dosed" appear as 0; (b) no subsequent anti-cancer therapy in CM, so T-DS-03 rows for subsequent therapy and missed-assessment IEs appear as 0. |
 | 0.3 | 2026-05-16 | LG (w/ Claude Opus 4.7) | Phase 6c: added all 15 remaining efficacy outputs — 11 tables (T-EFF-02/04/05/06/07/08/09/10/11/12/13) + 4 figures (F-EFF-03/04/05/06). Now 24 of 38 outputs delivered. Added shared helpers in `_helpers.R`: `km_landmark_probs`, `stratified_cox`, `stratified_logrank`, `add_region`. Installed `survRM2` for T-EFF-10 RMST. Synthetic-data limitations noted in footnotes: T-EFF-11 PFSINV ≡ PFS (no separate BICR simulated); T-EFF-10 τ=30m instead of SAP-proposed 36m (bounded by max follow-up). Phase 6d (safety + listings) remaining: 14 outputs. |
 | 0.4 | 2026-05-16 | LG (w/ Claude Opus 4.7) | **Phase 6d complete — all 38 of 38 outputs delivered.** Added 9 safety tables (T-AE-01..07, T-LB-01/02) + 5 listings (L-AE-01/02/03, L-LB-01, L-DS-01). Two new shared helpers: `build_ae_soc_pt_ft()` (reused by T-AE-02/03/04/05/06) and `write_listing_all_formats()` (landscape DOCX + 8pt font for wide listings). Combined HTML/DOCX rendering extended for the new `kind == "listing"` output type. AESI categorisation uses an MedDRA-PT regex stand-in pending the SAP §4.6 deferred AESI list; documented in T-AE-06 footnote. |
+| 0.5 | 2026-05-17 | LG (w/ Claude Opus 4.7) | **Phase 6e + AL closures — 43 of 43 outputs.** Added T-DV-01 (Protocol Deviations by Category) sourced from new SDTM.DV. **T-AE-06 (AESI)** rewritten to consume sponsor codelist `raw/codelists/aesi_meddra_pts.csv` (56 PTs / 12 categories with per-PT grade rule any/G2+/G3+) — closes AL-08. **T-EFF-08 (OS-PP)** now meaningful (HR 0.545) after real PPROTFL derivation — closes AL-02. **T-EFF-11 (PFSINV)** now reads PARAMCD='PFSINV' (Investigator) distinct from T-EFF-03 (BICR) — closes AL-04/AL-07. **T-DS-02** and **T-DS-03 IE1–IE3** now non-zero after SDTM.DV + ADCM.SUBSQTFL — closes AL-09/AL-10. Net effect: 7 AL closures (AL-02/03/04/07/08/09/10); AL-12 added for T-DS-03 IE4. |
 
 ---
 
-*Last updated: 2026-05-16*
+*Last updated: 2026-05-17*

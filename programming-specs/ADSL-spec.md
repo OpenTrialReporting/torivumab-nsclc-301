@@ -25,7 +25,7 @@ This spec supports the efficacy endpoints in Protocol v1.1 §2 (OS primary; PFS,
 | Input | Source | Reason |
 |---|---|---|
 | SDTM.DM | `sdtm/dm.parquet` | Subject backbone, demographics, treatment arm, reference dates, death |
-| SDTM.SUPPDM | `sdtm/suppdm.parquet` | Region (`REGION1`), histology stratum (`HISTSCAT`) |
+| SDTM.SUPPDM | `sdtm/suppdm.parquet` | Histology stratum (`HISTSCAT`), ECOG (`ECOGBSL`), PD-L1 (`PDL1SCR`, `PDL1GRP`) |
 | SDTM.DS | `sdtm/ds.parquet` | Randomisation date, end-of-study, discontinuation reason |
 | SDTM.EX | `sdtm/ex.parquet` | First/last dose dates → TRTSDT / TRTEDT |
 | SDTM.DD | `sdtm/dd.parquet` | Primary cause of death → DTHCAUS |
@@ -47,7 +47,7 @@ This spec supports the efficacy endpoints in Protocol v1.1 §2 (OS primary; PFS,
 | 10 | RACE | Race | Char | 60 | Predecessor | RACE | `DM.RACE` |
 | 11 | ETHNIC | Ethnicity | Char | 40 | Predecessor | ETHNIC | `DM.ETHNIC` |
 | 12 | COUNTRY | Country | Char | 3 | Predecessor | COUNTRY | `DM.COUNTRY` |
-| 13 | REGION1 | Geographic Region 1 | Char | 10 | Derived | REGION1 | `derive_vars_merged()` from SUPPDM where QNAM="REGION1" |
+| 13 | REGION1 | Geographic Region 1 | Char | 10 | Derived | REGION1 | `case_when(COUNTRY)` → NA / EU / APAC / OTHER (SAP §11 forest stratum). See §Derivations.D7. |
 | 14 | HISTSCAT | Histology Category | Char | 20 | Derived | HISTSCAT | `derive_vars_merged()` from SUPPDM where QNAM="HISTSCAT" |
 | 15 | ARM | Description of Planned Arm | Char | 40 | Predecessor | ARM | `DM.ARM` |
 | 16 | ARMCD | Planned Arm Code | Char | 20 | Predecessor | ARMCD | `DM.ARMCD` |
@@ -125,7 +125,7 @@ adsl <- adsl %>%
   derive_vars_dt(new_vars_prefix = "RAND", dtc = RANDDT_dtc)
 ```
 
-**Edge cases:** Every subject in this study is randomised (no screen failures in the synthetic data generator — see `data-raw/01_dm.R`). QC asserts RANDDT non-missing for all 450 rows.
+**Edge cases:** Every subject in this study is randomised (no screen failures in the synthetic data generator — see `programs/raw/01_demographics.R`). QC asserts RANDDT non-missing for all 450 rows.
 
 ---
 
@@ -202,6 +202,27 @@ adsl <- adsl %>%
 
 ---
 
+### D7 — REGION1 (geographic region)
+
+**Rule:** Map `DM.COUNTRY` to one of {NA, EU, APAC, LATAM, OTHER} per SAP §11 stratification.
+
+**Pseudocode:**
+```r
+adsl <- adsl |>
+  mutate(REGION1 = case_when(
+    toupper(COUNTRY) %in% c("UNITED STATES", "CANADA", "USA")               ~ "NA",
+    toupper(COUNTRY) %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
+                            "ITALY", "NETHERLANDS", "POLAND", "UK")          ~ "EU",
+    toupper(COUNTRY) %in% c("JAPAN", "SOUTH KOREA", "KOREA", "AUSTRALIA")    ~ "APAC",
+    toupper(COUNTRY) %in% c("BRAZIL", "MEXICO", "ARGENTINA", "CHILE")        ~ "LATAM",
+    TRUE                                                                     ~ "OTHER"
+  ))
+```
+
+**Edge cases:** Any country outside the four listed regions is bucketed to OTHER. The simulator currently uses countries that all map to one of the four named regions, so OTHER should be empty — QC asserts `sum(REGION1 == "OTHER") == 0`.
+
+---
+
 ### D6 — PPROTFL (per-protocol flag)
 
 **Rule:** Per-protocol population = ITT AND received ≥1 dose AND no major protocol deviations (`DS.DSDECOD = "PROTOCOL DEVIATION"` where `DSSCAT = "MAJOR"`).
@@ -233,7 +254,7 @@ adsl <- adsl %>%
 |---|---|---|
 | RANDFL | Subject randomised (RANDDT not missing) | 450 |
 | ITTFL | = RANDFL (all randomised) | 450 |
-| SAFFL | Received ≥1 dose of study treatment | 450 (100% in synthetic data — all randomised subjects dosed; see `data-raw/02_ex.R`) |
+| SAFFL | Received ≥1 dose of study treatment | 450 (100% in synthetic data — all randomised subjects dosed; see `programs/raw/03_exposure.R`) |
 | PPROTFL | ITT + SAFFL + no major protocol deviations | ≥405 (assumes ≤10% major deviations; actual value asserted at runtime) |
 | EFFFL | = ITTFL (primary efficacy is ITT) | 450 |
 

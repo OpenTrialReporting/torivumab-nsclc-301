@@ -114,7 +114,7 @@ The following items are flagged in the SAP body but deferred to SAP lock (Gate 3
 | `protocol/synopsis.md` (v1.1) | **Parent.** SAP operationalises the statistical sections (§8, §11) of the protocol. All sample size and endpoint definitions trace back here. |
 | `sap/shells/TFL-SHELLS.md` (v0.1) | **Child.** Every analysis in this SAP corresponds to ≥1 shell in the TFL catalogue. Crosswalk in SAP §14. |
 | `programming-specs/AD*-spec.md` | **Grandchild.** Every ADaM variable must trace to an analysis defined in this SAP or a TFL shell variable. |
-| `data-raw/PROVENANCE.md` | **Sibling.** Records how the underlying synthetic SDTM data was generated; this document records how the analyses of that data are specified. |
+| `programs/raw/RAW-PROVENANCE.md` | **Sibling.** Records how the underlying synthetic raw + SDTM data was generated; this document records how the analyses of that data are specified. |
 | `sap/shells/SHELLS-PROVENANCE.md` | **Sibling.** Records how the TFL shell catalogue was developed. |
 
 ---

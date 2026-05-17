@@ -97,14 +97,23 @@ adsl <- dm |>
     ECOG    = as.integer(ECOGBSL),
     PDL1CAT = PDL1GRP,
     PDL1SCR = as.numeric(PDL1SCR),
-    HISTCAT = HISTSCAT
+    HISTCAT = HISTSCAT,
+    # REGION1 — geographic region from DM.COUNTRY (SAP §11 forest plot stratum)
+    REGION1 = case_when(
+      toupper(COUNTRY) %in% c("UNITED STATES", "CANADA", "USA")               ~ "NA",
+      toupper(COUNTRY) %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
+                              "ITALY", "NETHERLANDS", "POLAND", "UK")          ~ "EU",
+      toupper(COUNTRY) %in% c("JAPAN", "SOUTH KOREA", "KOREA", "AUSTRALIA")    ~ "APAC",
+      toupper(COUNTRY) %in% c("BRAZIL", "MEXICO", "ARGENTINA", "CHILE")        ~ "LATAM",
+      TRUE                                                                     ~ "OTHER"
+    )
   )
 
 # 7. Select final variables
 adsl <- adsl |>
   select(
     STUDYID, USUBJID, SUBJID, SITEID,
-    AGE, AGEGR1, AGEU, SEX, RACE, ETHNIC, COUNTRY,
+    AGE, AGEGR1, AGEU, SEX, RACE, ETHNIC, COUNTRY, REGION1,
     ARM, ACTARM, TRT01P, TRT01A, TRT01PN, TRT01AN,
     ICDT, RANDDT, TRTSDT, TRTEDT, TRTDURD,
     ITTFL, SAFFL, PPROTFL,
