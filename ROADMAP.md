@@ -410,6 +410,9 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 - ADaM: population counts, derivation logic review, missing data checks
 - TFL: visual inspection, statistical sense-checks
 
+### Future pilots (not gated)
+- **SDTMIG v4.0 sibling pilot** — produce a parallel `datasets/sdtm_v4/` + `define/define_v4.xml` alongside the v3.4 baseline, demonstrating SUPP-- removal and v4.0 naming conventions for educational/comparison purposes. ADaM/TFL/ARM continue to consume v3.4. Tracked in a separate GitHub issue.
+
 ---
 
 ## Timeline Estimate
