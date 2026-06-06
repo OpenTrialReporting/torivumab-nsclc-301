@@ -74,7 +74,7 @@ With Markdown-only shells, every one of these downstream benefits costs a fragil
 
 ```
 tfl/
-├── shells.yaml                  ← source of truth (35 outputs, 5 analysis sets, 18 methods, 3 ref docs)
+├── shells.yaml                  ← source of truth (43 outputs, 5 analysis sets, 18 methods, 3 ref docs)
 ├── render_shells.R              ← YAML → Markdown generator (≈130 lines)
 ├── validate_shells.R            ← schema + coverage checks (≈140 lines)
 ├── TFL-SHELLS.md                ← generated; "DO NOT EDIT" banner

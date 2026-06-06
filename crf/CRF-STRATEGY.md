@@ -312,7 +312,7 @@ Upon completion of Phase 2 (aCRF design), the CRF SHALL:
 - [ ] Include 3 custom oncology forms (TU, TR, RS) for RECIST 1.1 assessment
 - [ ] Use CDISC CT 2024-03 codelists or documented synonyms
 - [ ] Define visit windows ±X days for each assessment
-- [ ] Map to all variables needed for 19 SDTM domains
+- [ ] Map to all variables needed for 22 SDTM domains
 - [ ] Include validation rules (required fields, range checks, conditional logic)
 - [ ] Be completable within realistic clinic visit timeframe (~30-45 min per visit)
 - [ ] Reference protocol section/objective for each form

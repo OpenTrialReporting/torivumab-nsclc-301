@@ -30,7 +30,7 @@ but has not been validated against real clinical trial data or reviewed by a reg
 
 | Deliverable | Drafted by | Reviewed / decided by |
 |---|---|---|
-| PHASE-5-APPROACH.md (D-06 to D-09) | AI — proposed spec-first approach, pharmaverse stack, build order | LG — confirmed all four decisions |
+| programs/adam/PHASE-5-APPROACH.md (D-06 to D-09) | AI — proposed spec-first approach, pharmaverse stack, build order | LG — confirmed all four decisions |
 | ADSL-spec.md | AI (draft 2026-04-20) | LG — back-validated against SAP at Gate 3.5 (D-09) |
 | ADAE-spec.md | AI — proposed variables, TRTEMFL window, IRAEFL coding | LG — to review; IRAEFL source to confirm with CDM |
 | ADLB-spec.md | AI — proposed baseline definition, ATOXGR approach, no-LOCF | LG — to review; CTCAE threshold codelist deferred |
@@ -96,7 +96,7 @@ OS/PFS HRs reconcile with raw-simulator seed assumptions (OS 0.567, PFS BICR 0.5
 | ADaM-D-05 | CR/PR confirmation window | ≥28 days; SD ≥8 weeks from TRTSDT | RECIST 1.1; SAP §4.3 | SAP §4.3 |
 | ADaM-D-06 | IRAEFL source | `AE.AECAT == "IMMUNE-RELATED"` | CRF field; confirm with CDM team | ADAE spec |
 | ADaM-D-07 | ATOXGR derivation | NCI CTCAE v5 via `admiral::derive_var_atoxgr_dir()` | Standardised grading; avoids custom thresholds | ADLB spec |
-| ADaM-D-08 | Parquet as intermediate format | Parquet for all intermediate and final ADaM files | Efficient; no SAS dependency for intermediate work; XPT produced by xportr for submission | PHASE-5-APPROACH.md |
+| ADaM-D-08 | Parquet as intermediate format | Parquet for all intermediate and final ADaM files | Efficient; no SAS dependency for intermediate work; XPT produced by xportr for submission | programs/adam/PHASE-5-APPROACH.md |
 
 ---
 

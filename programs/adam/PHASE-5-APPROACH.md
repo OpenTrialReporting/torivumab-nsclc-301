@@ -1,6 +1,6 @@
 # Phase 5 (ADaM) — Approach & Decisions
 
-**Document:** `adam/PHASE-5-APPROACH.md`
+**Document:** `programs/adam/PHASE-5-APPROACH.md`
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)
 **Status:** APPROVED 2026-04-20 (revised same day to add SAP-first ordering, D-09)
 **Audience:** Anyone (human or AI assistant) extending this repo or replicating the pipeline on a new study.
@@ -17,7 +17,7 @@
 
 ## TL;DR
 
-We build all six ADaM datasets **spec-first** using the pharmaverse stack (`admiral` + `admiralonco` + `metacore` + `metatools` + `xportr`). A reusable project-local skill at `.claude/skills/adam-spec/` encodes the spec template so every dataset uses the same structure. Each spec maps every derivation to a named `admiral::derive_*()` call before any R code is written.
+We build all twelve ADaM datasets **spec-first** using the pharmaverse stack (`admiral` + `admiralonco` + `metacore` + `metatools` + `xportr`). A reusable project-local skill at `.claude/skills/adam-spec/` encodes the spec template so every dataset uses the same structure. Each spec maps every derivation to a named `admiral::derive_*()` call before any R code is written.
 
 **Precondition (D-09):** No ADaM spec is finalised until the Statistical Analysis Plan (`sap/SAP.md`) and the TFL shells list (`sap/shells/TFL-SHELLS.md`) are locked at Gate 3.5. Every ADaM variable must trace to either an analysis in the SAP or a variable used by a TFL shell — this is what prevents ADaM specs from drifting away from the analyses they are supposed to support.
 
@@ -42,7 +42,7 @@ We build all six ADaM datasets **spec-first** using the pharmaverse stack (`admi
 
 ---
 
-### D-06: Spec-first for all 6 ADaM datasets
+### D-06: Spec-first for all 12 ADaM datasets
 
 **Decision:** Write a complete specification at `programming-specs/AD{XX}-spec.md` before writing the R derivation script at `adam/ad{xx}.R`. Gate 4 (ADaM) requires both to exist and reconcile.
 
@@ -119,7 +119,7 @@ adam/
 ├── adtr.R
 ├── adrs.R
 ├── adtte.R
-└── *.parquet                     ← output (6 datasets)
+└── *.parquet                     ← output (12 datasets)
 
 programming-specs/
 ├── ADSL-spec.md                  ← one spec per dataset
@@ -164,4 +164,4 @@ A dataset is considered complete when **all** of the following are true:
 1. Copy `.claude/skills/adam-spec/` into the new repo's `.claude/skills/`.
 2. Copy this file as the template for the new study's Phase 5 approach doc; update study name.
 3. Install the pharmaverse stack (see the skill's `admiral-function-catalogue.md` for the command).
-4. Work through the Build Order tabl
+4. Work through the Build Order table starting at ADSL.

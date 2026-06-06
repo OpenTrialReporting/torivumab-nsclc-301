@@ -356,9 +356,9 @@ display: none;
 <h1>TFL Shells — SIMULATED-TORIVUMAB-2026</h1>
 <blockquote>
 <p>⚠️ <strong>GENERATED FILE — DO NOT EDIT DIRECTLY.</strong> Source of
-truth: <a href="shells.yaml"><code>tfl/shells.yaml</code></a>.
-Regenerate with: <code>Rscript tfl/render_shells.R</code> Validate with:
-<code>Rscript tfl/validate_shells.R</code></p>
+truth: <a href="shells.yaml"><code>sap/shells/shells.yaml</code></a>.
+Regenerate with: <code>Rscript sap/shells/render_shells.R</code>
+Validate with: <code>Rscript sap/shells/validate_shells.R</code></p>
 </blockquote>
 <blockquote>
 <p>⚠️ <strong>FICTIONAL EDUCATIONAL DOCUMENT — NOT FOR REGULATORY
@@ -385,7 +385,7 @@ USE.</strong></p>
 </tr>
 <tr class="even">
 <td><strong>SAP version</strong></td>
-<td>v0.1</td>
+<td>v0.2</td>
 </tr>
 <tr class="odd">
 <td><strong>Protocol version</strong></td>
@@ -393,11 +393,11 @@ USE.</strong></p>
 </tr>
 <tr class="even">
 <td><strong>Shells version</strong></td>
-<td>v0.1</td>
+<td>v0.3</td>
 </tr>
 <tr class="odd">
 <td><strong>Date</strong></td>
-<td>2026-04-20</td>
+<td>2026-05-17</td>
 </tr>
 <tr class="even">
 <td><strong>Author</strong></td>
@@ -661,8 +661,8 @@ markers.</td>
 <td><a href="../protocol/synopsis.md"><code>protocol/synopsis.md</code></a></td>
 </tr>
 <tr class="even">
-<td>SAP-0.1</td>
-<td>Statistical Analysis Plan v0.1</td>
+<td>SAP-0.2</td>
+<td>Statistical Analysis Plan v0.2</td>
 <td><a href="../sap/SAP.md"><code>sap/SAP.md</code></a></td>
 </tr>
 <tr class="odd">
@@ -675,7 +675,7 @@ markers.</td>
 </div>
 <div id="outputs" class="section level2">
 <h2>4. Outputs</h2>
-<p>Total: 35 outputs (24 tables, 6 figures, 5 listings).</p>
+<p>Total: 43 outputs (32 tables, 6 figures, 5 listings).</p>
 <div id="tables" class="section level3">
 <h3>4.1 Tables</h3>
 <div id="t-dm-01-demographic-and-baseline-characteristics" class="section level4">
@@ -723,7 +723,7 @@ markers.</td>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -781,7 +781,7 @@ markers.</td>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -836,7 +836,7 @@ Discontinued (by reason) / Completed / Ongoing / Died</td>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -851,6 +851,64 @@ Discontinued (by reason) / Completed / Ongoing / Died</td>
 <p><strong>Notes:</strong> n (%) subjects with ≥1 major deviation by
 category. Source: SDTM.DS where DSDECOD=‘PROTOCOL DEVIATION’ AND
 DSSCAT=‘MAJOR’.</p>
+</div>
+<div id="t-ds-03-intercurrent-events-summary" class="section level4">
+<h4>T-DS-03 — Intercurrent Events Summary</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Intent-to-Treat (ITT)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADSL</code>, <code>ADAE</code>, <code>ADTTE</code>,
+<code>SDTM.CM</code></td>
+</tr>
+<tr class="even">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01P</code>, <code>USUBJID</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Categorical [M-DESCR-CAT]</td>
+</tr>
+<tr class="even">
+<td><strong>SAP reference</strong></td>
+<td>§13.3</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>Intercurrent event category (matches SAP §13.3 IE taxonomy)</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01P + Total</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> n (%) subjects experiencing each
+pre-specified IE. Supports reviewer judgement of whether the chosen IE
+handling strategies (§13.3) remain appropriate given observed IE
+frequencies.</p>
 </div>
 <div id="t-ex-01-study-drug-exposure" class="section level4">
 <h4>T-EX-01 — Study Drug Exposure</h4>
@@ -894,7 +952,7 @@ DSSCAT=‘MAJOR’.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -956,15 +1014,19 @@ Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
 <td>§5.1</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E1</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>n, events, censored, median OS (95% CI), HR (95% CI), stratified
 log-rank p</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1017,14 +1079,18 @@ log-rank p</td>
 <td>§5.1</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E1</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>Timepoints 6, 12, 18, 24 months</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P — probability, 95% CI</td>
 </tr>
@@ -1078,15 +1144,19 @@ Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
 <td>§5.2</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E2</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>n, events, censored, median PFS (95% CI), HR (95% CI), stratified
 log-rank p</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1137,14 +1207,18 @@ log-rank p</td>
 <td>§5.2</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E2</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>Timepoints 6, 12, 18, 24 months</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P — probability, 95% CI</td>
 </tr>
@@ -1197,15 +1271,19 @@ Exact 95% CI [M-CLOPPER]; Wilson Score 95% CI [M-WILSON]</td>
 <td>§5.3</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E3</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>N, n responders, ORR % (95% CI), risk difference (95% CI), CMH p;
 best response breakdown (CR/PR/SD/PD/NE)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1260,14 +1338,18 @@ Exact 95% CI [M-CLOPPER]</td>
 <td>§5.3</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E5</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>Same as T-EFF-05</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1320,14 +1402,18 @@ from randomisation.</p>
 <td>§5.4</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E4</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>Median DoR (95% CI); proportion with DoR ≥6 mo, ≥12 mo</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1383,7 +1469,7 @@ Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -1442,7 +1528,7 @@ population.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -1500,14 +1586,18 @@ CI (log-log).</p>
 <td>§11</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E1a</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>RMST per arm; RMST difference (95% CI)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
@@ -1561,20 +1651,162 @@ Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
 <td>§4.2</td>
 </tr>
 <tr class="even">
-<td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><strong>Estimand</strong></td>
+<td>E2a</td>
 </tr>
 <tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
 <td><strong>Layout — rows</strong></td>
 <td>Same as T-EFF-03</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Layout — columns</strong></td>
 <td>TRT01P</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes:</strong> Requires PARAMCD=‘PFSINV’ in ADTTE.</p>
+</div>
+<div id="t-eff-12-overall-survival-while-on-treatment-sensitivity" class="section level4">
+<h4>T-EFF-12 — Overall Survival — While-on-Treatment Sensitivity</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Intent-to-Treat (ITT)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADTTE</code></td>
+</tr>
+<tr class="even">
+<td><strong>Parameter codes</strong></td>
+<td><code>OSWOT</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01P</code>, <code>AVAL</code>, <code>CNSR</code>,
+<code>STRAT2</code>, <code>STRAT3</code></td>
+</tr>
+<tr class="even">
+<td><strong>Methods</strong></td>
+<td>Stratified Log-Rank Test [M-STRAT-LOGRANK]; Stratified Cox
+Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
+[M-KM-MEDIAN]</td>
+</tr>
+<tr class="odd">
+<td><strong>SAP reference</strong></td>
+<td>§13.4</td>
+</tr>
+<tr class="even">
+<td><strong>Estimand</strong></td>
+<td>E1b</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>Same as T-EFF-01; identifies effect attributable to randomised
+treatment period only</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01P</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Requires PARAMCD=‘OSWOT’ in ADTTE — censors
+OS at min(start of subsequent anti-cancer therapy, TRTEDT + 30 days).
+Phase 5 ADaM gap: add OSWOT parameter to ADTTE via
+admiral::derive_param_tte with revised censor_conditions.</p>
+</div>
+<div id="t-eff-13-objective-response-rate-itt-denominator-sensitivity" class="section level4">
+<h4>T-EFF-13 — Objective Response Rate — ITT Denominator
+(Sensitivity)</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Intent-to-Treat (ITT)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADSL</code>, <code>ADRS</code></td>
+</tr>
+<tr class="even">
+<td><strong>Parameter codes</strong></td>
+<td><code>CBOR</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01P</code>, <code>ORRFL</code>, <code>STRAT2</code>,
+<code>STRAT3</code></td>
+</tr>
+<tr class="even">
+<td><strong>Methods</strong></td>
+<td>Stratified Cochran-Mantel-Haenszel [M-CMH-STRAT]; Clopper-Pearson
+Exact 95% CI [M-CLOPPER]</td>
+</tr>
+<tr class="odd">
+<td><strong>SAP reference</strong></td>
+<td>§13.6</td>
+</tr>
+<tr class="even">
+<td><strong>Estimand</strong></td>
+<td>E3a</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>Same as T-EFF-05 but denominator = ITT (450) rather than Response
+Evaluable. Subjects without post-baseline assessment counted as
+non-responders (composite IE strategy retained).</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01P</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Sensitivity estimand E3a — removes implicit
+selection in Response Evaluable by using ITT denominator. More
+conservative read.</p>
 </div>
 <div id="t-ae-01-overall-summary-of-aes" class="section level4">
 <h4>T-AE-01 — Overall Summary of AEs</h4>
@@ -1618,7 +1850,7 @@ Proportional Hazards [M-COX-STRAT]; Kaplan-Meier Median
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1674,7 +1906,7 @@ discontinuation, any AE → death</td>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1731,7 +1963,7 @@ incidence.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1787,7 +2019,7 @@ incidence.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1843,7 +2075,7 @@ incidence.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1899,7 +2131,7 @@ onset and resolution (KM). Filtered to IRAEFL=‘Y’.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a>, <a href="../protocol/synopsis.md">Protocol v1.1</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -1911,8 +2143,13 @@ onset and resolution (KM). Filtered to IRAEFL=‘Y’.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Notes:</strong> Category flag from MedDRA PT list in Protocol
-§7.4.</p>
+<p><strong>Notes:</strong> Category flag from sponsor AESI MedDRA PT
+codelist <code>raw/codelists/aesi_meddra_pts.csv</code> (56 PTs across
+12 categories: Pneumonitis, Colitis, Hepatitis, Endocrine, Dermatologic,
+Renal, Cardiac, Neurologic, Infusion Reaction, Ocular, Hematologic,
+Musculoskeletal) per Protocol §7.4. Per-PT grade rule: most PTs are AESI
+at any grade; selected lab/symptom PTs require Grade≥3 (e.g. ALT/AST,
+AKI, rash, diarrhoea, pruritus); IRR requires Grade≥2.</p>
 </div>
 <div id="t-ae-07-deaths" class="section level4">
 <h4>T-AE-07 — Deaths</h4>
@@ -1955,7 +2192,7 @@ onset and resolution (KM). Filtered to IRAEFL=‘Y’.</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -2012,7 +2249,7 @@ Safety; all deaths denominator = ITT (noted per row).</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -2066,7 +2303,7 @@ Safety; all deaths denominator = ITT (noted per row).</p>
 </tr>
 <tr class="odd">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="even">
 <td><strong>Layout — rows</strong></td>
@@ -2080,6 +2317,296 @@ Safety; all deaths denominator = ITT (noted per row).</p>
 </table>
 <p><strong>Notes:</strong> n (%) with ≥1 post-baseline ATOXGR ≥ 3 per
 PARAMCD.</p>
+</div>
+<div id="t-cm-01-concomitant-medications-by-class-and-preferred-term" class="section level4">
+<h4>T-CM-01 — Concomitant Medications by Class and Preferred Term</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Safety (SAFETY)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADCM</code></td>
+</tr>
+<tr class="even">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01A</code>, <code>CMDECOD</code>, <code>CMINDC</code>,
+<code>ONTRTFL</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Categorical [M-DESCR-CAT]</td>
+</tr>
+<tr class="even">
+<td><strong>SAP reference</strong></td>
+<td>§5.5</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>ATC indication class (header) + indented PT rows (&gt;=5% in either
+arm)</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Includes preferred terms with on-treatment
+incidence &gt;= 5% in either arm. Class grouping from ADCM.CMINDC
+(curated ATC indication class).</p>
+</div>
+<div id="t-vs-01-vital-signs-mean-change-from-baseline-at-key-visits" class="section level4">
+<h4>T-VS-01 — Vital Signs — Mean Change from Baseline at Key Visits</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Safety (SAFETY)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADVS</code></td>
+</tr>
+<tr class="even">
+<td><strong>Parameter codes</strong></td>
+<td><code>SYSBP</code>, <code>DIABP</code>, <code>HR</code>,
+<code>WEIGHT</code>, <code>TEMP</code>, <code>RESP</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01A</code>, <code>PARAMCD</code>, <code>AVISIT</code>,
+<code>CHG</code></td>
+</tr>
+<tr class="even">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Continuous [M-DESCR-CONT]</td>
+</tr>
+<tr class="odd">
+<td><strong>SAP reference</strong></td>
+<td>§5.5</td>
+</tr>
+<tr class="even">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — rows</strong></td>
+<td>Parameter (header) + indented “Change at <visit> Mean (SD)”
+rows</td>
+</tr>
+<tr class="even">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Change from baseline (ADVS.CHG) at C1D1,
+C4D1, and End of Treatment.</p>
+</div>
+<div id="t-vs-02-weight-change-categories-worst-on-treatment-change" class="section level4">
+<h4>T-VS-02 — Weight Change Categories — Worst On-Treatment %
+Change</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Safety (SAFETY)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADVS</code></td>
+</tr>
+<tr class="even">
+<td><strong>Parameter codes</strong></td>
+<td><code>WEIGHT</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01A</code>, <code>PCHG</code></td>
+</tr>
+<tr class="even">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Categorical [M-DESCR-CAT]</td>
+</tr>
+<tr class="odd">
+<td><strong>SAP reference</strong></td>
+<td>§5.5</td>
+</tr>
+<tr class="even">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — rows</strong></td>
+<td>7 categories from “Loss &gt;=20%” through “Gain &gt;=20%”</td>
+</tr>
+<tr class="even">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Per-subject worst (most extreme)
+post-baseline % weight change.</p>
+</div>
+<div id="t-mh-01-medical-history-by-category-and-term" class="section level4">
+<h4>T-MH-01 — Medical History by Category and Term</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Safety (SAFETY)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADMH</code></td>
+</tr>
+<tr class="even">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01A</code>, <code>MHCAT</code>, <code>MHDECOD</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Categorical [M-DESCR-CAT]</td>
+</tr>
+<tr class="even">
+<td><strong>SAP reference</strong></td>
+<td>§5.5</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>MHCAT header + indented MHDECOD (&gt;=5% in either arm)</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Synthetic-data note — MHDECOD is title-case
+verbatim, not MedDRA-coded.</p>
+</div>
+<div id="t-dv-01-protocol-deviations-detail" class="section level4">
+<h4>T-DV-01 — Protocol Deviations — Detail</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kind</strong></td>
+<td>table</td>
+</tr>
+<tr class="even">
+<td><strong>Analysis set</strong></td>
+<td>Intent-to-Treat (ITT)</td>
+</tr>
+<tr class="odd">
+<td><strong>Source datasets</strong></td>
+<td><code>ADDV</code></td>
+</tr>
+<tr class="even">
+<td><strong>Key variables</strong></td>
+<td><code>TRT01P</code>, <code>DVCAT</code>, <code>DVSCAT</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Methods</strong></td>
+<td>Descriptive — Categorical [M-DESCR-CAT]</td>
+</tr>
+<tr class="even">
+<td><strong>SAP reference</strong></td>
+<td>§3.2</td>
+</tr>
+<tr class="odd">
+<td><strong>Reference documents</strong></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
+</tr>
+<tr class="even">
+<td><strong>Layout — rows</strong></td>
+<td>Severity (Major/Minor) + Subcategory breakdown</td>
+</tr>
+<tr class="odd">
+<td><strong>Layout — columns</strong></td>
+<td>TRT01P</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> Supersedes the sparser T-DS-02 view; uses
+ADDV instead of raw ADSL.PPROTFL.</p>
 </div>
 </div>
 <div id="figures" class="section level3">
@@ -2128,7 +2655,7 @@ PARAMCD.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — axes</strong></td>
@@ -2191,7 +2718,7 @@ PARAMCD.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — axes</strong></td>
@@ -2250,7 +2777,7 @@ PARAMCD.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — axes</strong></td>
@@ -2310,7 +2837,7 @@ disease at baseline.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — axes</strong></td>
@@ -2370,7 +2897,7 @@ arm</td>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2430,7 +2957,7 @@ stratified HR at top. Square size ∝ subgroup n.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — axes</strong></td>
@@ -2486,7 +3013,7 @@ stratified HR at top. Square size ∝ subgroup n.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2538,7 +3065,7 @@ stratified HR at top. Square size ∝ subgroup n.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2587,7 +3114,7 @@ death; days from randomisation to death.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2635,7 +3162,7 @@ death; days from randomisation to death.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2681,7 +3208,7 @@ death; days from randomisation to death.</p>
 </tr>
 <tr class="even">
 <td><strong>Reference documents</strong></td>
-<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.1</a></td>
+<td><a href="../sap/SAP.md">Statistical Analysis Plan v0.2</a></td>
 </tr>
 <tr class="odd">
 <td><strong>Layout — rows</strong></td>
@@ -2700,7 +3227,7 @@ DSSCAT=‘MAJOR’. Shows deviation category and description.</p>
 be cited by ≥1 shell’s <code>key_variables</code>.
 <code>validate_shells.R</code> enforces this — see its report
 output.</p>
-<p>Distinct variables cited across all shells: <strong>64</strong>.</p>
+<p>Distinct variables cited across all shells: <strong>72</strong>.</p>
 <details>
 <summary>
 Full variable list
@@ -2713,20 +3240,22 @@ Full variable list
 <code>ANRIND</code>, <code>ANRLO</code>, <code>ASTDT</code>,
 <code>ATOXGR</code>, <code>AVAL</code>, <code>AVALC</code>,
 <code>AVISIT</code>, <code>AVISITN</code>, <code>BASE</code>,
-<code>BECOG</code>, <code>BNRIND</code>, <code>CNSR</code>,
+<code>BECOG</code>, <code>BNRIND</code>, <code>CHG</code>,
+<code>CMDECOD</code>, <code>CMINDC</code>, <code>CNSR</code>,
 <code>CUMDOSE</code>, <code>DCRFL</code>, <code>DCSREAS</code>,
 <code>DSSTDTC</code>, <code>DTHCAUS</code>, <code>DTHDT</code>,
-<code>DTHFL</code>, <code>EFFFL</code>, <code>EOSDT</code>,
-<code>EOSSTT</code>, <code>ETHNIC</code>, <code>HISTSCAT</code>,
-<code>IRAECAT</code>, <code>IRAEFL</code>, <code>ITTFL</code>,
-<code>N_CYCLES</code>, <code>ORRFL</code>, <code>PARAMCD</code>,
-<code>PCHG</code>, <code>PDL1GR</code>, <code>PPROTFL</code>,
-<code>RACE</code>, <code>RANDDT</code>, <code>REGION1</code>,
-<code>RFICDT</code>, <code>SAFFL</code>, <code>SEX</code>,
-<code>STRAT1</code>, <code>STRAT2</code>, <code>STRAT3</code>,
-<code>TRT01A</code>, <code>TRT01P</code>, <code>TRTDURD</code>,
-<code>TRTEDT</code>, <code>TRTEMFL</code>, <code>TRTSDT</code>,
-<code>USUBJID</code></p>
+<code>DTHFL</code>, <code>DVCAT</code>, <code>DVSCAT</code>,
+<code>EFFFL</code>, <code>EOSDT</code>, <code>EOSSTT</code>,
+<code>ETHNIC</code>, <code>HISTSCAT</code>, <code>IRAECAT</code>,
+<code>IRAEFL</code>, <code>ITTFL</code>, <code>MHCAT</code>,
+<code>MHDECOD</code>, <code>N_CYCLES</code>, <code>ONTRTFL</code>,
+<code>ORRFL</code>, <code>PARAMCD</code>, <code>PCHG</code>,
+<code>PDL1GR</code>, <code>PPROTFL</code>, <code>RACE</code>,
+<code>RANDDT</code>, <code>REGION1</code>, <code>RFICDT</code>,
+<code>SAFFL</code>, <code>SEX</code>, <code>STRAT1</code>,
+<code>STRAT2</code>, <code>STRAT3</code>, <code>TRT01A</code>,
+<code>TRT01P</code>, <code>TRTDURD</code>, <code>TRTEDT</code>,
+<code>TRTEMFL</code>, <code>TRTSDT</code>, <code>USUBJID</code></p>
 </details>
 </div>
 <div id="sap-output-crosswalk" class="section level2">
@@ -2752,41 +3281,54 @@ Full variable list
 <td>T-EFF-08, T-EFF-09, T-EFF-10</td>
 </tr>
 <tr class="odd">
+<td>§13.3</td>
+<td>T-DS-03</td>
+</tr>
+<tr class="even">
+<td>§13.4</td>
+<td>T-EFF-12</td>
+</tr>
+<tr class="odd">
+<td>§13.6</td>
+<td>T-EFF-13</td>
+</tr>
+<tr class="even">
 <td>§3</td>
 <td>T-DS-01</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>§3.1</td>
 <td>T-DM-01</td>
 </tr>
-<tr class="odd">
-<td>§3.2</td>
-<td>T-DS-02, L-DS-01</td>
-</tr>
 <tr class="even">
+<td>§3.2</td>
+<td>T-DS-02, L-DS-01, T-DV-01</td>
+</tr>
+<tr class="odd">
 <td>§4.2</td>
 <td>T-EFF-11</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>§5.1</td>
 <td>T-EFF-01, T-EFF-02, F-EFF-01</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>§5.2</td>
 <td>T-EFF-03, T-EFF-04, F-EFF-02</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>§5.3</td>
 <td>T-EFF-05, T-EFF-06, F-EFF-03, F-EFF-04</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>§5.4</td>
 <td>T-EFF-07, F-EFF-06</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>§5.5</td>
 <td>T-EX-01, T-AE-01, T-AE-02, T-AE-03, T-AE-04, T-AE-05, T-AE-06,
-T-AE-07, T-LB-01, T-LB-02, L-AE-01, L-AE-02, L-AE-03, L-LB-01</td>
+T-AE-07, T-LB-01, T-LB-02, L-AE-01, L-AE-02, L-AE-03, L-LB-01, T-CM-01,
+T-VS-01, T-VS-02, T-MH-01</td>
 </tr>
 </tbody>
 </table>
@@ -2805,7 +3347,7 @@ T-AE-07, T-LB-01, T-LB-02, L-AE-01, L-AE-02, L-AE-03, L-LB-01</td>
 <tr class="odd">
 <td>0.1</td>
 <td>2026-04-20</td>
-<td>Regenerated from <code>tfl/shells.yaml</code></td>
+<td>Regenerated from <code>sap/shells/shells.yaml</code></td>
 </tr>
 </tbody>
 </table>

@@ -11,7 +11,7 @@
 
 
 
-<title>TFL-PROVENANCE</title>
+<title>SHELLS-PROVENANCE</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -660,7 +660,7 @@ table deferred</td>
 <div id="key-format-and-architecture-decisions" class="section level2">
 <h2>5. Key Format and Architecture Decisions</h2>
 <p>These are documented in full in
-<code>tfl/SHELLS-FORMAT-RATIONALE.md</code>. Summarised here for
+<code>sap/shells/SHELLS-FORMAT-RATIONALE.md</code>. Summarised here for
 provenance:</p>
 <table>
 <colgroup>
@@ -754,7 +754,7 @@ pointing to the SAP section that governs it. No output exists without a
 SAP analysis.</td>
 </tr>
 <tr class="even">
-<td><code>tfl/shells.yaml</code></td>
+<td><code>sap/shells/shells.yaml</code></td>
 <td><strong>Source of truth.</strong> <code>TFL-SHELLS.md</code> is
 generated from this file; do not edit the Markdown directly.</td>
 </tr>
@@ -776,9 +776,9 @@ filters, strata, and method parameters.</td>
 document records how the outputs of that SAP were catalogued.</td>
 </tr>
 <tr class="even">
-<td><code>data-raw/PROVENANCE.md</code></td>
-<td><strong>Sibling.</strong> Records how the underlying synthetic SDTM
-data was generated.</td>
+<td><code>programs/raw/RAW-PROVENANCE.md</code></td>
+<td><strong>Sibling.</strong> Records how the underlying synthetic raw +
+SDTM data was generated.</td>
 </tr>
 </tbody>
 </table>
@@ -804,8 +804,185 @@ amendment.</li>
 </ul>
 <hr />
 </div>
+<div id="annotation-approach" class="section level2">
+<h2>8. Annotation Approach</h2>
+<div id="observation" class="section level3">
+<h3>8.1 Observation</h3>
+<p>Standard industry practice is for TFL shells to be
+<strong>annotated</strong> — each row, column, and statistic in the
+visual mock-up is labelled with the ADaM source that will produce it:
+the dataset name, the WHERE clause (PARAMCD, population flag), the
+variable name, and the derivation function. This is the primary
+reference document for TFL programmers when writing <code>t_*.R</code>,
+<code>f_*.R</code>, and <code>l_*.R</code> scripts in Phase 6.</p>
+<p>The complication — noted from experience on prior studies — is that
+shells are created <strong>before</strong> the ADaM datasets exist. This
+creates a gap:</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>What exists</th>
+<th>What shells can reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gate 3.5 (now)</td>
+<td>Programming specs (<code>AD*-spec.md</code>)</td>
+<td>Intended variable names — CDISC-standard names + any study-specific
+names defined in the spec</td>
+</tr>
+<tr class="even">
+<td>After Phase 5 delivery</td>
+<td>ADaM Parquet files</td>
+<td>Actual variable names in the delivered data — may differ from spec
+if study-specific derivations diverged</td>
+</tr>
+<tr class="odd">
+<td>Phase 6 (TFL programming)</td>
+<td>Locked ADaM</td>
+<td>Confirmed annotations — programmers validate the shells against the
+data before coding</td>
+</tr>
+</tbody>
+</table>
+<p>An additional complication is <strong>CDISC standard updates and
+study-specific variables</strong>: the CDISC ADaM oncology supplements
+(ADRS, ADTR, ADTTE) define standard variable names, but almost every
+study adds study-specific supplementary variables
+(e.g. <code>IRAEFL</code>, <code>IRAECAT</code>, <code>PDL1GR</code>,
+<code>BECOG</code>) that are not in the standard and must be documented
+in the <code>programming-specs/AD*-spec.md</code> files. Annotations
+based purely on the CDISC standard will be incomplete at Gate 3.5; they
+require a study-specific layer on top.</p>
+</div>
+<div id="decision" class="section level3">
+<h3>8.2 Decision</h3>
+<p><strong>Two-phase annotation approach:</strong></p>
+<p><strong>Phase 1 — Spec-based (now, Gate 3.5):</strong> Add a
+structured <code>annotations:</code> block to each output in
+<code>tfl/shells.yaml</code>. Populate using: - CDISC ADaM standard
+variable names (ADaMIG v1.3, oncology supplements) - Study-specific
+variable names from <code>programming-specs/AD*-spec.md</code> (as they
+are written) - Clearly mark as
+<code>&quot;Preliminary — confirm after Phase 5 ADaM delivery&quot;</code></p>
+<p>This gives ~80% of the annotation at the right time. Programmers and
+reviewers can see the intended source for every displayed statistic
+before ADaM programming begins.</p>
+<p><strong>Phase 2 — Data-confirmed (after Phase 5):</strong> After ADaM
+Parquet files are delivered, re-run <code>validate_shells.R</code>. Any
+variable cited in <code>annotations.rows</code> that is absent from the
+delivered ADaM is flagged as a discrepancy. Update the relevant
+<code>annotations:</code> blocks in <code>shells.yaml</code>, regenerate
+<code>TFL-SHELLS-DOC.docx</code>, and record the changes in the shell
+change log. This step is mandatory before Phase 6 TFL programming
+begins.</p>
+<p><strong>Alternatives considered and rejected:</strong></p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Reason rejected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Annotate only after ADaM delivery</td>
+<td>Leaves programmers without source references during spec and review
+phases; feedback loops are lost</td>
+</tr>
+<tr class="even">
+<td>Maintain a separate annotation spreadsheet</td>
+<td>Breaks single-source-of-truth principle; annotations drift from
+shells</td>
+</tr>
+<tr class="odd">
+<td>Skip annotation entirely</td>
+<td>Not acceptable — study teams require annotated shells for sign-off
+and regulatory inspection readiness</td>
+</tr>
+<tr class="even">
+<td>Full ARS JSON annotation now</td>
+<td>ARS JSON serialisation is deferred (<code>render_ars.R</code> is
+planned); the <code>annotations:</code> YAML block is ARS-aligned and
+will feed the serialiser when it is written</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="annotation-schema" class="section level3">
+<h3>8.3 Annotation Schema</h3>
+<p>Each output in <code>tfl/shells.yaml</code> carries an
+<code>annotations:</code> block with the following fields:</p>
+<pre class="yaml"><code>annotations:
+  note: &quot;Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.&quot;
+  population: &quot;ADSL: &lt;flag&gt;=&#39;Y&#39;  |  analysis by &lt;TRT01P|TRT01A&gt;&quot;
+  primary_dataset: &quot;&lt;DATASET&gt; WHERE &lt;PARAMCD/filter&gt;&quot;   # tables/figures; omit for listings
+  rows:
+    - row: &quot;&lt;displayed row label&gt;&quot;
+      dataset: &lt;ADSL|ADAE|ADTTE|ADRS|ADTR|ADLB&gt;
+      where: &quot;&lt;filter expression&gt;&quot;       # PARAMCD, CNSR, flag, etc.
+      variable: &lt;VARIABLE_NAME&gt;
+      derivation: &quot;&lt;function / formula&gt;&quot;</code></pre>
+<p><strong>Schema rationale:</strong> - <code>note</code> — explicit
+caveat so no reviewer treats Phase 1 annotations as final -
+<code>population</code> — maps the analysis set filter to the ADSL flag;
+constant across all rows in that output - <code>primary_dataset</code> —
+the main ADaM dataset driving the output (shorthand for programmers) -
+<code>rows</code> — row-level mapping: one entry per <em>distinct
+statistic type</em> (not every displayed cell) - <code>row</code> —
+matches the displayed row label in the shell (allows
+<code>validate_shells.R</code> to cross-check) - <code>dataset</code> —
+the ADaM dataset supplying this row’s data - <code>where</code> — the
+additional filter beyond the population flag - <code>variable</code> —
+the ADaM variable being summarised or derived from -
+<code>derivation</code> — the statistical function, admiral call, or
+formula</p>
+<p><strong>Study-specific variables</strong> that are not in the CDISC
+standard are marked with a <code># study-specific</code> comment in the
+YAML.</p>
+</div>
+<div id="iterative-update-process" class="section level3">
+<h3>8.4 Iterative Update Process</h3>
+<pre><code>Gate 3.5    →  annotations: block added to shells.yaml (Phase 1, spec-based)
+                render_shells_doc.R regenerated → TFL-SHELLS-DOC.docx updated
+                Shells sent for stakeholder review with &quot;PRELIMINARY&quot; annotation banner
+
+Phase 5     →  ADaM Parquet delivered
+                validate_shells.R run → discrepancy report produced
+                LG reviews discrepancies → shells.yaml annotations updated
+                shells.yaml version bumped (0.1 → 0.2)
+                TFL-SHELLS-DOC.docx regenerated
+
+Phase 6     →  TFL programmers use annotated shells as source reference
+                Any further annotation corrections recorded in shells change log</code></pre>
+</div>
+<div id="relationship-to-cdisc-ars" class="section level3">
+<h3>8.5 Relationship to CDISC ARS</h3>
+<p>The <code>annotations.rows</code> entries map directly to ARS v1.0
+<code>AnalysisResult</code> concept: - <code>dataset</code> +
+<code>where</code> → ARS <code>DataSubset</code> - <code>variable</code>
+→ ARS result variable - <code>derivation</code> → ARS
+<code>AnalysisMethod</code> parameter</p>
+<p>When <code>render_ars.R</code> is implemented in a future phase, the
+<code>annotations:</code> blocks will feed the ARS JSON serialisation
+alongside the <code>methods:</code> and <code>analysis_sets:</code>
+blocks.</p>
+<hr />
+</div>
+</div>
 <div id="change-log" class="section level2">
-<h2>8. Change Log</h2>
+<h2>9. Change Log</h2>
 <table>
 <colgroup>
 <col width="25%" />
@@ -831,13 +1008,42 @@ deliverable.</td>
 </tr>
 <tr class="even">
 <td>0.2</td>
+<td>2026-04-25</td>
+<td>LG</td>
+<td>Added §8 Annotation Approach. Documented two-phase annotation
+decision. Added <code>annotations:</code> schema to
+<code>shells.yaml</code> for all 35 outputs. Updated
+<code>render_shells_doc.R</code> and regenerated
+<code>TFL-SHELLS-DOC.docx</code>.</td>
+</tr>
+<tr class="odd">
+<td>0.3</td>
+<td>2026-05-16</td>
+<td>LG (w/ Claude Opus 4.7)</td>
+<td><strong>Aligned with SAP v0.2 estimand framework.</strong> (i) Added
+<code>estimand_id</code> field to 9 efficacy shells
+(T-EFF-01/02/03/04/05/06/07/10/11) mapping to estimands
+E1/E1a/E2/E2a/E3/E4/E5. (ii) Three new shells: T-EFF-12 <em>OS
+While-on-Treatment</em> (estimand E1b — Phase 5 gap: needs
+<code>PARAMCD=&#39;OSWOT&#39;</code> in ADTTE), T-EFF-13 <em>ORR ITT
+Denominator</em> (estimand E3a), T-DS-03 <em>Intercurrent Events
+Summary</em> (operationalises §13.3 IE taxonomy). (iii) Bulk-renamed all
+<code>SAP-0.1</code> references to <code>SAP-0.2</code>. (iv) Fixed
+stale <code>tfl/</code> paths in <code>render_shells.R</code>,
+<code>render_shells_doc.R</code>, <code>validate_shells.R</code> (legacy
+from pre-restructure). (v) Updated <code>render_shells.R</code> to
+surface <code>estimand_id</code> as a row in the rendered table. Total
+outputs now 38 (was 35).</td>
+</tr>
+<tr class="even">
+<td>0.4</td>
 <td>—</td>
 <td>—</td>
 <td>Add PRO shells (EORTC, EQ-5D) once SAP amendment covers exploratory
 endpoints.</td>
 </tr>
 <tr class="odd">
-<td>0.3</td>
+<td>0.5</td>
 <td>—</td>
 <td>—</td>
 <td>Add ARS JSON serialisation (<code>render_ars.R</code>) once
@@ -845,8 +1051,74 @@ downstream system is confirmed.</td>
 </tr>
 </tbody>
 </table>
+<div id="known-gaps-after-v0.3" class="section level3">
+<h3>Known gaps after v0.3</h3>
+<ul>
+<li><del><strong>ADTTE <code>PARAMCD=&#39;OSWOT&#39;</code> not yet
+derived</strong></del> — ✅ Resolved same day.
+<code>programs/adam/adtte.R</code> now derives
+<code>PARAMCD=&#39;OSWOT&#39;</code> for all ITT subjects. Event = death on or
+within 30 days of last study treatment (TRTEDT + 30 days). Censor =
+<code>min(TRTEDT + 30d, LSTALVDT)</code>. Validated via Cox PH: HR 0.476
+(95% CI 0.374-0.607), 277 events out of 450, median TRT 586d vs PBO 412d
+— stronger effect than the full-OS estimand (HR 0.567) as expected when
+the treatment-period effect is isolated from late off-treatment
+dilution. T-EFF-12 is now fully programmable.</li>
+<li><strong>Subsequent-anti-cancer-therapy capture</strong> — T-DS-03
+and the SAP §13.4 OSWOT specification both reference subsequent
+anti-cancer therapy as a censoring trigger, but the synthetic CM data
+(raw/codelists/atc_conmed.csv) covers supportive care only and does not
+simulate post-trial anti-cancer therapy. The current OSWOT derivation
+therefore applies only the <code>TRTEDT + 30d</code> half of the SAP
+rule. For real-world data, extend <code>adtte.R</code> with a
+subsequent-therapy CM lookup and take <code>pmin</code> with the
+existing OSWOT_CENSOR. Documented in
+<code>programming-specs/ADTTE-spec.md</code> PARAMCD table.</li>
+<li><del><strong><code>TFL-SHELLS-DOC.docx</code> not regenerated this
+round</strong></del> — ✅ Resolved same day. The previously-committed
+renderer (<code>render_shells_doc.R</code>) was truncated mid-function
+from the first commit (<code>d875c75</code>), and the resulting
+<code>TFL-SHELLS-DOC.docx</code> was a corrupted 84 KB stub with no
+central-directory record. Completed <code>make_annotation_ft</code>,
+added the main render loop (page-per-output with header / body /
+footnotes / programmer’s annotation panel), added mockers for the three
+v0.3 shells (T-DS-03, T-EFF-12, T-EFF-13), and normalised line endings.
+Regenerated <code>TFL-SHELLS-DOC.docx</code> is now a valid 558 KB OOXML
+with 38 outputs and 6 embedded figure PNGs (KM-OS, KM-PFS, waterfall,
+spider, forest, swimmer).</li>
+</ul>
+</div>
+<div id="renderer-architecture-v0.3" class="section level3">
+<h3>Renderer architecture (v0.3)</h3>
+<p>Submission-style TFL shells. Each output gets its own page:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Header block</strong> — sponsor (Celindra Therapeutics,
+fictional), protocol number, output ID + kind, full title, analysis
+population line with expected N.</li>
+<li><strong>Body</strong> — typed by <code>o$kind</code>:
+<ul>
+<li><code>table</code>: flextable rendered from the per-shell mocker
+(<code>get_mock</code> / <code>get_mock_v03</code>), with placeholder
+cells (<code>[xx.x]</code>, <code>[xxx (xx.x%)]</code>,
+<code>[x.xxx]</code>, <code>(xx.x, xx.x)</code>).</li>
+<li><code>figure</code>: ggplot rendered to PNG via
+<code>save_mock_figure</code>, then embedded.</li>
+<li><code>listing</code>: flextable column headers + 3 placeholder rows
+(via <code>listing_mock</code>).</li>
+</ul></li>
+<li><strong>Footnote block</strong> — methodology (resolved from
+<code>o$methods</code>), source datasets, SAP reference + estimand ID,
+free-text notes, and a <code>DRAFT SHELL — YYYY-MM-DD</code>
+watermark.</li>
+<li><strong>Programmer’s annotation panel</strong> (not part of CSR
+output) — 5-column flextable from <code>o$annotations.rows</code> with
+conditional amber shading for study-specific rows.</li>
+</ol>
+<p>Use <code>Rscript sap/shells/render_shells_doc.R</code> (Word only)
+or <code>--pdf</code> (Word + LibreOffice PDF).</p>
 <hr />
-<p><em>Last updated: 2026-04-25</em></p>
+<p><em>Last updated: 2026-05-16</em></p>
+</div>
 </div>
 </div>
 

@@ -8,7 +8,7 @@
 #              labelled attributes attached by 16_label_domains.R.
 #
 # Scope (v0.1):
-#   - All 21 SDTM domains + 6 ADaM datasets
+#   - All 22 SDTM domains + 12 ADaM datasets
 #   - ItemGroupDef per dataset, ItemRef + ItemDef per variable
 #   - Origin stubbed by heuristic (Assigned / Collected / Derived)
 #   - CodeListDef refs are sponsor-defined stubs (extend later)
