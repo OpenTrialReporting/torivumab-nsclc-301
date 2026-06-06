@@ -148,6 +148,8 @@ outputs:
   kind: table
   title: Demographic and Baseline Characteristics
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT CHARACTERISTICS
   source_datasets:
   - ADSL
   parameter_codes: []
@@ -232,6 +234,8 @@ outputs:
   kind: table
   title: Subject Disposition
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT DISPOSITION
   source_datasets:
   - ADSL
   parameter_codes: []
@@ -307,6 +311,8 @@ outputs:
   kind: table
   title: Major Protocol Deviations
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT DISPOSITION
   source_datasets:
   - ADSL
   - SDTM.DS
@@ -357,6 +363,8 @@ outputs:
   kind: table
   title: Intercurrent Events Summary
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT DISPOSITION
   source_datasets:
   - ADSL
   - ADAE
@@ -424,6 +432,8 @@ outputs:
   kind: table
   title: Study Drug Exposure
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: EXPOSURE
   source_datasets:
   - ADSL
   parameter_codes: []
@@ -480,6 +490,8 @@ outputs:
   kind: table
   title: Overall Survival Analysis (Primary)
   analysis_set: ITT
+  reason: SPECIFIED IN PROTOCOL
+  purpose: PRIMARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -554,6 +566,8 @@ outputs:
   estimand_id: E1
   title: Kaplan-Meier Survival Probabilities — OS
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: PRIMARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -606,6 +620,8 @@ outputs:
   estimand_id: E2
   title: Progression-Free Survival Analysis (BICR)
   analysis_set: ITT
+  reason: SPECIFIED IN PROTOCOL
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -677,6 +693,8 @@ outputs:
   estimand_id: E2
   title: Kaplan-Meier Probabilities — PFS
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -729,6 +747,8 @@ outputs:
   estimand_id: E3
   title: Objective Response Rate (BICR)
   analysis_set: RESPEVAL
+  reason: SPECIFIED IN PROTOCOL
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADRS
   - ADSL
@@ -797,6 +817,8 @@ outputs:
   estimand_id: E5
   title: Disease Control Rate
   analysis_set: RESPEVAL
+  reason: SPECIFIED IN PROTOCOL
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADRS
   - ADSL
@@ -848,6 +870,8 @@ outputs:
   estimand_id: E4
   title: Duration of Response
   analysis_set: RESPONDERS
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -900,6 +924,8 @@ outputs:
   kind: table
   title: OS in Per-Protocol Population (Sensitivity)
   analysis_set: PP
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -960,6 +986,8 @@ outputs:
   kind: table
   title: OS Landmark Analysis
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: PRIMARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1002,6 +1030,8 @@ outputs:
   estimand_id: E1a
   title: Restricted Mean Survival Time (OS)
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: PRIMARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1049,6 +1079,8 @@ outputs:
   estimand_id: E2a
   title: PFS by Investigator (Sensitivity)
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1110,6 +1142,8 @@ outputs:
   estimand_id: E1b
   title: Overall Survival — While-on-Treatment Sensitivity
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1174,6 +1208,8 @@ outputs:
   estimand_id: E3a
   title: Objective Response Rate — ITT Denominator (Sensitivity)
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADSL
   - ADRS
@@ -1232,6 +1268,8 @@ outputs:
   kind: table
   title: Overall Summary of AEs
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADSL
   - ADAE
@@ -1307,6 +1345,8 @@ outputs:
   kind: table
   title: TEAEs by SOC and PT (≥5% any arm)
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -1353,6 +1393,8 @@ outputs:
   kind: table
   title: Grade ≥3 TEAEs by SOC and PT
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -1390,6 +1432,8 @@ outputs:
   kind: table
   title: Serious Adverse Events by SOC and PT
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -1426,6 +1470,8 @@ outputs:
   kind: table
   title: Immune-Related AEs by Category
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -1474,6 +1520,8 @@ outputs:
   kind: table
   title: AESIs by Category
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -1510,6 +1558,8 @@ outputs:
   kind: table
   title: Deaths
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADSL
   - ADAE
@@ -1563,6 +1613,8 @@ outputs:
   kind: table
   title: Laboratory Abnormalities (Shift Table)
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADLB
   parameter_codes: []
@@ -1606,6 +1658,8 @@ outputs:
   kind: table
   title: Laboratory CTCAE Grade ≥3
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADLB
   parameter_codes: []
@@ -1636,6 +1690,8 @@ outputs:
   kind: figure
   title: Kaplan-Meier Curve — OS
   analysis_set: ITT
+  reason: SPECIFIED IN PROTOCOL
+  purpose: PRIMARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1693,6 +1749,8 @@ outputs:
   kind: figure
   title: Kaplan-Meier Curve — PFS
   analysis_set: ITT
+  reason: SPECIFIED IN PROTOCOL
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTTE
   parameter_codes:
@@ -1749,6 +1807,8 @@ outputs:
   kind: figure
   title: Waterfall — Best Percent Change in SLD
   analysis_set: RESPEVAL
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADTR
   parameter_codes:
@@ -1801,6 +1861,8 @@ outputs:
   kind: figure
   title: Spider — SLD Change Over Time
   analysis_set: RESPEVAL
+  reason: SPECIFIED IN SAP
+  purpose: EXPLORATORY OUTCOME MEASURE
   source_datasets:
   - ADTR
   parameter_codes:
@@ -1848,6 +1910,8 @@ outputs:
   kind: figure
   title: Forest — OS HR by Subgroup
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SECONDARY OUTCOME MEASURE
   source_datasets:
   - ADSL
   - ADTTE
@@ -1901,6 +1965,8 @@ outputs:
   kind: figure
   title: Swimmer — Responders
   analysis_set: RESPONDERS
+  reason: SPECIFIED IN SAP
+  purpose: EXPLORATORY OUTCOME MEASURE
   source_datasets:
   - ADSL
   - ADRS
@@ -1962,6 +2028,8 @@ outputs:
   kind: listing
   title: Serious Adverse Events
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -2043,6 +2111,8 @@ outputs:
   kind: listing
   title: Deaths
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADSL
   parameter_codes: []
@@ -2114,6 +2184,8 @@ outputs:
   kind: listing
   title: AEs Leading to Discontinuation
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADAE
   parameter_codes: []
@@ -2175,6 +2247,8 @@ outputs:
   kind: listing
   title: Grade ≥3 Laboratory Abnormalities
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADLB
   parameter_codes: []
@@ -2248,6 +2322,8 @@ outputs:
   kind: listing
   title: Major Protocol Deviations
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT DISPOSITION
   source_datasets:
   - SDTM.DS
   parameter_codes: []
@@ -2300,6 +2376,8 @@ outputs:
   kind: table
   title: Concomitant Medications by Class and Preferred Term
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: CONCOMITANT MEDICATION
   source_datasets:
   - ADCM
   parameter_codes: []
@@ -2322,6 +2400,8 @@ outputs:
   kind: table
   title: Vital Signs — Mean Change from Baseline at Key Visits
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADVS
   parameter_codes:
@@ -2349,6 +2429,8 @@ outputs:
   kind: table
   title: Weight Change Categories — Worst On-Treatment % Change
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SAFETY OUTCOME MEASURE
   source_datasets:
   - ADVS
   parameter_codes:
@@ -2369,6 +2451,8 @@ outputs:
   kind: table
   title: Medical History by Category and Term
   analysis_set: SAFETY
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT CHARACTERISTICS
   source_datasets:
   - ADMH
   parameter_codes: []
@@ -2389,6 +2473,8 @@ outputs:
   kind: table
   title: Protocol Deviations — Detail
   analysis_set: ITT
+  reason: SPECIFIED IN SAP
+  purpose: SUBJECT DISPOSITION
   source_datasets:
   - ADDV
   parameter_codes: []

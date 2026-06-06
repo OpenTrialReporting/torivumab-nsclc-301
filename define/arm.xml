@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ODM xmlns="http://www.cdisc.org/ns/odm/v1.3"
+     xmlns:def="http://www.cdisc.org/ns/def/v2.1"
+     xmlns:arm="http://www.cdisc.org/ns/arm/v1.0"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     ODMVersion="1.3.2"
+     FileType="Snapshot"
+     FileOID="cdisc.TORIVUMAB-NSCLC-301.arm.20260606075431"
+     CreationDateTime="2026-06-06T07:54:31"
+     AsOfDateTime="2026-06-06T07:54:31"
+     Originator="Celindra Therapeutics (fictional)"
+     def:Context="Submission">
+  <Study OID="cdisc.TORIVUMAB-NSCLC-301">
+    <GlobalVariables>
+      <StudyName>SIMULATED-TORIVUMAB-2026</StudyName>
+      <StudyDescription>Torivumab + Chemotherapy vs Placebo + Chemotherapy in 1L Advanced NSCLC</StudyDescription>
+      <ProtocolName>TORIVUMAB-NSCLC-301</ProtocolName>
+    </GlobalVariables>
+    <MetaDataVersion OID="MDV.ARM.0.1" Name="ARM v0.1"
+                     Description="Analysis Results Metadata (ARM) v0.1 — Phase 6a pilot"
+                     def:DefineVersion="2.1.0">
+    <arm:AnalysisResultDisplays>
+    <arm:ResultDisplay OID="RD.T-DM-01" Name="T-DM-01">
+      <Description><TranslatedText xml:lang="en">Demographic and Baseline Characteristics</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-DM-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-DM-01">
+      <Description><TranslatedText xml:lang="en">Demographic and Baseline Characteristics — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT CHARACTERISTICS</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AGE"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AGEGR1"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.SEX"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.RACE"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.ETHNIC"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.REGION1"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.HISTSCAT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.BECOG"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.PDL1GR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.STRAT1"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §3.1. Methods: M-DESCR-CAT, M-DESCR-CONT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_dm_01_demographics.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-DM-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-DS-01" Name="T-DS-01">
+      <Description><TranslatedText xml:lang="en">Subject Disposition</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-DS-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-DS-01">
+      <Description><TranslatedText xml:lang="en">Subject Disposition — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT DISPOSITION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.ITTFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.SAFFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.PPROTFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.EFFFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.EOSSTT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DCSREAS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.RFICDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.RANDDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTSDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTEDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.EOSDT"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §3. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ds_01_disposition.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-DS-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-DS-02" Name="T-DS-02">
+      <Description><TranslatedText xml:lang="en">Major Protocol Deviations</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-DS-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-DS-02">
+      <Description><TranslatedText xml:lang="en">Major Protocol Deviations — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT DISPOSITION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.USUBJID"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.SDTM.DS">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §3.2. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ds_02_deviations.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-DS-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-DS-03" Name="T-DS-03">
+      <Description><TranslatedText xml:lang="en">Intercurrent Events Summary</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-DS-03.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-DS-03">
+      <Description><TranslatedText xml:lang="en">Intercurrent Events Summary — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT DISPOSITION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.USUBJID"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.SDTM.CM">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §13.3. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ds_03_intercurrent_events.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-DS-03.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EX-01" Name="T-EX-01">
+      <Description><TranslatedText xml:lang="en">Study Drug Exposure</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EX-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EX-01">
+      <Description><TranslatedText xml:lang="en">Study Drug Exposure — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>EXPOSURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTSDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTEDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTDURD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.N_CYCLES"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.CUMDOSE"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CONT, M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ex_01_exposure.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EX-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-01" Name="T-EFF-01">
+      <Description><TranslatedText xml:lang="en">Overall Survival Analysis (Primary)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-01">
+      <Description><TranslatedText xml:lang="en">Overall Survival Analysis (Primary) — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>PRIMARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.1. Methods: M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_01_os.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-02" Name="T-EFF-02">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Survival Probabilities — OS</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-02">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Survival Probabilities — OS — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>PRIMARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.1. Methods: M-KM-PROB.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_02_km_probs_os.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-03" Name="T-EFF-03">
+      <Description><TranslatedText xml:lang="en">Progression-Free Survival Analysis (BICR)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-03.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-03">
+      <Description><TranslatedText xml:lang="en">Progression-Free Survival Analysis (BICR) — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>PFS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.2. Methods: M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_03_pfs.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-03.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-04" Name="T-EFF-04">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Probabilities — PFS</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-04.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-04">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Probabilities — PFS — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>PFS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.2. Methods: M-KM-PROB.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_04_km_probs_pfs.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-04.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-05" Name="T-EFF-05">
+      <Description><TranslatedText xml:lang="en">Objective Response Rate (BICR)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-05.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-05">
+      <Description><TranslatedText xml:lang="en">Objective Response Rate (BICR) — RESPEVAL Population</TranslatedText></Description>
+      <arm:ParameterOID>CBOR</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADRS">
+          <arm:AnalysisVariable ItemOID="IT.ADRS.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.AVALC"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.ORRFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.STRAT3"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPEVAL. SAP §5.3. Methods: M-CMH-STRAT, M-CLOPPER, M-WILSON.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_05_orr.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-05.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-06" Name="T-EFF-06">
+      <Description><TranslatedText xml:lang="en">Disease Control Rate</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-06.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-06">
+      <Description><TranslatedText xml:lang="en">Disease Control Rate — RESPEVAL Population</TranslatedText></Description>
+      <arm:ParameterOID>CBDCR</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADRS">
+          <arm:AnalysisVariable ItemOID="IT.ADRS.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.AVALC"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.DCRFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADRS.STRAT3"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPEVAL. SAP §5.3. Methods: M-CMH-STRAT, M-CLOPPER.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_06_dcr.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-06.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-07" Name="T-EFF-07">
+      <Description><TranslatedText xml:lang="en">Duration of Response</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-07.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-07">
+      <Description><TranslatedText xml:lang="en">Duration of Response — RESPONDERS Population</TranslatedText></Description>
+      <arm:ParameterOID>DOR</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPONDERS. SAP §5.4. Methods: M-KM-MEDIAN, M-KM-PROB.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_07_dor.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-07.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-08" Name="T-EFF-08">
+      <Description><TranslatedText xml:lang="en">OS in Per-Protocol Population (Sensitivity)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-08.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-08">
+      <Description><TranslatedText xml:lang="en">OS in Per-Protocol Population (Sensitivity) — PP Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: PP. SAP §11. Methods: M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_08_os_pp.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-08.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-09" Name="T-EFF-09">
+      <Description><TranslatedText xml:lang="en">OS Landmark Analysis</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-09.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-09">
+      <Description><TranslatedText xml:lang="en">OS Landmark Analysis — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>PRIMARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §11. Methods: M-LANDMARK.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_09_os_landmark.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-09.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-10" Name="T-EFF-10">
+      <Description><TranslatedText xml:lang="en">Restricted Mean Survival Time (OS)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-10.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-10">
+      <Description><TranslatedText xml:lang="en">Restricted Mean Survival Time (OS) — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>PRIMARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §11. Methods: M-RMST.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_10_os_rmst.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-10.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-11" Name="T-EFF-11">
+      <Description><TranslatedText xml:lang="en">PFS by Investigator (Sensitivity)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-11.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-11">
+      <Description><TranslatedText xml:lang="en">PFS by Investigator (Sensitivity) — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>PFSINV</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §4.2. Methods: M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_11_pfs_inv.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-11.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-12" Name="T-EFF-12">
+      <Description><TranslatedText xml:lang="en">Overall Survival — While-on-Treatment Sensitivity</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-12.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-12">
+      <Description><TranslatedText xml:lang="en">Overall Survival — While-on-Treatment Sensitivity — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OSWOT</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.STRAT3"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §13.4. Methods: M-STRAT-LOGRANK, M-COX-STRAT, M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_12_os_wot.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-12.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-EFF-13" Name="T-EFF-13">
+      <Description><TranslatedText xml:lang="en">Objective Response Rate — ITT Denominator (Sensitivity)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-EFF-13.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-EFF-13">
+      <Description><TranslatedText xml:lang="en">Objective Response Rate — ITT Denominator (Sensitivity) — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>CBOR</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.ORRFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.STRAT2"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.STRAT3"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADRS">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §13.6. Methods: M-CMH-STRAT, M-CLOPPER.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_eff_13_orr_itt.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-EFF-13.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-01" Name="T-AE-01">
+      <Description><TranslatedText xml:lang="en">Overall Summary of AEs</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-01">
+      <Description><TranslatedText xml:lang="en">Overall Summary of AEs — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTEMFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AESER"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AESDTH"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AETOXGR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.IRAEFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AESI"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_01_overall.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-02" Name="T-AE-02">
+      <Description><TranslatedText xml:lang="en">TEAEs by SOC and PT (≥5% any arm)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-02">
+      <Description><TranslatedText xml:lang="en">TEAEs by SOC and PT (≥5% any arm) — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEBODSYS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRTEMFL"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_02_soc_pt.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-03" Name="T-AE-03">
+      <Description><TranslatedText xml:lang="en">Grade ≥3 TEAEs by SOC and PT</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-03.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-03">
+      <Description><TranslatedText xml:lang="en">Grade ≥3 TEAEs by SOC and PT — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEBODSYS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRTEMFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AETOXGR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_03_g3_plus.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-03.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-04" Name="T-AE-04">
+      <Description><TranslatedText xml:lang="en">Serious Adverse Events by SOC and PT</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-04.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-04">
+      <Description><TranslatedText xml:lang="en">Serious Adverse Events by SOC and PT — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEBODSYS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AESER"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_04_sae.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-04.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-05" Name="T-AE-05">
+      <Description><TranslatedText xml:lang="en">Immune-Related AEs by Category</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-05.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-05">
+      <Description><TranslatedText xml:lang="en">Immune-Related AEs by Category — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.IRAEFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.IRAECAT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AETOXGR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT, M-KM-TTE-ONSET.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_05_irae.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-05.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-06" Name="T-AE-06">
+      <Description><TranslatedText xml:lang="en">AESIs by Category</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-06.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-06">
+      <Description><TranslatedText xml:lang="en">AESIs by Category — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AESI"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AETOXGR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_06_aesi.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-06.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-AE-07" Name="T-AE-07">
+      <Description><TranslatedText xml:lang="en">Deaths</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-AE-07.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-AE-07">
+      <Description><TranslatedText xml:lang="en">Deaths — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHFL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHCAUS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTEDT"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_ae_07_deaths.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-AE-07.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-LB-01" Name="T-LB-01">
+      <Description><TranslatedText xml:lang="en">Laboratory Abnormalities (Shift Table)</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-LB-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-LB-01">
+      <Description><TranslatedText xml:lang="en">Laboratory Abnormalities (Shift Table) — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADLB">
+          <arm:AnalysisVariable ItemOID="IT.ADLB.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.PARAMCD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.BASE"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.BNRIND"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ANRIND"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-SHIFT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_lb_01_shift.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-LB-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-LB-02" Name="T-LB-02">
+      <Description><TranslatedText xml:lang="en">Laboratory CTCAE Grade ≥3</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-LB-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-LB-02">
+      <Description><TranslatedText xml:lang="en">Laboratory CTCAE Grade ≥3 — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADLB">
+          <arm:AnalysisVariable ItemOID="IT.ADLB.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.PARAMCD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ATOXGR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_lb_02_g3_plus.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-LB-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-01" Name="F-EFF-01">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Curve — OS</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-01">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Curve — OS — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>PRIMARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.1. Methods: M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_01_km_os.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-02" Name="F-EFF-02">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Curve — PFS</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-02">
+      <Description><TranslatedText xml:lang="en">Kaplan-Meier Curve — PFS — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>PFS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN PROTOCOL</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTTE.CNSR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §5.2. Methods: M-KM-MEDIAN.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_02_km_pfs.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-03" Name="F-EFF-03">
+      <Description><TranslatedText xml:lang="en">Waterfall — Best Percent Change in SLD</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-03.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-03">
+      <Description><TranslatedText xml:lang="en">Waterfall — Best Percent Change in SLD — RESPEVAL Population</TranslatedText></Description>
+      <arm:ParameterOID>PCHG</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTR">
+          <arm:AnalysisVariable ItemOID="IT.ADTR.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.PCHG"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPEVAL. SAP §5.3. Methods: M-WATERFALL.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_03_waterfall.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-03.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-04" Name="F-EFF-04">
+      <Description><TranslatedText xml:lang="en">Spider — SLD Change Over Time</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-04.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-04">
+      <Description><TranslatedText xml:lang="en">Spider — SLD Change Over Time — RESPEVAL Population</TranslatedText></Description>
+      <arm:ParameterOID>PCHG</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>EXPLORATORY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTR">
+          <arm:AnalysisVariable ItemOID="IT.ADTR.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.ADY"/>
+          <arm:AnalysisVariable ItemOID="IT.ADTR.PCHG"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPEVAL. SAP §5.3. Methods: M-SPIDER.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_04_spider.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-04.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-05" Name="F-EFF-05">
+      <Description><TranslatedText xml:lang="en">Forest — OS HR by Subgroup</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-05.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-05">
+      <Description><TranslatedText xml:lang="en">Forest — OS HR by Subgroup — ITT Population</TranslatedText></Description>
+      <arm:ParameterOID>OS</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SECONDARY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.CNSR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.HISTSCAT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.REGION1"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.SEX"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AGEGR1"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.BECOG"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.PDL1GR"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §10. Methods: M-FOREST-SUBGROUP.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_05_forest.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-05.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.F-EFF-06" Name="F-EFF-06">
+      <Description><TranslatedText xml:lang="en">Swimmer — Responders</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.F-EFF-06.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.F-EFF-06">
+      <Description><TranslatedText xml:lang="en">Swimmer — Responders — RESPONDERS Population</TranslatedText></Description>
+      <arm:ParameterOID>CBOR</arm:ParameterOID>
+      <arm:ParameterOID>DOR</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>EXPLORATORY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AVISITN"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.AVALC"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.ADT"/>
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADRS">
+        </arm:AnalysisDataset>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADTTE">
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: RESPONDERS. SAP §5.4. Methods: M-SWIMMER.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/f_eff_06_swimmer.R</arm:Code>
+        <def:DocumentRef leafID="LF.F-EFF-06.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.L-AE-01" Name="L-AE-01">
+      <Description><TranslatedText xml:lang="en">Serious Adverse Events</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.L-AE-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.L-AE-01">
+      <Description><TranslatedText xml:lang="en">Serious Adverse Events — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEBODSYS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.ASTDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AENDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AETOXGR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AESER"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEACN"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEREL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEOUT"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. </TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/l_ae_01_sae.R</arm:Code>
+        <def:DocumentRef leafID="LF.L-AE-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.L-AE-02" Name="L-AE-02">
+      <Description><TranslatedText xml:lang="en">Deaths</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.L-AE-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.L-AE-02">
+      <Description><TranslatedText xml:lang="en">Deaths — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADSL">
+          <arm:AnalysisVariable ItemOID="IT.ADSL.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.DTHCAUS"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.TRTEDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.RANDDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADSL.EOSSTT"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. </TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/l_ae_02_deaths.R</arm:Code>
+        <def:DocumentRef leafID="LF.L-AE-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.L-AE-03" Name="L-AE-03">
+      <Description><TranslatedText xml:lang="en">AEs Leading to Discontinuation</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.L-AE-03.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.L-AE-03">
+      <Description><TranslatedText xml:lang="en">AEs Leading to Discontinuation — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADAE">
+          <arm:AnalysisVariable ItemOID="IT.ADAE.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.ASTDT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AETOXGR"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.AEREL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADAE.TRTEDT"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. </TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/l_ae_03_disc.R</arm:Code>
+        <def:DocumentRef leafID="LF.L-AE-03.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.L-LB-01" Name="L-LB-01">
+      <Description><TranslatedText xml:lang="en">Grade ≥3 Laboratory Abnormalities</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.L-LB-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.L-LB-01">
+      <Description><TranslatedText xml:lang="en">Grade ≥3 Laboratory Abnormalities — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADLB">
+          <arm:AnalysisVariable ItemOID="IT.ADLB.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.PARAMCD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.AVISIT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ADT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.AVAL"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ANRLO"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ANRHI"/>
+          <arm:AnalysisVariable ItemOID="IT.ADLB.ATOXGR"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. </TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/l_lb_01_g3_plus.R</arm:Code>
+        <def:DocumentRef leafID="LF.L-LB-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.L-DS-01" Name="L-DS-01">
+      <Description><TranslatedText xml:lang="en">Major Protocol Deviations</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.L-DS-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.L-DS-01">
+      <Description><TranslatedText xml:lang="en">Major Protocol Deviations — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT DISPOSITION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.SDTM.DS">
+          <arm:AnalysisVariable ItemOID="IT.SDTM.DS.USUBJID"/>
+          <arm:AnalysisVariable ItemOID="IT.SDTM.DS.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.SDTM.DS.DSSTDTC"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §3.2. </TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/l_ds_01_deviations.R</arm:Code>
+        <def:DocumentRef leafID="LF.L-DS-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-CM-01" Name="T-CM-01">
+      <Description><TranslatedText xml:lang="en">Concomitant Medications by Class and Preferred Term</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-CM-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-CM-01">
+      <Description><TranslatedText xml:lang="en">Concomitant Medications by Class and Preferred Term — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>CONCOMITANT MEDICATION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADCM">
+          <arm:AnalysisVariable ItemOID="IT.ADCM.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADCM.CMDECOD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADCM.CMINDC"/>
+          <arm:AnalysisVariable ItemOID="IT.ADCM.ONTRTFL"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_cm_01_conmed.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-CM-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-VS-01" Name="T-VS-01">
+      <Description><TranslatedText xml:lang="en">Vital Signs — Mean Change from Baseline at Key Visits</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-VS-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-VS-01">
+      <Description><TranslatedText xml:lang="en">Vital Signs — Mean Change from Baseline at Key Visits — SAFETY Population</TranslatedText></Description>
+      <arm:ParameterOID>SYSBP</arm:ParameterOID>
+      <arm:ParameterOID>DIABP</arm:ParameterOID>
+      <arm:ParameterOID>HR</arm:ParameterOID>
+      <arm:ParameterOID>WEIGHT</arm:ParameterOID>
+      <arm:ParameterOID>TEMP</arm:ParameterOID>
+      <arm:ParameterOID>RESP</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADVS">
+          <arm:AnalysisVariable ItemOID="IT.ADVS.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADVS.PARAMCD"/>
+          <arm:AnalysisVariable ItemOID="IT.ADVS.AVISIT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADVS.CHG"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CONT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_vs_01_summary.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-VS-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-VS-02" Name="T-VS-02">
+      <Description><TranslatedText xml:lang="en">Weight Change Categories — Worst On-Treatment % Change</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-VS-02.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-VS-02">
+      <Description><TranslatedText xml:lang="en">Weight Change Categories — Worst On-Treatment % Change — SAFETY Population</TranslatedText></Description>
+      <arm:ParameterOID>WEIGHT</arm:ParameterOID>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SAFETY OUTCOME MEASURE</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADVS">
+          <arm:AnalysisVariable ItemOID="IT.ADVS.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADVS.PCHG"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_vs_02_weight_shift.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-VS-02.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-MH-01" Name="T-MH-01">
+      <Description><TranslatedText xml:lang="en">Medical History by Category and Term</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-MH-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-MH-01">
+      <Description><TranslatedText xml:lang="en">Medical History by Category and Term — SAFETY Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT CHARACTERISTICS</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADMH">
+          <arm:AnalysisVariable ItemOID="IT.ADMH.TRT01A"/>
+          <arm:AnalysisVariable ItemOID="IT.ADMH.MHCAT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADMH.MHDECOD"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: SAFETY. SAP §5.5. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_mh_01_summary.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-MH-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    <arm:ResultDisplay OID="RD.T-DV-01" Name="T-DV-01">
+      <Description><TranslatedText xml:lang="en">Protocol Deviations — Detail</TranslatedText></Description>
+      <def:DocumentRef leafID="LF.T-DV-01.OUTPUT"/>
+      <arm:AnalysisResult OID="AR.T-DV-01">
+      <Description><TranslatedText xml:lang="en">Protocol Deviations — Detail — ITT Population</TranslatedText></Description>
+      <arm:AnalysisReason>SPECIFIED IN SAP</arm:AnalysisReason>
+      <arm:AnalysisPurpose>SUBJECT DISPOSITION</arm:AnalysisPurpose>
+      <arm:AnalysisDatasets>
+        <arm:AnalysisDataset ItemGroupOID="IG.ADDV">
+          <arm:AnalysisVariable ItemOID="IT.ADDV.TRT01P"/>
+          <arm:AnalysisVariable ItemOID="IT.ADDV.DVCAT"/>
+          <arm:AnalysisVariable ItemOID="IT.ADDV.DVSCAT"/>
+        </arm:AnalysisDataset>
+      </arm:AnalysisDatasets>
+      <arm:Documentation>
+        <Description><TranslatedText xml:lang="en">Analysis set: ITT. SAP §3.2. Methods: M-DESCR-CAT.</TranslatedText></Description>
+      </arm:Documentation>
+      <arm:ProgrammingCode>
+        <arm:Context>R</arm:Context>
+        <arm:Code>Rscript programs/tfl/t_dv_01_deviations.R</arm:Code>
+        <def:DocumentRef leafID="LF.T-DV-01.PROGRAM"/>
+      </arm:ProgrammingCode>
+      </arm:AnalysisResult>
+    </arm:ResultDisplay>
+    </arm:AnalysisResultDisplays>
+    <def:leaf ID="LF.T-DM-01.OUTPUT" xlink:href="../tfl/tables/T-DM-01.html"><def:title>T-DM-01 — Demographic and Baseline Characteristics</def:title></def:leaf>
+    <def:leaf ID="LF.T-DM-01.PROGRAM" xlink:href="../programs/tfl/t_dm_01_demographics.R"><def:title>programs/tfl/t_dm_01_demographics.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-01.OUTPUT" xlink:href="../tfl/tables/T-DS-01.html"><def:title>T-DS-01 — Subject Disposition</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-01.PROGRAM" xlink:href="../programs/tfl/t_ds_01_disposition.R"><def:title>programs/tfl/t_ds_01_disposition.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-02.OUTPUT" xlink:href="../tfl/tables/T-DS-02.html"><def:title>T-DS-02 — Major Protocol Deviations</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-02.PROGRAM" xlink:href="../programs/tfl/t_ds_02_deviations.R"><def:title>programs/tfl/t_ds_02_deviations.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-03.OUTPUT" xlink:href="../tfl/tables/T-DS-03.html"><def:title>T-DS-03 — Intercurrent Events Summary</def:title></def:leaf>
+    <def:leaf ID="LF.T-DS-03.PROGRAM" xlink:href="../programs/tfl/t_ds_03_intercurrent_events.R"><def:title>programs/tfl/t_ds_03_intercurrent_events.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EX-01.OUTPUT" xlink:href="../tfl/tables/T-EX-01.html"><def:title>T-EX-01 — Study Drug Exposure</def:title></def:leaf>
+    <def:leaf ID="LF.T-EX-01.PROGRAM" xlink:href="../programs/tfl/t_ex_01_exposure.R"><def:title>programs/tfl/t_ex_01_exposure.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-01.OUTPUT" xlink:href="../tfl/tables/T-EFF-01.html"><def:title>T-EFF-01 — Overall Survival Analysis (Primary)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-01.PROGRAM" xlink:href="../programs/tfl/t_eff_01_os.R"><def:title>programs/tfl/t_eff_01_os.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-02.OUTPUT" xlink:href="../tfl/tables/T-EFF-02.html"><def:title>T-EFF-02 — Kaplan-Meier Survival Probabilities — OS</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-02.PROGRAM" xlink:href="../programs/tfl/t_eff_02_km_probs_os.R"><def:title>programs/tfl/t_eff_02_km_probs_os.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-03.OUTPUT" xlink:href="../tfl/tables/T-EFF-03.html"><def:title>T-EFF-03 — Progression-Free Survival Analysis (BICR)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-03.PROGRAM" xlink:href="../programs/tfl/t_eff_03_pfs.R"><def:title>programs/tfl/t_eff_03_pfs.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-04.OUTPUT" xlink:href="../tfl/tables/T-EFF-04.html"><def:title>T-EFF-04 — Kaplan-Meier Probabilities — PFS</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-04.PROGRAM" xlink:href="../programs/tfl/t_eff_04_km_probs_pfs.R"><def:title>programs/tfl/t_eff_04_km_probs_pfs.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-05.OUTPUT" xlink:href="../tfl/tables/T-EFF-05.html"><def:title>T-EFF-05 — Objective Response Rate (BICR)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-05.PROGRAM" xlink:href="../programs/tfl/t_eff_05_orr.R"><def:title>programs/tfl/t_eff_05_orr.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-06.OUTPUT" xlink:href="../tfl/tables/T-EFF-06.html"><def:title>T-EFF-06 — Disease Control Rate</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-06.PROGRAM" xlink:href="../programs/tfl/t_eff_06_dcr.R"><def:title>programs/tfl/t_eff_06_dcr.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-07.OUTPUT" xlink:href="../tfl/tables/T-EFF-07.html"><def:title>T-EFF-07 — Duration of Response</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-07.PROGRAM" xlink:href="../programs/tfl/t_eff_07_dor.R"><def:title>programs/tfl/t_eff_07_dor.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-08.OUTPUT" xlink:href="../tfl/tables/T-EFF-08.html"><def:title>T-EFF-08 — OS in Per-Protocol Population (Sensitivity)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-08.PROGRAM" xlink:href="../programs/tfl/t_eff_08_os_pp.R"><def:title>programs/tfl/t_eff_08_os_pp.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-09.OUTPUT" xlink:href="../tfl/tables/T-EFF-09.html"><def:title>T-EFF-09 — OS Landmark Analysis</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-09.PROGRAM" xlink:href="../programs/tfl/t_eff_09_os_landmark.R"><def:title>programs/tfl/t_eff_09_os_landmark.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-10.OUTPUT" xlink:href="../tfl/tables/T-EFF-10.html"><def:title>T-EFF-10 — Restricted Mean Survival Time (OS)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-10.PROGRAM" xlink:href="../programs/tfl/t_eff_10_os_rmst.R"><def:title>programs/tfl/t_eff_10_os_rmst.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-11.OUTPUT" xlink:href="../tfl/tables/T-EFF-11.html"><def:title>T-EFF-11 — PFS by Investigator (Sensitivity)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-11.PROGRAM" xlink:href="../programs/tfl/t_eff_11_pfs_inv.R"><def:title>programs/tfl/t_eff_11_pfs_inv.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-12.OUTPUT" xlink:href="../tfl/tables/T-EFF-12.html"><def:title>T-EFF-12 — Overall Survival — While-on-Treatment Sensitivity</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-12.PROGRAM" xlink:href="../programs/tfl/t_eff_12_os_wot.R"><def:title>programs/tfl/t_eff_12_os_wot.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-13.OUTPUT" xlink:href="../tfl/tables/T-EFF-13.html"><def:title>T-EFF-13 — Objective Response Rate — ITT Denominator (Sensitivity)</def:title></def:leaf>
+    <def:leaf ID="LF.T-EFF-13.PROGRAM" xlink:href="../programs/tfl/t_eff_13_orr_itt.R"><def:title>programs/tfl/t_eff_13_orr_itt.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-01.OUTPUT" xlink:href="../tfl/tables/T-AE-01.html"><def:title>T-AE-01 — Overall Summary of AEs</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-01.PROGRAM" xlink:href="../programs/tfl/t_ae_01_overall.R"><def:title>programs/tfl/t_ae_01_overall.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-02.OUTPUT" xlink:href="../tfl/tables/T-AE-02.html"><def:title>T-AE-02 — TEAEs by SOC and PT (≥5% any arm)</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-02.PROGRAM" xlink:href="../programs/tfl/t_ae_02_soc_pt.R"><def:title>programs/tfl/t_ae_02_soc_pt.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-03.OUTPUT" xlink:href="../tfl/tables/T-AE-03.html"><def:title>T-AE-03 — Grade ≥3 TEAEs by SOC and PT</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-03.PROGRAM" xlink:href="../programs/tfl/t_ae_03_g3_plus.R"><def:title>programs/tfl/t_ae_03_g3_plus.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-04.OUTPUT" xlink:href="../tfl/tables/T-AE-04.html"><def:title>T-AE-04 — Serious Adverse Events by SOC and PT</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-04.PROGRAM" xlink:href="../programs/tfl/t_ae_04_sae.R"><def:title>programs/tfl/t_ae_04_sae.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-05.OUTPUT" xlink:href="../tfl/tables/T-AE-05.html"><def:title>T-AE-05 — Immune-Related AEs by Category</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-05.PROGRAM" xlink:href="../programs/tfl/t_ae_05_irae.R"><def:title>programs/tfl/t_ae_05_irae.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-06.OUTPUT" xlink:href="../tfl/tables/T-AE-06.html"><def:title>T-AE-06 — AESIs by Category</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-06.PROGRAM" xlink:href="../programs/tfl/t_ae_06_aesi.R"><def:title>programs/tfl/t_ae_06_aesi.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-07.OUTPUT" xlink:href="../tfl/tables/T-AE-07.html"><def:title>T-AE-07 — Deaths</def:title></def:leaf>
+    <def:leaf ID="LF.T-AE-07.PROGRAM" xlink:href="../programs/tfl/t_ae_07_deaths.R"><def:title>programs/tfl/t_ae_07_deaths.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-LB-01.OUTPUT" xlink:href="../tfl/tables/T-LB-01.html"><def:title>T-LB-01 — Laboratory Abnormalities (Shift Table)</def:title></def:leaf>
+    <def:leaf ID="LF.T-LB-01.PROGRAM" xlink:href="../programs/tfl/t_lb_01_shift.R"><def:title>programs/tfl/t_lb_01_shift.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-LB-02.OUTPUT" xlink:href="../tfl/tables/T-LB-02.html"><def:title>T-LB-02 — Laboratory CTCAE Grade ≥3</def:title></def:leaf>
+    <def:leaf ID="LF.T-LB-02.PROGRAM" xlink:href="../programs/tfl/t_lb_02_g3_plus.R"><def:title>programs/tfl/t_lb_02_g3_plus.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-01.OUTPUT" xlink:href="../tfl/figures/F-EFF-01.png"><def:title>F-EFF-01 — Kaplan-Meier Curve — OS</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-01.PROGRAM" xlink:href="../programs/tfl/f_eff_01_km_os.R"><def:title>programs/tfl/f_eff_01_km_os.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-02.OUTPUT" xlink:href="../tfl/figures/F-EFF-02.png"><def:title>F-EFF-02 — Kaplan-Meier Curve — PFS</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-02.PROGRAM" xlink:href="../programs/tfl/f_eff_02_km_pfs.R"><def:title>programs/tfl/f_eff_02_km_pfs.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-03.OUTPUT" xlink:href="../tfl/figures/F-EFF-03.png"><def:title>F-EFF-03 — Waterfall — Best Percent Change in SLD</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-03.PROGRAM" xlink:href="../programs/tfl/f_eff_03_waterfall.R"><def:title>programs/tfl/f_eff_03_waterfall.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-04.OUTPUT" xlink:href="../tfl/figures/F-EFF-04.png"><def:title>F-EFF-04 — Spider — SLD Change Over Time</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-04.PROGRAM" xlink:href="../programs/tfl/f_eff_04_spider.R"><def:title>programs/tfl/f_eff_04_spider.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-05.OUTPUT" xlink:href="../tfl/figures/F-EFF-05.png"><def:title>F-EFF-05 — Forest — OS HR by Subgroup</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-05.PROGRAM" xlink:href="../programs/tfl/f_eff_05_forest.R"><def:title>programs/tfl/f_eff_05_forest.R</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-06.OUTPUT" xlink:href="../tfl/figures/F-EFF-06.png"><def:title>F-EFF-06 — Swimmer — Responders</def:title></def:leaf>
+    <def:leaf ID="LF.F-EFF-06.PROGRAM" xlink:href="../programs/tfl/f_eff_06_swimmer.R"><def:title>programs/tfl/f_eff_06_swimmer.R</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-01.OUTPUT" xlink:href="../tfl/tables/L-AE-01.html"><def:title>L-AE-01 — Serious Adverse Events</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-01.PROGRAM" xlink:href="../programs/tfl/l_ae_01_sae.R"><def:title>programs/tfl/l_ae_01_sae.R</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-02.OUTPUT" xlink:href="../tfl/tables/L-AE-02.html"><def:title>L-AE-02 — Deaths</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-02.PROGRAM" xlink:href="../programs/tfl/l_ae_02_deaths.R"><def:title>programs/tfl/l_ae_02_deaths.R</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-03.OUTPUT" xlink:href="../tfl/tables/L-AE-03.html"><def:title>L-AE-03 — AEs Leading to Discontinuation</def:title></def:leaf>
+    <def:leaf ID="LF.L-AE-03.PROGRAM" xlink:href="../programs/tfl/l_ae_03_disc.R"><def:title>programs/tfl/l_ae_03_disc.R</def:title></def:leaf>
+    <def:leaf ID="LF.L-LB-01.OUTPUT" xlink:href="../tfl/tables/L-LB-01.html"><def:title>L-LB-01 — Grade ≥3 Laboratory Abnormalities</def:title></def:leaf>
+    <def:leaf ID="LF.L-LB-01.PROGRAM" xlink:href="../programs/tfl/l_lb_01_g3_plus.R"><def:title>programs/tfl/l_lb_01_g3_plus.R</def:title></def:leaf>
+    <def:leaf ID="LF.L-DS-01.OUTPUT" xlink:href="../tfl/tables/L-DS-01.html"><def:title>L-DS-01 — Major Protocol Deviations</def:title></def:leaf>
+    <def:leaf ID="LF.L-DS-01.PROGRAM" xlink:href="../programs/tfl/l_ds_01_deviations.R"><def:title>programs/tfl/l_ds_01_deviations.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-CM-01.OUTPUT" xlink:href="../tfl/tables/T-CM-01.html"><def:title>T-CM-01 — Concomitant Medications by Class and Preferred Term</def:title></def:leaf>
+    <def:leaf ID="LF.T-CM-01.PROGRAM" xlink:href="../programs/tfl/t_cm_01_conmed.R"><def:title>programs/tfl/t_cm_01_conmed.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-VS-01.OUTPUT" xlink:href="../tfl/tables/T-VS-01.html"><def:title>T-VS-01 — Vital Signs — Mean Change from Baseline at Key Visits</def:title></def:leaf>
+    <def:leaf ID="LF.T-VS-01.PROGRAM" xlink:href="../programs/tfl/t_vs_01_summary.R"><def:title>programs/tfl/t_vs_01_summary.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-VS-02.OUTPUT" xlink:href="../tfl/tables/T-VS-02.html"><def:title>T-VS-02 — Weight Change Categories — Worst On-Treatment % Change</def:title></def:leaf>
+    <def:leaf ID="LF.T-VS-02.PROGRAM" xlink:href="../programs/tfl/t_vs_02_weight_shift.R"><def:title>programs/tfl/t_vs_02_weight_shift.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-MH-01.OUTPUT" xlink:href="../tfl/tables/T-MH-01.html"><def:title>T-MH-01 — Medical History by Category and Term</def:title></def:leaf>
+    <def:leaf ID="LF.T-MH-01.PROGRAM" xlink:href="../programs/tfl/t_mh_01_summary.R"><def:title>programs/tfl/t_mh_01_summary.R</def:title></def:leaf>
+    <def:leaf ID="LF.T-DV-01.OUTPUT" xlink:href="../tfl/tables/T-DV-01.html"><def:title>T-DV-01 — Protocol Deviations — Detail</def:title></def:leaf>
+    <def:leaf ID="LF.T-DV-01.PROGRAM" xlink:href="../programs/tfl/t_dv_01_deviations.R"><def:title>programs/tfl/t_dv_01_deviations.R</def:title></def:leaf>
+    </MetaDataVersion>
+  </Study>
+</ODM>
