@@ -18,6 +18,7 @@ suppressPackageStartupMessages({
 
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
+source(file.path("programs", "adam", "_adam_utils.R"))  # study_day()
 
 adsl   <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
 cm     <- as.data.frame(read_parquet(file.path(SDTM_DIR, "cm.parquet")))
@@ -45,14 +46,14 @@ adcm <- cm |>
   mutate(
     ASTDT     = as.Date(CMSTDTC),
     AENDT     = as.Date(CMENDTC),
-    ASTDY     = as.integer(ASTDT - TRTSDT) + 1L,
-    AENDY     = if_else(!is.na(AENDT), as.integer(AENDT - TRTSDT) + 1L, NA_integer_),
+    ASTDY     = study_day(ASTDT, TRTSDT),
+    AENDY     = study_day(AENDT, TRTSDT),
     # On-treatment flag: medication overlaps with TRTSDT..TRTEDT
     ONTRTFL   = if_else(
       !is.na(ASTDT) & !is.na(TRTSDT) &
         ASTDT <= TRTEDT &
         (is.na(AENDT) | AENDT >= TRTSDT),
-      "Y", "N"),
+      "Y", NA_character_),        # Y-only flag: Y or null, never "N" (P21 AD0269)
     # Prior (started before treatment, ended before TRTSDT)
     PRIORFL   = if_else(
       !is.na(ASTDT) & !is.na(TRTSDT) &

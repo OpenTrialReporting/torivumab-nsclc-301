@@ -16,6 +16,7 @@ suppressPackageStartupMessages({
 
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
+source(file.path("programs", "adam", "_adam_utils.R"))  # study_day()
 dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
 
 adsl <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
@@ -31,7 +32,7 @@ adds <- ds |>
   left_join(adsl_vars, by = c("STUDYID", "USUBJID")) |>
   mutate(
     ADT      = as.Date(DSSTDTC),
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     DSCATGY  = case_when(
       DSCAT == "PROTOCOL MILESTONE" & DSDECOD == "INFORMED CONSENT OBTAINED" ~ "Consent",
       DSCAT == "PROTOCOL MILESTONE" & DSDECOD == "RANDOMIZED"                ~ "Randomisation",

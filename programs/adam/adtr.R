@@ -72,7 +72,7 @@ adtr <- bind_rows(
   adtr_sdiam |> mutate(LNKID = NA_character_),   # N_TGT preserved from summarise
   adtr_ldiam |> mutate(N_TGT = NA_integer_)
 ) |>
-  mutate(ADY = as.integer(ADT - TRTSDT) + 1L)
+  mutate(ADY = study_day(ADT, TRTSDT))
 
 # 7. Baseline flag (ABLFL)
 #    Baseline = last non-missing, non-zero AVAL on or before TRTSDT
@@ -85,7 +85,10 @@ adtr <- adtr |>
       order   = exprs(ADT),
       mode    = "last"
     ),
-    filter = !is.na(AVAL) & AVAL > 0 & ADT <= TRTSDT
+    # Baseline only on SDIAM (the analysis parameter, one row per subject/visit)
+    # — not per-lesion LDIAM, which would give multiple baselines per
+    # USUBJID/PARAMCD (P21 AD0154). LDIAM change is not analysed.
+    filter = PARAMCD == "SDIAM" & !is.na(AVAL) & AVAL > 0 & ADT <= TRTSDT
   )
 
 # 8. Baseline value (BASE), change (CHG), percent change (PCHG)

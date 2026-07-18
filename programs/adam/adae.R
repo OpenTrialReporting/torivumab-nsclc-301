@@ -17,6 +17,7 @@ suppressPackageStartupMessages({
 
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
+source(file.path("programs", "adam", "_adam_utils.R"))  # study_day()
 dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
 
 # 1. Read inputs
@@ -42,8 +43,8 @@ adae <- adae |>
 # 4. Study day of AE onset
 adae <- adae |>
   mutate(
-    ASTDY = as.integer(ASTDT - TRTSDT) + 1L,
-    AENDY = if_else(!is.na(AENDT), as.integer(AENDT - TRTSDT) + 1L, NA_integer_)
+    ASTDY = study_day(ASTDT, TRTSDT),
+    AENDY = study_day(AENDT, TRTSDT)
   )
 
 # 5. Treatment-emergent flag (TRTEMFL)
@@ -53,7 +54,7 @@ adae <- adae |>
       !is.na(ASTDT) & !is.na(TRTSDT) &
         ASTDT >= TRTSDT &
         ASTDT <= (TRTEDT + days(30)),
-      "Y", "N"
+      "Y", NA_character_          # Y-only flag: Y or null, never "N" (P21 AD0269)
     )
   )
 

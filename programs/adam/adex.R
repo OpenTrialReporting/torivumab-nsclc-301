@@ -40,7 +40,7 @@ ex_admin <- ex |>
     AVAL     = as.numeric(EXDOSE),
     AVALU    = EXDOSU,
     ADT      = as.Date(EXSTDTC),
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AEXTRT   = EXTRT,
     ANL01FL  = "Y"
   ) |>
@@ -71,9 +71,9 @@ ex_cumdose <- ex_admin |>
   ) |>
   left_join(adsl_vars, by = "USUBJID") |>
   mutate(
-    PARAM    = paste0("Cumulative Dose — ", AEXTRT),
+    PARAM    = "Cumulative Dose",  # generic per PARAMCD (drug is in AEXTRT); P21 AD0141
     PARAMCD  = "CUMDOSE",
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AEXSEQ   = NA_integer_,
     VISIT    = NA_character_,
     VISITNUM = NA_real_,
@@ -116,12 +116,12 @@ planned_cum <- ex_admin |>
 ex_rdi <- planned_cum |>
   left_join(adsl_vars, by = "USUBJID") |>
   mutate(
-    PARAM    = paste0("Relative Dose Intensity — ", AEXTRT),
+    PARAM    = "Relative Dose Intensity",  # generic per PARAMCD (drug in AEXTRT); P21 AD0141
     PARAMCD  = "RDI",
     AVAL     = RDI,
     AVALU    = "%",
     ADT      = TRTEDT,
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AEXSEQ   = NA_integer_,
     NCYCLE   = n_admin,
     VISIT    = NA_character_,

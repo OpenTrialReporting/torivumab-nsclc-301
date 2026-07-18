@@ -17,6 +17,7 @@ suppressPackageStartupMessages({
 
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
+source(file.path("programs", "adam", "_adam_utils.R"))  # study_day()
 
 adsl <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
 dv   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "dv.parquet")))
@@ -30,7 +31,7 @@ addv <- dv |>
   left_join(adsl_vars, by = c("STUDYID", "USUBJID")) |>
   mutate(
     ADT     = as.Date(DVSTDTC),
-    ADY     = as.integer(ADT - RANDDT) + 1L,
+    ADY     = study_day(ADT, RANDDT),
     DVSEV   = DVCAT,   # MAJOR / MINOR
     ANL01FL = "Y"
   ) |>

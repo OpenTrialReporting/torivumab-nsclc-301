@@ -16,6 +16,7 @@ suppressPackageStartupMessages({
 
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
+source(file.path("programs", "adam", "_adam_utils.R"))  # study_day()
 
 adsl <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
 mh   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "mh.parquet")))
@@ -32,7 +33,7 @@ admh <- mh |>
     # Per SAP §7, no imputation for descriptive MH summary.
     ASTDT      = as.Date(ifelse(nchar(MHSTDTC) == 10, MHSTDTC, NA_character_)),
     ASTDY      = if_else(!is.na(ASTDT) & !is.na(TRTSDT),
-                          as.integer(ASTDT - TRTSDT) + 1L, NA_integer_),
+                          study_day(ASTDT, TRTSDT), NA_integer_),
     # PCANCERFL — primary cancer flag (NSCLC diagnosis)
     PCANCERFL  = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N"),
     # ONGOFL — ongoing at study start

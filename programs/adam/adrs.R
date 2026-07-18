@@ -43,7 +43,7 @@ ovr <- rs |>
   left_join(adsl_vars, by = c("STUDYID", "USUBJID")) |>
   mutate(
     ADT     = as.Date(RSDTC),
-    ADY     = as.integer(ADT - TRTSDT) + 1L,
+    ADY     = study_day(ADT, TRTSDT),
     PARAMCD = "OVR",
     PARAM   = "Overall Response by Investigator (RECIST 1.1)",
     AVALC   = RSSTRESC,
@@ -90,7 +90,7 @@ adrs_bor <- adsl_vars |>
     PARAMCD  = "BOR",
     PARAM    = "Best Overall Response (RECIST 1.1)",
     ADT      = ADT_BOR,
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AVAL     = BOR_AVAL,
     AVALC    = BOR_AVALC,
     ANL01FL  = "Y",
@@ -130,7 +130,7 @@ adrs_cbor <- adsl_vars |>
     PARAMCD  = "CBOR",
     PARAM    = "Confirmed Best Overall Response (RECIST 1.1)",
     ADT      = ADT_CBOR,
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AVAL     = if_else(!is.na(CBOR_AVAL), CBOR_AVAL, 5),
     AVALC    = if_else(!is.na(CBOR_AVALC), CBOR_AVALC, "NE"),
     ANL01FL  = "Y",

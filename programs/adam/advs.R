@@ -34,22 +34,31 @@ advs <- vs |>
     PARAMCD  = VSTESTCD,
     PARAMN   = match(PARAMCD, sort(unique(PARAMCD))),
     ADT      = as.Date(VSDTC),
-    ADY      = as.integer(ADT - TRTSDT) + 1L,
+    ADY      = study_day(ADT, TRTSDT),
     AVISIT   = VISIT,
     AVISITN  = derive_avisitn(VISIT, VISITNUM),
     AVAL     = VSSTRESN,
     AVALC    = VSSTRESC,
-    AVALU    = VSSTRESU,
-    ABLFL    = if_else(AVISIT %in% c("SCREENING", "SCR", "C1D1") &
-                        ADT <= TRTSDT, "Y", NA_character_)
+    AVALU    = VSSTRESU
   )
 
-# Baseline value per (USUBJID, PARAMCD) = last non-missing AVAL with ABLFL='Y'
-baseline <- advs |>
-  filter(ABLFL == "Y", !is.na(AVAL)) |>
-  arrange(USUBJID, PARAMCD, ADT) |>
+# Baseline flag: exactly ONE record per USUBJID/PARAMCD — the last non-missing
+# pre-treatment measurement (P21 AD0154 — no multiple baselines). BASE is that
+# record's AVAL, so ABLFL='Y' => AVAL == BASE (P21 AD0152).
+advs <- advs |>
   group_by(USUBJID, PARAMCD) |>
-  summarise(BASE = last(AVAL), .groups = "drop")
+  arrange(ADT, VSSEQ, .by_group = TRUE) |>
+  mutate(
+    .pre  = !is.na(AVAL) & ADT <= TRTSDT,
+    ABLFL = if_else(.pre & cumsum(.pre) == sum(.pre) & sum(.pre) > 0L,
+                    "Y", NA_character_)
+  ) |>
+  ungroup() |>
+  select(-.pre)
+
+baseline <- advs |>
+  filter(ABLFL == "Y") |>
+  select(USUBJID, PARAMCD, BASE = AVAL)
 
 advs <- advs |>
   left_join(baseline, by = c("USUBJID", "PARAMCD")) |>

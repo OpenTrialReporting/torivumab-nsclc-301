@@ -36,8 +36,8 @@ lab_specs <- list(
                lo = 3,    hi = 21,    mu = 10,    sd = 5),
   ALB  = list(name = "Albumin",                  unit = "g/L",
                lo = 35,   hi = 52,    mu = 40,    sd = 5),
-  NA.  = list(name = "Sodium",                   unit = "mmol/L",
-               lo = 136,  hi = 145,   mu = 140,   sd = 3),
+  SODIUM = list(name = "Sodium",                 unit = "mmol/L",
+               lo = 136,  hi = 145,   mu = 140,   sd = 3),  # code was "NA" (Na symbol) -> parsed as missing; use CDISC SODIUM
   K    = list(name = "Potassium",                unit = "mmol/L",
                lo = 3.5,  hi = 5.1,   mu = 4.1,   sd = 0.4)
 )

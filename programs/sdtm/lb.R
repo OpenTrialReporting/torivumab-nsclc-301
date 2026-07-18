@@ -43,7 +43,10 @@ raw <- raw |>
   mutate(
     USUBJID = paste(STUDYID, SUBJECT_ID,
                     sep = "-"),
-    LBTESTCD = str_to_upper(str_trim(TEST_CODE)),
+    # Sodium's raw TEST_CODE ("NA", the element symbol) is parsed as missing by
+    # the CSV reader; recover the CDISC LBTESTCD from the test name (P21 SD0002).
+    LBTESTCD = if_else(is.na(TEST_CODE) & str_trim(TEST_NAME) == "Sodium",
+                       "SODIUM", str_to_upper(str_trim(TEST_CODE))),
     LBTEST   = str_trim(TEST_NAME),
     LBCAT    = case_when(
       LBTESTCD %in% haem_codes ~ "HAEMATOLOGY",

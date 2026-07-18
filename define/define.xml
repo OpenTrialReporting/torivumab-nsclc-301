@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718201659"
-     CreationDateTime="2026-07-18T20:16:54"
-     AsOfDateTime="2026-07-18T20:16:54"
+     FileOID="CTX-NSCLC-301.20260718203512"
+     CreationDateTime="2026-07-18T20:35:08"
+     AsOfDateTime="2026-07-18T20:35:08"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1327,7 +1327,7 @@
         <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.LB.LBTESTCD" Name="LBTESTCD" SASFieldName="LBTESTCD" DataType="text" Length="5">
+      <ItemDef OID="IT.LB.LBTESTCD" Name="LBTESTCD" SASFieldName="LBTESTCD" DataType="text" Length="6">
         <Description><TranslatedText xml:lang="en">Lab Test or Examination Short Name</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2535,7 +2535,7 @@
         <Description><TranslatedText xml:lang="en">Analysis Treatment</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADEX.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="37">
+      <ItemDef OID="IT.ADEX.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="30">
         <Description><TranslatedText xml:lang="en">Parameter</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2639,7 +2639,7 @@
         <Description><TranslatedText xml:lang="en">Parameter Description</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADLB.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="5">
+      <ItemDef OID="IT.ADLB.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="6">
         <Description><TranslatedText xml:lang="en">Parameter Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>

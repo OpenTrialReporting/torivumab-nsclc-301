@@ -23,6 +23,8 @@
 #              Sourced by adlb.R, adex.R, adrs.R, adtr.R, advs.R.
 # =============================================================================
 
+source(file.path("programs", "adam", "_adam_utils.R"))  # provides study_day()
+
 derive_avisitn <- function(avisit, visitnum) {
   vn <- suppressWarnings(as.numeric(visitnum))
   av <- as.character(avisit)

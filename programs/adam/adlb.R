@@ -37,7 +37,7 @@ adlb <- lb |>
 adlb <- adlb |>
   mutate(
     ADT = as.Date(LBDTC),
-    ADY = as.integer(ADT - TRTSDT) + 1L
+    ADY = study_day(ADT, TRTSDT)
   )
 
 # 4. Analysis variables
