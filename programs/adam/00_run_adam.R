@@ -92,6 +92,24 @@ message("Running: programs/adam/label_adam.R")
 message(strrep("=", 70))
 source(file.path("programs", "adam", "label_adam.R"), local = new.env(parent = globalenv()))
 
+# ── Finalize submission outputs: Define-XML + XPT (SDTM + ADaM) ───────────────
+# Both require SDTM + ADaM parquet (present by now); define.xml is rebuilt first
+# so the XPT carry current labels. Non-fatal — ADaM parquet are already written.
+# Set SKIP_OUTPUTS=1 to skip during quick ADaM-only iterations.
+if (!nzchar(Sys.getenv("SKIP_OUTPUTS"))) {
+  message("\n", strrep("=", 70))
+  message("Finalizing outputs: Define-XML (build_define.R) + XPT (build_xpt.R)")
+  message(strrep("=", 70))
+  tryCatch({
+    source(file.path("programs", "define", "build_define.R"), local = new.env(parent = globalenv()))
+    source(file.path("programs", "export", "build_xpt.R"),    local = new.env(parent = globalenv()))
+  }, error = function(e) {
+    message("WARNING: output finalization skipped: ", conditionMessage(e))
+  })
+} else {
+  message("\nSKIP_OUTPUTS set — skipping Define-XML + XPT finalization.")
+}
+
 elapsed <- proc.time() - start_time
 
 message("\n", strrep("=", 70))

@@ -26,12 +26,20 @@
 derive_avisitn <- function(avisit, visitnum) {
   vn <- suppressWarnings(as.numeric(visitnum))
   av <- as.character(avisit)
+  # Parse the numeric suffix only where the label matches; NA elsewhere (avoids
+  # as.numeric() coercion warnings, since case_when evaluates every branch).
+  num_from <- function(pattern, x) {
+    m <- grepl(pattern, x)
+    out <- rep(NA_real_, length(x))
+    out[m] <- as.numeric(sub(pattern, "\\1", x[m]))
+    out
+  }
   out <- dplyr::case_when(
     !is.na(vn)                               ~ vn,
     is.na(av)                                ~ NA_real_,
     av == "BASELINE"                         ~ 0,
-    grepl("^MAINT_C[0-9]+D1$", av)           ~ 7 + as.numeric(sub("^MAINT_C([0-9]+)D1$", "\\1", av)),
-    grepl("^TUMOR_ASSESS_WK[0-9]+$", av)     ~ as.numeric(sub("^TUMOR_ASSESS_WK([0-9]+)$", "\\1", av)),
+    grepl("^MAINT_C[0-9]+D1$", av)           ~ 7 + num_from("^MAINT_C([0-9]+)D1$", av),
+    grepl("^TUMOR_ASSESS_WK[0-9]+$", av)     ~ num_from("^TUMOR_ASSESS_WK([0-9]+)$", av),
     TRUE                                     ~ NA_real_
   )
   as.integer(out)
