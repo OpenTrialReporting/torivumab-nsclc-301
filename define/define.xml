@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718233036"
-     CreationDateTime="2026-07-18T23:30:32"
-     AsOfDateTime="2026-07-18T23:30:32"
+     FileOID="CTX-NSCLC-301.20260718233653"
+     CreationDateTime="2026-07-18T23:36:49"
+     AsOfDateTime="2026-07-18T23:36:49"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -398,7 +398,7 @@
         <ItemRef ItemOID="IT.TR.VISITNUM" OrderNumber="12" Mandatory="No"/>
         <ItemRef ItemOID="IT.TR.VISIT" OrderNumber="13" Mandatory="No"/>
         <ItemRef ItemOID="IT.TR.TRGRPID" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TR.TRLINKID" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.TRLNKID" OrderNumber="15" Mandatory="No"/>
         <def:leaf ID="LF.TR" xlink:href="tr.xpt">
           <def:title>tr.xpt</def:title>
         </def:leaf>
@@ -418,7 +418,7 @@
         <ItemRef ItemOID="IT.TU.VISITNUM" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.TU.VISIT" OrderNumber="12" Mandatory="No"/>
         <ItemRef ItemOID="IT.TU.TUGRPID" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TU.TULINKID" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.TULNKID" OrderNumber="14" Mandatory="No"/>
         <def:leaf ID="LF.TU" xlink:href="tu.xpt">
           <def:title>tu.xpt</def:title>
         </def:leaf>
@@ -1194,7 +1194,7 @@
         <Description><TranslatedText xml:lang="en">Ethnicity</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DM.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="14">
+      <ItemDef OID="IT.DM.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="3">
         <Description><TranslatedText xml:lang="en">Country</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1894,7 +1894,7 @@
         <Description><TranslatedText xml:lang="en">Group ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRLINKID" Name="TRLINKID" SASFieldName="TRLINKID" DataType="text" Length="8">
+      <ItemDef OID="IT.TR.TRLNKID" Name="TRLNKID" SASFieldName="TRLNKID" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1950,7 +1950,7 @@
         <Description><TranslatedText xml:lang="en">Group ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.TU.TULINKID" Name="TULINKID" SASFieldName="TULINKID" DataType="text" Length="11">
+      <ItemDef OID="IT.TU.TULNKID" Name="TULNKID" SASFieldName="TULNKID" DataType="text" Length="11">
         <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
