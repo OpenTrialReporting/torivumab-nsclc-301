@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718210201"
-     CreationDateTime="2026-07-18T21:01:55"
-     AsOfDateTime="2026-07-18T21:01:55"
+     FileOID="CTX-NSCLC-301.20260718211419"
+     CreationDateTime="2026-07-18T21:14:14"
+     AsOfDateTime="2026-07-18T21:14:14"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -291,7 +291,7 @@
         <ItemRef ItemOID="IT.SU.SUCAT" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUSCAT" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUSTDTC" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUPACKYRS" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUPACKYR" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUFREQ" OrderNumber="11" Mandatory="No"/>
         <def:leaf ID="LF.SU" xlink:href="su.xpt">
           <def:title>su.xpt</def:title>
@@ -1598,8 +1598,8 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Substance Use</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.SU.SUPACKYRS" Name="SUPACKYRS" SASFieldName="SUPACKYRS" DataType="float" Length="8">
-        <Description><TranslatedText xml:lang="en">SUPACKYRS</TranslatedText></Description>
+      <ItemDef OID="IT.SU.SUPACKYR" Name="SUPACKYR" SASFieldName="SUPACKYR" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">Substance Use Pack-Years</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.SU.SUFREQ" Name="SUFREQ" SASFieldName="SUFREQ" DataType="text" Length="14">
@@ -2259,7 +2259,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.ONTRTFL" Name="ONTRTFL" SASFieldName="ONTRTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">On-Treatment Record Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">On Treatment Record Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.CMIRAEFL" Name="CMIRAEFL" SASFieldName="CMIRAEFL" DataType="text" Length="1">
@@ -3187,7 +3187,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.STARTDT" Name="STARTDT" SASFieldName="STARTDT" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Time to Event Origin Date</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Time-to-Event Origin Date for Subject</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">

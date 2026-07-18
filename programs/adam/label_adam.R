@@ -71,7 +71,7 @@ SUPPLEMENT <- list(
   ADY      = "Analysis Relative Day",
   ASTDY    = "Analysis Start Relative Day",
   AENDY    = "Analysis End Relative Day",
-  STARTDT  = "Time to Event Origin Date",
+  STARTDT  = "Time-to-Event Origin Date for Subject",  # exact CDISC label (P21 AD0018)
   PCANCFL  = "Primary Cancer (NSCLC Diagnosis) Flag",
   AVISIT   = "Analysis Visit",
   AVISITN  = "Analysis Visit (N)",
@@ -119,7 +119,7 @@ STANDARD <- list(
   AVALC    = "Analysis Value (C)",
   PARAMN   = "Parameter (N)",
   BASE     = "Baseline Value",
-  ONTRTFL  = "On-Treatment Record Flag",
+  ONTRTFL  = "On Treatment Record Flag",
   CMTRT    = "Reported Name of Drug, Med, or Therapy",
   AESTDTC  = "Start Date/Time of Adverse Event",
   AEENDTC  = "End Date/Time of Adverse Event",

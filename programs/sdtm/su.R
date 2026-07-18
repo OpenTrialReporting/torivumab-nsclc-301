@@ -38,8 +38,8 @@ raw <- raw |>
     SUSCAT   = str_to_upper(str_trim(USE_STATUS)),
     # SUSTDTC: not directly available; leave as NA per spec
     SUSTDTC  = NA_character_,
-    # SUPACKYRS: pack-years for tobacco
-    SUPACKYRS = suppressWarnings(as.numeric(PACK_YEARS)),
+    # SUPACKYR: pack-years for tobacco
+    SUPACKYR = suppressWarnings(as.numeric(PACK_YEARS)),
     SUFREQ   = str_to_upper(str_trim(as.character(FREQUENCY)))
   ) |>
   arrange(USUBJID, SUCAT) |>
@@ -58,7 +58,7 @@ sdtm_su <- raw |>
     SUCAT,
     SUSCAT,
     SUSTDTC,
-    SUPACKYRS,
+    SUPACKYR,
     SUFREQ
   )
 

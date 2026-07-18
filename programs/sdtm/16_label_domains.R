@@ -254,7 +254,8 @@ DOMAIN_LABELS <- list(
     SUFREQ   = "Dosing Frequency per Interval",
     SUSTDTC  = "Start Date/Time of Substance Use",
     SUENDTC  = "End Date/Time of Substance Use",
-    SUENRTPT = "End Relative to Reference Time Point"
+    SUENRTPT = "End Relative to Reference Time Point",
+    SUPACKYR = "Substance Use Pack-Years"
   )),
 
   vs = c(SHARED, list(
