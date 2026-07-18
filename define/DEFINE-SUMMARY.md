@@ -15,7 +15,7 @@
 | DD | EVENTS | 312 | 12 | One record per subject per death detail |
 | DM | SPECIAL PURPOSE | 450 | 17 | One record per subject |
 | DS | EVENTS | 1,350 | 9 | One record per subject per disposition event |
-| DV | RELATIONSHIP | 337 | 10 | — |
+| DV | EVENTS | 337 | 10 | One record per subject per protocol deviation |
 | EX | INTERVENTIONS | 13,403 | 13 | One record per subject per administration |
 | LB | FINDINGS | 122,601 | 19 | One record per subject per lab test per visit |
 | MH | EVENTS | 2,061 | 11 | One record per subject per medical history event |

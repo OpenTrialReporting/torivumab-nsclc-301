@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718190629"
-     CreationDateTime="2026-07-18T19:06:24"
-     AsOfDateTime="2026-07-18T19:06:24"
+     FileOID="CTX-NSCLC-301.20260718193049"
+     CreationDateTime="2026-07-18T19:30:44"
+     AsOfDateTime="2026-07-18T19:30:44"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -152,12 +152,12 @@
           <def:title>ds.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.DV" Name="DV" Repeating="Yes" IsReferenceData="No" SASDatasetName="DV" Purpose="Tabulation" def:Structure="—" def:Class="RELATIONSHIP" def:ArchiveLocationID="LF.DV" def:StandardOID="STD.SDTM">
-        <Description><TranslatedText xml:lang="en">dv</TranslatedText></Description>
+      <ItemGroupDef OID="IG.DV" Name="DV" Repeating="Yes" IsReferenceData="No" SASDatasetName="DV" Purpose="Tabulation" def:Structure="One record per subject per protocol deviation" def:Class="EVENTS" def:ArchiveLocationID="LF.DV" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">Protocol Deviations</TranslatedText></Description>
         <ItemRef ItemOID="IT.DV.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.DV.DOMAIN" OrderNumber="2" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
-        <ItemRef ItemOID="IT.DV.DVSEQ" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVSEQ" OrderNumber="4" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.DV.DVTERM" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.DVDECOD" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.DVCAT" OrderNumber="7" Mandatory="No"/>
