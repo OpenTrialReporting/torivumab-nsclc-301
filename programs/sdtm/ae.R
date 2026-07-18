@@ -117,7 +117,7 @@ map_acn <- function(x) {
     str_detect(x_up, "DOSE REDUC")   ~ "DOSE REDUCED",
     str_detect(x_up, "DOSE INTERR")  ~ "DRUG INTERRUPTED",
     str_detect(x_up, "DISC")         ~ "DRUG WITHDRAWN",
-    str_detect(x_up, "NONE|NOT")     ~ "NONE",
+    str_detect(x_up, "NONE|NOT")     ~ "DOSE NOT CHANGED",  # CDISC AEACN (P21 CT2001)
     TRUE ~ x_up
   )
 }

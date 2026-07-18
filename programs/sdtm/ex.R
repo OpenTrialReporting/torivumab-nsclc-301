@@ -48,7 +48,8 @@ raw <- raw |>
                      sep = "-"),
     EXTRT    = str_to_upper(str_trim(DRUG_NAME)),
     EXDOSE   = as.numeric(DOSE_MG),
-    EXDOSU   = str_to_upper(str_trim(DOSE_UNIT)),
+    EXDOSU   = dplyr::recode(str_to_upper(str_trim(DOSE_UNIT)),  # CDISC UNIT (P21 CT2002)
+                             "MG" = "mg", "MG/M2" = "mg/m2"),
     EXROUTE  = "INTRAVENOUS",
     EXSTDTC  = as.character(START_DATE),
     EXENDTC  = as.character(END_DATE),

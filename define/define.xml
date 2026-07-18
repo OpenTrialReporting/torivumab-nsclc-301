@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718212558"
-     CreationDateTime="2026-07-18T21:25:53"
-     AsOfDateTime="2026-07-18T21:25:53"
+     FileOID="CTX-NSCLC-301.20260718213733"
+     CreationDateTime="2026-07-18T21:37:28"
+     AsOfDateTime="2026-07-18T21:37:28"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1184,7 +1184,7 @@
         <Description><TranslatedText xml:lang="en">Age Units</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.DM.SEX" Name="SEX" SASFieldName="SEX" DataType="text" Length="6">
+      <ItemDef OID="IT.DM.SEX" Name="SEX" SASFieldName="SEX" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Sex</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2996,7 +2996,7 @@
         <Description><TranslatedText xml:lang="en">Age Units</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.SEX" Name="SEX" SASFieldName="SEX" DataType="text" Length="6">
+      <ItemDef OID="IT.ADSL.SEX" Name="SEX" SASFieldName="SEX" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Sex</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>

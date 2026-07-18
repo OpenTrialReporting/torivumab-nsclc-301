@@ -73,10 +73,10 @@ da_long <- raw |>
     ),
     DACAT    = "DRUG ACCOUNTABILITY",
     DAORRES  = format(round(value, 2), nsmall = 0, trim = TRUE),
-    DAORRESU = AMT_UNIT,
+    DAORRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2", "VIAL" = "vial"),  # CDISC UNIT (CT2002)
     DASTRESC = format(round(value, 2), nsmall = 0, trim = TRUE),
     DASTRESN = as.numeric(value),
-    DASTRESU = AMT_UNIT,
+    DASTRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2", "VIAL" = "vial"),  # CDISC UNIT (CT2002)
     DASTDTC  = as.character(VISIT_DATE),
     VISIT    = VISIT_NAME
   ) |>

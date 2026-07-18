@@ -47,7 +47,13 @@ raw <- raw |>
     # the CSV reader; recover the CDISC LBTESTCD from the test name (P21 SD0002).
     LBTESTCD = if_else(is.na(TEST_CODE) & str_trim(TEST_NAME) == "Sodium",
                        "SODIUM", str_to_upper(str_trim(TEST_CODE))),
-    LBTEST   = str_trim(TEST_NAME),
+    # CDISC LBTEST submission values keyed by LBTESTCD (P21 CT2002 + CT2003 pair)
+    LBTEST   = dplyr::recode(LBTESTCD,
+                 ALB = "Albumin", ALT = "Alanine Aminotransferase",
+                 AST = "Aspartate Aminotransferase", BILI = "Bilirubin",
+                 CREAT = "Creatinine", HGB = "Hemoglobin", K = "Potassium",
+                 NEUT = "Neutrophils", PLAT = "Platelets", SODIUM = "Sodium",
+                 WBC = "Leukocytes", .default = str_trim(TEST_NAME)),
     LBCAT    = case_when(
       LBTESTCD %in% haem_codes ~ "HAEMATOLOGY",
       TRUE                     ~ "CHEMISTRY"

@@ -46,7 +46,8 @@ raw <- raw |>
     # Blank ARM/ACTARM for screen failures
     ARM         = ifelse(!is.na(ARMNRS), "SCREEN FAILURE", ARM),
     ACTARM      = ifelse(!is.na(ARMNRS), "SCREEN FAILURE", ACTARM),
-    SEX         = str_to_upper(str_trim(SEX)),
+    SEX         = dplyr::recode(str_to_upper(str_trim(SEX)),   # CDISC SEX codelist (P21 CT2001)
+                                "MALE" = "M", "FEMALE" = "F", .default = "U"),
     RACE        = str_to_upper(str_trim(RACE)),
     ETHNIC      = str_to_upper(str_trim(ETHNIC)),
     COUNTRY     = str_to_upper(str_trim(COUNTRY)),
