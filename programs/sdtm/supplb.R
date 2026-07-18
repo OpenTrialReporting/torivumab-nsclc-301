@@ -9,7 +9,7 @@
 #                BIOMRKFL — Biomarker test indicator (Y for PD-L1, EGFR, ALK,
 #                           ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK,
 #                           TMB; N otherwise)
-#                CENTRALFL — Central lab indicator (Y for biomarkers and
+#                CENTLBFL — Central lab indicator (Y for biomarkers and
 #                           protocol-defined central tests; N otherwise)
 # =============================================================================
 
@@ -40,12 +40,12 @@ lb_flagged <- lb |>
   mutate(
     LBTESTCD_UP = str_to_upper(str_trim(LBTESTCD)),
     BIOMRKFL    = ifelse(LBTESTCD_UP %in% biomarker_codes, "Y", "N"),
-    CENTRALFL   = ifelse(BIOMRKFL == "Y", "Y", "N")
+    CENTLBFL   = ifelse(BIOMRKFL == "Y", "Y", "N")
   )
 
 supp_long <- lb_flagged |>
   pivot_longer(
-    cols      = c(BIOMRKFL, CENTRALFL),
+    cols      = c(BIOMRKFL, CENTLBFL),
     names_to  = "QNAM",
     values_to = "QVAL"
   ) |>
@@ -58,7 +58,7 @@ supp_long <- lb_flagged |>
     QNAM,
     QLABEL   = case_when(
       QNAM == "BIOMRKFL"  ~ "Biomarker Test Indicator",
-      QNAM == "CENTRALFL" ~ "Central Lab Indicator"
+      QNAM == "CENTLBFL" ~ "Central Lab Indicator"
     ),
     QVAL,
     QORIG    = "DERIVED",
