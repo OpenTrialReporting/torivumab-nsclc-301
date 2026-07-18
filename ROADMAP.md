@@ -468,7 +468,7 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound
 - [ ] ADRG complete & referenced
-- [~] All 22 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — submission bundle staged in `onco_phase3_solid/` (34 Parquet + `metadata.json`, slug `onco_phase3_solid`, v0.1.0, N=450) ready for GitHub Release upload; release upload itself runs from the clinTrialData package clone (see `onco_phase3_solid/README.md`)
+- [x] All 22 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — bundle `onco_phase3_solid/` (34 Parquet + `metadata.json`, N=450) **published to the clinTrialData `v0.1.0` GitHub Release (2026-07-18)** and verified end-to-end from the published URL (ADaM labels 333/333, SDTM 268/282, n_subjects=450). ADaM variable labels fixed pre-release (issue #14). See `onco_phase3_solid/README.md`.
 - [ ] Repository clean & fully documented on GitHub
 
 ---
@@ -524,7 +524,7 @@ torivumab-nsclc-301/
 │   └── build_define.R
 ├── csr/                                    ⏳ Phase 7
 │   └── csr.pdf
-├── onco_phase3_solid/                          ✅ clinTrialData submission bundle (v0.1.0)
+├── onco_phase3_solid/                          ✅ clinTrialData bundle — published to v0.1.0 Release (2026-07-18)
 │   ├── adam/  *.parquet (12)  ·  sdtm/  *.parquet (22)
 │   ├── metadata.json                            (source/domains/n_subjects=450/version/license)
 │   └── README.md                                (release-upload commands)
