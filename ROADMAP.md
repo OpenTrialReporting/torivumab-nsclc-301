@@ -413,6 +413,25 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 ### Future pilots (not gated)
 - **SDTMIG v4.0 sibling pilot** — produce a parallel `datasets/sdtm_v4/` + `define/define_v4.xml` alongside the v3.4 baseline, demonstrating SUPP-- removal and v4.0 naming conventions for educational/comparison purposes. ADaM/TFL/ARM continue to consume v3.4. Tracked in a separate GitHub issue.
 
+### Backlog enhancements (not gated)
+
+Planned enhancements carried over from the working journal. Tracked as GitHub issues — filter with `gh issue list --label roadmap-backlog`.
+
+**Pipeline**
+- **Upgrade to admiral 1.5.0 + positive censoring for ADTTE** — currently admiral 1.4.1 with hand-rolled ADTTE censoring; move to `derive_param_tte()` positive-censoring + estimand framework. ([#17](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/17))
+- **profvis/debrief profiling of the ADaM pipeline** — capture a profvis profile of `00_run_adam.R`, summarise via `debrief`. ([#18](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/18))
+
+**Standards**
+- **Dataset-JSON v1.1 for SDTM + ADaM** — emit CDISC Dataset-JSON alongside Parquet, driven from Define-XML (FDA XPT-transition format). ([#19](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/19))
+- **ICH E6(R2) → E6(R3) GCP references** — update protocol/SAP GCP citations (UK legal requirement April 2026). ([#20](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/20))
+- **FDA Master Protocols — basket-trial follow-up** — scope a multi-indication/basket extension of the torivumab programme (scoping note, not code). ([#21](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/21))
+
+**QC**
+- **Phase 3 database vs Phase 1 synopsis cross-check** — reconcile realised SDTM/ADaM against the protocol synopsis design parameters. ([#22](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/22))
+
+**Tooling**
+- **Evaluate TealFlowMCP / rtables+tern for a TFL v2** — the 43 Phase 6 TFLs already ship via a flextable/ggplot stack; assess effort vs benefit of an rtables+tern rebuild. Lower priority. ([#23](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/23))
+
 ---
 
 ## Timeline Estimate
