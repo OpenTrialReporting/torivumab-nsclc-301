@@ -69,33 +69,11 @@ tr_target <- raw |>
     TRSTRESU = "mm"
   )
 
-# --- Record set 2: Non-target lesion overall response (OVRLRESP) ---
-tr_nontarget <- raw |>
-  filter(TRGRPID == "NON-TARGET" & !is.na(RESPONSE_CATEGORY) &
-           str_trim(as.character(RESPONSE_CATEGORY)) != "") |>
-  mutate(
-    TRTESTCD = "OVRLRESP",
-    TRTEST   = "Overall Response",
-    TRORRES  = str_to_upper(str_trim(RESPONSE_CATEGORY)),
-    TRSTRESC = str_to_upper(str_trim(RESPONSE_CATEGORY)),
-    TRSTRESN = NA_real_,
-    TRSTRESU = NA_character_
-  )
-
-# --- Record set 3: New lesion flag (NEWLSN) ---
-tr_newlesion <- raw |>
-  filter(new_lesion_flag) |>
-  mutate(
-    TRTESTCD = "NEWLSN",
-    TRTEST   = "New Lesion",
-    TRORRES  = "Y",
-    TRSTRESC = "Y",
-    TRSTRESN = NA_real_,
-    TRSTRESU = NA_character_
-  )
-
-# Combine
-tr_all <- bind_rows(tr_target, tr_nontarget, tr_newlesion)
+# Non-target overall response and new-lesion flags are NOT valid TR (Tumor/
+# Lesion Results) test codes — those are response assessments that belong in RS
+# (the overall response in RS already reflects them). Only LDIAM lesion
+# measurements remain in TR (P21 CT2002 for TRTESTCD/TRTEST).
+tr_all <- tr_target
 
 sdtm_tr <- tr_all |>
   arrange(USUBJID, TRDTC, TRLINKID, TRTESTCD) |>

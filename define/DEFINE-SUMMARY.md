@@ -20,7 +20,7 @@
 | LB | FINDINGS | 122,601 | 19 | One record per subject per lab test per visit |
 | MH | EVENTS | 2,061 | 11 | One record per subject per medical history event |
 | PE | FINDINGS | 25,596 | 12 | One record per subject per body system per visit |
-| RELREC | RELATIONSHIP | 15,744 | 6 | One record per related record |
+| RELREC | RELATIONSHIP | 12,831 | 6 | One record per related record |
 | RS | FINDINGS | 5,338 | 13 | One record per subject per assessment per visit |
 | SU | INTERVENTIONS | 1,229 | 10 | One record per subject per substance use occurrence |
 | SUPPAE | RELATIONSHIP | 8,523 | 10 | One record per parent record per qualifier |
@@ -28,7 +28,7 @@
 | SUPPDM | RELATIONSHIP | 1,799 | 10 | One record per subject per qualifier |
 | SUPPLB | RELATIONSHIP | 245,202 | 10 | One record per parent record per qualifier |
 | SUPPSU | RELATIONSHIP | 450 | 10 | One record per parent record per qualifier |
-| TR | FINDINGS | 9,049 | 15 | One record per subject per lesion per measurement per visit |
+| TR | FINDINGS | 6,136 | 15 | One record per subject per lesion per measurement per visit |
 | TU | FINDINGS | 9,012 | 14 | One record per subject per lesion per visit (tumor identification) |
 | VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
 | ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 51 | One record per subject per adverse event |

@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718230605"
-     CreationDateTime="2026-07-18T23:06:01"
-     AsOfDateTime="2026-07-18T23:06:01"
+     FileOID="CTX-NSCLC-301.20260718230925"
+     CreationDateTime="2026-07-18T23:09:21"
+     AsOfDateTime="2026-07-18T23:09:21"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1849,7 +1849,7 @@
         <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRTESTCD" Name="TRTESTCD" SASFieldName="TRTESTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.TR.TRTESTCD" Name="TRTESTCD" SASFieldName="TRTESTCD" DataType="text" Length="5">
         <Description><TranslatedText xml:lang="en">Tumor Result Test Short Name</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -1857,11 +1857,11 @@
         <Description><TranslatedText xml:lang="en">Tumor Result Test Name</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRORRES" Name="TRORRES" SASFieldName="TRORRES" DataType="text" Length="14">
+      <ItemDef OID="IT.TR.TRORRES" Name="TRORRES" SASFieldName="TRORRES" DataType="text" Length="4">
         <Description><TranslatedText xml:lang="en">Result or Finding in Original Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRSTRESC" Name="TRSTRESC" SASFieldName="TRSTRESC" DataType="text" Length="14">
+      <ItemDef OID="IT.TR.TRSTRESC" Name="TRSTRESC" SASFieldName="TRSTRESC" DataType="text" Length="4">
         <Description><TranslatedText xml:lang="en">Character Result/Finding in Std Format</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1885,11 +1885,11 @@
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRGRPID" Name="TRGRPID" SASFieldName="TRGRPID" DataType="text" Length="10">
+      <ItemDef OID="IT.TR.TRGRPID" Name="TRGRPID" SASFieldName="TRGRPID" DataType="text" Length="6">
         <Description><TranslatedText xml:lang="en">Group ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.TR.TRLINKID" Name="TRLINKID" SASFieldName="TRLINKID" DataType="text" Length="11">
+      <ItemDef OID="IT.TR.TRLINKID" Name="TRLINKID" SASFieldName="TRLINKID" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
