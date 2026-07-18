@@ -71,6 +71,8 @@ SUPPLEMENT <- list(
   ADY      = "Analysis Relative Day",
   ASTDY    = "Analysis Start Relative Day",
   AENDY    = "Analysis End Relative Day",
+  STARTDT  = "Time to Event Origin Date",
+  PCANCFL  = "Primary Cancer (NSCLC Diagnosis) Flag",
   AVISIT   = "Analysis Visit",
   AVISITN  = "Analysis Visit (N)",
   VISIT    = "Visit Name",

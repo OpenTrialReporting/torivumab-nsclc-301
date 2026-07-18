@@ -71,8 +71,7 @@ adcm <- cm |>
         toupper(CMINDC) %in% c("SUBSEQUENT ANTI-CANCER THERAPY",
                                  "ANTINEOPLASTIC AGENTS"),
       "Y", "N"),
-    ANL01FL   = "Y",
-    AVAL      = NA_real_  # OCCDS — no analysis value
+    ANL01FL   = "Y"      # AVAL prohibited in OCCDS (P21 AD0252)
   ) |>
   arrange(USUBJID, CMSEQ) |>
   select(
@@ -82,7 +81,7 @@ adcm <- cm |>
     CMSEQ, CMTRT, CMDECOD, CMATC, CMINDC, CMROUTE,
     CMSTDTC, CMENDTC, ASTDT, AENDT, ASTDY, AENDY,
     PRIORFL, CONFL, ONTRTFL, CMIRAEFL, SUBSQTFL,
-    ANL01FL, AVAL
+    ANL01FL
   )
 
 write_parquet(adcm, file.path(ADAM_DIR, "adcm.parquet"))

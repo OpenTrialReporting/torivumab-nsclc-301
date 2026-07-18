@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718203512"
-     CreationDateTime="2026-07-18T20:35:08"
-     AsOfDateTime="2026-07-18T20:35:08"
+     FileOID="CTX-NSCLC-301.20260718210201"
+     CreationDateTime="2026-07-18T21:01:55"
+     AsOfDateTime="2026-07-18T21:01:55"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -484,7 +484,6 @@
         <ItemRef ItemOID="IT.ADAE.TRTEMFL" OrderNumber="42" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADAE.IRAEFL" OrderNumber="43" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADAE.ANL01FL" OrderNumber="44" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AVAL" OrderNumber="45" Mandatory="No"/>
         <def:leaf ID="LF.ADAE" xlink:href="adae.xpt">
           <def:title>adae.xpt</def:title>
         </def:leaf>
@@ -521,7 +520,6 @@
         <ItemRef ItemOID="IT.ADCM.CMIRAEFL" OrderNumber="28" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADCM.SUBSQTFL" OrderNumber="29" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADCM.ANL01FL" OrderNumber="30" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADCM.AVAL" OrderNumber="31" Mandatory="No"/>
         <def:leaf ID="LF.ADCM" xlink:href="adcm.xpt">
           <def:title>adcm.xpt</def:title>
         </def:leaf>
@@ -683,7 +681,7 @@
         <ItemRef ItemOID="IT.ADMH.MHSTDTC" OrderNumber="17" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADMH.ASTDT" OrderNumber="18" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADMH.ASTDY" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADMH.PCANCERFL" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADMH.PCANCFL" OrderNumber="20" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADMH.ONGOFL" OrderNumber="21" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADMH.PRIORFL" OrderNumber="22" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADMH.ANL01FL" OrderNumber="23" Mandatory="No"/>
@@ -804,13 +802,14 @@
         <ItemRef ItemOID="IT.ADTTE.TRTEDT" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADTTE.PARAM" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADTTE.PARAMCD" OrderNumber="12" Mandatory="Yes" KeySequence="3"/>
-        <ItemRef ItemOID="IT.ADTTE.ADT" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.AVAL" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.AVALU" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.CNSR" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.EVNTDESC" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.SRCDOM" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTTE.ANL01FL" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.STARTDT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.ADT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.AVAL" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.AVALU" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.CNSR" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.EVNTDESC" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.SRCDOM" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTTE.ANL01FL" OrderNumber="20" Mandatory="No"/>
         <def:leaf ID="LF.ADTTE" xlink:href="adtte.xpt">
           <def:title>adtte.xpt</def:title>
         </def:leaf>
@@ -2155,10 +2154,6 @@
         <Description><TranslatedText xml:lang="en">Analysis Flag 01 (TEAE analysis)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Analysis Value</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
       <ItemDef OID="IT.ADCM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -2277,10 +2272,6 @@
       </ItemDef>
       <ItemDef OID="IT.ADCM.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Analysis Flag 01</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.ADCM.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="float" Length="8">
-        <Description><TranslatedText xml:lang="en">Analysis Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -2807,7 +2798,7 @@
         <Description><TranslatedText xml:lang="en">Analysis Start Relative Day</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADMH.PCANCERFL" Name="PCANCERFL" SASFieldName="PCANCERFL" DataType="text" Length="1">
+      <ItemDef OID="IT.ADMH.PCANCFL" Name="PCANCFL" SASFieldName="PCANCFL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Primary Cancer (NSCLC Diagnosis) Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -3194,6 +3185,10 @@
       <ItemDef OID="IT.ADTTE.PARAMCD" Name="PARAMCD" SASFieldName="PARAMCD" DataType="text" Length="6">
         <Description><TranslatedText xml:lang="en">Parameter Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADTTE.STARTDT" Name="STARTDT" SASFieldName="STARTDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Time to Event Origin Date</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date (event or censor)</TranslatedText></Description>

@@ -34,8 +34,8 @@ admh <- mh |>
     ASTDT      = as.Date(ifelse(nchar(MHSTDTC) == 10, MHSTDTC, NA_character_)),
     ASTDY      = if_else(!is.na(ASTDT) & !is.na(TRTSDT),
                           study_day(ASTDT, TRTSDT), NA_integer_),
-    # PCANCERFL — primary cancer flag (NSCLC diagnosis)
-    PCANCERFL  = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N"),
+    # PCANCFL — primary cancer flag (NSCLC diagnosis)
+    PCANCFL  = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N"),
     # ONGOFL — ongoing at study start
     ONGOFL     = if_else(MHENRTPT == "ONGOING", "Y", "N"),
     # PRIORFL — resolved before study (predates randomisation and has end date)
@@ -49,14 +49,14 @@ admh <- mh |>
     TRTSDT, TRTEDT,
     MHSEQ, MHTERM, MHDECOD, MHCAT,
     MHSTDTC, ASTDT, ASTDY,
-    PCANCERFL, ONGOFL, PRIORFL,
+    PCANCFL, ONGOFL, PRIORFL,
     ANL01FL
   )
 
 write_parquet(admh, file.path(ADAM_DIR, "admh.parquet"))
 message("ADMH written: ", nrow(admh), " records (",
         n_distinct(admh$USUBJID), " subjects)")
-message("  Primary cancer (PCANCERFL='Y'): ",
-        n_distinct(admh$USUBJID[admh$PCANCERFL == "Y"]), " subjects")
+message("  Primary cancer (PCANCFL='Y'): ",
+        n_distinct(admh$USUBJID[admh$PCANCFL == "Y"]), " subjects")
 message("  Ongoing at study start (ONGOFL='Y'): ",
         sum(admh$ONGOFL == "Y"), " records")

@@ -238,8 +238,8 @@ adtte_ttr <- subj |>
 # 7. AVAL: days from start to event/censor
 add_aval <- function(dat, start_var) {
   dat |> mutate(
-    START_DT = .data[[start_var]],
-    AVAL     = as.numeric(as.Date(ADT) - as.Date(START_DT)),
+    STARTDT  = as.Date(.data[[start_var]]),   # time-to-event origin (P21 AD0245)
+    AVAL     = as.numeric(as.Date(ADT) - STARTDT),
     AVALU    = "DAYS"
   )
 }
@@ -260,7 +260,7 @@ adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_pfsinv,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
     TRTSDT, TRTEDT,
     PARAM, PARAMCD,
-    ADT, AVAL, AVALU, CNSR,
+    STARTDT, ADT, AVAL, AVALU, CNSR,
     EVNTDESC, SRCDOM,
     ANL01FL
   ) |>

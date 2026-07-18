@@ -16,7 +16,7 @@
 
 ## Purpose
 
-ADMH supports the medical-history summary table (T-MH-01) and isolates the NSCLC primary-diagnosis row per subject (`PCANCERFL = "Y"`) needed by baseline disease-characteristic tables (T-DM-02). Ongoing-vs-prior conditions at study entry are flagged via `ONGOFL` / `PRIORFL` directly from `MHENRTPT`.
+ADMH supports the medical-history summary table (T-MH-01) and isolates the NSCLC primary-diagnosis row per subject (`PCANCFL = "Y"`) needed by baseline disease-characteristic tables (T-DM-02). Ongoing-vs-prior conditions at study entry are flagged via `ONGOFL` / `PRIORFL` directly from `MHENRTPT`.
 
 ## Dependencies
 
@@ -48,7 +48,7 @@ ADMH supports the medical-history summary table (T-MH-01) and isolates the NSCLC
 | 17 | MHSTDTC | Start Date/Time of Medical History | Char | 20 | Predecessor | — | `MH.MHSTDTC` (may be partial: `YYYY` or `YYYY-MM`) |
 | 18 | ASTDT | Analysis Start Date | Num | 8 | Derived | — | See §Derivations.D1 (no imputation; NA if MHSTDTC partial) |
 | 19 | ASTDY | Analysis Start Relative Day | Num | 8 | Derived | — | `as.integer(ASTDT - TRTSDT) + 1` (NA where ASTDT NA) |
-| 20 | PCANCERFL | Primary Cancer (NSCLC Diagnosis) Flag | Char | 1 | Derived | NY | See §Derivations.D2 |
+| 20 | PCANCFL | Primary Cancer (NSCLC Diagnosis) Flag | Char | 1 | Derived | NY | See §Derivations.D2 |
 | 21 | ONGOFL | Ongoing at Study Start Flag | Char | 1 | Derived | NY | `if_else(MHENRTPT == "ONGOING", "Y", "N")` |
 | 22 | PRIORFL | Resolved Before Study Flag | Char | 1 | Derived | NY | `if_else(MHENRTPT == "BEFORE", "Y", "N")` |
 | 23 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
@@ -69,22 +69,22 @@ ASTDY = if_else(!is.na(ASTDT) & !is.na(TRTSDT),
 
 **Edge cases:** Year-only and year-month dates are common in MH. Tables that need a count of subjects with prior history regardless of date should use PRIORFL, not ASTDT.
 
-### D2 — PCANCERFL (primary cancer flag)
+### D2 — PCANCFL (primary cancer flag)
 
 **Rule:** Flag `"Y"` on the NSCLC primary-diagnosis row. The SDTM convention is `MHCAT == "PRIMARY DIAGNOSIS"`.
 
 **Pseudocode:**
 ```r
-PCANCERFL = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N")
+PCANCFL = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N")
 ```
 
-**Edge cases:** Each subject is expected to have exactly one `PCANCERFL = "Y"` row (the NSCLC seed condition). QC asserts `n_distinct(USUBJID[PCANCERFL == "Y"]) == 450`.
+**Edge cases:** Each subject is expected to have exactly one `PCANCFL = "Y"` row (the NSCLC seed condition). QC asserts `n_distinct(USUBJID[PCANCFL == "Y"]) == 450`.
 
 ## QC Checks
 
 - [ ] `nrow(admh)` ≈ 2,061 (±5%); `n_distinct(USUBJID) == 450`.
-- [ ] Every subject has exactly one `PCANCERFL == "Y"` row.
-- [ ] `PCANCERFL`, `ONGOFL`, `PRIORFL`, `ANL01FL` ∈ {"Y", "N"}; no NAs.
+- [ ] Every subject has exactly one `PCANCFL == "Y"` row.
+- [ ] `PCANCFL`, `ONGOFL`, `PRIORFL`, `ANL01FL` ∈ {"Y", "N"}; no NAs.
 - [ ] `ASTDY` is NA wherever `ASTDT` is NA, and finite elsewhere.
 - [ ] No row has both `ONGOFL == "Y"` AND `PRIORFL == "Y"`.
 - [ ] Variable labels, lengths, types match this spec.

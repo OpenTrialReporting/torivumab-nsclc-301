@@ -3,7 +3,7 @@
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
 **Generated:** 2026-07-18
 **File:** `define/define.xml`
-**Datasets:** 34  ·  **Variables:** 623
+**Datasets:** 34  ·  **Variables:** 622
 
 ## Datasets
 
@@ -31,8 +31,8 @@
 | TR | FINDINGS | 9,049 | 15 | One record per subject per lesion per measurement per visit |
 | TU | FINDINGS | 9,012 | 14 | One record per subject per lesion per visit (tumor identification) |
 | VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
-| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 45 | One record per subject per adverse event |
-| ADCM | OCCURRENCE DATA STRUCTURE | 2,330 | 31 | One record per subject per concomitant medication occurrence |
+| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 44 | One record per subject per adverse event |
+| ADCM | OCCURRENCE DATA STRUCTURE | 2,330 | 30 | One record per subject per concomitant medication occurrence |
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
 | ADDV | OCCURRENCE DATA STRUCTURE | 337 | 24 | One record per subject per protocol deviation |
 | ADEX | BASIC DATA STRUCTURE | 16,097 | 27 | One record per subject per drug per administration or summary parameter |
@@ -41,7 +41,7 @@
 | ADRS | BASIC DATA STRUCTURE | 3,569 | 21 | One record per subject per parameter per analysis visit |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 33 | One record per subject |
 | ADTR | BASIC DATA STRUCTURE | 9,255 | 27 | One record per subject per parameter per analysis visit per lesion |
-| ADTTE | BASIC DATA STRUCTURE | 2,377 | 19 | One record per subject per time-to-event parameter |
+| ADTTE | BASIC DATA STRUCTURE | 2,377 | 20 | One record per subject per time-to-event parameter |
 | ADVS | BASIC DATA STRUCTURE | 52,864 | 30 | One record per subject per vital-sign parameter per analysis visit |
 
 ## Standards

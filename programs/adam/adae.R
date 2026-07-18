@@ -89,11 +89,10 @@ adae <- adae |>
     AESERFL  = if_else(AESER == "Y", "Y", "N", missing = "N")
   )
 
-# 8. Analysis flag and value
+# 8. Analysis flag (AVAL is prohibited in OCCDS — grade is in AETOXGRN; P21 AD0252)
 adae <- adae |>
   mutate(
-    ANL01FL = if_else(TRTEMFL == "Y" & SAFFL == "Y", "Y", NA_character_),
-    AVAL    = AETOXGRN
+    ANL01FL = if_else(TRTEMFL == "Y" & SAFFL == "Y", "Y", NA_character_)
   )
 
 # 9. Select final variables
@@ -109,7 +108,7 @@ adae <- adae |>
     AESEV, AETOXGR, AETOXGRN,
     AESER, AESERFL, AEREL, AEACN, AEOUT,
     AESDTH, AESHOSP, AESLIFE, AESDISAB, AESMIE, AESCONG,
-    TRTEMFL, IRAEFL, ANL01FL, AVAL
+    TRTEMFL, IRAEFL, ANL01FL
   ) |>
   arrange(USUBJID, AESEQ)
 
