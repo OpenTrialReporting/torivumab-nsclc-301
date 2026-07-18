@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718193049"
-     CreationDateTime="2026-07-18T19:30:44"
-     AsOfDateTime="2026-07-18T19:30:44"
+     FileOID="CTX-NSCLC-301.20260718201659"
+     CreationDateTime="2026-07-18T20:16:54"
+     AsOfDateTime="2026-07-18T20:16:54"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -609,7 +609,7 @@
         <ItemRef ItemOID="IT.ADEX.AVALU" OrderNumber="19" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADEX.ADT" OrderNumber="20" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADEX.ADY" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADEX.NCYCLE" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADEX.NCYCLE" OrderNumber="22" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.ADEX.VISIT" OrderNumber="23" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADEX.VISITNUM" OrderNumber="24" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADEX.AVISIT" OrderNumber="25" Mandatory="No"/>
@@ -757,7 +757,7 @@
           <def:title>adsl.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.ADTR" Name="ADTR" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADTR" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADTR" def:StandardOID="STD.ADAM">
+      <ItemGroupDef OID="IG.ADTR" Name="ADTR" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADTR" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit per lesion" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADTR" def:StandardOID="STD.ADAM">
         <Description><TranslatedText xml:lang="en">Tumor Results Analysis Dataset</TranslatedText></Description>
         <ItemRef ItemOID="IT.ADTR.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.ADTR.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
@@ -784,7 +784,7 @@
         <ItemRef ItemOID="IT.ADTR.NADIR" OrderNumber="23" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADTR.ABLFL" OrderNumber="24" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADTR.ANL01FL" OrderNumber="25" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADTR.LNKID" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADTR.LNKID" OrderNumber="26" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.ADTR.N_TGT" OrderNumber="27" Mandatory="No"/>
         <def:leaf ID="LF.ADTR" xlink:href="adtr.xpt">
           <def:title>adtr.xpt</def:title>
@@ -932,7 +932,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESHOSP" Name="AESHOSP" SASFieldName="AESHOSP" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Requires or Prolongs Inpatient Hospitalisation</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Requires or Prolongs Inpatient Hospitali</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESLIFE" Name="AESLIFE" SASFieldName="AESLIFE" DataType="text" Length="1">
@@ -940,7 +940,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESDISAB" Name="AESDISAB" SASFieldName="AESDISAB" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Causes Persistent or Significant Disability/Incapacity</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Causes Persistent or Significant Disabil</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESMIE" Name="AESMIE" SASFieldName="AESMIE" DataType="text" Length="1">
@@ -952,7 +952,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AEDISCOD" Name="AEDISCOD" SASFieldName="AEDISCOD" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">AEDISCOD</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">AE Led to Discontinuation Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.CM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -980,7 +980,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.CM.CMATC" Name="CMATC" SASFieldName="CMATC" DataType="text" Length="7">
-        <Description><TranslatedText xml:lang="en">CMATC</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">ATC Classification Code</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.CM.CMINDC" Name="CMINDC" SASFieldName="CMINDC" DataType="text" Length="30">
@@ -1056,7 +1056,7 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DA.DASTDTC" Name="DASTDTC" SASFieldName="DASTDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Start Date/Time of Accountability Assessment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Accountability Assess</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DA.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="5">
@@ -1112,7 +1112,7 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DD.DDSCAT" Name="DDSCAT" SASFieldName="DDSCAT" DataType="text" Length="51">
-        <Description><TranslatedText xml:lang="en">DDSCAT</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subcategory for Death Detail</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1240,7 +1240,7 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DV.DVDECOD" Name="DVDECOD" SASFieldName="DVDECOD" DataType="text" Length="39">
-        <Description><TranslatedText xml:lang="en">Standardized Term for the Protocol Deviation</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Standardized Term for the Protocol Devia</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DV.DVCAT" Name="DVCAT" SASFieldName="DVCAT" DataType="text" Length="5">
@@ -1768,43 +1768,43 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
-        <Description><TranslatedText xml:lang="en">STUDYID</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.RDOMAIN" Name="RDOMAIN" SASFieldName="RDOMAIN" DataType="text" Length="2">
-        <Description><TranslatedText xml:lang="en">RDOMAIN</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Related Domain Abbreviation</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
-        <Description><TranslatedText xml:lang="en">USUBJID</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.IDVAR" Name="IDVAR" SASFieldName="IDVAR" DataType="text" Length="5">
-        <Description><TranslatedText xml:lang="en">IDVAR</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Identifying Variable</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.IDVARVAL" Name="IDVARVAL" SASFieldName="IDVARVAL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">IDVARVAL</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Identifying Variable Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.QNAM" Name="QNAM" SASFieldName="QNAM" DataType="text" Length="7">
-        <Description><TranslatedText xml:lang="en">QNAM</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Qualifier Variable Name</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.QLABEL" Name="QLABEL" SASFieldName="QLABEL" DataType="text" Length="14">
-        <Description><TranslatedText xml:lang="en">QLABEL</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Qualifier Variable Label</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.QVAL" Name="QVAL" SASFieldName="QVAL" DataType="text" Length="14">
-        <Description><TranslatedText xml:lang="en">QVAL</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Data Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.QORIG" Name="QORIG" SASFieldName="QORIG" DataType="text" Length="3">
-        <Description><TranslatedText xml:lang="en">QORIG</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Origin</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPSU.QEVAL" Name="QEVAL" SASFieldName="QEVAL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">QEVAL</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Evaluator</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.TR.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1988,7 +1988,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2000,7 +2000,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
@@ -2012,18 +2012,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADAE.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADAE.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2064,18 +2064,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Start Date/Time of AE</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="text" Length="10">
-        <Description><TranslatedText xml:lang="en">End Date/Time of AE</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADAE.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Start Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AENDT" Name="AENDT" SASFieldName="AENDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADAE.AENDT" Name="AENDT" SASFieldName="AENDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis End Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2148,7 +2148,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.IRAEFL" Name="IRAEFL" SASFieldName="IRAEFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Immune-Related AE Flag *(study-specific)*</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Immune-Related Adverse Event Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
@@ -2168,7 +2168,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2180,7 +2180,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
@@ -2192,18 +2192,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADCM.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADCM.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADCM.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADCM.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2212,7 +2212,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.CMTRT" Name="CMTRT" SASFieldName="CMTRT" DataType="text" Length="23">
-        <Description><TranslatedText xml:lang="en">Reported Name of Medication</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Reported Name of Drug, Med, or Therapy</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.CMDECOD" Name="CMDECOD" SASFieldName="CMDECOD" DataType="text" Length="23">
@@ -2239,20 +2239,20 @@
         <Description><TranslatedText xml:lang="en">End Date/Time of Medication</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADCM.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADCM.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Start Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADCM.AENDT" Name="AENDT" SASFieldName="AENDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADCM.AENDT" Name="AENDT" SASFieldName="AENDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis End Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.ASTDY" Name="ASTDY" SASFieldName="ASTDY" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Analysis Start Day</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Start Relative Day</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.AENDY" Name="AENDY" SASFieldName="AENDY" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Analysis End Day</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis End Relative Day</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.PRIORFL" Name="PRIORFL" SASFieldName="PRIORFL" DataType="text" Length="1">
@@ -2264,7 +2264,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.ONTRTFL" Name="ONTRTFL" SASFieldName="ONTRTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">On-Treatment Medication Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">On-Treatment Record Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADCM.CMIRAEFL" Name="CMIRAEFL" SASFieldName="CMIRAEFL" DataType="text" Length="1">
@@ -2292,7 +2292,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2304,7 +2304,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.PPROTFL" Name="PPROTFL" SASFieldName="PPROTFL" DataType="text" Length="1">
@@ -2324,18 +2324,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDS.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2367,7 +2367,7 @@
         <Description><TranslatedText xml:lang="en">End-of-Treatment Record Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDS.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDS.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2388,7 +2388,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2400,7 +2400,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.PPROTFL" Name="PPROTFL" SASFieldName="PPROTFL" DataType="text" Length="1">
@@ -2420,18 +2420,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDV.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDV.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2463,7 +2463,7 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDV.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADDV.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2484,7 +2484,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2496,7 +2496,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
@@ -2508,18 +2508,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADEX.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADEX.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADEX.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADEX.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADEX.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2551,7 +2551,7 @@
         <Description><TranslatedText xml:lang="en">Analysis Value Unit</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADEX.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADEX.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2604,31 +2604,31 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Planned Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Actual Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADLB.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of First Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADLB.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADLB.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of Last Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADLB.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.LBSEQ" Name="LBSEQ" SASFieldName="LBSEQ" DataType="integer" Length="8">
@@ -2651,7 +2651,7 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Specimen Collection</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADLB.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADLB.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2740,7 +2740,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -2752,7 +2752,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
@@ -2764,18 +2764,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADMH.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADMH.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADMH.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADMH.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADMH.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2799,7 +2799,7 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Medical History</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADMH.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADMH.ASTDT" Name="ASTDT" SASFieldName="ASTDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Start Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2836,31 +2836,31 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Planned Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Actual Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADRS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of First Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADRS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADRS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of Last Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADRS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="45">
@@ -2871,7 +2871,7 @@
         <Description><TranslatedText xml:lang="en">Parameter Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADRS.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADRS.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2884,7 +2884,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.AVALC" Name="AVALC" SASFieldName="AVALC" DataType="text" Length="2">
-        <Description><TranslatedText xml:lang="en">Analysis Value (character)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Value (C)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.RSPFL" Name="RSPFL" SASFieldName="RSPFL" DataType="text" Length="1">
@@ -2979,19 +2979,19 @@
         <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.ICDT" Name="ICDT" SASFieldName="ICDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADSL.ICDT" Name="ICDT" SASFieldName="ICDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Informed Consent</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.RANDDT" Name="RANDDT" SASFieldName="RANDDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADSL.RANDDT" Name="RANDDT" SASFieldName="RANDDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Randomization</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADSL.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADSL.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3000,7 +3000,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADSL.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Intent-to-Treat Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADSL.SAFFL" Name="SAFFL" SASFieldName="SAFFL" DataType="text" Length="1">
@@ -3015,12 +3015,12 @@
         <Description><TranslatedText xml:lang="en">Subject Death Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.DTHDT" Name="DTHDT" SASFieldName="DTHDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADSL.DTHDT" Name="DTHDT" SASFieldName="DTHDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Death</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.LSTALVDT" Name="LSTALVDT" SASFieldName="LSTALVDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Last Known Alive Date</TranslatedText></Description>
+      <ItemDef OID="IT.ADSL.LSTALVDT" Name="LSTALVDT" SASFieldName="LSTALVDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date Last Known Alive</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADSL.ECOG" Name="ECOG" SASFieldName="ECOG" DataType="integer" Length="8">
@@ -3052,31 +3052,31 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Planned Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Actual Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTR.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of First Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADTR.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTR.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of Last Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADTR.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="29">
@@ -3103,7 +3103,7 @@
         <Description><TranslatedText xml:lang="en">Analysis Visit (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTR.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADTR.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3116,7 +3116,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.BASE" Name="BASE" SASFieldName="BASE" DataType="float" Length="8">
-        <Description><TranslatedText xml:lang="en">Baseline SLD Value</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Baseline Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.CHG" Name="CHG" SASFieldName="CHG" DataType="float" Length="8">
@@ -3160,31 +3160,31 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Planned Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.TRT01A" Name="TRT01A" SASFieldName="TRT01A" DataType="text" Length="24">
-        <Description><TranslatedText xml:lang="en">Actual Treatment</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTTE.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of First Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADTTE.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTTE.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date of Last Dose</TranslatedText></Description>
+      <ItemDef OID="IT.ADTTE.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="49">
@@ -3195,7 +3195,7 @@
         <Description><TranslatedText xml:lang="en">Parameter Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADTTE.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADTTE.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date (event or censor)</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3232,7 +3232,7 @@
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Subject Identifier</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
@@ -3244,7 +3244,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.ITTFL" Name="ITTFL" SASFieldName="ITTFL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">ITT Population Flag</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
@@ -3256,18 +3256,18 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.TRT01PN" Name="TRT01PN" SASFieldName="TRT01PN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Planned Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.TRT01AN" Name="TRT01AN" SASFieldName="TRT01AN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Actual Treatment (N)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADVS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADVS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADVS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADVS.TRTEDT" Name="TRTEDT" SASFieldName="TRTEDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3284,10 +3284,10 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.PARAMN" Name="PARAMN" SASFieldName="PARAMN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Parameter Number</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Parameter (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADVS.ADT" Name="ADT" SASFieldName="ADT" DataType="date" Length="10">
+      <ItemDef OID="IT.ADVS.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3316,7 +3316,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.AVALC" Name="AVALC" SASFieldName="AVALC" DataType="text" Length="5">
-        <Description><TranslatedText xml:lang="en">Analysis Value (Char)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Value (C)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.AVALU" Name="AVALU" SASFieldName="AVALU" DataType="text" Length="11">

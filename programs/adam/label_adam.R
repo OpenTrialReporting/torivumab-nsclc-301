@@ -98,6 +98,33 @@ SUPPLEMENT <- list(
 )
 
 # -----------------------------------------------------------------------------
+# STANDARD — ADaMIG v1.3 / CDISC-standard variable labels that MUST match the
+# controlled label exactly (Pinnacle 21 AD0018). These override both spec and
+# SUPPLEMENT for standard variables (the CDISC label is authoritative). All are
+# <= 40 chars so they survive XPT v5 truncation unchanged.
+# -----------------------------------------------------------------------------
+STANDARD <- list(
+  SUBJID   = "Subject Identifier for the Study",
+  ITTFL    = "Intent-To-Treat Population Flag",
+  TRT01P   = "Planned Treatment for Period 01",
+  TRT01A   = "Actual Treatment for Period 01",
+  TRT01PN  = "Planned Treatment for Period 01 (N)",
+  TRT01AN  = "Actual Treatment for Period 01 (N)",
+  TRTSDT   = "Date of First Exposure to Treatment",
+  TRTEDT   = "Date of Last Exposure to Treatment",
+  ASTDY    = "Analysis Start Relative Day",
+  AENDY    = "Analysis End Relative Day",
+  AVALC    = "Analysis Value (C)",
+  PARAMN   = "Parameter (N)",
+  BASE     = "Baseline Value",
+  ONTRTFL  = "On-Treatment Record Flag",
+  CMTRT    = "Reported Name of Drug, Med, or Therapy",
+  AESTDTC  = "Start Date/Time of Adverse Event",
+  AEENDTC  = "End Date/Time of Adverse Event",
+  LSTALVDT = "Date Last Known Alive"
+)
+
+# -----------------------------------------------------------------------------
 # Process each ADaM parquet
 # -----------------------------------------------------------------------------
 parquet_files <- sort(list.files(ADAM_DIR, pattern = "\\.parquet$", full.names = TRUE))
@@ -114,10 +141,12 @@ for (path in parquet_files) {
   df        <- as.data.frame(read_parquet(path))
   spec_map  <- parse_spec_labels(spec_path)
 
-  # Resolve per column: spec label first (authoritative), else SUPPLEMENT.
+  # Resolve per column: STANDARD (CDISC-controlled) first, then spec, then
+  # SUPPLEMENT. STANDARD wins so P21 AD0018 label checks pass for standard vars.
   label_map <- list()
   for (v in names(df)) {
-    if (!is.null(spec_map[[v]]))        label_map[[v]] <- spec_map[[v]]
+    if (!is.null(STANDARD[[v]]))        label_map[[v]] <- STANDARD[[v]]
+    else if (!is.null(spec_map[[v]]))   label_map[[v]] <- spec_map[[v]]
     else if (!is.null(SUPPLEMENT[[v]])) label_map[[v]] <- SUPPLEMENT[[v]]
   }
 

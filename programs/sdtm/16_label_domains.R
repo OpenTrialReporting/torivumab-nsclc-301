@@ -112,6 +112,19 @@ DOMAIN_LABELS <- list(
     QEVAL    = "Evaluator"
   ),
 
+  suppsu = list(
+    STUDYID  = "Study Identifier",
+    RDOMAIN  = "Related Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    IDVAR    = "Identifying Variable",
+    IDVARVAL = "Identifying Variable Value",
+    QNAM     = "Qualifier Variable Name",
+    QLABEL   = "Qualifier Variable Label",
+    QVAL     = "Data Value",
+    QORIG    = "Origin",
+    QEVAL    = "Evaluator"
+  ),
+
   relrec = list(
     STUDYID  = "Study Identifier",
     RDOMAIN  = "Related Domain Abbreviation",
@@ -195,7 +208,8 @@ DOMAIN_LABELS <- list(
     AESLIFE  = "Is Life Threatening",
     AESDISAB = "Causes Persistent or Significant Disability/Incapacity",
     AESMIE   = "Other Medically Important Serious Event",
-    AESCONG  = "Congenital Anomaly or Birth Defect"
+    AESCONG  = "Congenital Anomaly or Birth Defect",
+    AEDISCOD = "AE Led to Discontinuation Flag"
   )),
 
   cm = c(SHARED, list(
@@ -203,6 +217,7 @@ DOMAIN_LABELS <- list(
     CMTRT    = "Reported Name of Drug, Med, or Therapy",
     CMDECOD  = "Standardized Medication Name",
     CMCLAS   = "Medication Class",
+    CMATC    = "ATC Classification Code",
     CMCAT    = "Category for Medication",
     CMINDC   = "Indication",
     CMROUTE  = "Route of Administration",
@@ -336,6 +351,7 @@ DOMAIN_LABELS <- list(
     DDTESTCD = "Death Detail Test Short Name",
     DDTEST   = "Death Detail Test Name",
     DDCAT    = "Category for Death Detail",
+    DDSCAT   = "Subcategory for Death Detail",
     DDTERM   = "Reported Term for Death Detail",
     DDORRES  = "Result or Finding in Original Units",
     DDSTRESC = "Character Result/Finding in Std Format",

@@ -124,9 +124,9 @@ DOMAIN_META <- list(
                 purpose = "Analysis",
                 keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN")),
   adtr   = list(class = "BASIC DATA STRUCTURE",
-                structure = "One record per subject per parameter per analysis visit",
+                structure = "One record per subject per parameter per analysis visit per lesion",
                 purpose = "Analysis",
-                keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN")),
+                keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN", "LNKID")),
   adrs   = list(class = "BASIC DATA STRUCTURE",
                 structure = "One record per subject per parameter per analysis visit",
                 purpose = "Analysis",
@@ -147,7 +147,7 @@ DOMAIN_META <- list(
   adex   = list(class = "BASIC DATA STRUCTURE",
                 structure = "One record per subject per drug per administration or summary parameter",
                 purpose = "Analysis",
-                keys = c("STUDYID", "USUBJID", "PARAMCD", "AEXTRT")),
+                keys = c("STUDYID", "USUBJID", "PARAMCD", "AEXTRT", "NCYCLE")),
   adcm   = list(class = "OCCURRENCE DATA STRUCTURE",
                 structure = "One record per subject per concomitant medication occurrence",
                 purpose = "Analysis",
@@ -194,7 +194,10 @@ DOMAIN_LABEL <- c(
 # Helpers
 # -----------------------------------------------------------------------------
 infer_datatype <- function(x) {
-  if (inherits(x, "Date") || inherits(x, "POSIXt")) return("date")
+  # ADaM numeric date/datetime variables (R Date/POSIXt) are stored NUMERIC in
+  # the XPT (SAS date), so define must declare them integer, not the ISO-8601
+  # character type "date" (which is reserved for SDTM --DTC character dates).
+  if (inherits(x, "Date") || inherits(x, "POSIXt")) return("integer")
   if (is.integer(x)) return("integer")
   if (is.numeric(x)) return("float")
   if (is.logical(x)) return("text")
@@ -265,7 +268,7 @@ read_meta <- function(dir, ds_keys) {
       dt  <- infer_datatype(x)
       list(
         name      = v,
-        label     = if (!is.null(lbl[[v]])) lbl[[v]] else v,
+        label     = if (!is.null(lbl[[v]])) substr(lbl[[v]], 1, 40) else v,  # XPT v5 label limit (match dataset)
         datatype  = dt,
         length    = as.integer(infer_length(x, dt)),
         origin    = infer_origin(v, key),

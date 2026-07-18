@@ -57,7 +57,7 @@ ADAE supports all safety analyses: overall TEAE incidence (T-AE-01), AE by SOC/P
 | 26 | AEOUT | Outcome of Adverse Event | Char | 32 | Predecessor | — | `AE.AEOUT` |
 | 27 | AECAT | Category for Adverse Event | Char | 40 | Predecessor | — | `AE.AECAT` |
 | 28 | TRTEMFL | Treatment Emergent Analysis Flag | Char | 1 | Derived | NY | `admiral::derive_var_trtemfl()`: ASTDT ≥ TRTSDT and ASTDT ≤ TRTEDT + 30 days |
-| 29 | IRAEFL | Immune-Related AE Flag *(study-specific)* | Char | 1 | Derived | NY | `if_else(AECAT == "IMMUNE-RELATED", "Y", "N")` |
+| 29 | IRAEFL | Immune-Related Adverse Event Flag | Char | 1 | Derived | NY | `if_else(AECAT == "IMMUNE-RELATED", "Y", "N")` — study-specific, documented in define.xml |
 | 30 | ANL01FL | Analysis Flag 01 (TEAE analysis) | Char | 1 | Derived | NY | `if_else(TRTEMFL == "Y", "Y", NA)` |
 | 31 | AVAL | Analysis Value | Num | 8 | Derived | — | `AETOXGRN` (for grade shift analyses) |
 | 32 | AESCONG | Congenital Anomaly/Birth Defect | Char | 1 | Predecessor | NY | `AE.AESCONG` |
