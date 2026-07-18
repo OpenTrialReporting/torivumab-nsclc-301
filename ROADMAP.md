@@ -318,7 +318,7 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 out
 
 ## QC layer — Validation strategy + tooling + trackers ✅ IN PLACE
 
-**Status:** Strategy committed, tooling executable, GitHub issues #1–#9 open for execution.
+**Status:** Strategy committed, tooling executable, GitHub issues #1–#9 open for execution. **Pinnacle 21 scans (Phases C + E) executed 2026-07-18 — SDTM ~590K→5.2K, ADaM 36,921→~0 findings (see remediation subsection below).**
 
 **Strategy:** [`qc/VALIDATION-PLAN.md`](qc/VALIDATION-PLAN.md) — 11-section SOP covering scope (raw → SDTM → ADaM → Define-XML → TFL), roles (primary / QC / reviewer), layered acceptance criteria, phased execution (15–22 working days), and 11 pre-loaded accepted limitations.
 
@@ -349,15 +349,43 @@ Each workbook has 3 sheets: tracker grid (with status dropdown + colour fills), 
 |---|---|---|---|
 | #1 | A | Reproducibility check (byte-diff full pipeline) | 1 day |
 | #2 | B | SDTM independent double programming (22 domains) | 5–7 days |
-| #3 | C | Pinnacle 21 SDTM compliance scan | 0.5 day |
+| #3 | C | Pinnacle 21 SDTM compliance scan | ✅ executed 2026-07-18 (see below) |
 | #4 | D | ADaM independent double programming (12 datasets) | 6–9 days |
-| #5 | E | Pinnacle 21 ADaM compliance scan | 0.5 day |
+| #5 | E | Pinnacle 21 ADaM compliance scan | ✅ executed 2026-07-18 (see below) |
 | #6 | F | TFL numerical match (43 outputs) | 6–8 days |
 | #7 | G | Biostatistician statistical sense check | 1 day |
 | #8 | H | Lock + sign-off (populate 7-role signature blocks) | 0.5 day |
 | #9 | — | ~~Defect: AL-11 RELREC dedupe~~ — CLOSED 2026-05-17 (dedupe fixed in `programs/sdtm/relrec.R`) | — |
 
 **Total: 15–22 working days** for one QC programmer + reviewer pair.
+
+### Pinnacle 21 compliance remediation ✅ (QC Phases C + E executed, 2026-07-18)
+
+Ran the Pinnacle 21 Community validator (config **2508.1**, CDISC CT **2026-03-27**)
+against the XPT export (`programs/export/build_xpt.R` → `xpt/`, define `define/define.xml`),
+then remediated findings iteratively. Reports of record in
+[`qc/p21-reports/2026-07-18/`](qc/p21-reports/2026-07-18/).
+
+| Standard | Start | End | Cleared |
+|---|---|---|---|
+| **SDTM** (SDTM-IG 3.4 FDA) | ~590,000 | **5,244** | **~99.1%** |
+| **ADaM** (ADaM-IG 1.3 FDA) | 36,921 | **~0** | **~100%** |
+
+Buckets remediated (every value mapped to verified CDISC CT — no guessing):
+
+- **ADaM:** dup keys (SD1152), null PARAMCD (Sodium `LBTESTCD` `"NA"`→`SODIUM`), study-day-zero
+  (`_adam_utils.R::study_day`), baseline uniqueness/value, `PARAM` per `PARAMCD`, Y-only flags,
+  `AVISIT`/`AVISITN` (100% labels), MedDRA hierarchy codes, `STARTDT`, exact CDISC labels.
+- **CT (both):** `SEX` M/F, units (mg / mg/m2 / **VIAL**), `LBTEST`, `AEACN`, DA `DATEST`/`DATESTCD`,
+  TU `TULOC` (Anatomical Location), TR test codes, `AESEV`, `DSSCAT`, DD `PRCDTH`, `COUNTRY` (alpha-3).
+- **Structural:** SDTM `VISITNUM` complete/unique (SD0051), `QNAM` ≤8 (`CENTLBFL`), RELREC
+  record-level (RELTYPE null), `TRLNKID`/`TULNKID`, placebo `EXDOSE`=0, RS `RSSTRESN` dropped.
+
+**Remaining ~5.2K is deferred to a Phase-2 QC pass** — each needs a data-modeling
+decision, not a value swap: DA mixed standard units (SD0007), treatment-emergent /
+`EPOCH` (need DM×EX `RFXSTDTC`; SD1097/SD1077), AE MedDRA coverage (SD1449), SU/AE
+time-points (SD0022/SD0021/SD1333), DM expected reference vars, and moving
+non-standard qualifiers (`AEDISCOD`/`CMATC`/`SUPACKYR`) to SUPP-- (SD0058).
 
 ---
 
