@@ -15,6 +15,8 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+source(file.path("programs", "adam", "_visit_utils.R"))
+
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
 dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -115,18 +117,24 @@ adtr <- adtr |>
   )
 
 # 11. Select final variables
+#    AVISIT = analysis visit (BASELINE / TUMOR_ASSESS_WKn). VISITNUM is dropped:
+#    SDTM.TR did not collect it (100% NA); AVISITN carries the numeric ordering.
 adtr <- adtr |>
+  mutate(
+    AVISIT  = VISIT,
+    AVISITN = derive_avisitn(VISIT, VISITNUM)
+  ) |>
   select(
     STUDYID, USUBJID,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
     TRTSDT, TRTEDT,
     PARAM, PARAMCD, AVALU,
-    VISIT, VISITNUM, ADT, ADY,
+    VISIT, AVISIT, AVISITN, ADT, ADY,
     AVAL, BASE, CHG, PCHG, NADIR,
     ABLFL, ANL01FL,
     LNKID, N_TGT
   ) |>
-  arrange(USUBJID, PARAMCD, LNKID, ADT)
+  arrange(USUBJID, PARAMCD, LNKID, AVISITN, ADT)
 
 # 12. Write output
 write_parquet(adtr, file.path(ADAM_DIR, "adtr.parquet"))

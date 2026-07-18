@@ -61,16 +61,18 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 | 16 | PARAMN | Parameter Number | Num | 8 | Derived | — | `match(PARAMCD, sort(unique(PARAMCD)))` |
 | 17 | ADT | Analysis Date | Num | 8 | Derived | — | `as.Date(VS.VSDTC)` |
 | 18 | ADY | Analysis Relative Day | Num | 8 | Derived | — | `as.integer(ADT - TRTSDT) + 1` |
-| 19 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `VS.VISIT` |
-| 20 | AVISITN | Analysis Visit Number | Num | 8 | Derived | — | `VS.VISITNUM` |
-| 21 | AVAL | Analysis Value | Num | 8 | Derived | — | `VS.VSSTRESN` |
-| 22 | AVALC | Analysis Value (Char) | Char | 40 | Derived | — | `VS.VSSTRESC` |
-| 23 | AVALU | Analysis Value Unit | Char | 10 | Derived | — | `VS.VSSTRESU` |
-| 24 | BASE | Baseline Value | Num | 8 | Derived | — | See §Derivations.D2 |
-| 25 | CHG | Change from Baseline | Num | 8 | Derived | — | `AVAL - BASE` |
-| 26 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `100 * (AVAL - BASE) / BASE` (NA if BASE NA or 0) |
-| 27 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | See §Derivations.D1 |
-| 28 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 19 | VISIT | Visit Name | Char | 40 | Predecessor | — | `VS.VISIT` (retained for traceability) |
+| 20 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `VS.VISITNUM` |
+| 21 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
+| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: VISITNUM where present, `MAINT_CnD1` → 7+n (SAP §12.2) |
+| 23 | AVAL | Analysis Value | Num | 8 | Derived | — | `VS.VSSTRESN` |
+| 24 | AVALC | Analysis Value (Char) | Char | 40 | Derived | — | `VS.VSSTRESC` |
+| 25 | AVALU | Analysis Value Unit | Char | 10 | Derived | — | `VS.VSSTRESU` |
+| 26 | BASE | Baseline Value | Num | 8 | Derived | — | See §Derivations.D2 |
+| 27 | CHG | Change from Baseline | Num | 8 | Derived | — | `AVAL - BASE` |
+| 28 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `100 * (AVAL - BASE) / BASE` (NA if BASE NA or 0) |
+| 29 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | See §Derivations.D1 |
+| 30 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
 
 ## Derivations
 

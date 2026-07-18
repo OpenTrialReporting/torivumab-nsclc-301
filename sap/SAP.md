@@ -336,9 +336,43 @@ For OS (and descriptively for PFS, ORR), HR estimates and 95% CI are reported by
 
 `DCUTDT = 2025-01-31` (Protocol §6). All events occurring after DCUTDT are censored or excluded from the analysis.
 
-### 12.2 Visit windows
+### 12.2 Analysis visits (AVISIT / AVISITN)
 
-Analysis visit windows for protocol assessments (tumour imaging Q6W for 54 weeks, then Q9W; labs / vitals Q3W on treatment). Specific window rules for ADLB / ADRS to be defined in each dataset spec, consistent with the CRF visit schedule at `crf/visit_schedule.csv`.
+Per ADaMIG v1.3, BDS datasets analysed by timepoint carry the analysis-visit
+variables **`AVISIT`** (analysis visit label, character) and **`AVISITN`**
+(numeric sort key). These are *conditionally required* for by-visit analysis and
+are populated on every BDS finding dataset with a visit structure: **ADLB,
+ADEX, ADRS, ADTR, ADVS**. Subject-level summary parameters (e.g. ADRS `BOR`/
+`CBOR`, ADEX `CUMDOSE`/`RDI`) are not analysed by visit and carry `AVISIT`/
+`AVISITN` = null.
+
+**`AVISIT`** = the scheduled visit label (`= VISIT`). **`AVISITN`** provides a
+complete, gap-free numeric ordering. Where SDTM `VISITNUM` is populated it is
+authoritative; where SDTM did not collect it (maintenance cycles, tumour-
+assessment weeks) `AVISITN` is derived deterministically from the visit label:
+
+| Visit family | AVISIT | AVISITN |
+|---|---|---|
+| Screening | `SCREENING` | 0 |
+| Induction | `C1D1`…`C6D1` | 1…7 (from VISITNUM) |
+| Maintenance | `MAINT_CnD1` | 7 + n |
+| Tumour baseline | `BASELINE` | 0 |
+| Tumour assessment | `TUMOR_ASSESS_WKn` | n (week number) |
+| End of treatment | `EOT` | 99 |
+
+Traceability (ADaMIG §"SDTM timing variables may be copied … to support
+traceability"): the SDTM `VISIT`/`VISITNUM` are retained alongside `AVISIT`/
+`AVISITN` where they carry information (ADLB, ADEX, ADVS). For ADRS and ADTR the
+source SDTM (RS/TR) did not collect `VISITNUM` (100% null), so it is dropped —
+it aids no traceability — while `VISIT` is retained and `AVISITN` supplies the
+ordering. The single derivation is implemented in `programs/adam/_visit_utils.R`
+(`derive_avisitn()`) and applied by every BDS program.
+
+The underlying protocol schedule (tumour imaging Q6W for 54 weeks then Q9W;
+labs / vitals Q3W on treatment) is defined in `crf/visit_schedule.csv`; formal
+analysis-visit *windowing* (mapping unscheduled/early/late assessments to a
+nominal `AVISIT`) is not applied to this synthetic dataset — collected visits
+map 1:1 to analysis visits — and is noted as an accepted simplification.
 
 ### 12.3 Reporting precision
 

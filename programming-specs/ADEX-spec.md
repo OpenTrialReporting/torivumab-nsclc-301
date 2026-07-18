@@ -72,6 +72,8 @@ ADEX supports the exposure summary (T-EX-01) and relative-dose-intensity tables 
 | 23 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `EX.VISIT` (NA for CUMDOSE/RDI) |
 | 24 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `EX.VISITNUM` (NA for CUMDOSE/RDI) |
 | 25 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 26 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2); NA for subject-level CUMDOSE/RDI |
+| 27 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)` = VISITNUM (SAP §12.2) |
 
 ## Derivations
 

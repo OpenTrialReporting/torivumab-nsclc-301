@@ -16,6 +16,8 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+source(file.path("programs", "adam", "_visit_utils.R"))
+
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
 dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -139,7 +141,14 @@ adrs_cbor <- adsl_vars |>
   select(-CBOR_AVAL, -CBOR_AVALC, -ADT_CBOR)
 
 # 6. Stack all ADRS records
+#    AVISIT = analysis visit (per-visit OVR records only; BOR/CBOR are
+#    subject-level -> AVISIT NA). VISITNUM is dropped: SDTM.RS did not collect
+#    it (100% NA), so it aids no traceability; AVISITN carries the ordering.
 adrs <- bind_rows(ovr, adrs_bor, adrs_cbor) |>
+  mutate(
+    AVISIT  = VISIT,
+    AVISITN = derive_avisitn(VISIT, VISITNUM)
+  ) |>
   select(
     STUDYID, USUBJID,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
@@ -148,7 +157,7 @@ adrs <- bind_rows(ovr, adrs_bor, adrs_cbor) |>
     ADT, ADY,
     AVAL, AVALC,
     RSPFL, ANL01FL,
-    VISIT, VISITNUM
+    VISIT, AVISIT, AVISITN
   ) |>
   arrange(USUBJID, PARAMCD, ADT)
 

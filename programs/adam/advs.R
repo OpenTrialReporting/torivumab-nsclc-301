@@ -14,6 +14,8 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+source(file.path("programs", "adam", "_visit_utils.R"))
+
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
 
@@ -34,7 +36,7 @@ advs <- vs |>
     ADT      = as.Date(VSDTC),
     ADY      = as.integer(ADT - TRTSDT) + 1L,
     AVISIT   = VISIT,
-    AVISITN  = VISITNUM,
+    AVISITN  = derive_avisitn(VISIT, VISITNUM),
     AVAL     = VSSTRESN,
     AVALC    = VSSTRESC,
     AVALU    = VSSTRESU,
@@ -62,7 +64,7 @@ advs <- advs |>
     TRTSDT, TRTEDT,
     VSSEQ,
     PARAM, PARAMCD, PARAMN,
-    ADT, ADY, AVISIT, AVISITN,
+    ADT, ADY, VISIT, VISITNUM, AVISIT, AVISITN,
     AVAL, AVALC, AVALU,
     BASE, CHG, PCHG, ABLFL,
     ANL01FL

@@ -49,13 +49,14 @@ ADRS supports all tumour response analyses: ORR (T-EFF-05), DCR (T-EFF-06), BOR 
 | 8 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL |
 | 9 | PARAM | Parameter Description | Char | 200 | Derived | — | See Parameters table above |
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OVR / BOR / CBOR / CBDCR |
-| 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `RS.VISIT` (NA for BOR/CBOR derived records) |
-| 12 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `RS.VISITNUM` (NA for BOR/CBOR) |
-| 13 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(RS.RSDTC)` |
-| 14 | AVAL | Analysis Value (numeric) | Num | 8 | Derived | — | CR=1, PR=2, SD=3, PD=4, NE=5 (ordinal ranking) |
-| 15 | AVALC | Analysis Value (character) | Char | 8 | Derived | NRRESP | CR / PR / SD / PD / NE |
-| 16 | RSPFL | Responder Flag | Char | 1 | Derived | NY | `if_else(PARAMCD == "CBOR" & AVALC %in% c("CR","PR"), "Y", NA)` |
-| 17 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | "Y" for all records contributing to primary ORR analysis |
+| 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `RS.VISIT` (NA for subject-level BOR/CBOR). Retained for traceability; SDTM `VISITNUM` dropped — RS did not collect it (100% null) |
+| 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2); NA for subject-level BOR/CBOR |
+| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Week n parsed from `TUMOR_ASSESS_WKn` (SAP §12.2, `derive_avisitn()`) |
+| 14 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(RS.RSDTC)` |
+| 15 | AVAL | Analysis Value (numeric) | Num | 8 | Derived | — | CR=1, PR=2, SD=3, PD=4, NE=5 (ordinal ranking) |
+| 16 | AVALC | Analysis Value (character) | Char | 8 | Derived | NRRESP | CR / PR / SD / PD / NE |
+| 17 | RSPFL | Responder Flag | Char | 1 | Derived | NY | `if_else(PARAMCD == "CBOR" & AVALC %in% c("CR","PR"), "Y", NA)` |
+| 18 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | "Y" for all records contributing to primary ORR analysis |
 
 ## Key Derivation Notes
 

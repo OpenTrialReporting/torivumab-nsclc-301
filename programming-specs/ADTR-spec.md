@@ -40,16 +40,17 @@ ADTR is an intermediate oncology BDS dataset that derives per-visit Sum of Longe
 | 8 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL.TRTEDT |
 | 9 | PARAM | Parameter Description | Char | 200 | Derived | — | "Sum of Longest Diameters (mm)" for PARAMCD = "SDIAM" |
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | "SDIAM" (per CDISC RECIST 1.1 supplement) |
-| 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `TR.VISIT` |
-| 12 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `TR.VISITNUM` |
-| 13 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(TR.TRDTC)` |
-| 14 | AVAL | Analysis Value (SLD, mm) | Num | 8 | Derived | — | Sum of `TR.TRSTRESN` for TRTESTCD = "LDIAM" and TRGRPID = "TARGET" per visit |
-| 15 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | Last non-missing SLD on or before TRTSDT |
-| 16 | BASE | Baseline SLD Value | Num | 8 | Derived | — | `admiral::derive_var_base()` from ABLFL record |
-| 17 | CHG | Change from Baseline (mm) | Num | 8 | Derived | — | `admiral::derive_var_chg()`: AVAL − BASE |
-| 18 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_pchg()`: (CHG / BASE) × 100 |
-| 19 | NADIR | Minimum Post-Baseline SLD | Num | 8 | Derived | — | `min(AVAL)` for ADT > TRTSDT, merged onto all records per subject |
-| 20 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(!is.na(AVAL), "Y", NA)` |
+| 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `TR.VISIT` (BASELINE / TUMOR_ASSESS_WKn). Retained for traceability; SDTM `VISITNUM` dropped — TR did not collect it (100% null) |
+| 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
+| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | BASELINE=0; week n from `TUMOR_ASSESS_WKn` (SAP §12.2, `derive_avisitn()`) |
+| 14 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(TR.TRDTC)` |
+| 15 | AVAL | Analysis Value (SLD, mm) | Num | 8 | Derived | — | Sum of `TR.TRSTRESN` for TRTESTCD = "LDIAM" and TRGRPID = "TARGET" per visit |
+| 16 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | Last non-missing SLD on or before TRTSDT |
+| 17 | BASE | Baseline SLD Value | Num | 8 | Derived | — | `admiral::derive_var_base()` from ABLFL record |
+| 18 | CHG | Change from Baseline (mm) | Num | 8 | Derived | — | `admiral::derive_var_chg()`: AVAL − BASE |
+| 19 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_pchg()`: (CHG / BASE) × 100 |
+| 20 | NADIR | Minimum Post-Baseline SLD | Num | 8 | Derived | — | `min(AVAL)` for ADT > TRTSDT, merged onto all records per subject |
+| 21 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(!is.na(AVAL), "Y", NA)` |
 
 ## Key Derivation Notes
 

@@ -58,6 +58,8 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 27 | BTOXGR | Baseline Toxicity Grade | Char | 2 | Derived | NCI CTCAE | Toxicity grade at baseline (ABLFL = "Y") record |
 | 28 | ANL01FL | Analysis Flag 01 (on-treatment records) | Char | 1 | Derived | NY | `if_else(!is.na(AVAL) & ADT >= TRTSDT, "Y", NA)` |
 | 29 | DTYPE | Derivation Type | Char | 8 | Derived | — | NA for observed records; "LOCF" etc. if imputation used (none planned per SAP-D) |
+| 30 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
+| 31 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: VISITNUM where present, `MAINT_CnD1` → 7+n (SAP §12.2) |
 
 ## Key Derivation Notes
 

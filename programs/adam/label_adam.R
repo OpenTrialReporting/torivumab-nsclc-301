@@ -67,10 +67,14 @@ SUPPLEMENT <- list(
   TRT01PN  = "Planned Treatment (N)",
   TRT01AN  = "Actual Treatment (N)",
   TRTDURD  = "Total Treatment Duration (Days)",
-  # Timing (BDS analysis relative days)
+  # Timing (BDS analysis relative days + analysis visit)
   ADY      = "Analysis Relative Day",
   ASTDY    = "Analysis Start Relative Day",
   AENDY    = "Analysis End Relative Day",
+  AVISIT   = "Analysis Visit",
+  AVISITN  = "Analysis Visit (N)",
+  VISIT    = "Visit Name",
+  VISITNUM = "Visit Number",
   AVALU    = "Analysis Value Unit",
   # ADSL clinical characteristics
   ICDT     = "Date of Informed Consent",

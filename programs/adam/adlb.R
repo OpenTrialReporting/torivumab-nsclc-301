@@ -14,6 +14,8 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+source(file.path("programs", "adam", "_visit_utils.R"))
+
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
 dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -43,6 +45,8 @@ adlb <- adlb |>
   mutate(
     PARAMCD = LBTESTCD,
     PARAM   = LBTEST,
+    AVISIT  = VISIT,
+    AVISITN = derive_avisitn(VISIT, VISITNUM),
     AVAL    = as.numeric(LBSTRESN),
     AVALC   = as.character(LBORRES),
     AVALU   = LBSTRESU,
@@ -134,11 +138,11 @@ adlb <- adlb |>
     TRTSDT, TRTEDT,
     LBSEQ, PARAM, PARAMCD, LBCAT,
     LBDTC, ADT, ADY,
+    VISIT, VISITNUM, AVISIT, AVISITN,
     AVAL, AVALC, AVALU, ANRLO, ANRHI, NRIND,
     ABLFL, BASE, CHG, PCHG,
     ATOXGR, ATOXGRN,
-    ANL01FL, DTYPE,
-    VISIT, VISITNUM
+    ANL01FL, DTYPE
   ) |>
   arrange(USUBJID, PARAMCD, ADT, LBSEQ)
 

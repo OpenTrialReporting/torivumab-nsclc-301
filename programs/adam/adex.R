@@ -16,6 +16,8 @@ suppressPackageStartupMessages({
   library(arrow)
 })
 
+source(file.path("programs", "adam", "_visit_utils.R"))
+
 SDTM_DIR <- file.path("datasets", "sdtm")
 ADAM_DIR <- file.path("datasets", "adam")
 
@@ -135,9 +137,14 @@ ex_rdi <- planned_cum |>
          ANL01FL)
 
 # ---------------------------------------------------------------------------
-# 4. Stack
+# 4. Stack + analysis visit
 # ---------------------------------------------------------------------------
-adex <- bind_rows(ex_admin, ex_cumdose, ex_rdi)
+adex <- bind_rows(ex_admin, ex_cumdose, ex_rdi) |>
+  mutate(
+    AVISIT  = VISIT,
+    AVISITN = derive_avisitn(VISIT, VISITNUM)
+  ) |>
+  relocate(AVISIT, AVISITN, .after = VISITNUM)
 
 write_parquet(adex, file.path(ADAM_DIR, "adex.parquet"))
 message("ADEX written: ", nrow(adex), " records")
