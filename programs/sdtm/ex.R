@@ -47,7 +47,7 @@ raw <- raw |>
     USUBJID  = paste(STUDYID, SUBJECT_ID,
                      sep = "-"),
     EXTRT    = str_to_upper(str_trim(DRUG_NAME)),
-    EXDOSE   = as.numeric(DOSE_MG),
+    EXDOSE   = if_else(EXTRT == "PLACEBO", 0, as.numeric(DOSE_MG)),  # placebo dose = 0 (P21 SD1249)
     EXDOSU   = dplyr::recode(str_to_upper(str_trim(DOSE_UNIT)),  # CDISC UNIT (P21 CT2002)
                              "MG" = "mg", "MG/M2" = "mg/m2"),
     EXROUTE  = "INTRAVENOUS",

@@ -92,7 +92,6 @@ sdtm_rs <- raw |>
     RSEVAL,    # INVESTIGATOR or INDEPENDENT ASSESSOR (BICR)
     RSORRES,
     RSSTRESC,
-    RSSTRESN,
     RSDTC,
     VISITNUM,
     VISIT

@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718224016"
-     CreationDateTime="2026-07-18T22:40:11"
-     AsOfDateTime="2026-07-18T22:40:11"
+     FileOID="CTX-NSCLC-301.20260718225242"
+     CreationDateTime="2026-07-18T22:52:38"
+     AsOfDateTime="2026-07-18T22:52:38"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -278,10 +278,9 @@
         <ItemRef ItemOID="IT.RS.RSEVAL" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.RS.RSORRES" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.RS.RSSTRESC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.RSSTRESN" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.RSDTC" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.VISITNUM" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.VISIT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.RSDTC" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.VISITNUM" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.VISIT" OrderNumber="13" Mandatory="No"/>
         <def:leaf ID="LF.RS" xlink:href="rs.xpt">
           <def:title>rs.xpt</def:title>
         </def:leaf>
@@ -294,11 +293,10 @@
         <ItemRef ItemOID="IT.SU.SUSEQ" OrderNumber="4" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.SU.SUTRT" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUOCCUR" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUCAT" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUSCAT" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUSTDTC" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUPACKYR" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUFREQ" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUSCAT" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUSTDTC" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUPACKYR" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUFREQ" OrderNumber="10" Mandatory="No"/>
         <def:leaf ID="LF.SU" xlink:href="su.xpt">
           <def:title>su.xpt</def:title>
         </def:leaf>
@@ -1583,10 +1581,6 @@
         <Description><TranslatedText xml:lang="en">Character Result/Finding in Std Format</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.RS.RSSTRESN" Name="RSSTRESN" SASFieldName="RSSTRESN" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Numeric Result/Finding in Standard Units</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
       <ItemDef OID="IT.RS.RSDTC" Name="RSDTC" SASFieldName="RSDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">Date/Time of Disease Response Assessment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
@@ -1621,10 +1615,6 @@
       </ItemDef>
       <ItemDef OID="IT.SU.SUOCCUR" Name="SUOCCUR" SASFieldName="SUOCCUR" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Substance Use Occurrence</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.SU.SUCAT" Name="SUCAT" SASFieldName="SUCAT" DataType="text" Length="18">
-        <Description><TranslatedText xml:lang="en">Category of Substance Use</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.SU.SUSCAT" Name="SUSCAT" SASFieldName="SUSCAT" DataType="text" Length="12">

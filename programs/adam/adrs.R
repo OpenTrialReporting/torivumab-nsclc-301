@@ -47,7 +47,10 @@ ovr <- rs |>
     PARAMCD = "OVR",
     PARAM   = "Overall Response by Investigator (RECIST 1.1)",
     AVALC   = RSSTRESC,
-    AVAL    = as.numeric(RSSTRESN),
+    # AVAL = ordinal rank derived from the response code (RS.RSSTRESN dropped —
+    # a categorical response has no numeric SDTM result; P21 SD1448)
+    AVAL    = dplyr::recode(RSSTRESC, "CR" = 1, "PR" = 2, "SD" = 3,
+                            "PD" = 4, "NE" = 5, .default = NA_real_),
     ANL01FL = "Y",
     RSPFL   = NA_character_
   )

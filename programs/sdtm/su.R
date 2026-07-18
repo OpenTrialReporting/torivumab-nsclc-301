@@ -55,7 +55,6 @@ sdtm_su <- raw |>
     SUSEQ,
     SUTRT,
     SUOCCUR,
-    SUCAT,
     SUSCAT,
     SUSTDTC,
     SUPACKYR,
