@@ -347,25 +347,24 @@ ADEX, ADRS, ADTR, ADVS**. Subject-level summary parameters (e.g. ADRS `BOR`/
 `AVISITN` = null.
 
 **`AVISIT`** = the scheduled visit label (`= VISIT`). **`AVISITN`** provides a
-complete, gap-free numeric ordering. Where SDTM `VISITNUM` is populated it is
-authoritative; where SDTM did not collect it (maintenance cycles, tumour-
-assessment weeks) `AVISITN` is derived deterministically from the visit label:
+complete, gap-free numeric ordering and equals the SDTM `VISITNUM`, which
+`programs/sdtm/*` now assigns for **every** collected visit (a unique value per
+`VISIT`, so no `VISITNUM` collides across visits — P21 SD0051). The scheme:
 
-| Visit family | AVISIT | AVISITN |
+| Visit family | AVISIT / VISIT | AVISITN / VISITNUM |
 |---|---|---|
 | Screening | `SCREENING` | 0 |
-| Induction | `C1D1`…`C6D1` | 1…7 (from VISITNUM) |
-| Maintenance | `MAINT_CnD1` | 7 + n |
+| Induction | `C1D1`…`C6D1` | 1…7 |
+| Maintenance | `MAINT_CnD1` | 9 + n |
 | Tumour baseline | `BASELINE` | 0 |
-| Tumour assessment | `TUMOR_ASSESS_WKn` | n (week number) |
-| End of treatment | `EOT` | 99 |
+| Tumour assessment | `TUMOR_ASSESS_WKn` / `MAINT_ASSESS_WKn` | n (week number) |
+| End of treatment / follow-up | `EOT` / `FU1` / `FU2` | 900 / 901 / 902 |
 
 Traceability (ADaMIG §"SDTM timing variables may be copied … to support
 traceability"): the SDTM `VISIT`/`VISITNUM` are retained alongside `AVISIT`/
-`AVISITN` where they carry information (ADLB, ADEX, ADVS). For ADRS and ADTR the
-source SDTM (RS/TR) did not collect `VISITNUM` (100% null), so it is dropped —
-it aids no traceability — while `VISIT` is retained and `AVISITN` supplies the
-ordering. The single derivation is implemented in `programs/adam/_visit_utils.R`
+`AVISITN` in ADLB, ADEX and ADVS. ADRS and ADTR carry `VISIT` + `AVISIT`/
+`AVISITN` only (`VISITNUM` omitted as redundant with the identical `AVISITN`).
+The single derivation is implemented in `programs/adam/_visit_utils.R`
 (`derive_avisitn()`) and applied by every BDS program.
 
 The underlying protocol schedule (tumour imaging Q6W for 54 weeks then Q9W;

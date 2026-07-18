@@ -24,15 +24,21 @@ visit_map <- c(
   "C1D1" = 1L, "C1D15" = 2L, "C2D1" = 3L, "C3D1" = 4L,
   "C4D1" = 5L, "C5D1" = 6L, "C6D1" = 7L, "C7D1" = 8L,
   "C8D1" = 9L,
-  "EOT" = 99L, "END OF TREATMENT" = 99L,
-  "FU1" = 100L, "FU2" = 101L,
-  "FOLLOW-UP 1" = 100L, "FOLLOW-UP 2" = 101L
+  "EOT" = 900L, "END OF TREATMENT" = 900L,
+  "FU1" = 901L, "FU2" = 902L,
+  "FOLLOW-UP 1" = 901L, "FOLLOW-UP 2" = 902L
 )
 
 get_visitnum <- function(visit_name) {
-  v_up <- str_to_upper(str_trim(visit_name))
-  mapped <- visit_map[v_up]
-  ifelse(is.na(mapped), NA_integer_, as.integer(mapped))
+  v <- str_to_upper(str_trim(visit_name))
+  n <- as.integer(visit_map[v])
+  # Unique, complete VISITNUM for visits absent from visit_map (P21 SD0051):
+  n[is.na(n) & v == "BASELINE"] <- 0L
+  m <- is.na(n) & grepl("^MAINT_C[0-9]+D1$", v)      # maintenance cycles -> 9 + cycle
+  n[m] <- 9L + as.integer(sub("D1$", "", sub("^MAINT_C", "", v[m])))
+  w <- is.na(n) & grepl("ASSESS_WK[0-9]+$", v)       # tumour assessments -> week number
+  n[w] <- as.integer(sub("^.*WK", "", v[w]))
+  as.integer(n)
 }
 
 # Haematology test codes
