@@ -33,7 +33,6 @@ tu_rows <- tu |>
     USUBJID,
     IDVAR    = "TULINKID",
     IDVARVAL = as.character(TULINKID),
-    RELTYPE  = "ONE",
     RELID    = paste0("LESION-", TULINKID)
   ) |>
   distinct()   # AL-11 fix (2026-05-17): TU has one row per lesion per visit,
@@ -47,7 +46,6 @@ tr_lesion_rows <- tr |>
     USUBJID,
     IDVAR    = "TRLINKID",
     IDVARVAL = as.character(TRLINKID),
-    RELTYPE  = "MANY",
     RELID    = paste0("LESION-", TRLINKID)
   ) |>
   distinct()
@@ -63,7 +61,6 @@ rs_rows <- rs |>
     USUBJID,
     IDVAR    = "RSSEQ",
     IDVARVAL = as.character(RSSEQ),
-    RELTYPE  = "ONE",
     RELID    = paste0("RESP-", USUBJID, "-", RSDTC)
   )
 
@@ -80,7 +77,6 @@ tr_resp_rows <- tr |>
     USUBJID,
     IDVAR    = "TRSEQ",
     IDVARVAL = as.character(TRSEQ),
-    RELTYPE  = "MANY",
     RELID    = paste0("RESP-", USUBJID, "-", TRDTC)
   )
 
@@ -94,10 +90,9 @@ sdtm_relrec <- bind_rows(relrec_lesion, relrec_resp) |>
     USUBJID,
     IDVAR,
     IDVARVAL,
-    RELTYPE,
     RELID
   ) |>
-  distinct(STUDYID, USUBJID, RDOMAIN, IDVAR, IDVARVAL, RELTYPE, RELID)
+  distinct(STUDYID, USUBJID, RDOMAIN, IDVAR, IDVARVAL, RELID)
 # AL-11 closure (2026-05-17): final distinct() on the full key tuple guarantees
 # unique relationship rows after the bind_rows of lesion + response sets.
 

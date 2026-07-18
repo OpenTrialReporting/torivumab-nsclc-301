@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718213733"
-     CreationDateTime="2026-07-18T21:37:28"
-     AsOfDateTime="2026-07-18T21:37:28"
+     FileOID="CTX-NSCLC-301.20260718224016"
+     CreationDateTime="2026-07-18T22:40:11"
+     AsOfDateTime="2026-07-18T22:40:11"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -261,8 +261,7 @@
         <ItemRef ItemOID="IT.RELREC.RDOMAIN" OrderNumber="3" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.RELREC.IDVAR" OrderNumber="4" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.RELREC.IDVARVAL" OrderNumber="5" Mandatory="Yes" KeySequence="6"/>
-        <ItemRef ItemOID="IT.RELREC.RELTYPE" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RELREC.RELID" OrderNumber="7" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.RELREC.RELID" OrderNumber="6" Mandatory="Yes" KeySequence="4"/>
         <def:leaf ID="LF.RELREC" xlink:href="relrec.xpt">
           <def:title>relrec.xpt</def:title>
         </def:leaf>
@@ -1540,10 +1539,6 @@
         <Description><TranslatedText xml:lang="en">Identifying Variable Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.RELREC.RELTYPE" Name="RELTYPE" SASFieldName="RELTYPE" DataType="text" Length="4">
-        <Description><TranslatedText xml:lang="en">Relationship Type</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
       <ItemDef OID="IT.RELREC.RELID" Name="RELID" SASFieldName="RELID" DataType="text" Length="42">
         <Description><TranslatedText xml:lang="en">Relationship Identifier</TranslatedText></Description>
         <def:Origin Type="Derived"/>
@@ -1788,7 +1783,7 @@
         <Description><TranslatedText xml:lang="en">Identifying Variable Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.SUPPLB.QNAM" Name="QNAM" SASFieldName="QNAM" DataType="text" Length="9">
+      <ItemDef OID="IT.SUPPLB.QNAM" Name="QNAM" SASFieldName="QNAM" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Qualifier Variable Name</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
