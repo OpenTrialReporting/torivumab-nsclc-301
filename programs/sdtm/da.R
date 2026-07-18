@@ -53,7 +53,7 @@ da_long <- raw |>
     LOSTAMT = AMT_LOST
   ) |>
   pivot_longer(
-    cols      = c(DISPAMT, USEDAMT, RETAMT, LOSTAMT),
+    cols      = c(DISPAMT, RETAMT, LOSTAMT),   # USEDAMT dropped — not a CDISC DA test (P21 CT2002/CT2003)
     names_to  = "DATESTCD",
     values_to = "value"
   ) |>
@@ -64,19 +64,18 @@ da_long <- raw |>
   ) |>
   mutate(
     DOMAIN   = "DA",
-    DATEST   = case_when(
-      DATESTCD == "DISPAMT" ~ "Amount Dispensed",
-      DATESTCD == "USEDAMT" ~ "Amount Used",
-      DATESTCD == "RETAMT"  ~ "Amount Returned",
-      DATESTCD == "LOSTAMT" ~ "Amount Lost",
+    DATEST   = case_when(                     # exact CDISC DATEST decodes (P21 CT2002/CT2003)
+      DATESTCD == "DISPAMT" ~ "Dispensed Amount",
+      DATESTCD == "RETAMT"  ~ "Returned Amount",
+      DATESTCD == "LOSTAMT" ~ "Lost Amount",
       TRUE                  ~ DATESTCD
     ),
     DACAT    = "DRUG ACCOUNTABILITY",
     DAORRES  = format(round(value, 2), nsmall = 0, trim = TRUE),
-    DAORRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2", "VIAL" = "vial"),  # CDISC UNIT (CT2002)
+    DAORRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2"),  # CDISC UNIT (CT2002)
     DASTRESC = format(round(value, 2), nsmall = 0, trim = TRUE),
     DASTRESN = as.numeric(value),
-    DASTRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2", "VIAL" = "vial"),  # CDISC UNIT (CT2002)
+    DASTRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2"),  # CDISC UNIT (CT2002)
     DASTDTC  = as.character(VISIT_DATE),
     VISIT    = VISIT_NAME
   ) |>

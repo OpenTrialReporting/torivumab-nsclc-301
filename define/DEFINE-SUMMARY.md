@@ -11,7 +11,7 @@
 |---------|-------|--------:|----------:|-----------|
 | AE | EVENTS | 2,841 | 33 | One record per subject per adverse event |
 | CM | INTERVENTIONS | 2,330 | 13 | One record per subject per medication per occurrence |
-| DA | INTERVENTIONS | 31,866 | 15 | One record per subject per accountability measure per drug per visit |
+| DA | INTERVENTIONS | 18,463 | 15 | One record per subject per accountability measure per drug per visit |
 | DD | EVENTS | 312 | 12 | One record per subject per death detail |
 | DM | SPECIAL PURPOSE | 450 | 17 | One record per subject |
 | DS | EVENTS | 1,350 | 9 | One record per subject per disposition event |

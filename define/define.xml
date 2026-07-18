@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718225242"
-     CreationDateTime="2026-07-18T22:52:38"
-     AsOfDateTime="2026-07-18T22:52:38"
+     FileOID="CTX-NSCLC-301.20260718230605"
+     CreationDateTime="2026-07-18T23:06:01"
+     AsOfDateTime="2026-07-18T23:06:01"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1921,7 +1921,7 @@
         <Description><TranslatedText xml:lang="en">Result or Finding in Original Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.TU.TULOC" Name="TULOC" SASFieldName="TULOC" DataType="text" Length="28">
+      <ItemDef OID="IT.TU.TULOC" Name="TULOC" SASFieldName="TULOC" DataType="text" Length="26">
         <Description><TranslatedText xml:lang="en">Location of the Tumor</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
