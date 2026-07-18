@@ -3,13 +3,13 @@
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
 **Generated:** 2026-07-18
 **File:** `define/define.xml`
-**Datasets:** 34  ·  **Variables:** 622
+**Datasets:** 34  ·  **Variables:** 636
 
 ## Datasets
 
 | Dataset | Class | Records | Variables | Structure |
 |---------|-------|--------:|----------:|-----------|
-| AE | EVENTS | 2,841 | 26 | One record per subject per adverse event |
+| AE | EVENTS | 2,841 | 33 | One record per subject per adverse event |
 | CM | INTERVENTIONS | 2,330 | 13 | One record per subject per medication per occurrence |
 | DA | INTERVENTIONS | 31,866 | 15 | One record per subject per accountability measure per drug per visit |
 | DD | EVENTS | 312 | 12 | One record per subject per death detail |
@@ -31,7 +31,7 @@
 | TR | FINDINGS | 9,049 | 15 | One record per subject per lesion per measurement per visit |
 | TU | FINDINGS | 9,012 | 14 | One record per subject per lesion per visit (tumor identification) |
 | VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
-| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 44 | One record per subject per adverse event |
+| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 51 | One record per subject per adverse event |
 | ADCM | OCCURRENCE DATA STRUCTURE | 2,330 | 30 | One record per subject per concomitant medication occurrence |
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
 | ADDV | OCCURRENCE DATA STRUCTURE | 337 | 24 | One record per subject per protocol deviation |

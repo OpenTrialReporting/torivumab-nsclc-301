@@ -89,6 +89,13 @@ SUPPLEMENT <- list(
   AETERM   = "Reported Term for the Adverse Event",
   AESOC    = "Primary System Organ Class",
   AESERFL  = "Serious Event Flag",
+  AEPTCD   = "Preferred Term Code",
+  AEBDSYCD = "Body System or Organ Class Code",
+  AEHLGT   = "High Level Group Term",
+  AEHLGTCD = "High Level Group Term Code",
+  AEHLTCD  = "High Level Term Code",
+  AELLTCD  = "Lowest Level Term Code",
+  AESOCCD  = "Primary System Organ Class Code",
   # ADLB
   LBSEQ    = "Sequence Number",
   LBCAT    = "Category for Lab Test",

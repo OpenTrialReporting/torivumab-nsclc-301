@@ -51,9 +51,15 @@ code_ae <- function(verbatim_terms, meddra_lkp) {
 
   data.frame(
     AEDECOD  = ifelse(is.na(idx_exact), terms_upper,        meddra_lkp$PT_NAME[idx_exact]),
+    AEPTCD   = ifelse(is.na(idx_exact), NA_integer_,        meddra_lkp$PT_CODE[idx_exact]),
     AEBODSYS = ifelse(is.na(idx_exact), NA_character_,      meddra_lkp$SOC_NAME[idx_exact]),
+    AEBDSYCD = ifelse(is.na(idx_exact), NA_integer_,        meddra_lkp$SOC_CODE[idx_exact]),
+    AEHLGT   = ifelse(is.na(idx_exact), NA_character_,      meddra_lkp$HLGT_NAME[idx_exact]),
+    AEHLGTCD = ifelse(is.na(idx_exact), NA_integer_,        meddra_lkp$HLGT_CODE[idx_exact]),
     AEHLT    = ifelse(is.na(idx_exact), NA_character_,      meddra_lkp$HLT_NAME[idx_exact]),
+    AEHLTCD  = ifelse(is.na(idx_exact), NA_integer_,        meddra_lkp$HLT_CODE[idx_exact]),
     AELLT    = ifelse(is.na(idx_exact), verbatim_terms,     meddra_lkp$LLT_NAME[idx_exact]),
+    AELLTCD  = ifelse(is.na(idx_exact), NA_integer_,        meddra_lkp$LLT_CODE[idx_exact]),
     IRAEFL   = ifelse(is.na(idx_exact), "N",               ifelse(meddra_lkp$IRAEFL[idx_exact] == "Y", "Y", "N")),
     stringsAsFactors = FALSE
   )
@@ -161,7 +167,8 @@ sdtm_ae <- raw_coded |>
       TRUE                        ~ NA_character_
     ),
     # AESOC: Primary System Organ Class (same hierarchy as AEBODSYS in this coding)
-    AESOC = AEBODSYS
+    AESOC   = AEBODSYS,
+    AESOCCD = AEBDSYCD          # Primary SOC code == body-system code in this coding
   ) |>
   transmute(
     STUDYID,
@@ -170,10 +177,17 @@ sdtm_ae <- raw_coded |>
     AESEQ,
     AETERM,
     AEDECOD,
+    AEPTCD,
     AEBODSYS,
+    AEBDSYCD,
     AESOC,
+    AESOCCD,
+    AEHLGT,
+    AEHLGTCD,
     AEHLT,
+    AEHLTCD,
     AELLT,
+    AELLTCD,
     AESTDTC,
     AEENDTC,
     AESEV,

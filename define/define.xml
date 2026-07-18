@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718211419"
-     CreationDateTime="2026-07-18T21:14:14"
-     AsOfDateTime="2026-07-18T21:14:14"
+     FileOID="CTX-NSCLC-301.20260718212558"
+     CreationDateTime="2026-07-18T21:25:53"
+     AsOfDateTime="2026-07-18T21:25:53"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -32,26 +32,33 @@
         <ItemRef ItemOID="IT.AE.AESEQ" OrderNumber="4" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.AE.AETERM" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEDECOD" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEBODSYS" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESOC" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AETOXGR" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEREL" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESDTH" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESHOSP" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESLIFE" OrderNumber="22" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="23" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="24" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="25" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEDISCOD" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEPTCD" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEBODSYS" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEBDSYCD" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESOC" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESOCCD" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLGT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLGTCD" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLTCD" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AELLTCD" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AETOXGR" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEREL" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESDTH" OrderNumber="27" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESHOSP" OrderNumber="28" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESLIFE" OrderNumber="29" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="30" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="31" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="32" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEDISCOD" OrderNumber="33" Mandatory="No"/>
         <def:leaf ID="LF.AE" xlink:href="ae.xpt">
           <def:title>ae.xpt</def:title>
         </def:leaf>
@@ -456,34 +463,41 @@
         <ItemRef ItemOID="IT.ADAE.AESEQ" OrderNumber="14" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.ADAE.AETERM" OrderNumber="15" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADAE.AEDECOD" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEBODSYS" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEHLT" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AELLT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEPTCD" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEBODSYS" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEBDSYCD" OrderNumber="19" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADAE.AESOC" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AECAT" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESTDTC" OrderNumber="22" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEENDTC" OrderNumber="23" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.ASTDT" OrderNumber="24" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AENDT" OrderNumber="25" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.ASTDY" OrderNumber="26" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AENDY" OrderNumber="27" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESEV" OrderNumber="28" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AETOXGR" OrderNumber="29" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AETOXGRN" OrderNumber="30" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESER" OrderNumber="31" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESERFL" OrderNumber="32" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEREL" OrderNumber="33" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEACN" OrderNumber="34" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AEOUT" OrderNumber="35" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESDTH" OrderNumber="36" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESHOSP" OrderNumber="37" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESLIFE" OrderNumber="38" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESDISAB" OrderNumber="39" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESMIE" OrderNumber="40" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.AESCONG" OrderNumber="41" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.TRTEMFL" OrderNumber="42" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.IRAEFL" OrderNumber="43" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADAE.ANL01FL" OrderNumber="44" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESOCCD" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEHLGT" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEHLGTCD" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEHLT" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEHLTCD" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AELLT" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AELLTCD" OrderNumber="27" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AECAT" OrderNumber="28" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESTDTC" OrderNumber="29" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEENDTC" OrderNumber="30" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.ASTDT" OrderNumber="31" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AENDT" OrderNumber="32" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.ASTDY" OrderNumber="33" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AENDY" OrderNumber="34" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESEV" OrderNumber="35" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AETOXGR" OrderNumber="36" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AETOXGRN" OrderNumber="37" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESER" OrderNumber="38" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESERFL" OrderNumber="39" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEREL" OrderNumber="40" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEACN" OrderNumber="41" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AEOUT" OrderNumber="42" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESDTH" OrderNumber="43" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESHOSP" OrderNumber="44" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESLIFE" OrderNumber="45" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESDISAB" OrderNumber="46" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESMIE" OrderNumber="47" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.AESCONG" OrderNumber="48" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.TRTEMFL" OrderNumber="49" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.IRAEFL" OrderNumber="50" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADAE.ANL01FL" OrderNumber="51" Mandatory="No"/>
         <def:leaf ID="LF.ADAE" xlink:href="adae.xpt">
           <def:title>adae.xpt</def:title>
         </def:leaf>
@@ -874,21 +888,49 @@
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.AE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Preferred Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.AE.AEBODSYS" Name="AEBODSYS" SASFieldName="AEBODSYS" DataType="text" Length="52">
         <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Body System or Organ Class Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESOC" Name="AESOC" SASFieldName="AESOC" DataType="text" Length="52">
         <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.AE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Primary System Organ Class Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLGT" Name="AEHLGT" SASFieldName="AEHLGT" DataType="text" Length="42">
+        <Description><TranslatedText xml:lang="en">High Level Group Term</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Group Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.AE.AEHLT" Name="AEHLT" SASFieldName="AEHLT" DataType="text" Length="36">
         <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.AE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.AE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Lowest Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
@@ -2042,21 +2084,49 @@
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.ADAE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Preferred Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.ADAE.AEBODSYS" Name="AEBODSYS" SASFieldName="AEBODSYS" DataType="text" Length="52">
         <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADAE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Body System or Organ Class Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADAE.AESOC" Name="AESOC" SASFieldName="AESOC" DataType="text" Length="52">
+        <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADAE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Primary System Organ Class Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADAE.AEHLGT" Name="AEHLGT" SASFieldName="AEHLGT" DataType="text" Length="42">
+        <Description><TranslatedText xml:lang="en">High Level Group Term</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADAE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Group Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AEHLT" Name="AEHLT" SASFieldName="AEHLT" DataType="text" Length="36">
         <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
+      <ItemDef OID="IT.ADAE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.ADAE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
         <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AESOC" Name="AESOC" SASFieldName="AESOC" DataType="text" Length="52">
-        <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
-        <def:Origin Type="Assigned"/>
+      <ItemDef OID="IT.ADAE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="text" Length="8">
+        <Description><TranslatedText xml:lang="en">Lowest Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.AECAT" Name="AECAT" SASFieldName="AECAT" DataType="text" Length="14">
         <Description><TranslatedText xml:lang="en">Category for Adverse Event</TranslatedText></Description>
