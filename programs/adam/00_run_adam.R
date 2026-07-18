@@ -86,6 +86,12 @@ for (ds in adam_programs) {
   run_adam(ds)
 }
 
+# ── Attach ADaMIG v1.3 variable labels to every dataset (parity with SDTM) ────
+message("\n", strrep("=", 70))
+message("Running: programs/adam/label_adam.R")
+message(strrep("=", 70))
+source(file.path("programs", "adam", "label_adam.R"), local = new.env(parent = globalenv()))
+
 elapsed <- proc.time() - start_time
 
 message("\n", strrep("=", 70))
