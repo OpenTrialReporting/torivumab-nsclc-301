@@ -61,7 +61,7 @@ adtr_ldiam <- tr_ldiam |>
     PARAM   = "Longest Diameter (mm)",
     AVALU   = "mm",
     AVAL    = TRSTRESN,
-    LNKID   = TRLINKID
+    LNKID   = TRLNKID
   ) |>
   select(STUDYID, USUBJID, VISIT, VISITNUM, ADT, TRTSDT, TRTEDT,
          SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,

@@ -52,7 +52,7 @@ raw <- raw |>
       str_to_upper(str_trim(LESION_TYPE)) %in% c("NON-TARGET", "NONTARGET", "NT") ~ "NON-TARGET",
       TRUE ~ str_to_upper(str_trim(LESION_TYPE))
     ),
-    TRLINKID = as.character(LESION_ID),
+    TRLNKID = as.character(LESION_ID),
     new_lesion_flag = str_to_upper(str_trim(as.character(NEW_LESION))) %in%
       c("Y", "YES", "TRUE", "1")
   )
@@ -76,7 +76,7 @@ tr_target <- raw |>
 tr_all <- tr_target
 
 sdtm_tr <- tr_all |>
-  arrange(USUBJID, TRDTC, TRLINKID, TRTESTCD) |>
+  arrange(USUBJID, TRDTC, TRLNKID, TRTESTCD) |>
   group_by(USUBJID) |>
   mutate(TRSEQ = row_number()) |>
   ungroup() |>
@@ -95,7 +95,7 @@ sdtm_tr <- tr_all |>
     VISITNUM,
     VISIT,
     TRGRPID,
-    TRLINKID
+    TRLNKID
   )
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)

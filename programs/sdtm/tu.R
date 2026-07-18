@@ -74,9 +74,9 @@ raw <- raw |>
       str_to_upper(str_trim(LESION_TYPE)) %in% c("NON-TARGET", "NONTARGET", "NT") ~ "NON-TARGET",
       TRUE ~ str_to_upper(str_trim(LESION_TYPE))
     ),
-    TULINKID = as.character(LESION_ID)
+    TULNKID = as.character(LESION_ID)
   ) |>
-  arrange(USUBJID, TUDTC, TULINKID) |>
+  arrange(USUBJID, TUDTC, TULNKID) |>
   group_by(USUBJID) |>
   mutate(TUSEQ = row_number()) |>
   ungroup()
@@ -96,7 +96,7 @@ sdtm_tu <- raw |>
     VISITNUM,
     VISIT,
     TUGRPID,
-    TULINKID
+    TULNKID
   )
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)

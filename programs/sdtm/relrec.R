@@ -7,7 +7,7 @@
 # Writes to  : datasets/sdtm/relrec.parquet
 # Notes      : Two relationship groups per subject:
 #                 (a) Lesion identity — TU (one) ↔ TR (many) by LNKID
-#                     RELID = "LESION-<lesion_id>"; IDVAR = TULINKID/TRLINKID
+#                     RELID = "LESION-<lesion_id>"; IDVAR = TULNKID/TRLNKID
 #                 (b) Visit response — RS (one) ↔ TR (many) by assessment date
 #                     RELID = "RESP-<RSDTC>";       IDVAR = RSSEQ/TRSEQ
 #              Per SDTMIG §8.5, RELREC defines record-level cross-domain
@@ -26,27 +26,27 @@ rs <- as.data.frame(read_parquet(file.path(SDTM_DIR, "rs.parquet")))
 
 # ---- Relationship A: TU(one) ↔ TR(many) by lesion id ----
 tu_rows <- tu |>
-  filter(!is.na(TULINKID), TULINKID != "") |>
+  filter(!is.na(TULNKID), TULNKID != "") |>
   transmute(
     STUDYID,
     RDOMAIN  = "TU",
     USUBJID,
-    IDVAR    = "TULINKID",
-    IDVARVAL = as.character(TULINKID),
-    RELID    = paste0("LESION-", TULINKID)
+    IDVAR    = "TULNKID",
+    IDVARVAL = as.character(TULNKID),
+    RELID    = paste0("LESION-", TULNKID)
   ) |>
   distinct()   # AL-11 fix (2026-05-17): TU has one row per lesion per visit,
                # so distinct() collapses to one RELREC row per (USUBJID, lesion).
 
 tr_lesion_rows <- tr |>
-  filter(!is.na(TRLINKID), TRLINKID != "") |>
+  filter(!is.na(TRLNKID), TRLNKID != "") |>
   transmute(
     STUDYID,
     RDOMAIN  = "TR",
     USUBJID,
-    IDVAR    = "TRLINKID",
-    IDVARVAL = as.character(TRLINKID),
-    RELID    = paste0("LESION-", TRLINKID)
+    IDVAR    = "TRLNKID",
+    IDVARVAL = as.character(TRLNKID),
+    RELID    = paste0("LESION-", TRLNKID)
   ) |>
   distinct()
 
@@ -90,9 +90,10 @@ sdtm_relrec <- bind_rows(relrec_lesion, relrec_resp) |>
     USUBJID,
     IDVAR,
     IDVARVAL,
+    RELTYPE  = NA_character_,   # expected var, but blank for record-level RELREC (P21 SD0057)
     RELID
   ) |>
-  distinct(STUDYID, USUBJID, RDOMAIN, IDVAR, IDVARVAL, RELID)
+  distinct(STUDYID, USUBJID, RDOMAIN, IDVAR, IDVARVAL, RELTYPE, RELID)
 # AL-11 closure (2026-05-17): final distinct() on the full key tuple guarantees
 # unique relationship rows after the bind_rows of lesion + response sets.
 

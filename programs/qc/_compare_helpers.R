@@ -72,7 +72,7 @@ compare_one_dataset <- function(primary_path, qc_path, ds_name, keys = NULL) {
       k <- intersect(c("STUDYID","USUBJID","PARAMCD","AVISITN","AVISIT","ADT"), nms)
       # Validate uniqueness; if not unique, append more discriminators
       if (anyDuplicated(df[, k, drop = FALSE]) > 0) {
-        for (extra in c("AVAL","AVALC","LBSEQ","TRLINKID")) {
+        for (extra in c("AVAL","AVALC","LBSEQ","TRLNKID")) {
           if (extra %in% nms) {
             k <- c(k, extra)
             if (anyDuplicated(df[, k, drop = FALSE]) == 0) break

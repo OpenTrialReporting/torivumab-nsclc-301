@@ -50,7 +50,12 @@ raw <- raw |>
                                 "MALE" = "M", "FEMALE" = "F", .default = "U"),
     RACE        = str_to_upper(str_trim(RACE)),
     ETHNIC      = str_to_upper(str_trim(ETHNIC)),
-    COUNTRY     = str_to_upper(str_trim(COUNTRY)),
+    COUNTRY     = dplyr::recode(str_to_upper(str_trim(COUNTRY)),  # ISO 3166-1 alpha-3 / GENC (P21 SD1322)
+                    "AUSTRALIA" = "AUS", "BRAZIL" = "BRA", "CANADA" = "CAN",
+                    "FRANCE" = "FRA", "GERMANY" = "DEU", "ITALY" = "ITA",
+                    "JAPAN" = "JPN", "NETHERLANDS" = "NLD", "POLAND" = "POL",
+                    "SOUTH KOREA" = "KOR", "SPAIN" = "ESP",
+                    "UNITED KINGDOM" = "GBR", "UNITED STATES" = "USA"),
     DMBLFL      = "Y"
   )
 

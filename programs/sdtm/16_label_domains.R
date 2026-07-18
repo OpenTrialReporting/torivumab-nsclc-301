@@ -320,7 +320,7 @@ DOMAIN_LABELS <- list(
     TULOC    = "Location of the Tumor",
     TUMETHOD = "Method of Identification",
     TUGRPID  = "Group ID",
-    TULINKID = "Link ID",
+    TULNKID = "Link ID",
     TUDTC    = "Date/Time of Tumor Identification",
     TUDY     = "Study Day of Tumor Identification"
   )),
@@ -335,7 +335,7 @@ DOMAIN_LABELS <- list(
     TRSTRESN = "Numeric Result/Finding in Standard Units",
     TRSTRESU = "Standard Units",
     TRGRPID  = "Group ID",
-    TRLINKID = "Link ID",
+    TRLNKID = "Link ID",
     TRDTC    = "Date/Time of Assessment",
     TRDY     = "Study Day of Assessment"
   )),

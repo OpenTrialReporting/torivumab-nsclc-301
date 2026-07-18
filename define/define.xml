@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718231836"
-     CreationDateTime="2026-07-18T23:18:33"
-     AsOfDateTime="2026-07-18T23:18:33"
+     FileOID="CTX-NSCLC-301.20260718233036"
+     CreationDateTime="2026-07-18T23:30:32"
+     AsOfDateTime="2026-07-18T23:30:32"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -261,7 +261,8 @@
         <ItemRef ItemOID="IT.RELREC.RDOMAIN" OrderNumber="3" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.RELREC.IDVAR" OrderNumber="4" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.RELREC.IDVARVAL" OrderNumber="5" Mandatory="Yes" KeySequence="6"/>
-        <ItemRef ItemOID="IT.RELREC.RELID" OrderNumber="6" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.RELREC.RELTYPE" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RELREC.RELID" OrderNumber="7" Mandatory="Yes" KeySequence="4"/>
         <def:leaf ID="LF.RELREC" xlink:href="relrec.xpt">
           <def:title>relrec.xpt</def:title>
         </def:leaf>
@@ -1529,12 +1530,16 @@
         <Description><TranslatedText xml:lang="en">Related Domain Abbreviation</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.RELREC.IDVAR" Name="IDVAR" SASFieldName="IDVAR" DataType="text" Length="8">
+      <ItemDef OID="IT.RELREC.IDVAR" Name="IDVAR" SASFieldName="IDVAR" DataType="text" Length="7">
         <Description><TranslatedText xml:lang="en">Identifying Variable</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.RELREC.IDVARVAL" Name="IDVARVAL" SASFieldName="IDVARVAL" DataType="text" Length="11">
         <Description><TranslatedText xml:lang="en">Identifying Variable Value</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.RELREC.RELTYPE" Name="RELTYPE" SASFieldName="RELTYPE" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Relationship Type</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.RELREC.RELID" Name="RELID" SASFieldName="RELID" DataType="text" Length="42">
@@ -2993,7 +2998,7 @@
         <Description><TranslatedText xml:lang="en">Ethnicity</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="14">
+      <ItemDef OID="IT.ADSL.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="3">
         <Description><TranslatedText xml:lang="en">Country</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
