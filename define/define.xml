@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718230925"
-     CreationDateTime="2026-07-18T23:09:21"
-     AsOfDateTime="2026-07-18T23:09:21"
+     FileOID="CTX-NSCLC-301.20260718231836"
+     CreationDateTime="2026-07-18T23:18:33"
+     AsOfDateTime="2026-07-18T23:18:33"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -937,7 +937,7 @@
         <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="16">
+      <ItemDef OID="IT.AE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Severity/Intensity</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -1121,11 +1121,11 @@
         <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDTESTCD" Name="DDTESTCD" SASFieldName="DDTESTCD" DataType="text" Length="5">
+      <ItemDef OID="IT.DD.DDTESTCD" Name="DDTESTCD" SASFieldName="DDTESTCD" DataType="text" Length="6">
         <Description><TranslatedText xml:lang="en">Death Detail Test Short Name</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDTEST" Name="DDTEST" SASFieldName="DDTEST" DataType="text" Length="5">
+      <ItemDef OID="IT.DD.DDTEST" Name="DDTEST" SASFieldName="DDTEST" DataType="text" Length="22">
         <Description><TranslatedText xml:lang="en">Death Detail Test Name</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1249,7 +1249,7 @@
         <Description><TranslatedText xml:lang="en">Category for Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DS.DSSCAT" Name="DSSCAT" SASFieldName="DSSCAT" DataType="text" Length="21">
+      <ItemDef OID="IT.DS.DSSCAT" Name="DSSCAT" SASFieldName="DSSCAT" DataType="text" Length="19">
         <Description><TranslatedText xml:lang="en">Subcategory for Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2141,7 +2141,7 @@
         <Description><TranslatedText xml:lang="en">Analysis End Relative Day</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="16">
+      <ItemDef OID="IT.ADAE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Severity/Intensity</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2401,7 +2401,7 @@
         <Description><TranslatedText xml:lang="en">Category for Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADDS.DSSCAT" Name="DSSCAT" SASFieldName="DSSCAT" DataType="text" Length="21">
+      <ItemDef OID="IT.ADDS.DSSCAT" Name="DSSCAT" SASFieldName="DSSCAT" DataType="text" Length="19">
         <Description><TranslatedText xml:lang="en">Subcategory for Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>

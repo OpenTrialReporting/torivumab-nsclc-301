@@ -166,6 +166,10 @@ sdtm_ae <- raw_coded |>
       AESEV == "FATAL"            ~ "5",
       TRUE                        ~ NA_character_
     ),
+    # AESEV is the 3-point CTCAE severity scale only (MILD/MODERATE/SEVERE);
+    # life-threatening/fatal are seriousness, retained via AETOXGR 4/5 and
+    # AESLIFE/AESDTH (P21 CT2001). Collapse runs after AETOXGR above.
+    AESEV = dplyr::recode(AESEV, "LIFE-THREATENING" = "SEVERE", "FATAL" = "SEVERE"),
     # AESOC: Primary System Organ Class (same hierarchy as AEBODSYS in this coding)
     AESOC   = AEBODSYS,
     AESOCCD = AEBDSYCD          # Primary SOC code == body-system code in this coding

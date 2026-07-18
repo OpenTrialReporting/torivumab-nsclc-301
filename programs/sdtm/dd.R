@@ -23,8 +23,8 @@ raw <- raw |>
     USUBJID  = paste(STUDYID, SUBJECT_ID,
                      sep = "-"),
     DDSEQ    = 1L,
-    DDTESTCD = "DEATH",
-    DDTEST   = "Death",
+    DDTESTCD = "PRCDTH",                 # CDISC DD test code (P21 CT2002)
+    DDTEST   = "Primary Cause of Death",
     DDORRES  = "Y",
     DDSTRESC = "Y",
     DDDTC    = as.character(DEATH_DATE),

@@ -86,7 +86,7 @@ rec3 <- disp |>
                       "COMPLETED",
                       map_disc_decode(DISC_REASON)),
     DSCAT    = "DISPOSITION EVENT",
-    DSSCAT   = ifelse(completed, NA_character_, "STUDY DISCONTINUATION"),
+    DSSCAT   = ifelse(completed, NA_character_, "STUDY PARTICIPATION"),  # CDISC DSSCAT (P21 CT2005)
     DSSTDTC  = ifelse(completed,
                       as.character(STUDY_COMPLETION_DATE),
                       as.character(DISC_DATE))
