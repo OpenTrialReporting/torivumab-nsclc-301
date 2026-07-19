@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719120302"
-     CreationDateTime="2026-07-19T12:02:59"
-     AsOfDateTime="2026-07-19T12:02:59"
+     FileOID="CTX-NSCLC-301.20260719120859"
+     CreationDateTime="2026-07-19T12:08:55"
+     AsOfDateTime="2026-07-19T12:08:55"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -331,7 +331,7 @@
           <def:title>se.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.SU" Name="SU" Repeating="Yes" IsReferenceData="No" SASDatasetName="SU" Domain="SU" Purpose="Tabulation" def:Structure="One record per subject per substance use occurrence" def:Class="INTERVENTIONS" def:ArchiveLocationID="LF.SU" def:StandardOID="STD.SDTM">
+      <ItemGroupDef OID="IG.SU" Name="SU" Repeating="Yes" IsReferenceData="No" SASDatasetName="SU" Domain="SU" Purpose="Tabulation" def:Structure="One record per subject per substance use occurrence" def:Class="INTERVENTIONS" def:ArchiveLocationID="LF.SU" def:StandardOID="STD.SDTM" def:CommentOID="COM.SU.NOTIMING">
         <Description><TranslatedText xml:lang="en">Substance Use</TranslatedText></Description>
         <ItemRef ItemOID="IT.SU.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.SU.DOMAIN" OrderNumber="2" Mandatory="No"/>
@@ -1075,7 +1075,7 @@
         <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10">
+      <ItemDef OID="IT.AE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10" def:CommentOID="COM.AE.DATES">
         <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1083,7 +1083,7 @@
         <Description><TranslatedText xml:lang="en">Study Day of Start of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="date" Length="10">
+      <ItemDef OID="IT.AE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="date" Length="10" def:CommentOID="COM.AE.DATES">
         <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1115,7 +1115,7 @@
         <Description><TranslatedText xml:lang="en">Standardized Medication Name</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.CM.CMATC" Name="CMATC" SASFieldName="CMATC" DataType="text" Length="7">
+      <ItemDef OID="IT.CM.CMATC" Name="CMATC" SASFieldName="CMATC" DataType="text" Length="7" def:CommentOID="COM.CM.ATC">
         <Description><TranslatedText xml:lang="en">ATC Classification Code</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
@@ -1295,7 +1295,7 @@
         <Description><TranslatedText xml:lang="en">Subject Reference End Date/Time</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DM.RFXSTDTC" Name="RFXSTDTC" SASFieldName="RFXSTDTC" DataType="date" Length="10">
+      <ItemDef OID="IT.DM.RFXSTDTC" Name="RFXSTDTC" SASFieldName="RFXSTDTC" DataType="date" Length="10" def:CommentOID="COM.DM.UNDOSED">
         <Description><TranslatedText xml:lang="en">Date/Time of First Study Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1359,7 +1359,7 @@
         <Description><TranslatedText xml:lang="en">Description of Actual Arm</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.DM.ARMNRS" Name="ARMNRS" SASFieldName="ARMNRS" DataType="text" Length="1">
+      <ItemDef OID="IT.DM.ARMNRS" Name="ARMNRS" SASFieldName="ARMNRS" DataType="text" Length="1" def:CommentOID="COM.DM.ARMNRS">
         <Description><TranslatedText xml:lang="en">Reason Arm and/or Epoch Not Collected</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -1511,11 +1511,11 @@
         <Description><TranslatedText xml:lang="en">Study Day of End of Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.EX.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
+      <ItemDef OID="IT.EX.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8" def:CommentOID="COM.EX.VISIT">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.EX.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="5">
+      <ItemDef OID="IT.EX.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="5" def:CommentOID="COM.EX.VISIT">
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
@@ -1683,7 +1683,7 @@
         <Description><TranslatedText xml:lang="en">Result or Finding in Original Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.PE.PECLSIG" Name="PECLSIG" SASFieldName="PECLSIG" DataType="text" Length="1">
+      <ItemDef OID="IT.PE.PECLSIG" Name="PECLSIG" SASFieldName="PECLSIG" DataType="text" Length="1" def:CommentOID="COM.PE.CLSIG">
         <Description><TranslatedText xml:lang="en">Clinically Significant</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -1871,7 +1871,7 @@
         <Description><TranslatedText xml:lang="en">Subcategory of Substance Use</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.SU.SUPACKYR" Name="SUPACKYR" SASFieldName="SUPACKYR" DataType="float" Length="8">
+      <ItemDef OID="IT.SU.SUPACKYR" Name="SUPACKYR" SASFieldName="SUPACKYR" DataType="float" Length="8" def:CommentOID="COM.SU.PACKYR">
         <Description><TranslatedText xml:lang="en">Substance Use Pack-Years</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -3749,6 +3749,30 @@
       </ItemDef>
       <def:CommentDef OID="COM.DA.UNITS">
         <Description><TranslatedText xml:lang="en">Drug-accountability units are intentionally product-specific: BSA-dosed chemotherapy is recorded in mg/m2, flat-dosed chemotherapy in mg, and vialed biologic product in VIAL. Standard units therefore legitimately differ for a given DATESTCD across products. The related Pinnacle 21 check SD0007 (Inconsistent value for Standard Units; Warning severity) is an accepted limitation for this study, not a data error — no cross-product unit conversion is applied.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.CM.ATC">
+        <Description><TranslatedText xml:lang="en">The ATC classification code is denormalised into CM for back-compatibility with the ADaM joins; the SDTM-conformant home is SUPPCM (which also carries it). Pinnacle 21 SD0058 (variable not in SDTM model) is an accepted limitation.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.SU.PACKYR">
+        <Description><TranslatedText xml:lang="en">Substance-use pack-years is a sponsor-defined extension retained on SU for convenience; the SDTM-conformant home is SUPPSU. Pinnacle 21 SD0058 is an accepted limitation.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.EX.VISIT">
+        <Description><TranslatedText xml:lang="en">VISIT/VISITNUM are retained on EX to support visit-based joins in ADEX. Pinnacle 21 SD1076 (model permissible variable added into a standard domain; Note severity) is an accepted limitation.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.PE.CLSIG">
+        <Description><TranslatedText xml:lang="en">PECLSIG (clinically significant) is retained as a permissible qualifier. Pinnacle 21 SD1076 (Note severity) is an accepted limitation.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.DM.ARMNRS">
+        <Description><TranslatedText xml:lang="en">All subjects are randomised (225/225), so ARMNRS (reason arm not assigned) is correctly null for every record. Pinnacle 21 SD1149 (expected variable with all values missing) is an accepted limitation.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.DM.UNDOSED">
+        <Description><TranslatedText xml:lang="en">One randomised subject was never dosed: RFXSTDTC is null and no EX record exists for that subject (Pinnacle 21 SD0070 / SD1343). An accepted single-subject scenario in the synthetic data.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.AE.DATES">
+        <Description><TranslatedText xml:lang="en">In the synthetic data a small number of AE start/end dates fall after the subject's last disposition / end-of-participation date (Pinnacle 21 SD0080 / SD1202 / SD1204). A date-generation artifact, accepted; source dates are not adjusted.</TranslatedText></Description>
+      </def:CommentDef>
+      <def:CommentDef OID="COM.SU.NOTIMING">
+        <Description><TranslatedText xml:lang="en">Substance use captures lifetime history (e.g. tobacco/alcohol status) with no collected dates, so SU carries no timing variable. Pinnacle 21 SD1299 (no timing variables present) is an accepted limitation.</TranslatedText></Description>
       </def:CommentDef>
     </MetaDataVersion>
   </Study>

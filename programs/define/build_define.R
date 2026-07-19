@@ -326,18 +326,76 @@ mdv_oid   <- "MDV.MSG-SDTM-3.4-ADAM-1.3"
 # relevant ItemDef). Keyed by "<DOMAIN>.<VARIABLE>"; several variables may share
 # one comment OID (emitted once).
 # -----------------------------------------------------------------------------
-DA_UNITS_COMMENT <- paste0(
+.C <- function(...) paste0(...)   # brevity helper for comment text
+
+DA_UNITS_COMMENT <- .C(
   "Drug-accountability units are intentionally product-specific: BSA-dosed ",
   "chemotherapy is recorded in mg/m2, flat-dosed chemotherapy in mg, and vialed ",
   "biologic product in VIAL. Standard units therefore legitimately differ for a ",
   "given DATESTCD across products. The related Pinnacle 21 check SD0007 ",
   "(Inconsistent value for Standard Units; Warning severity) is an accepted ",
   "limitation for this study, not a data error — no cross-product unit ",
-  "conversion is applied."
-)
+  "conversion is applied.")
+
+CM_ATC_COMMENT <- .C(
+  "The ATC classification code is denormalised into CM for back-compatibility ",
+  "with the ADaM joins; the SDTM-conformant home is SUPPCM (which also carries ",
+  "it). Pinnacle 21 SD0058 (variable not in SDTM model) is an accepted limitation.")
+
+SU_PACKYR_COMMENT <- .C(
+  "Substance-use pack-years is a sponsor-defined extension retained on SU for ",
+  "convenience; the SDTM-conformant home is SUPPSU. Pinnacle 21 SD0058 is an ",
+  "accepted limitation.")
+
+EX_VISIT_COMMENT <- .C(
+  "VISIT/VISITNUM are retained on EX to support visit-based joins in ADEX. ",
+  "Pinnacle 21 SD1076 (model permissible variable added into a standard domain; ",
+  "Note severity) is an accepted limitation.")
+
+PE_CLSIG_COMMENT <- .C(
+  "PECLSIG (clinically significant) is retained as a permissible qualifier. ",
+  "Pinnacle 21 SD1076 (Note severity) is an accepted limitation.")
+
+DM_ARMNRS_COMMENT <- .C(
+  "All subjects are randomised (225/225), so ARMNRS (reason arm not assigned) is ",
+  "correctly null for every record. Pinnacle 21 SD1149 (expected variable with ",
+  "all values missing) is an accepted limitation.")
+
+DM_UNDOSED_COMMENT <- .C(
+  "One randomised subject was never dosed: RFXSTDTC is null and no EX record ",
+  "exists for that subject (Pinnacle 21 SD0070 / SD1343). An accepted single-",
+  "subject scenario in the synthetic data.")
+
+AE_DATES_COMMENT <- .C(
+  "In the synthetic data a small number of AE start/end dates fall after the ",
+  "subject's last disposition / end-of-participation date (Pinnacle 21 SD0080 / ",
+  "SD1202 / SD1204). A date-generation artifact, accepted; source dates are not ",
+  "adjusted.")
+
+SU_NOTIMING_COMMENT <- .C(
+  "Substance use captures lifetime history (e.g. tobacco/alcohol status) with no ",
+  "collected dates, so SU carries no timing variable. Pinnacle 21 SD1299 (no ",
+  "timing variables present) is an accepted limitation.")
+
+# Variable-level comments, keyed by "<DOMAIN>.<VARIABLE>". Variables may share
+# one comment OID (emitted once).
 DEFINE_COMMENTS <- list(
-  "DA.DASTRESU" = list(oid = "COM.DA.UNITS", text = DA_UNITS_COMMENT),
-  "DA.DAORRESU" = list(oid = "COM.DA.UNITS", text = DA_UNITS_COMMENT)
+  "DA.DASTRESU" = list(oid = "COM.DA.UNITS",    text = DA_UNITS_COMMENT),
+  "DA.DAORRESU" = list(oid = "COM.DA.UNITS",    text = DA_UNITS_COMMENT),
+  "CM.CMATC"    = list(oid = "COM.CM.ATC",      text = CM_ATC_COMMENT),
+  "SU.SUPACKYR" = list(oid = "COM.SU.PACKYR",   text = SU_PACKYR_COMMENT),
+  "EX.VISIT"    = list(oid = "COM.EX.VISIT",    text = EX_VISIT_COMMENT),
+  "EX.VISITNUM" = list(oid = "COM.EX.VISIT",    text = EX_VISIT_COMMENT),
+  "PE.PECLSIG"  = list(oid = "COM.PE.CLSIG",    text = PE_CLSIG_COMMENT),
+  "DM.ARMNRS"   = list(oid = "COM.DM.ARMNRS",   text = DM_ARMNRS_COMMENT),
+  "DM.RFXSTDTC" = list(oid = "COM.DM.UNDOSED",  text = DM_UNDOSED_COMMENT),
+  "AE.AESTDTC"  = list(oid = "COM.AE.DATES",    text = AE_DATES_COMMENT),
+  "AE.AEENDTC"  = list(oid = "COM.AE.DATES",    text = AE_DATES_COMMENT)
+)
+
+# Dataset-level comments, keyed by "<DOMAIN>" (attached to the ItemGroupDef).
+DEFINE_DATASET_COMMENTS <- list(
+  "SU" = list(oid = "COM.SU.NOTIMING", text = SU_NOTIMING_COMMENT)
 )
 
 # Build ItemGroupDef + ItemDef strings per dataset
@@ -361,12 +419,15 @@ build_dataset_xml <- function(ds) {
     sprintf(' Domain="%s"', dom_upper)
   } else ""
 
+  ds_cmt <- DEFINE_DATASET_COMMENTS[[dom_upper]]
+  ig_comment_attr <- if (!is.null(ds_cmt)) sprintf(' def:CommentOID="%s"', ds_cmt$oid) else ""
+
   ig <- paste0(
     sprintf(
-      '      <ItemGroupDef OID="%s" Name="%s" Repeating="%s" IsReferenceData="No" SASDatasetName="%s"%s Purpose="%s" def:Structure="%s" def:Class="%s" def:ArchiveLocationID="%s" def:StandardOID="%s">\n',
+      '      <ItemGroupDef OID="%s" Name="%s" Repeating="%s" IsReferenceData="No" SASDatasetName="%s"%s Purpose="%s" def:Structure="%s" def:Class="%s" def:ArchiveLocationID="%s" def:StandardOID="%s"%s>\n',
       ig_oid, dom_upper,
       ifelse(length(ds$vars) > 0 && any(grepl("SEQ$|PARAMCD|QNAM|RELID", sapply(ds$vars, `[[`, "name"))), "Yes", "No"),
-      dom_upper, domain_attr, ds$purpose, esc(ds$structure), ds$class, lf_oid, std_ref
+      dom_upper, domain_attr, ds$purpose, esc(ds$structure), ds$class, lf_oid, std_ref, ig_comment_attr
     ),
     sprintf('        <Description><TranslatedText xml:lang="en">%s</TranslatedText></Description>\n', esc(ds$label)),
     paste(itemrefs, collapse = "\n"),
@@ -400,10 +461,11 @@ build_itemdefs <- function(ds) {
   paste(ids, collapse = "\n")
 }
 
-# Emit each unique def:CommentDef once (referenced by def:CommentOID above).
+# Emit each unique def:CommentDef once (referenced by def:CommentOID above), from
+# both the variable-level and dataset-level registries.
 build_comment_defs <- function() {
   seen <- character(0); out <- character(0)
-  for (c in DEFINE_COMMENTS) {
+  for (c in c(DEFINE_COMMENTS, DEFINE_DATASET_COMMENTS)) {
     if (c$oid %in% seen) next
     seen <- c(seen, c$oid)
     out <- c(out, sprintf(
