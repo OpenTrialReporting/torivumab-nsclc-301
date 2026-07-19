@@ -406,6 +406,28 @@ ADaM pipeline re-run for the `RFSTDTC` cascade; ADaM CLI validated at **10,931**
 (spurious cross-standard SD1005 auto-suppressed by `run_p21.sh`). Re-run:
 `qc/run_p21.sh both --build`.
 
+### Analysis-visit windowing + unscheduled visits ✅ (2026-07-19)
+
+Built explicit **date-based analysis-visit windowing** (SAP §12.2): each finding
+maps to its nearest scheduled visit by `ADY` (nearest-target partition in
+`crf/analysis_visit_windows.csv`, TREATMENT + TUMOUR streams), with `ANL01FL`
+selecting the record closest to the visit target so multiple records in one
+window aren't double-counted. Implemented once in `programs/adam/_visit_utils.R`
+and applied across ADLB/ADVS/ADRS/ADTR.
+
+Added **unscheduled visits, generated raw-first**: an abnormal on-treatment
+safety lab or vital prompts an off-schedule recheck (`raw/07_labs.R`,
+`08_vital_signs.R`) → SDTM `VISIT="UNSCHEDULED"` / `VISITNUM=998` (SD0051-clean)
+→ windowed to the nearest scheduled analysis visit in ADaM (retained for
+listings; `ANL01FL` keeps the scheduled draw, or the recheck when the scheduled
+one is missing).
+
+Also fixed a **CTCAE haemoglobin grading unit bug** (g/L thresholds vs g/dL
+values graded every low HGB as Grade 4 → 3,356 spurious Grade-4 records removed;
+L-LB-01 3,644 → 443 rows) and moved the **DD cause of death** to the standard
+`DDORRES`. P21 held at **SDTM 10,981 / ADaM 10,931** throughout; all 43 TFLs
+regenerate. Provenance in RAW/SDTM/ADaM/TFL-PROVENANCE change logs.
+
 ---
 
 ## Phase 7: CSR (Clinical Study Report) ⏳
