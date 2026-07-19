@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# =============================================================================
+# run_p21.sh — Pinnacle 21 Community CLI validation for this project.
+#
+# Wraps the bundled Community CLI (p21-client) so validation can be run
+# head-less (e.g. by Claude Code) instead of the desktop app. Validates the
+# XPT export against define.xml and drops a timestamped report in
+# qc/p21-reports/.
+#
+# Usage (run from anywhere in the repo):
+#   qc/run_p21.sh [sdtm|adam|both] [--build]
+#
+#   sdtm   validate SDTM   (default)
+#   adam   validate ADaM   (needs SDTM present too)
+#   both   run SDTM then ADaM
+#   --build   regenerate xpt/ + define/define.xml first (build_xpt.R + build_define.R)
+#
+# Config (override via env if the install moves):
+#   P21_HOME    dir holding p21-client-*.jar + configs/   (Community "Documents" dir)
+#   P21_JAVA    path to the bundled Java 8 java.exe
+#   P21_ENGINE  engine/config version         (default 2508.1)
+#   P21_CT      CDISC SDTM CT version         (default 2026-03-27)
+#
+# Prereqs: Java 8 (bundled with Community). MedDRA/SNOMED dictionaries are not
+# installed, so those dictionary checks are skipped (structural MedDRA rules
+# such as SD1449 still fire) — matching how the desktop reports were produced.
+# =============================================================================
+set -euo pipefail
+
+PROJ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+P21_HOME="${P21_HOME:-${HOME}/OneDrive/Documents/Pinnacle 21 Community}"
+P21_JAVA="${P21_JAVA:-/c/Program Files (x86)/Pinnacle 21 Community/resources/app.asar.unpacked/components/java64/bin/java.exe}"
+P21_ENGINE="${P21_ENGINE:-2508.1}"
+P21_CT="${P21_CT:-2026-03-27}"
+
+MODE="sdtm"
+BUILD=0
+for arg in "$@"; do
+  case "$arg" in
+    sdtm|adam|both) MODE="$arg" ;;
+    --build)        BUILD=1 ;;
+    *) echo "Unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
+
+# ---- locate jar (copy into P21_HOME if only the in-app copy exists) ----------
+JAR="$(ls "$P21_HOME"/p21-client-*.jar 2>/dev/null | sort | tail -1 || true)"
+if [[ -z "$JAR" ]]; then
+  APPJAR="$(ls "/c/Program Files (x86)/Pinnacle 21 Community/resources/app.asar.unpacked/components/lib/"p21-client-*.jar 2>/dev/null | sort | tail -1 || true)"
+  [[ -z "$APPJAR" ]] && { echo "ERROR: p21-client jar not found. Is Community installed?" >&2; exit 1; }
+  cp "$APPJAR" "$P21_HOME/" && JAR="$P21_HOME/$(basename "$APPJAR")"
+  echo "Copied CLI jar to $P21_HOME"
+fi
+[[ -x "$P21_JAVA" ]] || { echo "ERROR: bundled Java not found at $P21_JAVA" >&2; exit 1; }
+
+# ---- optional rebuild of XPT + define ----------------------------------------
+if [[ "$BUILD" -eq 1 ]]; then
+  echo "== Rebuilding XPT + define.xml =="
+  ( cd "$PROJ" && Rscript programs/export/build_xpt.R >/dev/null && Rscript programs/define/build_define.R >/dev/null )
+fi
+
+SDTM_XPT="$PROJ/xpt/sdtm"
+ADAM_XPT="$PROJ/xpt/adam"
+DEFINE="$PROJ/define/define.xml"
+[[ -d "$SDTM_XPT" ]] || { echo "ERROR: $SDTM_XPT missing — run with --build first." >&2; exit 1; }
+
+STAMP="$(date +%Y%m%dT%H%M%S)"
+OUTDIR="$PROJ/qc/p21-reports"
+mkdir -p "$OUTDIR"
+
+# git-bash → Windows path (the CLI is a Windows JVM and wants C:\ paths)
+w() { cygpath -w "$1"; }
+
+run_one() {
+  local std="$1" ver="$2" config_xml="$3" report="$4"; shift 4
+  local config_path="$P21_HOME/configs/$P21_ENGINE/$config_xml"
+  echo ""
+  echo "== Pinnacle 21 CLI: $std $ver (engine $P21_ENGINE, CT $P21_CT) =="
+  [[ -f "$config_path" ]] || { echo "ERROR: rule config not found: $config_path" >&2; return 1; }
+  local log; log="$(mktemp)"
+  ( cd "$P21_HOME" && "$P21_JAVA" -jar "$(basename "$JAR")" \
+      --engine.version="$P21_ENGINE" \
+      --config="$(w "$config_path")" \
+      --standard="$std" \
+      --standard.version="$ver" \
+      --cdisc.ct.sdtm.version="$P21_CT" \
+      --source.define="$(w "$DEFINE")" \
+      --report="$(w "$report")" \
+      --report.cutoff=1000000 \
+      "$@" 2>&1 ) > "$log" || true
+  grep -viE "SLF4J|logback|Reflections|^[0-9]{2}:[0-9]{2}:[0-9]{2}" "$log" | grep -iE "error|warn|complete|finish|summary|rule" | head -20 || true
+
+  if grep -qiE "expired|CLI\.3\.17|IqException|Expiration date check" "$log"; then
+    cat >&2 <<'MSG'
+
+*** Pinnacle 21 Community licence/qualification has EXPIRED ***
+The CLI reached the engine but the installation-qualification check failed.
+This is a P21 licensing gate, not a data problem. To refresh it:
+  1. Launch the desktop app once while online:
+       "C:\Program Files (x86)\Pinnacle 21 Community\Pinnacle 21 Community.exe"
+     (it renews the qualification token in app.data), then re-run this script.
+  2. If the desktop app also reports expiry, download the latest Community
+     release from pinnacle21.com and re-run.
+MSG
+    rm -f "$log"; return 3
+  fi
+  rm -f "$log"
+
+  if [[ -f "$report" ]]; then
+    echo "Report: $report"
+    command -v Rscript >/dev/null 2>&1 && Rscript "$PROJ/qc/p21_summary.R" "$report" 2>/dev/null || true
+  else
+    echo "WARNING: report not produced — check CLI output above." >&2
+    return 1
+  fi
+}
+
+case "$MODE" in
+  sdtm|both)
+    run_one sdtm 3.4 "SDTM-IG 3.4 (FDA).xml" "$OUTDIR/pinnacle21-cli-${STAMP}-sdtm.xlsx" \
+      --source.sdtm="$(w "$SDTM_XPT")"
+    ;;
+esac
+case "$MODE" in
+  adam|both)
+    [[ -d "$ADAM_XPT" ]] || { echo "ERROR: $ADAM_XPT missing — run with --build." >&2; exit 1; }
+    run_one adam 1.3 "ADaM-IG 1.3 (FDA).xml" "$OUTDIR/pinnacle21-cli-${STAMP}-adam.xlsx" \
+      --cdisc.ct.adam.version="$P21_CT" \
+      --source.sdtm="$(w "$SDTM_XPT")" \
+      --source.adam="$(w "$ADAM_XPT")"
+    ;;
+esac
+
+echo ""
+echo "Done. Reports in $OUTDIR/"
