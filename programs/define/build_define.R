@@ -357,20 +357,21 @@ PE_CLSIG_COMMENT <- .C(
   "Pinnacle 21 SD1076 (Note severity) is an accepted limitation.")
 
 DM_ARMNRS_COMMENT <- .C(
-  "All subjects are randomised (225/225), so ARMNRS (reason arm not assigned) is ",
-  "correctly null for every record. Pinnacle 21 SD1149 (expected variable with ",
-  "all values missing) is an accepted limitation.")
+  "Every subject is randomised, so ARMNRS (reason arm not assigned) is correctly ",
+  "null for all records. Pinnacle 21 SD1149 (expected variable with all values ",
+  "missing) is an accepted limitation.")
 
 DM_UNDOSED_COMMENT <- .C(
-  "One randomised subject was never dosed: RFXSTDTC is null and no EX record ",
-  "exists for that subject (Pinnacle 21 SD0070 / SD1343). An accepted single-",
-  "subject scenario in the synthetic data.")
+  "One randomised subject (0277) died 4 days after screening before any dose, so ",
+  "has no EX record and a null RFXSTDTC (Pinnacle 21 SD0070 / SD1343). An accepted ",
+  "single-subject scenario in the synthetic data; the subject remains in the ITT ",
+  "population and is excluded from the safety population.")
 
-AE_DATES_COMMENT <- .C(
-  "In the synthetic data a small number of AE start/end dates fall after the ",
-  "subject's last disposition / end-of-participation date (Pinnacle 21 SD0080 / ",
-  "SD1202 / SD1204). A date-generation artifact, accepted; source dates are not ",
-  "adjusted.")
+LB_LC_COMMENT <- .C(
+  "Pinnacle 21 SD1485 expects a companion LC (Laboratory Cell Findings) domain ",
+  "when LB is present. This study collects only conventional clinical-chemistry ",
+  "and haematology results (LB); no cell-level cytometry (LC) data are generated, ",
+  "so the check (Warning severity) is an accepted limitation.")
 
 SU_NOTIMING_COMMENT <- .C(
   "Substance use captures lifetime history (e.g. tobacco/alcohol status) with no ",
@@ -388,14 +389,13 @@ DEFINE_COMMENTS <- list(
   "EX.VISITNUM" = list(oid = "COM.EX.VISIT",    text = EX_VISIT_COMMENT),
   "PE.PECLSIG"  = list(oid = "COM.PE.CLSIG",    text = PE_CLSIG_COMMENT),
   "DM.ARMNRS"   = list(oid = "COM.DM.ARMNRS",   text = DM_ARMNRS_COMMENT),
-  "DM.RFXSTDTC" = list(oid = "COM.DM.UNDOSED",  text = DM_UNDOSED_COMMENT),
-  "AE.AESTDTC"  = list(oid = "COM.AE.DATES",    text = AE_DATES_COMMENT),
-  "AE.AEENDTC"  = list(oid = "COM.AE.DATES",    text = AE_DATES_COMMENT)
+  "DM.RFXSTDTC" = list(oid = "COM.DM.UNDOSED",  text = DM_UNDOSED_COMMENT)
 )
 
 # Dataset-level comments, keyed by "<DOMAIN>" (attached to the ItemGroupDef).
 DEFINE_DATASET_COMMENTS <- list(
-  "SU" = list(oid = "COM.SU.NOTIMING", text = SU_NOTIMING_COMMENT)
+  "SU" = list(oid = "COM.SU.NOTIMING", text = SU_NOTIMING_COMMENT),
+  "LB" = list(oid = "COM.LB.NOLC",     text = LB_LC_COMMENT)
 )
 
 # Build ItemGroupDef + ItemDef strings per dataset
@@ -477,10 +477,16 @@ build_comment_defs <- function() {
   paste(out, collapse = "\n")
 }
 
-igroup_blocks <- vapply(all_ds, build_dataset_xml, character(1))
-itemdef_blocks <- vapply(all_ds, build_itemdefs, character(1))
+# Assemble the full ODM string for a given set of datasets. Emitting a
+# standard-scoped define (SDTM-only / ADaM-only) as well as the combined file
+# lets each Pinnacle 21 run point at a define that references only the datasets
+# present in its source folder — otherwise the SDTM-only run reports the ADaM
+# datasets as "referenced in define but missing" (SD0061).
+build_odm <- function(ds_list) {
+igroup_blocks <- vapply(ds_list, build_dataset_xml, character(1))
+itemdef_blocks <- vapply(ds_list, build_itemdefs, character(1))
 
-odm <- paste0(
+paste0(
   xml_header, "\n",
   '<ODM xmlns="http://www.cdisc.org/ns/odm/v1.3"\n',
   '     xmlns:def="http://www.cdisc.org/ns/def/v2.1"\n',
@@ -504,8 +510,8 @@ odm <- paste0(
   '      <def:Standards>\n',
   '        <def:Standard OID="STD.SDTM" Name="SDTMIG" Type="IG" PublishingSet="SDTM" Version="3.4" Status="Final"/>\n',
   '        <def:Standard OID="STD.ADAM" Name="ADaMIG" Type="IG" PublishingSet="ADaM" Version="1.3" Status="Final"/>\n',
-  '        <def:Standard OID="STD.CT.SDTM" Name="CDISC/NCI" Type="CT" PublishingSet="SDTM" Version="2024-03-29" Status="Final"/>\n',
-  '        <def:Standard OID="STD.CT.ADAM" Name="CDISC/NCI" Type="CT" PublishingSet="ADaM" Version="2024-03-29" Status="Final"/>\n',
+  '        <def:Standard OID="STD.CT.SDTM" Name="CDISC/NCI" Type="CT" PublishingSet="SDTM" Version="2026-03-27" Status="Final"/>\n',
+  '        <def:Standard OID="STD.CT.ADAM" Name="CDISC/NCI" Type="CT" PublishingSet="ADaM" Version="2026-03-27" Status="Final"/>\n',
   '      </def:Standards>\n',
   paste(igroup_blocks, collapse = "\n"), "\n",
   paste(itemdef_blocks, collapse = "\n"), "\n",
@@ -514,10 +520,18 @@ odm <- paste0(
   '  </Study>\n',
   '</ODM>\n'
 )
+}
 
-writeLines(odm, file.path(OUT_DIR, "define.xml"), useBytes = TRUE)
+# Combined define (all datasets) — used for the ADaM validation run, which loads
+# SDTM + ADaM together, and kept as the canonical define/define.xml.
+writeLines(build_odm(all_ds), file.path(OUT_DIR, "define.xml"), useBytes = TRUE)
 
-# Validate well-formedness via xml2 parse round-trip
+# SDTM-only define — used for the standalone SDTM validation run so no ADaM
+# dataset is reported missing (SD0061).
+dir.create(file.path(OUT_DIR, "sdtm"), showWarnings = FALSE, recursive = TRUE)
+writeLines(build_odm(sdtm), file.path(OUT_DIR, "sdtm", "define.xml"), useBytes = TRUE)
+
+# Validate well-formedness via xml2 parse round-trip (combined file)
 doc <- read_xml(file.path(OUT_DIR, "define.xml"))
 ns <- c(odm = "http://www.cdisc.org/ns/odm/v1.3", def = "http://www.cdisc.org/ns/def/v2.1")
 n_ig <- length(xml_find_all(doc, "//odm:ItemGroupDef", ns))

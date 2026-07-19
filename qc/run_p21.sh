@@ -83,7 +83,13 @@ fi
 
 SDTM_XPT="$PROJ/xpt/sdtm"
 ADAM_XPT="$PROJ/xpt/adam"
+# Each run points at a standard-scoped define so datasets absent from that run's
+# source folder are not reported missing (SD0061). The SDTM run uses the
+# SDTM-only define; the ADaM run loads SDTM + ADaM together and uses the combined
+# define. Fall back to the combined define if the split file is absent.
 DEFINE="$PROJ/define/define.xml"
+SDTM_DEFINE="$PROJ/define/sdtm/define.xml"; [[ -f "$SDTM_DEFINE" ]] || SDTM_DEFINE="$DEFINE"
+ADAM_DEFINE="$DEFINE"
 [[ -d "$SDTM_XPT" ]] || { echo "ERROR: $SDTM_XPT missing — run with --build first." >&2; exit 1; }
 
 STAMP="$(date +%Y%m%dT%H%M%S)"
@@ -170,6 +176,7 @@ MSG
 
 case "$MODE" in
   sdtm|both)
+    DEFINE="$SDTM_DEFINE"
     run_one sdtm 3.4 "SDTM-IG 3.4 (FDA).xml" "$OUTDIR/pinnacle21-cli-${STAMP}-sdtm.xlsx" \
       --source.sdtm="$(w "$SDTM_XPT")"
     ;;
@@ -177,6 +184,7 @@ esac
 case "$MODE" in
   adam|both)
     [[ -d "$ADAM_XPT" ]] || { echo "ERROR: $ADAM_XPT missing — run with --build." >&2; exit 1; }
+    DEFINE="$ADAM_DEFINE"
     run_one adam 1.3 "ADaM-IG 1.3 (FDA).xml" "$OUTDIR/pinnacle21-cli-${STAMP}-adam.xlsx" \
       --cdisc.ct.adam.version="$P21_CT" \
       --source.sdtm="$(w "$SDTM_XPT")" \

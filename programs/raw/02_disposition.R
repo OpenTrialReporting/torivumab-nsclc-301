@@ -219,12 +219,22 @@ disposition <- data.frame(
   stringsAsFactors      = FALSE
 )
 
+# Per-subject disposition-event date — the date that becomes the latest
+# DS.DSSTDTC (ds.R rec3): study-completion for completers, else the
+# discontinuation date (= death date for subjects who died). Downstream
+# event simulators (AE, subsequent therapy) clamp collected dates to this so
+# no on-study record post-dates the subject's exit (P21 SD0080/SD1202/SD1204).
+disp_event_date <- as.Date(ifelse(completion_status == "Completed",
+                                  as.character(study_completion),
+                                  as.character(disc_date)))
+
 # Expose to downstream scripts
 assign("disposition",              disposition,              envir = .GlobalEnv)
 assign("os_days_sim",              os_days,                  envir = .GlobalEnv)
 assign("pfs_days_sim",             pfs_days,                 envir = .GlobalEnv)
 assign("death_date_potential",     death_date_potential,     envir = .GlobalEnv)
 assign("died_before_cutoff",       died_before_cutoff,       envir = .GlobalEnv)
+assign("disp_event_date",          disp_event_date,          envir = .GlobalEnv)
 assign("rand_dates",               rand_dates,               envir = .GlobalEnv)
 assign("is_trt",                   is_trt,                   envir = .GlobalEnv)
 # New: expose linear predictors for tumor measurements ORR derivation

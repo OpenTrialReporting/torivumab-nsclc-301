@@ -79,8 +79,15 @@ for (i in seq_len(n)) {
   pfs_d    <- pfs_days_sim[i]
   died     <- died_before_cutoff[i]
 
-  # Last observation date for AE window
+  # Last observation date for the AE window (drives the sampling ranges below).
   last_obs <- if (died) death_date_potential[i] else min(rand_dt + pfs_d + 60, DATA_CUTOFF)
+  # Subject exit date = disposition-event date (death / discontinuation /
+  # completion). Generated AE dates are clamped to this AFTER sampling so no AE
+  # post-dates the exit recorded in DS/DM (P21 SD0080/SD1202/SD1204); e.g. the
+  # early-death fallback (rand + 1:14) must not place an AE after death. Clamping
+  # the *results* (not the sample() arguments) keeps the RNG stream unchanged so
+  # only the affected AE dates move.
+  exit_d <- disp_event_date[i]
 
   rows <- list()
 
@@ -90,6 +97,7 @@ for (i in seq_len(n)) {
     ae_term  <- sample(chemo_terms_pool, 1)
     ae_start <- rand_dt + sample(1:as.integer(pmax(1, last_obs - rand_dt - 5)), 1)
     if (ae_start >= last_obs) ae_start <- rand_dt + sample(1:14, 1)
+    ae_start <- min(ae_start, exit_d)   # never after the subject's exit date
 
     # Duration
     dur <- sample(5:45, 1)
@@ -98,6 +106,7 @@ for (i in seq_len(n)) {
     # ~5% missing end dates (ongoing)
     missing_end <- runif(1) < 0.05
     ae_end <- if (missing_end || ae_end_raw >= last_obs) NA else ae_end_raw
+    if (!is.na(ae_end)) ae_end <- min(ae_end, exit_d)   # clamp end to exit date
 
     # Grade 3+ probability
     g3p_prob <- if (trt) G3P_PROB_TRT else G3P_PROB_PBO
@@ -152,11 +161,13 @@ for (i in seq_len(n)) {
       # irAEs tend to appear early-mid treatment
       irae_start <- rand_dt + sample(21:pmax(22, min(120, as.integer(last_obs - rand_dt - 5))), 1)
       if (irae_start >= last_obs) irae_start <- rand_dt + sample(14:28, 1)
+      irae_start <- min(irae_start, exit_d)   # never after the subject's exit date
 
       dur_irae <- sample(14:90, 1)
       irae_end_raw <- irae_start + dur_irae
       missing_end_i <- runif(1) < 0.08
       irae_end <- if (missing_end_i || irae_end_raw >= last_obs) NA else irae_end_raw
+      if (!is.na(irae_end)) irae_end <- min(irae_end, exit_d)   # clamp end to exit date
 
       # irAEs can be serious
       is_g3p_irae <- runif(1) < 0.35

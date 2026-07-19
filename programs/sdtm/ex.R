@@ -50,6 +50,7 @@ raw <- raw |>
     EXDOSE   = if_else(EXTRT == "PLACEBO", 0, as.numeric(DOSE_MG)),  # placebo dose = 0 (P21 SD1249)
     EXDOSU   = dplyr::recode(str_to_upper(str_trim(DOSE_UNIT)),  # CDISC UNIT (P21 CT2002)
                              "MG" = "mg", "MG/M2" = "mg/m2"),
+    EXDOSFRM = "INJECTION, SOLUTION",   # IV infusion — CDISC Dosage Form (P21 SD0057/CT)
     EXROUTE  = "INTRAVENOUS",
     EXSTDTC  = as.character(START_DATE),
     EXENDTC  = as.character(END_DATE),
@@ -75,6 +76,7 @@ sdtm_ex <- raw |>
     EXTRT,
     EXDOSE,
     EXDOSU,
+    EXDOSFRM,
     EXROUTE,
     EXSTDTC,
     EXENDTC,

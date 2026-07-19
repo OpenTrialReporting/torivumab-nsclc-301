@@ -73,6 +73,12 @@ raw <- raw |>
     LBSTRESU = str_trim(RESULT_UNIT),   # assume SI; SI conversion would be domain-specific
     LBSTNRLO = suppressWarnings(as.numeric(LOWER_NORMAL)),
     LBSTNRHI = suppressWarnings(as.numeric(UPPER_NORMAL)),
+    # Original-unit reference ranges (P21 SD0057). Original == standard units in
+    # this study (no SI conversion applied), so orig-unit ranges equal std ranges.
+    # LBORNRLO/HI are CHARACTER in SDTMIG (as-collected), unlike numeric
+    # LBSTNRLO/HI (P21 SD0055 type mismatch if stored numeric).
+    LBORNRLO = as.character(LOWER_NORMAL),
+    LBORNRHI = as.character(UPPER_NORMAL),
     LBNRIND  = case_when(
       str_to_upper(str_trim(as.character(ABNORMAL_FLAG))) %in% c("H", "HIGH") ~ "HIGH",
       str_to_upper(str_trim(as.character(ABNORMAL_FLAG))) %in% c("L", "LOW")  ~ "LOW",
@@ -86,7 +92,10 @@ raw <- raw |>
     VISIT    = str_to_upper(str_trim(VISIT_NAME)),
     VISITNUM = get_visitnum(VISIT_NAME),
     LBBLFL   = ifelse(VISITNUM == 0L | str_to_upper(str_trim(VISIT_NAME)) %in%
-                        c("SCREENING", "SCR"), "Y", NA_character_)
+                        c("SCREENING", "SCR"), "Y", NA_character_),
+    # Last-observation-before-exposure flag (P21 SD0057): the baseline (screening)
+    # record is the last observation collected before first dose.
+    LBLOBXFL = LBBLFL
   ) |>
   arrange(USUBJID, LBDTC, LBTESTCD) |>
   group_by(USUBJID) |>
@@ -104,16 +113,19 @@ sdtm_lb <- raw |>
     LBCAT,
     LBORRES,
     LBORRESU,
+    LBORNRLO,
+    LBORNRHI,
     LBSTRESC,
     LBSTRESN,
     LBSTRESU,
     LBSTNRLO,
     LBSTNRHI,
     LBNRIND,
+    LBLOBXFL,
+    LBBLFL,
     LBDTC,
     VISITNUM,
-    VISIT,
-    LBBLFL
+    VISIT
   )
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)

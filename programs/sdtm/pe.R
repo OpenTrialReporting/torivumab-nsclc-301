@@ -63,6 +63,8 @@ raw <- raw |>
           "NAD", "UNREMARKABLE") ~ "Y",
       TRUE ~ NA_character_
     ),
+    # PESTRESC: standardized result (P21 SD0057) — normal/abnormal in std format.
+    PESTRESC = ifelse(PENORM == "Y" & !is.na(PENORM), "NORMAL", "ABNORMAL"),
     # PECLSIG: clinically significant flag
     PECLSIG  = case_when(
       str_detect(str_to_upper(str_trim(FINDING)), "CLINICALLY SIGNIFICANT") ~ "Y",
@@ -89,6 +91,7 @@ sdtm_pe <- raw |>
     PETESTCD,
     PETEST,
     PEORRES,
+    PESTRESC,
     PECLSIG,
     PEDTC,
     VISITNUM,

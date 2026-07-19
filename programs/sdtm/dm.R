@@ -83,7 +83,12 @@ raw <- raw |>
                                 "Torivumab + Chemotherapy" = "TORICHEMO",
                                 "Placebo + Chemotherapy"   = "PBOCHEMO"),
     ACTARMCD    = ARMCD,
-    # ARMNRS: reason not randomised (screen failures) — none in this dataset
+    # ARMNRS: reason not randomised (screen failures) — none in this dataset.
+    # NB: one randomised subject (0277) died 4 days after screening before any
+    # dose, so has no EX record and null RFXSTDTC (P21 SD0070/SD1343, accepted &
+    # documented in the define). Modelling that subject as "ASSIGNED, NOT TREATED"
+    # was evaluated but rejected: nulling ACTARM cascades into more findings
+    # (SD1366/SD1373/SD1375/SD2237 and ADaM AD1011) than it resolves.
     ARMNRS      = ifelse(as.character(SCREEN_FAIL) %in% c("Y", "1", "TRUE"),
                          "SCREEN FAILURE", NA_character_),
     # Blank ARM/ACTARM + codes for screen failures

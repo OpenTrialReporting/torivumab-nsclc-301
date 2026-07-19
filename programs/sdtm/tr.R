@@ -64,9 +64,15 @@ tr_target <- raw |>
     TRTESTCD = "LDIAM",
     TRTEST   = "Longest Diameter",
     TRORRES  = as.character(LONGEST_DIAMETER_MM),
+    TRORRESU = "mm",                       # original units (P21 SD0057)
     TRSTRESC = as.character(LONGEST_DIAMETER_MM),
     TRSTRESN = as.numeric(LONGEST_DIAMETER_MM),
-    TRSTRESU = "mm"
+    TRSTRESU = "mm",
+    TRMETHOD = "CT SCAN",                  # RECIST imaging method — CDISC Method (P21 SD0057)
+    TREVAL   = "INVESTIGATOR",             # local investigator read — CDISC Evaluator (P21 SD0057)
+    # Last-observation-before-exposure flag (P21 SD0057): the baseline (screening)
+    # scan is the last tumour assessment before first dose.
+    TRLOBXFL = ifelse(VISITNUM == 0L & !is.na(VISITNUM), "Y", NA_character_)
   )
 
 # Non-target overall response and new-lesion flags are NOT valid TR (Tumor/
@@ -88,9 +94,13 @@ sdtm_tr <- tr_all |>
     TRTESTCD,
     TRTEST,
     TRORRES,
+    TRORRESU,
     TRSTRESC,
     TRSTRESN,
     TRSTRESU,
+    TRMETHOD,
+    TRLOBXFL,
+    TREVAL,
     TRDTC,
     VISITNUM,
     VISIT,

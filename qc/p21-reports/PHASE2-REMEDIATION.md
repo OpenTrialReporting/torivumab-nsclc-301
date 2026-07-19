@@ -4,10 +4,11 @@ Continues the 2026-07-18 remediation. This pass cleared the deferred structural
 tail and — once the Community **CLI** was wired up (`qc/run_p21.sh`) — was
 iterated against real validator output rather than expectations.
 
-**Validated SDTM result: 18,410 → 10,981 findings** (engine 2508.1, SDTM-IG 3.4
-FDA, CDISC CT 2026-03-27). Of the 10,981, **10,873 are the accepted SD0007** DA
-standard-units warning; the remaining **~108 are low-severity** (cosmetic order,
-Expected-variable notes, synthetic-data date artifacts).
+**Validated SDTM result: 18,410 → 10,981 → 10,891 findings** (engine 2508.1,
+SDTM-IG 3.4 FDA, CDISC CT 2026-03-27; the last step is the Phase-3 cleanup
+below). Of the 10,891, **10,873 are the accepted SD0007** DA standard-units
+warning; the remaining **18 are low-severity** and every one is an accepted,
+documented limitation.
 
 Re-run any time with: `qc/run_p21.sh sdtm --build`
 
@@ -30,21 +31,41 @@ Re-run any time with: `qc/run_p21.sh sdtm --build`
 | SD1077 / SD1083 / SD1087 / SD1091 | ~30 | `EPOCH` + `--DY` study-day variables across all domains |
 | SD0055, SD1073, SD1078, SD1099, SD1101, SD1147, SD1201, SD0057(part) | ~30 | Numeric MedDRA codes, DA `DASTDTC→DADTC`, dropped all-null permissibles, SU `SUCAT`, `CM/MH --ENTPT`, AE de-dup, DM expected reference vars |
 
-## Residual (~108, low-severity) — accepted / documented
+## Phase 3 (2026-07-19) — structural cleanup A–E
+
+A further pass drove the low-severity tail down and split the define per standard.
+**SDTM 10,981 → 10,891 · ADaM 10,931 → 10,890.** Every remaining non-SD0007
+finding is now an accepted, documented limitation (9 SDTM rules / 8 ADaM rules).
+
+| # | Fix | Rules cleared |
+|---|---|---|
+| — | Variable order → SDTMIG 3.4 sequence (`16_label_domains.R` `SDTM_ORDER`) | **SD1079** 32→0 |
+| B | AE/CM dates clamped inside the participation window at the raw layer (exit-date cap in `04_adverse_events.R`; subsequent-therapy start capped at last contact in `16_subsequent_therapy.R`). RNG-neutral (clamps results, not `sample()` args) so the diff is surgical | **SD0080** 14→0, **SD1202** 17→0, **SD1204** 6→0 |
+| C | Added Expected variables `EX.EXDOSFRM`, `LB.LBORNRLO/HI` (character), `LB.LBLOBXFL`, `PE.PESTRESC`, `TR.TRORRESU/TRMETHOD/TREVAL/TRLOBXFL` | **SD0057** 17→8 |
+| D | Define split per standard: `define/sdtm/define.xml` (SDTM-only) for the SDTM run; combined `define/define.xml` for the ADaM run. `run_p21.sh` points each run at its own | **SD0061** 12→0 |
+
+Rejected on evidence: modelling the never-dosed subject 0277 as *ASSIGNED, NOT
+TREATED* (nulling ACTARM) — it removed SD0070/SD1343/SD1149 but introduced
+SD1366/SD1373/SD1375/SD2237 **and ADaM AD1011×60**, a net loss, so 0277 is kept
+as randomised-untreated and those three findings stay accepted. Populating
+`TS.TSVALCD/TSVCDREF` was likewise reverted — it triggered SD2240–SD2266
+(per-parameter reference-code checks) that cannot be satisfied for a synthetic
+investigational product (no real UNII/SNOMED codes).
+
+## Residual (18, low-severity) — accepted / documented
+
+**SDTM 10,891 across 9 rules · ADaM 10,890 across 8 rules** (engine 2508.1).
 
 | Rule | Found | Disposition |
 |---|---:|---|
 | **SD0007** | 10,873 | **Accepted** — DA standard units legitimately differ by product (mg/m² BSA chemo, mg flat dose, VIAL biologic). Warning; no fabricated conversions. |
-| SD1079 | 32 | Cosmetic variable-order warnings (EPOCH position fixed; residual AECAT/AETOXGR/VISIT positions across domains). |
-| SD0057 | 17 | Expected (not Required) variables absent in this synthetic extract (LBORNRHI/LO, EXDOSFRM, TR method/eval, TS.TSVALCD, ACTARMUD). Adding null columns would only trade for SD1149. |
-| SD1202 / SD0080 / SD1204 | 17 / 14 / 6 | Synthetic date-generation artifacts — a few AE start/end dates fall after the subject's disposition/participation end. |
-| SD0061 | 12 | The combined SDTM+ADaM define lists ADaM datasets; SDTM-only run reports them "missing." Validation-scoping artifact. |
+| SD0057 | 8 | Expected (not Required) variables absent (`DM.ACTARMUD`, `TS.TSVALCD/TSVCDREF`, …). Adding them only trades for SD1149 / SD2240-series. |
 | SD1076 | 3 | `EX.VISIT/VISITNUM` (kept for ADEX joins) + `PE.PECLSIG` — permissible Note severity. |
 | SD0058 | 2 | `CM.CMATC` + `SU.SUPACKYR` — documented sponsor extensions (conformant home SUPPCM/SUPPSU). |
-| SD0070 / SD1343 | 1 / 1 | The one randomised-but-never-dosed subject. |
-| SD1149 | 1 | `DM.ARMNRS` correctly all-null (everyone randomised, 225/225). |
-| SD1299 | 1 | SU now has no timing variable (SUSTDTC dropped) — acceptable for undated history. |
-| SD1485 | 1 | `LC` is not an SDTM-IG 3.4 domain. |
+| SD0070 / SD1343 | 1 / 1 | The one randomised-but-never-dosed subject (0277, died 4 days after screening). |
+| SD1149 | 1 | `DM.ARMNRS` correctly all-null (everyone randomised). |
+| SD1299 | 1 | SU has no timing variable — acceptable for undated lifetime history. |
+| SD1485 | 1 | `LC` is not an SDTM-IG 3.4 domain (SDTM run only). |
 
 ### Annotated in the define (def:CommentDef)
 
@@ -60,15 +81,15 @@ rebuild, P21-verified well-formed):
 | SD1076 | `COM.EX.VISIT` / `COM.PE.CLSIG` | `EX.VISIT`, `EX.VISITNUM` / `PE.PECLSIG` |
 | SD1149 | `COM.DM.ARMNRS` | `DM.ARMNRS` |
 | SD0070 / SD1343 | `COM.DM.UNDOSED` | `DM.RFXSTDTC` |
-| SD0080 / SD1202 / SD1204 | `COM.AE.DATES` | `AE.AESTDTC`, `AE.AEENDTC` |
 | SD1299 | `COM.SU.NOTIMING` | `SU` dataset (ItemGroupDef) |
+| SD1485 | `COM.LB.NOLC` | `LB` dataset (ItemGroupDef) |
 
-Four items have no natural define home and are documented only here: **SD0057**
-(Expected variables that are absent — nothing to annotate), **SD1079** (cosmetic
-variable order), **SD0061** (combined-define validation-scoping artifact), and
-**SD1485** (`LC` domain does not exist). The comments document the findings for
-reviewers; they do **not** suppress them — every rule above is still reported by
-Pinnacle 21.
+Two items have no natural define home and are documented only here: **SD0057**
+(Expected variables that are absent — nothing to annotate) and the residual
+**SD0007** count. The comments document the findings for reviewers; they do
+**not** suppress them — every rule above is still reported by Pinnacle 21. The
+former `COM.AE.DATES` annotation was retired: those date findings (SD0080/SD1202/
+SD1204) are now genuinely fixed at the raw layer, not merely accepted.
 
 ## Tooling
 
@@ -82,11 +103,17 @@ match DM) misfires and flags every non-DM SDTM record (~540K) even though the
 STUDYID is a valid constant that the standalone SDTM run passes cleanly.
 `run_p21.sh` works around this by temporarily deactivating SD1005 in the SDTM
 sub-config for the ADaM run only (restored immediately via a trap; the rule stays
-active for the SDTM run). ADaM result: **552,388 → 10,931 findings** — dominated
+active for the SDTM run). ADaM result: **552,388 → 10,890 findings** — dominated
 by the accepted SD0007 linked-SDTM warning, with the ADaM datasets themselves
 essentially clean (no AD-rule findings). Traceability (ADSL↔DM etc.) still runs.
+The ADaM run uses the combined `define/define.xml` (both standards present, so no
+SD0061); the SDTM run uses the SDTM-only `define/sdtm/define.xml`.
 
 ## Cascade
 
-DM `RFSTDTC` now = min(randomisation, first dose), which shifts study-day math in
-ADaM — the full ADaM pipeline was re-run and regenerated cleanly (ADAE = 2,840).
+DM `RFSTDTC` = min(randomisation, first dose), which shifts study-day math in
+ADaM — the full ADaM pipeline is re-run after any SDTM change (ADAE = 2,840). The
+Phase-3 AE/CM date clamps were made RNG-neutral (clamping sampled *results*, not
+the `sample()` arguments — R's post-3.6 rejection sampler consumes a variable
+number of draws per call), so regenerating raw touched only `adverse_events.csv`
+and `conmed.csv`, not the whole simulated dataset.

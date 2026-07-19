@@ -61,16 +61,27 @@ for (i in seq_len(n)) {
 
   rand_dt <- as.Date(dm$RAND_DATE[i])
   pd_dt   <- rand_dt + pfs_days[i]
-  start_d <- pd_dt + sample(14:45, 1)
 
-  # Duration: 4-9 months, capped at last contact or death
+  # Subsequent therapy is only captured when progression and its re-evaluation
+  # gap fall within the subject's follow-up (on/before last contact). Subjects
+  # whose latent PD lies beyond last contact were censored first, so no record
+  # is collected — otherwise the start date would post-date end of participation
+  # (P21 SD1202). Last contact <= RFPENDTC, so a start before it is always in-window.
   last_dt <- as.Date(disp$LAST_CONTACT_DATE[i])
   if (is.na(last_dt)) last_dt <- pd_dt + 180
+  start_d <- pd_dt + sample(14:45, 1)
+
+  # Duration: 4-9 months, capped at last contact
   dur_d   <- sample(120:270, 1)
   end_d   <- min(start_d + dur_d, last_dt)
   ongoing <- end_d >= last_dt - 5    # still ongoing if reaches last contact
 
   drug    <- get_subseq(is_trt_arm[i])
+
+  # Only capture the therapy if it starts within follow-up (on/before last
+  # contact). The skip is placed AFTER all sampling so the RNG stream — and hence
+  # every other subject's record — is unchanged; only out-of-window rows drop.
+  if (start_d >= last_dt) next
 
   subseq_rows[[length(subseq_rows) + 1]] <- data.frame(
     SUBJECT_ID          = dm$SUBJECT_ID[i],

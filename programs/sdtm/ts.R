@@ -103,6 +103,10 @@ sdtm_ts <- bind_rows(params, fcntry) |>
     TSVAL
   ) |>
   arrange(TSPARMCD, TSSEQ)
+  # NB: TSVALCD/TSVCDREF (Expected) are intentionally omitted (P21 SD0057,
+  # accepted). Populating them triggers per-parameter content checks
+  # (SD2240-SD2266) that require real reference-terminology codes — e.g. a UNII
+  # for TRT — which do not exist for the synthetic investigational product.
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 arrow::write_parquet(sdtm_ts, file.path(OUT_DIR, "ts.parquet"))
