@@ -110,14 +110,9 @@ nadir_tbl <- adtr |>
 adtr <- adtr |>
   left_join(nadir_tbl, by = c("STUDYID", "USUBJID"))
 
-# 10. Analysis flag
-adtr <- adtr |>
-  mutate(
-    ANL01FL = if_else(
-      PARAMCD == "SDIAM" & !is.na(AVAL) & ADT > TRTSDT & SAFFL == "Y",
-      "Y", NA_character_
-    )
-  )
+# 10. Analysis flag — set after the analysis visit is derived (step 11), using
+# the shared by-visit rule (SAP §12.2). ADTR is one record per LESION per visit,
+# so LNKID joins the key; otherwise only one lesion per visit would be flagged.
 
 # 11. Select final variables
 #    AVISIT = analysis visit (Baseline / TUMOR_ASSESS_WKn). VISITNUM is dropped:
@@ -129,8 +124,12 @@ adtr <- adtr |>
                                rep(NA_integer_, nrow(adtr)), "TUMOUR")
 adtr$AVISIT  <- .win$AVISIT
 adtr$AVISITN <- .win$AVISITN
+adtr$ATPTREF <- .win$ATPTREF
 # The ABLFL='Y' record is the baseline analysis visit (SAP §12.3).
 adtr <- apply_baseline_visit(adtr)
+# Shared ANL01FL rule: one analysis record per subject x parameter x lesion x
+# analysis visit (SAP §12.2), same logic as ADLB/ADVS/ADRS.
+adtr$ANL01FL <- flag_anl01(adtr, "PARAMCD", extra_key = adtr$LNKID)
 adtr <- adtr |>
   select(
     STUDYID, USUBJID,

@@ -134,29 +134,55 @@ apply_baseline_visit <- function(df) {
   df
 }
 
-# One analysis record per subject x parameter x analysis visit: the record
-# closest to the visit target day (ties -> later ADT). Event visits (no target)
-# select the latest record. Only `eligible` records (default: non-missing AVAL)
-# can be flagged, so a missing value never wins the window. Requires columns
-# USUBJID, <param>, AVISIT, ADY, ATPTREF, ADT; returns "Y"/NA aligned to df rows.
-flag_anl01 <- function(df, param = "PARAMCD", eligible = !is.na(df$AVAL)) {
-  n <- nrow(df)
+# ANL01FL — the single by-visit analysis-record rule shared by every windowed BDS
+# finding dataset (ADLB, ADVS, ADRS, ADTR), per SAP §12.2:
+#
+#   * By-visit records (AVISIT populated): exactly ONE record per
+#     USUBJID x <param> [x extra_key] x AVISIT — the baseline record inside the
+#     Baseline visit (§12.3), otherwise the record closest to the visit target
+#     day, ties -> later ADT. Event visits (EOT/FU, no target) select the latest.
+#   * Subject-level records (AVISIT null — e.g. ADRS BOR/CBOR): one record per
+#     USUBJID x <param>; they ARE the analysis record for that parameter.
+#   * Only `eligible` records (default: non-missing AVAL) can be flagged, so a
+#     missing value never wins a window.
+#
+# `extra_key` adds a further grouping level for datasets whose structure is finer
+# than one row per visit — ADTR is one row per LESION per visit, so it passes
+# LNKID; without it only one lesion per visit would be flagged.
+# Requires USUBJID, <param>, AVISIT, ADY, ATPTREF, ADT; returns "Y"/NA per row.
+flag_anl01 <- function(df, param = "PARAMCD", eligible = !is.na(df$AVAL),
+                       extra_key = NULL) {
+  n  <- nrow(df)
   fl <- rep(NA_character_, n)
+  ek <- if (is.null(extra_key)) rep("", n) else as.character(extra_key)
+  ek[is.na(ek)] <- ""
+  adt_all <- as.numeric(as.Date(df$ADT))
+
+  # (a) by-visit records
   keep <- which(eligible & !is.na(df$AVISIT))
-  if (!length(keep)) return(fl)
-  sub  <- df[keep, , drop = FALSE]
-  key  <- paste(sub$USUBJID, sub[[param]], sub$AVISIT, sep = "\r")
-  dist <- ifelse(is.na(sub$ATPTREF), 0, abs(as.numeric(sub$ADY) - sub$ATPTREF))
-  adt  <- as.numeric(as.Date(sub$ADT))
-  # Within the Baseline visit the analysis record is the baseline record itself
-  # (ABLFL='Y'), not merely the one nearest the nominal target day — so BASE and
-  # the AVISIT="Baseline" analysis value agree (SAP §12.3).
-  bl_pref <- rep(1L, nrow(sub))
-  if (!is.null(sub$ABLFL)) {
-    bl_pref[sub$AVISIT == "Baseline" & !is.na(sub$ABLFL) & sub$ABLFL == "Y"] <- 0L
+  if (length(keep)) {
+    sub  <- df[keep, , drop = FALSE]
+    key  <- paste(sub$USUBJID, sub[[param]], ek[keep], sub$AVISIT, sep = "\r")
+    dist <- ifelse(is.na(sub$ATPTREF), 0, abs(as.numeric(sub$ADY) - sub$ATPTREF))
+    adt  <- adt_all[keep]
+    # Within the Baseline visit the analysis record is the baseline record itself
+    # (ABLFL='Y'), not merely the one nearest the nominal target day — so BASE and
+    # the AVISIT="Baseline" analysis value agree (SAP §12.3).
+    bl_pref <- rep(1L, nrow(sub))
+    if (!is.null(sub$ABLFL)) {
+      bl_pref[sub$AVISIT == "Baseline" & !is.na(sub$ABLFL) & sub$ABLFL == "Y"] <- 0L
+    }
+    ord <- order(key, bl_pref, dist, -adt, seq_along(key))  # baseline, then nearest/latest
+    fl[keep[ord[!duplicated(key[ord])]]] <- "Y"
   }
-  ord  <- order(key, bl_pref, dist, -adt, seq_along(key))  # baseline, then nearest/latest
-  chosen <- !duplicated(key[ord])                  # first row per key in this order
-  fl[keep[ord[chosen]]] <- "Y"
+
+  # (b) subject-level records (no analysis visit)
+  keep2 <- which(eligible & is.na(df$AVISIT))
+  if (length(keep2)) {
+    sub2 <- df[keep2, , drop = FALSE]
+    key2 <- paste(sub2$USUBJID, sub2[[param]], ek[keep2], sep = "\r")
+    ord2 <- order(key2, -adt_all[keep2], seq_along(key2))
+    fl[keep2[ord2[!duplicated(key2[ord2])]]] <- "Y"
+  }
   fl
 }

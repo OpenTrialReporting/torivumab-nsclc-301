@@ -50,7 +50,7 @@ ADTR is an intermediate oncology BDS dataset that derives per-visit Sum of Longe
 | 18 | CHG | Change from Baseline (mm) | Num | 8 | Derived | — | `admiral::derive_var_chg()`: AVAL − BASE |
 | 19 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_pchg()`: (CHG / BASE) × 100 |
 | 20 | NADIR | Minimum Post-Baseline SLD | Num | 8 | Derived | — | `min(AVAL)` for ADT > TRTSDT, merged onto all records per subject |
-| 21 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(!is.na(AVAL), "Y", NA)` |
+| 21 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01(extra_key = LNKID)` — the shared by-visit rule (SAP §12.2): one record per `USUBJID × PARAMCD × LNKID × AVISIT`, baseline record inside the Baseline visit else closest to target (ties → later `ADT`). `LNKID` joins the key because ADTR is one record per **lesion** per visit |
 
 ## Key Derivation Notes
 

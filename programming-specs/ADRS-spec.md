@@ -56,7 +56,7 @@ ADRS supports all tumour response analyses: ORR (T-EFF-05), DCR (T-EFF-06), BOR 
 | 15 | AVAL | Analysis Value (numeric) | Num | 8 | Derived | — | CR=1, PR=2, SD=3, PD=4, NE=5 (ordinal ranking) |
 | 16 | AVALC | Analysis Value (character) | Char | 8 | Derived | NRRESP | CR / PR / SD / PD / NE |
 | 17 | RSPFL | Responder Flag | Char | 1 | Derived | NY | `if_else(PARAMCD == "CBOR" & AVALC %in% c("CR","PR"), "Y", NA)` |
-| 18 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | "Y" for all records contributing to primary ORR analysis |
+| 18 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01()` — the shared rule (SAP §12.2): one record per `USUBJID × PARAMCD × AVISIT` for the by-visit `OVR` records, and one per `USUBJID × PARAMCD` for the subject-level `BOR`/`CBOR` records (which have `AVISIT` = null) |
 
 ## Key Derivation Notes
 

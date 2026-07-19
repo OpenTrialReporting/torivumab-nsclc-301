@@ -384,14 +384,31 @@ missing; otherwise the scheduled draw keeps `ANL01FL = 'Y'` and the unscheduled
 record is retained (`ANL01FL` = null) for listings and traceability, with its
 collected `VISIT = "UNSCHEDULED"` preserved.
 
-**Multiple records in one window / analysis flag.** When more than one assessment
-windows into the same `USUBJID × PARAMCD × AVISIT` (e.g. a late screening lab
-that falls in the baseline window alongside the scheduled draw), the record
-**closest to the visit target day** is selected for by-visit analysis (ties → the
-later `ADT`); **`ANL01FL = 'Y'`** flags that single record, and by-visit summaries
-filter `ANL01FL = 'Y'`. The baseline flag `ABLFL` (§12.3) is derived from the date
-rather than the window, and selects the single baseline record within the
-`Baseline` (`AVISITN = 0`) analysis visit.
+**Multiple records in one window / analysis flag.** `ANL01FL` uses **one rule for
+every windowed BDS finding dataset** (ADLB, ADVS, ADRS, ADTR), implemented once as
+`flag_anl01()`:
+
+- **By-visit records** (`AVISIT` populated): exactly one record per
+  `USUBJID × PARAMCD × AVISIT` is flagged **`ANL01FL = 'Y'`**. Where more than one
+  assessment windows into the same visit (e.g. a late screening lab alongside the
+  scheduled draw, or an unscheduled recheck), the record **closest to the visit
+  target day** wins (ties → the later `ADT`); inside the `Baseline` visit the
+  **`ABLFL = 'Y'` record** wins, so the baseline analysis value agrees with `BASE`
+  (§12.3). Event visits (`EOT`/`FU`, no target day) select the latest record.
+- **Subject-level records** (`AVISIT` null — ADRS `BOR`/`CBOR`): one record per
+  `USUBJID × PARAMCD`; they are the analysis record for that parameter.
+- Records with a missing `AVAL` are never flagged, so a missing value cannot win
+  a window.
+- Datasets whose structure is finer than one row per visit add that level to the
+  key: **ADTR** is one record per *lesion* per visit, so `LNKID` joins the key.
+
+By-visit summaries filter `ANL01FL = 'Y'`. The baseline flag `ABLFL` (§12.3) is
+derived from the date rather than the window, and identifies the single baseline
+record within the `Baseline` (`AVISITN = 0`) analysis visit.
+
+`ANL01FL` in the **OCCDS** datasets (ADAE, ADCM, ADDS, ADDV, ADMH) and in ADEX /
+ADTTE is a different concept — an occurrence/population flag rather than a
+per-visit record selection — and is set per those datasets' own specifications.
 
 The derivation is implemented once in `programs/adam/_visit_utils.R`
 (`derive_avisit_windowed()` for `AVISIT`/`AVISITN`, `flag_anl01()` for the

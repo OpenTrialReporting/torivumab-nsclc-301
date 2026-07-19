@@ -51,7 +51,6 @@ ovr <- rs |>
     # a categorical response has no numeric SDTM result; P21 SD1448)
     AVAL    = dplyr::recode(RSSTRESC, "CR" = 1, "PR" = 2, "SD" = 3,
                             "PD" = 4, "NE" = 5, .default = NA_real_),
-    ANL01FL = "Y",
     RSPFL   = NA_character_
   )
 
@@ -96,7 +95,6 @@ adrs_bor <- adsl_vars |>
     ADY      = study_day(ADT, TRTSDT),
     AVAL     = BOR_AVAL,
     AVALC    = BOR_AVALC,
-    ANL01FL  = "Y",
     RSPFL    = if_else(BOR_AVALC %in% c("CR", "PR"), "Y", "N"),
     VISIT    = NA_character_,
     VISITNUM = NA_integer_
@@ -136,7 +134,6 @@ adrs_cbor <- adsl_vars |>
     ADY      = study_day(ADT, TRTSDT),
     AVAL     = if_else(!is.na(CBOR_AVAL), CBOR_AVAL, 5),
     AVALC    = if_else(!is.na(CBOR_AVALC), CBOR_AVALC, "NE"),
-    ANL01FL  = "Y",
     RSPFL    = if_else(!is.na(CBOR_AVALC) & CBOR_AVALC %in% c("CR", "PR"), "Y", "N"),
     VISIT    = NA_character_,
     VISITNUM = NA_integer_
@@ -150,12 +147,16 @@ adrs_cbor <- adsl_vars |>
 adrs <- bind_rows(ovr, adrs_bor, adrs_cbor)
 # Analysis-visit windowing (SAP §12.2, TUMOUR stream): per-visit response records
 # map to their nearest RECIST assessment by ADY; subject-level BOR/CBOR have no
-# collected visit and keep AVISIT/AVISITN = NA. (ANL01FL is set upstream per
-# record type and is unchanged — tumour assessments produce no windowing dups.)
+# collected visit and keep AVISIT/AVISITN = NA.
 .win <- derive_avisit_windowed(adrs$ADY, adrs$VISIT,
                                rep(NA_integer_, nrow(adrs)), "TUMOUR")
 adrs$AVISIT  <- .win$AVISIT
 adrs$AVISITN <- .win$AVISITN
+adrs$ATPTREF <- .win$ATPTREF
+# Shared ANL01FL rule (SAP §12.2), the same logic as ADLB/ADVS/ADTR: one analysis
+# record per subject x parameter x analysis visit for the by-visit OVR records,
+# and one per subject x parameter for the subject-level BOR/CBOR records.
+adrs$ANL01FL <- flag_anl01(adrs, "PARAMCD")
 adrs <- adrs |>
   select(
     STUDYID, USUBJID,
