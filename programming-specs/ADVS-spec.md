@@ -64,7 +64,7 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 | 19 | VISIT | Visit Name | Char | 40 | Predecessor | — | `VS.VISIT` (retained for traceability) |
 | 20 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `VS.VISITNUM` |
 | 21 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
-| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: VISITNUM where present, `MAINT_CnD1` → 7+n (SAP §12.2) |
+| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: = SDTM VISITNUM where populated (authoritative; `MAINT_CnD1`→9+n, EOT/FU→900/901/902), else label-derived per the SAP §12.2 scheme (BASELINE→0, MAINT_CnD1→9+n, TUMOR_ASSESS_WKn→n) |
 | 23 | AVAL | Analysis Value | Num | 8 | Derived | — | `VS.VSSTRESN` |
 | 24 | AVALC | Analysis Value (Char) | Char | 40 | Derived | — | `VS.VSSTRESC` |
 | 25 | AVALU | Analysis Value Unit | Char | 10 | Derived | — | `VS.VSSTRESU` |

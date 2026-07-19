@@ -59,7 +59,7 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 28 | ANL01FL | Analysis Flag 01 (on-treatment records) | Char | 1 | Derived | NY | `if_else(!is.na(AVAL) & ADT >= TRTSDT, "Y", NA)` |
 | 29 | DTYPE | Derivation Type | Char | 8 | Derived | — | NA for observed records; "LOCF" etc. if imputation used (none planned per SAP-D) |
 | 30 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
-| 31 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: VISITNUM where present, `MAINT_CnD1` → 7+n (SAP §12.2) |
+| 31 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: = SDTM VISITNUM where populated (authoritative; `MAINT_CnD1`→9+n, EOT/FU→900/901/902), else label-derived per the SAP §12.2 scheme (BASELINE→0, MAINT_CnD1→9+n, TUMOR_ASSESS_WKn→n) |
 
 ## Key Derivation Notes
 
