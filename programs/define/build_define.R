@@ -320,6 +320,26 @@ xml_header <- '<?xml version="1.0" encoding="UTF-8"?>
 study_oid <- paste0("STUDY.", STUDYID)
 mdv_oid   <- "MDV.MSG-SDTM-3.4-ADAM-1.3"
 
+# -----------------------------------------------------------------------------
+# Accepted-limitation / known-issue annotations, documented in the define per
+# CDISC Define-XML practice (def:CommentDef + a def:CommentOID reference on the
+# relevant ItemDef). Keyed by "<DOMAIN>.<VARIABLE>"; several variables may share
+# one comment OID (emitted once).
+# -----------------------------------------------------------------------------
+DA_UNITS_COMMENT <- paste0(
+  "Drug-accountability units are intentionally product-specific: BSA-dosed ",
+  "chemotherapy is recorded in mg/m2, flat-dosed chemotherapy in mg, and vialed ",
+  "biologic product in VIAL. Standard units therefore legitimately differ for a ",
+  "given DATESTCD across products. The related Pinnacle 21 check SD0007 ",
+  "(Inconsistent value for Standard Units; Warning severity) is an accepted ",
+  "limitation for this study, not a data error — no cross-product unit ",
+  "conversion is applied."
+)
+DEFINE_COMMENTS <- list(
+  "DA.DASTRESU" = list(oid = "COM.DA.UNITS", text = DA_UNITS_COMMENT),
+  "DA.DAORRESU" = list(oid = "COM.DA.UNITS", text = DA_UNITS_COMMENT)
+)
+
 # Build ItemGroupDef + ItemDef strings per dataset
 build_dataset_xml <- function(ds) {
   dom_upper <- toupper(ds$domain)
@@ -364,18 +384,35 @@ build_dataset_xml <- function(ds) {
 build_itemdefs <- function(ds) {
   dom_upper <- toupper(ds$domain)
   ids <- vapply(ds$vars, function(v) {
+    cmt <- DEFINE_COMMENTS[[paste0(dom_upper, ".", v$name)]]
+    comment_attr <- if (!is.null(cmt)) sprintf(' def:CommentOID="%s"', cmt$oid) else ""
     sprintf(
       paste0(
-        '      <ItemDef OID="IT.%s.%s" Name="%s" SASFieldName="%s" DataType="%s" Length="%d">\n',
+        '      <ItemDef OID="IT.%s.%s" Name="%s" SASFieldName="%s" DataType="%s" Length="%d"%s>\n',
         '        <Description><TranslatedText xml:lang="en">%s</TranslatedText></Description>\n',
         '        <def:Origin Type="%s"/>\n',
         '      </ItemDef>'
       ),
-      dom_upper, v$name, v$name, v$name, v$datatype, v$length,
+      dom_upper, v$name, v$name, v$name, v$datatype, v$length, comment_attr,
       esc(v$label), v$origin
     )
   }, character(1))
   paste(ids, collapse = "\n")
+}
+
+# Emit each unique def:CommentDef once (referenced by def:CommentOID above).
+build_comment_defs <- function() {
+  seen <- character(0); out <- character(0)
+  for (c in DEFINE_COMMENTS) {
+    if (c$oid %in% seen) next
+    seen <- c(seen, c$oid)
+    out <- c(out, sprintf(
+      paste0('      <def:CommentDef OID="%s">\n',
+             '        <Description><TranslatedText xml:lang="en">%s</TranslatedText></Description>\n',
+             '      </def:CommentDef>'),
+      c$oid, esc(c$text)))
+  }
+  paste(out, collapse = "\n")
 }
 
 igroup_blocks <- vapply(all_ds, build_dataset_xml, character(1))
@@ -410,6 +447,7 @@ odm <- paste0(
   '      </def:Standards>\n',
   paste(igroup_blocks, collapse = "\n"), "\n",
   paste(itemdef_blocks, collapse = "\n"), "\n",
+  { cb <- build_comment_defs(); if (nzchar(cb)) paste0(cb, "\n") else "" },
   '    </MetaDataVersion>\n',
   '  </Study>\n',
   '</ODM>\n'
