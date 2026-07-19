@@ -108,12 +108,15 @@ adlb <- adlb |>
         AVAL <= 10  * ANRHI  ~ "3",
         TRUE                 ~ "4"
       ),
+      # CTCAE v5 anaemia in g/dL (data unit). Grades are < LLN-10.0 / < 10.0-8.0 /
+      # < 8.0 g/dL; there is no lab-based Grade 4 for anaemia (Grade 4 is the
+      # clinical "life-threatening" criterion). Previous g/L thresholds (100/80/65)
+      # graded every low haemoglobin as 4.
       PARAMCD == "HGB" & !is.na(AVAL) & !is.na(ANRLO) ~ case_when(
         AVAL >= ANRLO  ~ "0",
-        AVAL >= 100    ~ "1",
-        AVAL >= 80     ~ "2",
-        AVAL >= 65     ~ "3",
-        TRUE           ~ "4"
+        AVAL >= 10.0   ~ "1",
+        AVAL >= 8.0    ~ "2",
+        TRUE           ~ "3"
       ),
       PARAMCD == "NEUT" & !is.na(AVAL) & !is.na(ANRLO) ~ case_when(
         AVAL >= ANRLO  ~ "0",
