@@ -31,9 +31,10 @@ set.seed(20260301)
       return(normalizePath(dirname(ctx$path)))
     }
   }
-  # 4. Hardcoded fallback
-  normalizePath(file.path(Sys.getenv("R_SCRIPTS_DIR",
-    "C:/Users/lgaka/Downloads/torivumab-nsclc-301/programs/raw")))
+  # 4. Portable fallback: R_SCRIPTS_DIR if set, else programs/raw relative to the
+  #    working directory (the pipeline is run from the project root).
+  normalizePath(Sys.getenv("R_SCRIPTS_DIR",
+    file.path("programs", "raw")), mustWork = FALSE)
 }
 
 PROGRAMS_DIR <- .resolve_script_dir()

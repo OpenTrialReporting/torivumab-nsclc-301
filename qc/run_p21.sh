@@ -42,10 +42,16 @@ _default_p21_home="$_home/OneDrive/Documents/Pinnacle 21 Community"
 [[ -d "$_default_p21_home" ]] || _default_p21_home="$_home/Documents/Pinnacle 21 Community"
 
 P21_HOME="${P21_HOME:-$_default_p21_home}"
-P21_JAVA="${P21_JAVA:-/c/Program Files (x86)/Pinnacle 21 Community/resources/app.asar.unpacked/components/java64/bin/java.exe}"
+P21_JAVA="${P21_JAVA:-}"          # required — set in qc/.env (bundled Community Java 8)
 P21_ENGINE="${P21_ENGINE:-2508.1}"
 P21_CT="${P21_CT:-2026-03-27}"
 P21_API_KEY="${P21_API_KEY:-}"   # optional Enterprise API key (kept out of git)
+
+if [[ -z "$P21_JAVA" || ! -x "$P21_JAVA" ]]; then
+  echo "ERROR: P21_JAVA is unset or not executable. Set it in qc/.env (see" >&2
+  echo "       qc/.env.example) to the bundled Community Java 8 java.exe." >&2
+  exit 1
+fi
 
 MODE="sdtm"
 BUILD=0
@@ -58,14 +64,16 @@ for arg in "$@"; do
 done
 
 # ---- locate jar (copy into P21_HOME if only the in-app copy exists) ----------
+# The bundled layout is <app>/components/{java64/bin/java.exe, lib/p21-client-*.jar};
+# derive the lib dir from P21_JAVA rather than hard-coding an install path.
 JAR="$(ls "$P21_HOME"/p21-client-*.jar 2>/dev/null | sort | tail -1 || true)"
 if [[ -z "$JAR" ]]; then
-  APPJAR="$(ls "/c/Program Files (x86)/Pinnacle 21 Community/resources/app.asar.unpacked/components/lib/"p21-client-*.jar 2>/dev/null | sort | tail -1 || true)"
-  [[ -z "$APPJAR" ]] && { echo "ERROR: p21-client jar not found. Is Community installed?" >&2; exit 1; }
+  applib="$(cd "$(dirname "$P21_JAVA")/../../lib" 2>/dev/null && pwd || true)"
+  APPJAR="$(ls "$applib"/p21-client-*.jar 2>/dev/null | sort | tail -1 || true)"
+  [[ -z "$APPJAR" ]] && { echo "ERROR: p21-client jar not found in $P21_HOME or the app lib dir. Set P21_HOME/P21_JAVA in qc/.env." >&2; exit 1; }
   cp "$APPJAR" "$P21_HOME/" && JAR="$P21_HOME/$(basename "$APPJAR")"
   echo "Copied CLI jar to $P21_HOME"
 fi
-[[ -x "$P21_JAVA" ]] || { echo "ERROR: bundled Java not found at $P21_JAVA" >&2; exit 1; }
 
 # ---- optional rebuild of XPT + define ----------------------------------------
 if [[ "$BUILD" -eq 1 ]]; then
