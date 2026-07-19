@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260718233653"
-     CreationDateTime="2026-07-18T23:36:49"
-     AsOfDateTime="2026-07-18T23:36:49"
+     FileOID="CTX-NSCLC-301.20260719104105"
+     CreationDateTime="2026-07-19T10:41:03"
+     AsOfDateTime="2026-07-19T10:41:03"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -31,34 +31,36 @@
         <ItemRef ItemOID="IT.AE.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
         <ItemRef ItemOID="IT.AE.AESEQ" OrderNumber="4" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.AE.AETERM" OrderNumber="5" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEDECOD" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEPTCD" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEBODSYS" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEBDSYCD" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESOC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESOCCD" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AELLTCD" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEDECOD" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEPTCD" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEHLTCD" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEHLGT" OrderNumber="12" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEHLGTCD" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEHLT" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEHLTCD" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AELLT" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AELLTCD" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AETOXGR" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEBODSYS" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEBDSYCD" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESOC" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESOCCD" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESEV" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AETOXGR" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESER" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="22" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AEREL" OrderNumber="23" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEACN" OrderNumber="24" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="25" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AECAT" OrderNumber="26" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEOUT" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="26" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AESDTH" OrderNumber="27" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AESHOSP" OrderNumber="28" Mandatory="No"/>
         <ItemRef ItemOID="IT.AE.AESLIFE" OrderNumber="29" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESDISAB" OrderNumber="30" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="31" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AESCONG" OrderNumber="32" Mandatory="No"/>
-        <ItemRef ItemOID="IT.AE.AEDISCOD" OrderNumber="33" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESMIE" OrderNumber="30" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESTDTC" OrderNumber="31" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AESTDY" OrderNumber="32" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEENDTC" OrderNumber="33" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.AEENDY" OrderNumber="34" Mandatory="No"/>
+        <ItemRef ItemOID="IT.AE.EPOCH" OrderNumber="35" Mandatory="No"/>
         <def:leaf ID="LF.AE" xlink:href="ae.xpt">
           <def:title>ae.xpt</def:title>
         </def:leaf>
@@ -75,9 +77,13 @@
         <ItemRef ItemOID="IT.CM.CMINDC" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.CM.CMROUTE" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.CM.CMSTDTC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.CM.CMENDTC" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.CM.CMENRTPT" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.CM.CMCAT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMSTDY" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMENDTC" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMENDY" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMENRTPT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMENTPT" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.CMCAT" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.CM.EPOCH" OrderNumber="17" Mandatory="No"/>
         <def:leaf ID="LF.CM" xlink:href="cm.xpt">
           <def:title>cm.xpt</def:title>
         </def:leaf>
@@ -96,9 +102,11 @@
         <ItemRef ItemOID="IT.DA.DASTRESC" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.DA.DASTRESN" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.DA.DASTRESU" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DA.DASTDTC" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DA.VISITNUM" OrderNumber="13" Mandatory="No"/>
         <ItemRef ItemOID="IT.DA.VISIT" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DA.EXTRT" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DA.DADTC" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DA.DADY" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DA.EPOCH" OrderNumber="17" Mandatory="No"/>
         <def:leaf ID="LF.DA" xlink:href="da.xpt">
           <def:title>da.xpt</def:title>
         </def:leaf>
@@ -114,9 +122,8 @@
         <ItemRef ItemOID="IT.DD.DDORRES" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.DD.DDSTRESC" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.DD.DDDTC" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DD.DDCAT" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DD.DDTERM" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DD.DDSCAT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DD.DDDY" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DD.EPOCH" OrderNumber="11" Mandatory="No"/>
         <def:leaf ID="LF.DD" xlink:href="dd.xpt">
           <def:title>dd.xpt</def:title>
         </def:leaf>
@@ -127,19 +134,28 @@
         <ItemRef ItemOID="IT.DM.DOMAIN" OrderNumber="2" Mandatory="No"/>
         <ItemRef ItemOID="IT.DM.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
         <ItemRef ItemOID="IT.DM.SUBJID" OrderNumber="4" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.SITEID" OrderNumber="5" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.AGE" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.AGEU" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.SEX" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.RACE" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.ETHNIC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.COUNTRY" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.DMDTC" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.RFSTDTC" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.RFICDTC" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.ARM" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.ACTARM" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DM.ARMNRS" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFSTDTC" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFENDTC" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFXSTDTC" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFXENDTC" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFICDTC" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RFPENDTC" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.DTHDTC" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.DTHFL" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.SITEID" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.AGE" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.AGEU" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.SEX" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.RACE" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ETHNIC" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ARMCD" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ARM" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ACTARMCD" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ACTARM" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.ARMNRS" OrderNumber="23" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.COUNTRY" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.DMDTC" OrderNumber="25" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DM.DMDY" OrderNumber="26" Mandatory="No"/>
         <def:leaf ID="LF.DM" xlink:href="dm.xpt">
           <def:title>dm.xpt</def:title>
         </def:leaf>
@@ -155,6 +171,8 @@
         <ItemRef ItemOID="IT.DS.DSCAT" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.DS.DSSCAT" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.DS.DSSTDTC" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DS.DSSTDY" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DS.EPOCH" OrderNumber="11" Mandatory="No"/>
         <def:leaf ID="LF.DS" xlink:href="ds.xpt">
           <def:title>ds.xpt</def:title>
         </def:leaf>
@@ -168,8 +186,8 @@
         <ItemRef ItemOID="IT.DV.DVTERM" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.DVDECOD" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.DVCAT" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DV.DVSCAT" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.DV.DVSTDTC" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVSTDTC" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.DV.DVSTDY" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.DV.EPOCH" OrderNumber="10" Mandatory="No"/>
         <def:leaf ID="LF.DV" xlink:href="dv.xpt">
           <def:title>dv.xpt</def:title>
@@ -186,10 +204,12 @@
         <ItemRef ItemOID="IT.EX.EXDOSU" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.EX.EXROUTE" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.EX.EXSTDTC" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.EXENDTC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.VISITNUM" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.VISIT" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.EPOCH" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.EXSTDY" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.EXENDTC" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.EXENDY" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.VISITNUM" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.VISIT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.EX.EPOCH" OrderNumber="15" Mandatory="No"/>
         <def:leaf ID="LF.EX" xlink:href="ex.xpt">
           <def:title>ex.xpt</def:title>
         </def:leaf>
@@ -212,9 +232,11 @@
         <ItemRef ItemOID="IT.LB.LBSTNRHI" OrderNumber="14" Mandatory="No"/>
         <ItemRef ItemOID="IT.LB.LBNRIND" OrderNumber="15" Mandatory="No"/>
         <ItemRef ItemOID="IT.LB.LBDTC" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.LB.VISITNUM" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.LB.VISIT" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.LB.LBBLFL" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.LB.LBDY" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.LB.VISITNUM" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.LB.VISIT" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.LB.LBBLFL" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.LB.EPOCH" OrderNumber="21" Mandatory="No"/>
         <def:leaf ID="LF.LB" xlink:href="lb.xpt">
           <def:title>lb.xpt</def:title>
         </def:leaf>
@@ -229,9 +251,11 @@
         <ItemRef ItemOID="IT.MH.MHDECOD" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.MH.MHCAT" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.MH.MHSTDTC" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.MH.MHENRTPT" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.MH.MHPRESP" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.MH.MHOCCUR" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.MH.MHSTDY" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.MH.MHENRTPT" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.MH.MHENTPT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.MH.MHPRESP" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.MH.MHOCCUR" OrderNumber="13" Mandatory="No"/>
         <def:leaf ID="LF.MH" xlink:href="mh.xpt">
           <def:title>mh.xpt</def:title>
         </def:leaf>
@@ -245,11 +269,12 @@
         <ItemRef ItemOID="IT.PE.PETESTCD" OrderNumber="5" Mandatory="No"/>
         <ItemRef ItemOID="IT.PE.PETEST" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.PE.PEORRES" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.PE.PENORM" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.PE.PECLSIG" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.PE.PEDTC" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.PE.PECLSIG" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.PE.PEDTC" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.PE.PEDY" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.PE.VISITNUM" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.PE.VISIT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.PE.EPOCH" OrderNumber="13" Mandatory="No"/>
         <def:leaf ID="LF.PE" xlink:href="pe.xpt">
           <def:title>pe.xpt</def:title>
         </def:leaf>
@@ -280,10 +305,28 @@
         <ItemRef ItemOID="IT.RS.RSORRES" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.RS.RSSTRESC" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.RS.RSDTC" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.VISITNUM" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.RS.VISIT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.RSDY" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.VISITNUM" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.VISIT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.RS.EPOCH" OrderNumber="15" Mandatory="No"/>
         <def:leaf ID="LF.RS" xlink:href="rs.xpt">
           <def:title>rs.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.SE" Name="SE" Repeating="Yes" IsReferenceData="No" SASDatasetName="SE" Purpose="Tabulation" def:Structure="One record per subject per actual element" def:Class="SPECIAL PURPOSE" def:ArchiveLocationID="LF.SE" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">Subject Elements</TranslatedText></Description>
+        <ItemRef ItemOID="IT.SE.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.SE.DOMAIN" OrderNumber="2" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SE.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.SE.SESEQ" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SE.ETCD" OrderNumber="5" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.SE.ELEMENT" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SE.SESTDTC" OrderNumber="7" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.SE.SEENDTC" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SE.TAETORD" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SE.EPOCH" OrderNumber="10" Mandatory="No"/>
+        <def:leaf ID="LF.SE" xlink:href="se.xpt">
+          <def:title>se.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
       <ItemGroupDef OID="IG.SU" Name="SU" Repeating="Yes" IsReferenceData="No" SASDatasetName="SU" Domain="SU" Purpose="Tabulation" def:Structure="One record per subject per substance use occurrence" def:Class="INTERVENTIONS" def:ArchiveLocationID="LF.SU" def:StandardOID="STD.SDTM">
@@ -293,11 +336,10 @@
         <ItemRef ItemOID="IT.SU.USUBJID" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
         <ItemRef ItemOID="IT.SU.SUSEQ" OrderNumber="4" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.SU.SUTRT" OrderNumber="5" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUOCCUR" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.SU.SUCAT" OrderNumber="6" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUSCAT" OrderNumber="7" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUSTDTC" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.SU.SUPACKYR" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.SU.SUFREQ" OrderNumber="10" Mandatory="No"/>
         <def:leaf ID="LF.SU" xlink:href="su.xpt">
           <def:title>su.xpt</def:title>
         </def:leaf>
@@ -382,6 +424,35 @@
           <def:title>suppsu.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
+      <ItemGroupDef OID="IG.TA" Name="TA" Repeating="No" IsReferenceData="No" SASDatasetName="TA" Purpose="Tabulation" def:Structure="One record per planned element per arm" def:Class="TRIAL DESIGN" def:ArchiveLocationID="LF.TA" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">Trial Arms</TranslatedText></Description>
+        <ItemRef ItemOID="IT.TA.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.TA.DOMAIN" OrderNumber="2" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.ARMCD" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.TA.ARM" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.TAETORD" OrderNumber="5" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.TA.ETCD" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.ELEMENT" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.TABRANCH" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.TATRANS" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TA.EPOCH" OrderNumber="10" Mandatory="No"/>
+        <def:leaf ID="LF.TA" xlink:href="ta.xpt">
+          <def:title>ta.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.TE" Name="TE" Repeating="No" IsReferenceData="No" SASDatasetName="TE" Purpose="Tabulation" def:Structure="One record per planned element" def:Class="TRIAL DESIGN" def:ArchiveLocationID="LF.TE" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">Trial Elements</TranslatedText></Description>
+        <ItemRef ItemOID="IT.TE.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.TE.DOMAIN" OrderNumber="2" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TE.ETCD" OrderNumber="3" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.TE.ELEMENT" OrderNumber="4" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TE.TESTRL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TE.TEENRL" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TE.TEDUR" OrderNumber="7" Mandatory="No"/>
+        <def:leaf ID="LF.TE" xlink:href="te.xpt">
+          <def:title>te.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
       <ItemGroupDef OID="IG.TR" Name="TR" Repeating="Yes" IsReferenceData="No" SASDatasetName="TR" Domain="TR" Purpose="Tabulation" def:Structure="One record per subject per lesion per measurement per visit" def:Class="FINDINGS" def:ArchiveLocationID="LF.TR" def:StandardOID="STD.SDTM">
         <Description><TranslatedText xml:lang="en">Tumor Results</TranslatedText></Description>
         <ItemRef ItemOID="IT.TR.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
@@ -395,12 +466,26 @@
         <ItemRef ItemOID="IT.TR.TRSTRESN" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.TR.TRSTRESU" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.TR.TRDTC" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TR.VISITNUM" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TR.VISIT" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TR.TRGRPID" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TR.TRLNKID" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.TRDY" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.VISITNUM" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.VISIT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.TRGRPID" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.TRLNKID" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TR.EPOCH" OrderNumber="17" Mandatory="No"/>
         <def:leaf ID="LF.TR" xlink:href="tr.xpt">
           <def:title>tr.xpt</def:title>
+        </def:leaf>
+      </ItemGroupDef>
+      <ItemGroupDef OID="IG.TS" Name="TS" Repeating="Yes" IsReferenceData="No" SASDatasetName="TS" Purpose="Tabulation" def:Structure="One record per trial summary parameter value" def:Class="TRIAL DESIGN" def:ArchiveLocationID="LF.TS" def:StandardOID="STD.SDTM">
+        <Description><TranslatedText xml:lang="en">Trial Summary</TranslatedText></Description>
+        <ItemRef ItemOID="IT.TS.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
+        <ItemRef ItemOID="IT.TS.DOMAIN" OrderNumber="2" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TS.TSSEQ" OrderNumber="3" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.TS.TSPARMCD" OrderNumber="4" Mandatory="Yes" KeySequence="2"/>
+        <ItemRef ItemOID="IT.TS.TSPARM" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TS.TSVAL" OrderNumber="6" Mandatory="No"/>
+        <def:leaf ID="LF.TS" xlink:href="ts.xpt">
+          <def:title>ts.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
       <ItemGroupDef OID="IG.TU" Name="TU" Repeating="Yes" IsReferenceData="No" SASDatasetName="TU" Domain="TU" Purpose="Tabulation" def:Structure="One record per subject per lesion per visit (tumor identification)" def:Class="FINDINGS" def:ArchiveLocationID="LF.TU" def:StandardOID="STD.SDTM">
@@ -415,10 +500,12 @@
         <ItemRef ItemOID="IT.TU.TULOC" OrderNumber="8" Mandatory="No"/>
         <ItemRef ItemOID="IT.TU.TUMETHOD" OrderNumber="9" Mandatory="No"/>
         <ItemRef ItemOID="IT.TU.TUDTC" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TU.VISITNUM" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TU.VISIT" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TU.TUGRPID" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.TU.TULNKID" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.TUDY" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.VISITNUM" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.VISIT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.TUGRPID" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.TULNKID" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.TU.EPOCH" OrderNumber="16" Mandatory="No"/>
         <def:leaf ID="LF.TU" xlink:href="tu.xpt">
           <def:title>tu.xpt</def:title>
         </def:leaf>
@@ -437,8 +524,10 @@
         <ItemRef ItemOID="IT.VS.VSSTRESN" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.VS.VSSTRESU" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.VS.VSDTC" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.VS.VISITNUM" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.VS.VISIT" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.VS.VSDY" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.VS.VISITNUM" OrderNumber="14" Mandatory="No"/>
+        <ItemRef ItemOID="IT.VS.VISIT" OrderNumber="15" Mandatory="No"/>
+        <ItemRef ItemOID="IT.VS.EPOCH" OrderNumber="16" Mandatory="No"/>
         <def:leaf ID="LF.VS" xlink:href="vs.xpt">
           <def:title>vs.xpt</def:title>
         </def:leaf>
@@ -586,12 +675,11 @@
         <ItemRef ItemOID="IT.ADDV.DVTERM" OrderNumber="16" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADDV.DVDECOD" OrderNumber="17" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADDV.DVCAT" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.DVSCAT" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.DVSEV" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.DVSTDTC" OrderNumber="21" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ADT" OrderNumber="22" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ADY" OrderNumber="23" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADDV.ANL01FL" OrderNumber="24" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSEV" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.DVSTDTC" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADT" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ADY" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADDV.ANL01FL" OrderNumber="23" Mandatory="No"/>
         <def:leaf ID="LF.ADDV" xlink:href="addv.xpt">
           <def:title>addv.xpt</def:title>
         </def:leaf>
@@ -882,19 +970,43 @@
         <Description><TranslatedText xml:lang="en">Reported Term for the Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="40">
+      <ItemDef OID="IT.AE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="27">
+        <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">Lowest Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="36">
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.AE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Preferred Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLT" Name="AEHLT" SASFieldName="AEHLT" DataType="text" Length="36">
+        <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Term Code</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLGT" Name="AEHLGT" SASFieldName="AEHLGT" DataType="text" Length="42">
+        <Description><TranslatedText xml:lang="en">High Level Group Term</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="float" Length="8">
+        <Description><TranslatedText xml:lang="en">High Level Group Term Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AEBODSYS" Name="AEBODSYS" SASFieldName="AEBODSYS" DataType="text" Length="52">
         <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="text" Length="8">
+      <ItemDef OID="IT.AE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Body System or Organ Class Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -902,41 +1014,13 @@
         <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="text" Length="8">
+      <ItemDef OID="IT.AE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Primary System Organ Class Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEHLGT" Name="AEHLGT" SASFieldName="AEHLGT" DataType="text" Length="42">
-        <Description><TranslatedText xml:lang="en">High Level Group Term</TranslatedText></Description>
+      <ItemDef OID="IT.AE.AECAT" Name="AECAT" SASFieldName="AECAT" DataType="text" Length="14">
+        <Description><TranslatedText xml:lang="en">Category for Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="text" Length="8">
-        <Description><TranslatedText xml:lang="en">High Level Group Term Code</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AEHLT" Name="AEHLT" SASFieldName="AEHLT" DataType="text" Length="36">
-        <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
-        <def:Origin Type="Assigned"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="text" Length="8">
-        <Description><TranslatedText xml:lang="en">High Level Term Code</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
-        <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
-        <def:Origin Type="Assigned"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="text" Length="8">
-        <Description><TranslatedText xml:lang="en">Lowest Level Term Code</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.AE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="text" Length="10">
-        <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESEV" Name="AESEV" SASFieldName="AESEV" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Severity/Intensity</TranslatedText></Description>
@@ -950,20 +1034,24 @@
         <Description><TranslatedText xml:lang="en">Serious Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEREL" Name="AEREL" SASFieldName="AEREL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Causality</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
       <ItemDef OID="IT.AE.AEACN" Name="AEACN" SASFieldName="AEACN" DataType="text" Length="16">
         <Description><TranslatedText xml:lang="en">Action Taken with Study Treatment</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEREL" Name="AEREL" SASFieldName="AEREL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Causality</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AEOUT" Name="AEOUT" SASFieldName="AEOUT" DataType="text" Length="18">
         <Description><TranslatedText xml:lang="en">Outcome of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AECAT" Name="AECAT" SASFieldName="AECAT" DataType="text" Length="14">
-        <Description><TranslatedText xml:lang="en">Category for Adverse Event</TranslatedText></Description>
+      <ItemDef OID="IT.AE.AESCONG" Name="AESCONG" SASFieldName="AESCONG" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Congenital Anomaly or Birth Defect</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AESDISAB" Name="AESDISAB" SASFieldName="AESDISAB" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Causes Persistent or Significant Disabil</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.AE.AESDTH" Name="AESDTH" SASFieldName="AESDTH" DataType="text" Length="1">
@@ -978,21 +1066,29 @@
         <Description><TranslatedText xml:lang="en">Is Life Threatening</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AESDISAB" Name="AESDISAB" SASFieldName="AESDISAB" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Causes Persistent or Significant Disabil</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
-      </ItemDef>
       <ItemDef OID="IT.AE.AESMIE" Name="AESMIE" SASFieldName="AESMIE" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Other Medically Important Serious Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AESCONG" Name="AESCONG" SASFieldName="AESCONG" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Congenital Anomaly or Birth Defect</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
+      <ItemDef OID="IT.AE.AESTDTC" Name="AESTDTC" SASFieldName="AESTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.AE.AEDISCOD" Name="AEDISCOD" SASFieldName="AEDISCOD" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">AE Led to Discontinuation Flag</TranslatedText></Description>
-        <def:Origin Type="Derived"/>
+      <ItemDef OID="IT.AE.AESTDY" Name="AESTDY" SASFieldName="AESTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Adverse Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.AEENDY" Name="AEENDY" SASFieldName="AEENDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of End of Adverse Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.AE.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.CM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1034,17 +1130,33 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Medication</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.CM.CMSTDY" Name="CMSTDY" SASFieldName="CMSTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Medication</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.CM.CMENDTC" Name="CMENDTC" SASFieldName="CMENDTC" DataType="text" Length="10">
         <Description><TranslatedText xml:lang="en">End Date/Time of Medication</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.CM.CMENDY" Name="CMENDY" SASFieldName="CMENDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of End of Medication</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.CM.CMENRTPT" Name="CMENRTPT" SASFieldName="CMENRTPT" DataType="text" Length="7">
         <Description><TranslatedText xml:lang="en">End Relative to Reference Time Point</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.CM.CMENTPT" Name="CMENTPT" SASFieldName="CMENTPT" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">End Reference Time Point</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.CM.CMCAT" Name="CMCAT" SASFieldName="CMCAT" DataType="text" Length="22">
         <Description><TranslatedText xml:lang="en">Category for Medication</TranslatedText></Description>
         <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.CM.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DA.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1094,17 +1206,25 @@
         <Description><TranslatedText xml:lang="en">Standard Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DA.DASTDTC" Name="DASTDTC" SASFieldName="DASTDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Start Date/Time of Accountability Assess</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
+      <ItemDef OID="IT.DA.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DA.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="5">
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.DA.EXTRT" Name="EXTRT" SASFieldName="EXTRT" DataType="text" Length="11">
-        <Description><TranslatedText xml:lang="en">Name of Treatment</TranslatedText></Description>
+      <ItemDef OID="IT.DA.DADTC" Name="DADTC" SASFieldName="DADTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of Collection</TranslatedText></Description>
         <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DA.DADY" Name="DADY" SASFieldName="DADY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Accountability Assessment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DA.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DD.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1142,17 +1262,13 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Death</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDCAT" Name="DDCAT" SASFieldName="DDCAT" DataType="text" Length="22">
-        <Description><TranslatedText xml:lang="en">Category for Death Detail</TranslatedText></Description>
+      <ItemDef OID="IT.DD.DDDY" Name="DDDY" SASFieldName="DDDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Death</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDTERM" Name="DDTERM" SASFieldName="DDTERM" DataType="text" Length="19">
-        <Description><TranslatedText xml:lang="en">Reported Term for Death Detail</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.DD.DDSCAT" Name="DDSCAT" SASFieldName="DDSCAT" DataType="text" Length="51">
-        <Description><TranslatedText xml:lang="en">Subcategory for Death Detail</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
+      <ItemDef OID="IT.DD.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DM.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1169,6 +1285,38 @@
       <ItemDef OID="IT.DM.SUBJID" Name="SUBJID" SASFieldName="SUBJID" DataType="text" Length="4">
         <Description><TranslatedText xml:lang="en">Subject Identifier for the Study</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFSTDTC" Name="RFSTDTC" SASFieldName="RFSTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Subject Reference Start Date/Time</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFENDTC" Name="RFENDTC" SASFieldName="RFENDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Subject Reference End Date/Time</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFXSTDTC" Name="RFXSTDTC" SASFieldName="RFXSTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of First Study Treatment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFXENDTC" Name="RFXENDTC" SASFieldName="RFXENDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of Last Study Treatment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFICDTC" Name="RFICDTC" SASFieldName="RFICDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of Informed Consent</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.RFPENDTC" Name="RFPENDTC" SASFieldName="RFPENDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of End of Participation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.DTHDTC" Name="DTHDTC" SASFieldName="DTHDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of Death</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.DTHFL" Name="DTHFL" SASFieldName="DTHFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Subject Death Flag</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.DM.SITEID" Name="SITEID" SASFieldName="SITEID" DataType="text" Length="7">
         <Description><TranslatedText xml:lang="en">Study Site Identifier</TranslatedText></Description>
@@ -1194,24 +1342,16 @@
         <Description><TranslatedText xml:lang="en">Ethnicity</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DM.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="3">
-        <Description><TranslatedText xml:lang="en">Country</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.DM.DMDTC" Name="DMDTC" SASFieldName="DMDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date/Time of Collection</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.DM.RFSTDTC" Name="RFSTDTC" SASFieldName="RFSTDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Subject Reference Start Date/Time</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.DM.RFICDTC" Name="RFICDTC" SASFieldName="RFICDTC" DataType="date" Length="10">
-        <Description><TranslatedText xml:lang="en">Date/Time of Informed Consent</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
+      <ItemDef OID="IT.DM.ARMCD" Name="ARMCD" SASFieldName="ARMCD" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Planned Arm Code</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DM.ARM" Name="ARM" SASFieldName="ARM" DataType="text" Length="24">
         <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.ACTARMCD" Name="ACTARMCD" SASFieldName="ACTARMCD" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Actual Arm Code</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.DM.ACTARM" Name="ACTARM" SASFieldName="ACTARM" DataType="text" Length="24">
@@ -1221,6 +1361,18 @@
       <ItemDef OID="IT.DM.ARMNRS" Name="ARMNRS" SASFieldName="ARMNRS" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Reason Arm and/or Epoch Not Collected</TranslatedText></Description>
         <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.COUNTRY" Name="COUNTRY" SASFieldName="COUNTRY" DataType="text" Length="3">
+        <Description><TranslatedText xml:lang="en">Country</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.DMDTC" Name="DMDTC" SASFieldName="DMDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Date/Time of Collection</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DM.DMDY" Name="DMDY" SASFieldName="DMDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Collection</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1258,6 +1410,14 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Disposition Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.DS.DSSTDY" Name="DSSTDY" SASFieldName="DSSTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Disposition Event</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DS.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
       <ItemDef OID="IT.DV.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -1286,12 +1446,12 @@
         <Description><TranslatedText xml:lang="en">Category for Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="33">
-        <Description><TranslatedText xml:lang="en">Subcategory for Protocol Deviation</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
       <ItemDef OID="IT.DV.DVSTDTC" Name="DVSTDTC" SASFieldName="DVSTDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">Start Date/Time of Protocol Deviation</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.DV.DVSTDY" Name="DVSTDY" SASFieldName="DVSTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Protocol Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.DV.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
@@ -1334,8 +1494,16 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.EX.EXSTDY" Name="EXSTDY" SASFieldName="EXSTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Treatment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.EX.EXENDTC" Name="EXENDTC" SASFieldName="EXENDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">End Date/Time of Treatment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.EX.EXENDY" Name="EXENDY" SASFieldName="EXENDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of End of Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.EX.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
@@ -1414,6 +1582,10 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Specimen Collection</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.LB.LBDY" Name="LBDY" SASFieldName="LBDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Specimen Collection</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.LB.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -1425,6 +1597,10 @@
       <ItemDef OID="IT.LB.LBBLFL" Name="LBBLFL" SASFieldName="LBBLFL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Baseline Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.LB.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.MH.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -1458,8 +1634,16 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Medical History Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.MH.MHSTDY" Name="MHSTDY" SASFieldName="MHSTDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Start of Medical History Ev</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.MH.MHENRTPT" Name="MHENRTPT" SASFieldName="MHENRTPT" DataType="text" Length="7">
         <Description><TranslatedText xml:lang="en">End Relative to Reference Time Point</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.MH.MHENTPT" Name="MHENTPT" SASFieldName="MHENTPT" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">End Reference Time Point</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.MH.MHPRESP" Name="MHPRESP" SASFieldName="MHPRESP" DataType="text" Length="1">
@@ -1498,10 +1682,6 @@
         <Description><TranslatedText xml:lang="en">Result or Finding in Original Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.PE.PENORM" Name="PENORM" SASFieldName="PENORM" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Normal Indicator</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
       <ItemDef OID="IT.PE.PECLSIG" Name="PECLSIG" SASFieldName="PECLSIG" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Clinically Significant</TranslatedText></Description>
         <def:Origin Type="Collected"/>
@@ -1510,12 +1690,20 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Examination</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.PE.PEDY" Name="PEDY" SASFieldName="PEDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Examination</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.PE.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.PE.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="18">
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.PE.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.RELREC.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1590,12 +1778,60 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Disease Response Assessment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.RS.RSDY" Name="RSDY" SASFieldName="RSDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Disease Response Assessment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.RS.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.RS.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="18">
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.RS.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.DOMAIN" Name="DOMAIN" SASFieldName="DOMAIN" DataType="text" Length="2">
+        <Description><TranslatedText xml:lang="en">Domain Abbreviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.USUBJID" Name="USUBJID" SASFieldName="USUBJID" DataType="text" Length="26">
+        <Description><TranslatedText xml:lang="en">Unique Subject Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.SESEQ" Name="SESEQ" SASFieldName="SESEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.ETCD" Name="ETCD" SASFieldName="ETCD" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Element Code</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.ELEMENT" Name="ELEMENT" SASFieldName="ELEMENT" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Description of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.SESTDTC" Name="SESTDTC" SASFieldName="SESTDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">Start Date/Time of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.SEENDTC" Name="SEENDTC" SASFieldName="SEENDTC" DataType="date" Length="10">
+        <Description><TranslatedText xml:lang="en">End Date/Time of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.TAETORD" Name="TAETORD" SASFieldName="TAETORD" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Planned Order of Element within Arm</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.SE.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.SU.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1618,8 +1854,8 @@
         <Description><TranslatedText xml:lang="en">Reported Name of Substance Used</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.SU.SUOCCUR" Name="SUOCCUR" SASFieldName="SUOCCUR" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Substance Use Occurrence</TranslatedText></Description>
+      <ItemDef OID="IT.SU.SUCAT" Name="SUCAT" SASFieldName="SUCAT" DataType="text" Length="21">
+        <Description><TranslatedText xml:lang="en">Category of Substance Use</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.SU.SUSCAT" Name="SUSCAT" SASFieldName="SUSCAT" DataType="text" Length="12">
@@ -1632,10 +1868,6 @@
       </ItemDef>
       <ItemDef OID="IT.SU.SUPACKYR" Name="SUPACKYR" SASFieldName="SUPACKYR" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Substance Use Pack-Years</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.SU.SUFREQ" Name="SUFREQ" SASFieldName="SUFREQ" DataType="text" Length="14">
-        <Description><TranslatedText xml:lang="en">Dosing Frequency per Interval</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.SUPPAE.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1838,6 +2070,74 @@
         <Description><TranslatedText xml:lang="en">Evaluator</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
+      <ItemDef OID="IT.TA.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.DOMAIN" Name="DOMAIN" SASFieldName="DOMAIN" DataType="text" Length="2">
+        <Description><TranslatedText xml:lang="en">Domain Abbreviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.ARMCD" Name="ARMCD" SASFieldName="ARMCD" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Planned Arm Code</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.ARM" Name="ARM" SASFieldName="ARM" DataType="text" Length="24">
+        <Description><TranslatedText xml:lang="en">Description of Planned Arm</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.TAETORD" Name="TAETORD" SASFieldName="TAETORD" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Planned Order of Element within Arm</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.ETCD" Name="ETCD" SASFieldName="ETCD" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Element Code</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.ELEMENT" Name="ELEMENT" SASFieldName="ELEMENT" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Description of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.TABRANCH" Name="TABRANCH" SASFieldName="TABRANCH" DataType="text" Length="38">
+        <Description><TranslatedText xml:lang="en">Branch</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.TATRANS" Name="TATRANS" SASFieldName="TATRANS" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Transition Rule</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TA.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.DOMAIN" Name="DOMAIN" SASFieldName="DOMAIN" DataType="text" Length="2">
+        <Description><TranslatedText xml:lang="en">Domain Abbreviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.ETCD" Name="ETCD" SASFieldName="ETCD" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Element Code</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.ELEMENT" Name="ELEMENT" SASFieldName="ELEMENT" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Description of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.TESTRL" Name="TESTRL" SASFieldName="TESTRL" DataType="text" Length="34">
+        <Description><TranslatedText xml:lang="en">Rule for Start of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.TEENRL" Name="TEENRL" SASFieldName="TEENRL" DataType="text" Length="47">
+        <Description><TranslatedText xml:lang="en">Rule for End of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TE.TEDUR" Name="TEDUR" SASFieldName="TEDUR" DataType="text" Length="4">
+        <Description><TranslatedText xml:lang="en">Planned Duration of Element</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.TR.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -1882,6 +2182,10 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Assessment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.TR.TRDY" Name="TRDY" SASFieldName="TRDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Assessment</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.TR.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -1896,6 +2200,34 @@
       </ItemDef>
       <ItemDef OID="IT.TR.TRLNKID" Name="TRLNKID" SASFieldName="TRLNKID" DataType="text" Length="8">
         <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TR.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
+        <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.DOMAIN" Name="DOMAIN" SASFieldName="DOMAIN" DataType="text" Length="2">
+        <Description><TranslatedText xml:lang="en">Domain Abbreviation</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.TSSEQ" Name="TSSEQ" SASFieldName="TSSEQ" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Sequence Number</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.TSPARMCD" Name="TSPARMCD" SASFieldName="TSPARMCD" DataType="text" Length="7">
+        <Description><TranslatedText xml:lang="en">Trial Summary Parameter Short Name</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.TSPARM" Name="TSPARM" SASFieldName="TSPARM" DataType="text" Length="36">
+        <Description><TranslatedText xml:lang="en">Trial Summary Parameter</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TS.TSVAL" Name="TSVAL" SASFieldName="TSVAL" DataType="text" Length="167">
+        <Description><TranslatedText xml:lang="en">Parameter Value</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.TU.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -1938,6 +2270,10 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Tumor Identification</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.TU.TUDY" Name="TUDY" SASFieldName="TUDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Tumor Identification</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.TU.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
@@ -1953,6 +2289,10 @@
       <ItemDef OID="IT.TU.TULNKID" Name="TULNKID" SASFieldName="TULNKID" DataType="text" Length="11">
         <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
         <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.TU.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.VS.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
         <Description><TranslatedText xml:lang="en">Study Identifier</TranslatedText></Description>
@@ -2002,12 +2342,20 @@
         <Description><TranslatedText xml:lang="en">Date/Time of Measurements</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.VS.VSDY" Name="VSDY" SASFieldName="VSDY" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Study Day of Vital Signs</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.VS.VISITNUM" Name="VISITNUM" SASFieldName="VISITNUM" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Visit Number</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.VS.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="11">
         <Description><TranslatedText xml:lang="en">Visit Name</TranslatedText></Description>
+        <def:Origin Type="Assigned"/>
+      </ItemDef>
+      <ItemDef OID="IT.VS.EPOCH" Name="EPOCH" SASFieldName="EPOCH" DataType="text" Length="9">
+        <Description><TranslatedText xml:lang="en">Epoch</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
       <ItemDef OID="IT.ADAE.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="13">
@@ -2070,11 +2418,11 @@
         <Description><TranslatedText xml:lang="en">Reported Term for the Adverse Event</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="40">
+      <ItemDef OID="IT.ADAE.AEDECOD" Name="AEDECOD" SASFieldName="AEDECOD" DataType="text" Length="36">
         <Description><TranslatedText xml:lang="en">Dictionary-Derived Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AEPTCD" Name="AEPTCD" SASFieldName="AEPTCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Preferred Term Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2082,7 +2430,7 @@
         <Description><TranslatedText xml:lang="en">Body System or Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AEBDSYCD" Name="AEBDSYCD" SASFieldName="AEBDSYCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Body System or Organ Class Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2090,7 +2438,7 @@
         <Description><TranslatedText xml:lang="en">Primary System Organ Class</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AESOCCD" Name="AESOCCD" SASFieldName="AESOCCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Primary System Organ Class Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2098,7 +2446,7 @@
         <Description><TranslatedText xml:lang="en">High Level Group Term</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AEHLGTCD" Name="AEHLGTCD" SASFieldName="AEHLGTCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">High Level Group Term Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2106,15 +2454,15 @@
         <Description><TranslatedText xml:lang="en">High Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AEHLTCD" Name="AEHLTCD" SASFieldName="AEHLTCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">High Level Term Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="40">
+      <ItemDef OID="IT.ADAE.AELLT" Name="AELLT" SASFieldName="AELLT" DataType="text" Length="27">
         <Description><TranslatedText xml:lang="en">Lowest Level Term</TranslatedText></Description>
         <def:Origin Type="Assigned"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="text" Length="8">
+      <ItemDef OID="IT.ADAE.AELLTCD" Name="AELLTCD" SASFieldName="AELLTCD" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Lowest Level Term Code</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -2126,7 +2474,7 @@
         <Description><TranslatedText xml:lang="en">Start Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADAE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="text" Length="10">
+      <ItemDef OID="IT.ADAE.AEENDTC" Name="AEENDTC" SASFieldName="AEENDTC" DataType="date" Length="10">
         <Description><TranslatedText xml:lang="en">End Date/Time of Adverse Event</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
@@ -2500,10 +2848,6 @@
       </ItemDef>
       <ItemDef OID="IT.ADDV.DVCAT" Name="DVCAT" SASFieldName="DVCAT" DataType="text" Length="5">
         <Description><TranslatedText xml:lang="en">Category for Deviation</TranslatedText></Description>
-        <def:Origin Type="Collected"/>
-      </ItemDef>
-      <ItemDef OID="IT.ADDV.DVSCAT" Name="DVSCAT" SASFieldName="DVSCAT" DataType="text" Length="33">
-        <Description><TranslatedText xml:lang="en">Subcategory for Deviation</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADDV.DVSEV" Name="DVSEV" SASFieldName="DVSEV" DataType="text" Length="5">

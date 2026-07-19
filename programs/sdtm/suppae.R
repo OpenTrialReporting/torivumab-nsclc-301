@@ -22,7 +22,11 @@ STUDYID  <- "CTX-NSCLC-301"
 
 ae  <- as.data.frame(read_parquet(file.path(SDTM_DIR, "ae.parquet")))
 raw <- read.csv(file.path(RAW_DIR, "adverse_events.csv"), stringsAsFactors = FALSE) |>
-  mutate(USUBJID = paste(STUDYID, SUBJECT_ID, sep = "-"))
+  mutate(USUBJID = paste(STUDYID, SUBJECT_ID, sep = "-")) |>
+  # Mirror ae.R dedup EXACTLY so AESEQ alignment holds (P21 SD1201)
+  arrange(USUBJID, AE_START_DATE, AE_VERBATIM_TERM, dplyr::desc(AE_END_DATE)) |>
+  distinct(USUBJID, AE_VERBATIM_TERM, AE_START_DATE, SEVERITY, SERIOUS,
+           ACTION_TAKEN, OUTCOME, .keep_all = TRUE)
 
 map_yn <- function(x) {
   x_up <- str_to_upper(str_trim(as.character(x)))

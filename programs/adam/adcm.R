@@ -29,9 +29,9 @@ adsl_vars <- adsl |>
          TRTSDT, TRTEDT, SAFFL, ITTFL,
          TRT01P, TRT01A, TRT01PN, TRT01AN)
 
-# Pivot SUPPCM wide. SUPPCM carries CMATC (the SDTM-compliant home) but
-# CM has CMATC inlined too — rename the SUPPCM copy to avoid a join
-# collision, then coalesce after.
+# Pivot SUPPCM wide. SUPPCM carries CMATC (the SDTM-compliant home) but CM has
+# CMATC denormalised too — rename the SUPPCM copy to avoid a join collision, then
+# coalesce after.
 suppcm_wide <- suppcm |>
   mutate(IDVARVAL = as.integer(IDVARVAL)) |>
   select(USUBJID, CMSEQ = IDVARVAL, QNAM, QVAL) |>

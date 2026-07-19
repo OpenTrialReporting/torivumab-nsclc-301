@@ -76,13 +76,20 @@ da_long <- raw |>
     DASTRESC = format(round(value, 2), nsmall = 0, trim = TRUE),
     DASTRESN = as.numeric(value),
     DASTRESU = dplyr::recode(AMT_UNIT, "MG" = "mg", "MG/M2" = "mg/m2"),  # CDISC UNIT (CT2002)
-    DASTDTC  = as.character(VISIT_DATE),
-    VISIT    = VISIT_NAME
+    # DA is a Findings domain: the assessment date is DADTC, not DASTDTC
+    # (DASTDTC is prohibited in DA — P21 SD1073; DADTC is Expected — SD0057).
+    DADTC    = as.character(VISIT_DATE),
+    VISIT    = VISIT_NAME,
+    # VISITNUM = cycle number, bijective with VISIT within DA (P21 SD0057/SD0051)
+    VISITNUM = as.integer(sub("D1$", "", sub("^C", "", VISIT_NAME)))
   ) |>
-  arrange(USUBJID, DASTDTC, EXTRT, DATESTCD) |>
+  arrange(USUBJID, DADTC, EXTRT, DATESTCD) |>
   group_by(USUBJID) |>
   mutate(DASEQ = row_number()) |>
   ungroup() |>
+  # EXTRT (name of treatment) is not in the SDTM DA model (P21 SD0058) and DA is
+  # not consumed downstream, so it is dropped; a SUPPDA.EXTRT could carry product
+  # identity if a reviewer needs the per-product accountability split.
   transmute(
     STUDYID,
     DOMAIN,
@@ -96,9 +103,9 @@ da_long <- raw |>
     DASTRESC,
     DASTRESN,
     DASTRESU,
-    DASTDTC,
+    VISITNUM,
     VISIT,
-    EXTRT
+    DADTC
   )
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)

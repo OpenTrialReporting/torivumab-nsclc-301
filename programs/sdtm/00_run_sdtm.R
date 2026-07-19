@@ -25,7 +25,11 @@ dir.create("datasets/sdtm", showWarnings = FALSE, recursive = TRUE)
 # EX, then interventions/events, then oncology-specific, then SUPPQUAL
 
 sdtm_programs <- c(
+  "ts",       # TS     — Trial Summary (study-level)
+  "te",       # TE     — Trial Elements (study-level)
+  "ta",       # TA     — Trial Arms (study-level)
   "dm",       # DM     — Demographics
+  "se",       # SE     — Subject Elements (depends on DM)
   "ds",       # DS     — Disposition
   "ex",       # EX     — Exposure
   "da",       # DA     — Drug Accountability (depends on EX)
@@ -83,7 +87,13 @@ for (dom in sdtm_programs) {
   run_domain(dom)
 }
 
-# ---- Step 2: Attach SDTMIG v3.4 variable labels ----
+# ---- Step 2: Cross-domain timing derivations (EPOCH + --DY) ----
+message("\n", strrep("=", 70))
+message("Running: programs/sdtm/17_derive_timing.R")
+message(strrep("=", 70))
+source("programs/sdtm/17_derive_timing.R")
+
+# ---- Step 3: Attach SDTMIG v3.4 variable labels ----
 message("\n", strrep("=", 70))
 message("Running: programs/sdtm/16_label_domains.R")
 message(strrep("=", 70))

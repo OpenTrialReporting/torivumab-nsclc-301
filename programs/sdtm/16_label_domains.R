@@ -33,6 +33,51 @@ SHARED <- list(
 
 DOMAIN_LABELS <- list(
 
+  ts = list(
+    STUDYID  = "Study Identifier",
+    DOMAIN   = "Domain Abbreviation",
+    TSSEQ    = "Sequence Number",
+    TSPARMCD = "Trial Summary Parameter Short Name",
+    TSPARM   = "Trial Summary Parameter",
+    TSVAL    = "Parameter Value"
+  ),
+
+  te = list(
+    STUDYID  = "Study Identifier",
+    DOMAIN   = "Domain Abbreviation",
+    ETCD     = "Element Code",
+    ELEMENT  = "Description of Element",
+    TESTRL   = "Rule for Start of Element",
+    TEENRL   = "Rule for End of Element",
+    TEDUR    = "Planned Duration of Element"
+  ),
+
+  ta = list(
+    STUDYID  = "Study Identifier",
+    DOMAIN   = "Domain Abbreviation",
+    ARMCD    = "Planned Arm Code",
+    ARM      = "Description of Planned Arm",
+    TAETORD  = "Planned Order of Element within Arm",
+    ETCD     = "Element Code",
+    ELEMENT  = "Description of Element",
+    TABRANCH = "Branch",
+    TATRANS  = "Transition Rule",
+    EPOCH    = "Epoch"
+  ),
+
+  se = list(
+    STUDYID  = "Study Identifier",
+    DOMAIN   = "Domain Abbreviation",
+    USUBJID  = "Unique Subject Identifier",
+    SESEQ    = "Sequence Number",
+    ETCD     = "Element Code",
+    ELEMENT  = "Description of Element",
+    SESTDTC  = "Start Date/Time of Element",
+    SEENDTC  = "End Date/Time of Element",
+    TAETORD  = "Planned Order of Element within Arm",
+    EPOCH    = "Epoch"
+  ),
+
   dm = c(SHARED, list(
     SUBJID   = "Subject Identifier for the Study",
     SITEID   = "Study Site Identifier",
@@ -145,7 +190,7 @@ DOMAIN_LABELS <- list(
     DASTRESC = "Character Result/Finding in Std Format",
     DASTRESN = "Numeric Result/Finding in Standard Units",
     DASTRESU = "Standard Units",
-    DASTDTC  = "Start Date/Time of Accountability Assessment",
+    DADTC    = "Date/Time of Collection",
     DADY     = "Study Day of Accountability Assessment",
     EXTRT    = "Name of Treatment"
   )),
@@ -156,7 +201,8 @@ DOMAIN_LABELS <- list(
     DVDECOD  = "Standardized Term for the Protocol Deviation",
     DVCAT    = "Category for Protocol Deviation",
     DVSCAT   = "Subcategory for Protocol Deviation",
-    DVSTDTC  = "Start Date/Time of Protocol Deviation"
+    DVSTDTC  = "Start Date/Time of Protocol Deviation",
+    DVSTDY   = "Study Day of Start of Protocol Deviation"
   )),
 
   ds = c(SHARED, list(
@@ -167,7 +213,7 @@ DOMAIN_LABELS <- list(
     DSSCAT   = "Subcategory for Disposition Event",
     DSSTDTC  = "Start Date/Time of Disposition Event",
     DSENDTC  = "End Date/Time of Disposition Event",
-    DSDY     = "Study Day of Start of Disposition Event"
+    DSSTDY   = "Study Day of Start of Disposition Event"
   )),
 
   ex = c(SHARED, list(
@@ -231,6 +277,7 @@ DOMAIN_LABELS <- list(
     CMSTDTC  = "Start Date/Time of Medication",
     CMENDTC  = "End Date/Time of Medication",
     CMENRTPT = "End Relative to Reference Time Point",
+    CMENTPT  = "End Reference Time Point",
     CMONGO   = "Ongoing Indicator",
     CMSTDY   = "Study Day of Start of Medication",
     CMENDY   = "Study Day of End of Medication"
@@ -247,6 +294,7 @@ DOMAIN_LABELS <- list(
     MHSTDTC  = "Start Date/Time of Medical History Event",
     MHENDTC  = "End Date/Time of Medical History Event",
     MHENRTPT = "End Relative to Reference Time Point",
+    MHENTPT  = "End Reference Time Point",
     MHSTDY   = "Study Day of Start of Medical History Event"
   )),
 

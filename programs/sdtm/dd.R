@@ -39,6 +39,8 @@ raw <- raw |>
 
 sdtm_dd <- raw |>
   arrange(USUBJID) |>
+  # DDCAT/DDSCAT (permissible, redundant "UNKNOWN" — SD1076/SD1040) and DDTERM
+  # (not in DD model — SD0058) dropped; cause of death is carried in DDORRES.
   transmute(
     STUDYID,
     DOMAIN   = "DD",
@@ -48,10 +50,7 @@ sdtm_dd <- raw |>
     DDTEST,
     DDORRES,
     DDSTRESC,
-    DDDTC,
-    DDCAT,
-    DDTERM,
-    DDSCAT
+    DDDTC
   )
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)

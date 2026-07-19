@@ -43,6 +43,19 @@ dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 # Domain metadata: class, structure, key variables
 # -----------------------------------------------------------------------------
 DOMAIN_META <- list(
+  # SDTM Trial Design (study-level) + Special Purpose
+  ts     = list(class = "TRIAL DESIGN",    structure = "One record per trial summary parameter value",
+                purpose = "Tabulation",
+                keys = c("STUDYID", "TSPARMCD", "TSSEQ")),
+  te     = list(class = "TRIAL DESIGN",    structure = "One record per planned element",
+                purpose = "Tabulation",
+                keys = c("STUDYID", "ETCD")),
+  ta     = list(class = "TRIAL DESIGN",    structure = "One record per planned element per arm",
+                purpose = "Tabulation",
+                keys = c("STUDYID", "ARMCD", "TAETORD")),
+  se     = list(class = "SPECIAL PURPOSE", structure = "One record per subject per actual element",
+                purpose = "Tabulation",
+                keys = c("STUDYID", "USUBJID", "ETCD", "SESTDTC")),
   # SDTM
   dm     = list(class = "SPECIAL PURPOSE", structure = "One record per subject",
                 purpose = "Tabulation",
@@ -163,6 +176,8 @@ DOMAIN_META <- list(
 )
 
 DOMAIN_LABEL <- c(
+  ts = "Trial Summary", te = "Trial Elements", ta = "Trial Arms",
+  se = "Subject Elements",
   dm = "Demographics", ds = "Disposition", ex = "Exposure",
   da = "Drug Accountability", ae = "Adverse Events",
   cm = "Concomitant Medications", lb = "Laboratory Test Results",

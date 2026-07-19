@@ -91,6 +91,10 @@ sdtm_cm <- raw_coded |>
   group_by(USUBJID) |>
   mutate(CMSEQ = row_number()) |>
   ungroup() |>
+  # CMATC (ATC code) is intentionally denormalised into CM for ADaM-join
+  # back-compat; SUPPCM is its parallel SDTM-compliant home (P21 SD0058 accepted,
+  # documented in SDTM-PROVENANCE). CMENTPT names the reference time point for
+  # CMENRTPT (P21 SD1101).
   transmute(
     STUDYID,
     DOMAIN   = "CM",
@@ -104,6 +108,7 @@ sdtm_cm <- raw_coded |>
     CMSTDTC,
     CMENDTC,
     CMENRTPT,
+    CMENTPT  = ifelse(!is.na(CMENRTPT) & CMENRTPT != "", "RANDOMIZATION", NA_character_),
     CMCAT
   )
 

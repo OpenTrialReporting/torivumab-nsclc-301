@@ -79,6 +79,8 @@ raw <- raw |>
   ungroup()
 
 sdtm_pe <- raw |>
+  # PENORM (not in PE model — SD0058) dropped; normal/abnormal is carried in
+  # PEORRES. PECLSIG (clinically significant) retained as a permissible qualifier.
   transmute(
     STUDYID,
     DOMAIN   = "PE",
@@ -87,7 +89,6 @@ sdtm_pe <- raw |>
     PETESTCD,
     PETEST,
     PEORRES,
-    PENORM,
     PECLSIG,
     PEDTC,
     VISITNUM,

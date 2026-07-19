@@ -60,6 +60,8 @@ sdtm_mh <- raw |>
     MHCAT,
     MHSTDTC,
     MHENRTPT,
+    # MHENTPT names the reference time point for MHENRTPT (P21 SD1101)
+    MHENTPT  = ifelse(!is.na(MHENRTPT) & MHENRTPT != "", "RANDOMIZATION", NA_character_),
     MHPRESP,
     MHOCCUR
   )

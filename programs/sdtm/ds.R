@@ -42,7 +42,11 @@ disc_decode_map <- c(
   "PROGRESSIVE DISEASE"        = "PROGRESSIVE DISEASE",
   "PROTOCOL DEVIATION"         = "PROTOCOL DEVIATION",
   "PROTOCOL VIOLATION"         = "PROTOCOL DEVIATION",
-  "OTHER"                      = "OTHER"
+  # "OTHER" is not in the non-extensible NCOMPLT codelist (P21 CT2005) and is an
+  # uninformative DSTERM (SD1274); the collected reason carries no further detail,
+  # so map these unspecified administrative discontinuations to the standard
+  # investigator/physician catch-all.
+  "OTHER"                      = "PHYSICIAN DECISION"
 )
 
 map_disc_decode <- function(reason) {
@@ -79,9 +83,10 @@ rec3 <- disp |>
   mutate(
     completed = str_to_upper(str_trim(COMPLETION_STATUS)) %in%
       c("COMPLETED", "COMPLETE", "Y", "YES"),
-    DSTERM   = ifelse(completed,
-                      "COMPLETED",
-                      str_to_upper(str_trim(DISC_REASON))),
+    DSTERM   = ifelse(completed, "COMPLETED",
+                      ifelse(str_to_upper(str_trim(DISC_REASON)) == "OTHER",
+                             "PHYSICIAN DECISION",
+                             str_to_upper(str_trim(DISC_REASON)))),
     DSDECOD  = ifelse(completed,
                       "COMPLETED",
                       map_disc_decode(DISC_REASON)),

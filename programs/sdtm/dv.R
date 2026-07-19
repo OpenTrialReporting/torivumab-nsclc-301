@@ -43,7 +43,7 @@ sdtm_dv <- raw |>
     DVTERM   = str_trim(DV_TERM),
     DVDECOD  = str_to_upper(str_trim(DV_DECODE)),
     DVCAT    = str_to_upper(str_trim(DV_SEVERITY)),    # MAJOR / MINOR
-    DVSCAT   = str_to_upper(str_trim(DV_CATEGORY)),    # category subcat
+    # DVSCAT dropped: it is functionally 1:1 with DVDECOD (P21 SD1040 redundant)
     DVSTDTC  = as.character(DV_DATE),
     EPOCH    = str_to_upper(str_trim(DV_EPOCH))
   )

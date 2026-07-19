@@ -387,6 +387,21 @@ decision, not a value swap: DA mixed standard units (SD0007), treatment-emergent
 time-points (SD0022/SD0021/SD1333), DM expected reference vars, and moving
 non-standard qualifiers (`AEDISCOD`/`CMATC`/`SUPACKYR`) to SUPP-- (SD0058).
 
+### Phase-2 SDTM remediation ✅ (executed 2026-07-19)
+
+Picked up the deferred tail (true totals: 18,410 SDTM findings). Created the
+missing **Trial Design domains TS/TA/TE/SE** (clears the only Reject, SD1115),
+derived **EPOCH + `--DY`** across all domains via `17_derive_timing.R`
+(SD1097/SD1077/SD1083/1087/1091), coded **AE MedDRA to 100%** (SD1449) with
+numeric codes (SD0055), populated **DM expected reference vars** (SD0057),
+renamed DA `DASTDTC→DADTC` (SD1073), and cleared the small structural rules
+(SD0009/SD1040/SD1078/SD1101/SD1099/SD1147/SD1201/CT2005/SD1274). The genuinely-
+fixable tail (~6.3K) is addressed; the residual is dominated by the **accepted**
+DA standard-units warning (SD0007, 10,873 — mixed-product units) and SU start
+time-point (SD0022, 1,229). Full detail + accepted-limitation register in
+[`qc/p21-reports/PHASE2-REMEDIATION.md`](qc/p21-reports/PHASE2-REMEDIATION.md).
+Pipeline regenerated and verified at XPT; re-run Pinnacle 21 to confirm.
+
 ---
 
 ## Phase 7: CSR (Clinical Study Report) ⏳

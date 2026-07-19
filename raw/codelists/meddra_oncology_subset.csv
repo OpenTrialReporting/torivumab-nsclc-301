@@ -27,14 +27,14 @@ SOC_CODE,SOC_NAME,HLGT_CODE,HLGT_NAME,HLT_CODE,HLT_NAME,PT_CODE,PT_NAME,LLT_CODE
 10005329,Blood and lymphatic system disorders,10043550,Thrombocytopenias,10043554,Thrombocytopenia,10043554,Thrombocytopenia,10043555,Thrombocytopenia,N
 10005329,Blood and lymphatic system disorders,10043550,Thrombocytopenias,10043554,Thrombocytopenia,10043554,Thrombocytopenia,10043556,Low platelet count,N
 10005329,Blood and lymphatic system disorders,10024380,Leukopenias,10024384,Leukopenia,10024384,Leukopenia,10024385,Leukopenia,N
-10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013969,Dyspnea,N
-10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013970,Shortness of breath,N
-10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011225,Cough,N
-10038738,Respiratory, thoracic and mediastinal disorders,10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011226,Productive cough,N
-10038738,Respiratory, thoracic and mediastinal disorders,10038199,Pulmonary vascular disorders,10037377,Pulmonary embolism,10037377,Pulmonary embolism,10037378,Pulmonary embolism,N
-10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035743,Pneumonitis,Y
-10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035744,Immune-mediated pneumonitis,Y
-10038738,Respiratory, thoracic and mediastinal disorders,10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035745,Radiation pneumonitis,Y
+10038738,"Respiratory, thoracic and mediastinal disorders",10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013969,Dyspnea,N
+10038738,"Respiratory, thoracic and mediastinal disorders",10038739,Respiratory tract signs and symptoms,10013968,Dyspnoea,10013968,Dyspnoea,10013970,Shortness of breath,N
+10038738,"Respiratory, thoracic and mediastinal disorders",10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011225,Cough,N
+10038738,"Respiratory, thoracic and mediastinal disorders",10038739,Respiratory tract signs and symptoms,10011224,Cough,10011224,Cough,10011226,Productive cough,N
+10038738,"Respiratory, thoracic and mediastinal disorders",10038199,Pulmonary vascular disorders,10037377,Pulmonary embolism,10037377,Pulmonary embolism,10037378,Pulmonary embolism,N
+10038738,"Respiratory, thoracic and mediastinal disorders",10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035743,Pneumonitis,Y
+10038738,"Respiratory, thoracic and mediastinal disorders",10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035744,Immune-mediated pneumonitis,Y
+10038738,"Respiratory, thoracic and mediastinal disorders",10035742,Pneumonitis,10035742,Pneumonitis,10035742,Pneumonitis,10035745,Radiation pneumonitis,Y
 10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037845,Rash,Y
 10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037846,Skin rash,Y
 10040785,Skin and subcutaneous tissue disorders,10040786,Skin and subcutaneous tissue disorders NEC,10037844,Rash,10037844,Rash,10037847,Maculopapular rash,Y
@@ -72,3 +72,7 @@ SOC_CODE,SOC_NAME,HLGT_CODE,HLGT_NAME,HLT_CODE,HLT_NAME,PT_CODE,PT_NAME,LLT_CODE
 10027433,Metabolism and nutrition disorders,10027434,Appetite disorders,10061428,Decreased appetite,10061428,Decreased appetite,10061430,Poor appetite,N
 10027433,Metabolism and nutrition disorders,10021038,Electrolyte abnormalities,10021038,Hyponatraemia,10021038,Hyponatraemia,10021039,Low sodium,N
 10027433,Metabolism and nutrition disorders,10021038,Electrolyte abnormalities,10021015,Hypokalaemia,10021015,Hypokalaemia,10021016,Low potassium,N
+10005329,Blood and lymphatic system disorders,10029352,Neutropenias and granulocytopenias,10029354,Neutropenia,10029354,Neutropenia,10029366,Neutrophil count decreased,N
+10005329,Blood and lymphatic system disorders,10043550,Thrombocytopenias,10043554,Thrombocytopenia,10043554,Thrombocytopenia,10035528,Platelet count decreased,N
+10005329,Blood and lymphatic system disorders,10005330,Anaemias,10002034,Anaemia,10002034,Anaemia,10018884,Haemoglobin decreased,N
+10017947,Gastrointestinal disorders,10017948,Gastrointestinal signs and symptoms,10042128,Stomatitis,10042128,Stomatitis,10028130,Mucositis oral,N

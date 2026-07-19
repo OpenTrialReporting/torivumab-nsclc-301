@@ -1,40 +1,44 @@
 # Define-XML v2.1 — Inventory
 
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
-**Generated:** 2026-07-18
+**Generated:** 2026-07-19
 **File:** `define/define.xml`
-**Datasets:** 34  ·  **Variables:** 634
+**Datasets:** 38  ·  **Variables:** 698
 
 ## Datasets
 
 | Dataset | Class | Records | Variables | Structure |
 |---------|-------|--------:|----------:|-----------|
-| AE | EVENTS | 2,841 | 33 | One record per subject per adverse event |
-| CM | INTERVENTIONS | 2,330 | 13 | One record per subject per medication per occurrence |
-| DA | INTERVENTIONS | 18,463 | 15 | One record per subject per accountability measure per drug per visit |
-| DD | EVENTS | 312 | 12 | One record per subject per death detail |
-| DM | SPECIAL PURPOSE | 450 | 17 | One record per subject |
-| DS | EVENTS | 1,350 | 9 | One record per subject per disposition event |
+| AE | EVENTS | 2,840 | 35 | One record per subject per adverse event |
+| CM | INTERVENTIONS | 2,330 | 17 | One record per subject per medication per occurrence |
+| DA | INTERVENTIONS | 18,463 | 17 | One record per subject per accountability measure per drug per visit |
+| DD | EVENTS | 312 | 11 | One record per subject per death detail |
+| DM | SPECIAL PURPOSE | 450 | 26 | One record per subject |
+| DS | EVENTS | 1,350 | 11 | One record per subject per disposition event |
 | DV | EVENTS | 337 | 10 | One record per subject per protocol deviation |
-| EX | INTERVENTIONS | 13,403 | 13 | One record per subject per administration |
-| LB | FINDINGS | 122,601 | 19 | One record per subject per lab test per visit |
-| MH | EVENTS | 2,061 | 11 | One record per subject per medical history event |
-| PE | FINDINGS | 25,596 | 12 | One record per subject per body system per visit |
+| EX | INTERVENTIONS | 13,403 | 15 | One record per subject per administration |
+| LB | FINDINGS | 122,601 | 21 | One record per subject per lab test per visit |
+| MH | EVENTS | 2,061 | 13 | One record per subject per medical history event |
+| PE | FINDINGS | 25,596 | 13 | One record per subject per body system per visit |
 | RELREC | RELATIONSHIP | 12,831 | 7 | One record per related record |
-| RS | FINDINGS | 5,338 | 13 | One record per subject per assessment per visit |
-| SU | INTERVENTIONS | 1,229 | 10 | One record per subject per substance use occurrence |
-| SUPPAE | RELATIONSHIP | 8,523 | 10 | One record per parent record per qualifier |
+| RS | FINDINGS | 5,338 | 15 | One record per subject per assessment per visit |
+| SE | SPECIAL PURPOSE | 1,348 | 10 | One record per subject per actual element |
+| SU | INTERVENTIONS | 1,229 | 9 | One record per subject per substance use occurrence |
+| SUPPAE | RELATIONSHIP | 8,520 | 10 | One record per parent record per qualifier |
 | SUPPCM | RELATIONSHIP | 4,527 | 10 | One record per parent record per qualifier |
 | SUPPDM | RELATIONSHIP | 1,799 | 10 | One record per subject per qualifier |
 | SUPPLB | RELATIONSHIP | 245,202 | 10 | One record per parent record per qualifier |
 | SUPPSU | RELATIONSHIP | 450 | 10 | One record per parent record per qualifier |
-| TR | FINDINGS | 6,136 | 15 | One record per subject per lesion per measurement per visit |
-| TU | FINDINGS | 9,012 | 14 | One record per subject per lesion per visit (tumor identification) |
-| VS | FINDINGS | 52,864 | 14 | One record per subject per vital sign measurement per visit |
-| ADAE | OCCURRENCE DATA STRUCTURE | 2,841 | 51 | One record per subject per adverse event |
+| TA | TRIAL DESIGN | 6 | 10 | One record per planned element per arm |
+| TE | TRIAL DESIGN | 3 | 7 | One record per planned element |
+| TR | FINDINGS | 6,136 | 17 | One record per subject per lesion per measurement per visit |
+| TS | TRIAL DESIGN | 20 | 6 | One record per trial summary parameter value |
+| TU | FINDINGS | 9,012 | 16 | One record per subject per lesion per visit (tumor identification) |
+| VS | FINDINGS | 52,864 | 16 | One record per subject per vital sign measurement per visit |
+| ADAE | OCCURRENCE DATA STRUCTURE | 2,840 | 51 | One record per subject per adverse event |
 | ADCM | OCCURRENCE DATA STRUCTURE | 2,330 | 30 | One record per subject per concomitant medication occurrence |
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
-| ADDV | OCCURRENCE DATA STRUCTURE | 337 | 24 | One record per subject per protocol deviation |
+| ADDV | OCCURRENCE DATA STRUCTURE | 337 | 23 | One record per subject per protocol deviation |
 | ADEX | BASIC DATA STRUCTURE | 16,097 | 27 | One record per subject per drug per administration or summary parameter |
 | ADLB | BASIC DATA STRUCTURE | 122,601 | 37 | One record per subject per parameter per analysis visit |
 | ADMH | OCCURRENCE DATA STRUCTURE | 2,061 | 23 | One record per subject per medical history condition |
