@@ -92,6 +92,46 @@ for (i in seq_len(n)) {
 vital_signs <- do.call(rbind, Filter(Negate(is.null), vs_list))
 row.names(vital_signs) <- NULL
 
+# ---------------------------------------------------------------------------
+# Unscheduled visits (CDISC-realistic): an abnormal on-treatment vital sign
+# (hypertension SBP>=160 / DBP>=100, or tachycardia HR>=110) prompts an
+# off-schedule recheck ~1 week later, captured as VISIT_NAME="UNSCHEDULED".
+# Generated in a dedicated RNG stream and constrained to be genuinely
+# off-schedule and within participation, so scheduled data and every downstream
+# raw program stay byte-identical.
+# ---------------------------------------------------------------------------
+.rng_state <- if (exists(".Random.seed", envir = .GlobalEnv)) get(".Random.seed", envir = .GlobalEnv) else NULL
+set.seed(20260708)
+subj_dates <- lapply(split(as.Date(vital_signs$VISIT_DATE), vital_signs$SUBJECT_ID), unique)
+abn  <- vital_signs$SYSTOLIC_BP >= 160 | vital_signs$DIASTOLIC_BP >= 100 |
+        vital_signs$HEART_RATE >= 110
+cand <- vital_signs[abn & toupper(vital_signs$VISIT_NAME) != "SCREENING", ]
+cand <- cand[runif(nrow(cand)) < 0.08, ]          # ~8% of abnormal vitals rechecked
+recover <- function(v, mid) round(v + (mid - v) * runif(1, 0.3, 0.7) + rnorm(1, 0, 4))
+uns_rows <- list()
+for (j in seq_len(nrow(cand))) {
+  r     <- cand[j, ]
+  sd    <- subj_dates[[r$SUBJECT_ID]]
+  rdate <- as.Date(r$VISIT_DATE) + sample(5:10, 1)
+  if (rdate %in% sd || rdate > max(sd)) next        # off-schedule + within participation
+  uns_rows[[length(uns_rows) + 1]] <- data.frame(
+    SUBJECT_ID = r$SUBJECT_ID, VISIT_NAME = "UNSCHEDULED",
+    VISIT_DATE = format(rdate, "%Y-%m-%d"),
+    SYSTOLIC_BP  = recover(r$SYSTOLIC_BP, 122),
+    DIASTOLIC_BP = recover(r$DIASTOLIC_BP, 78),
+    HEART_RATE   = recover(r$HEART_RATE, 75),
+    WEIGHT_KG    = r$WEIGHT_KG, HEIGHT_CM = r$HEIGHT_CM,
+    TEMPERATURE_C = round(rnorm(1, 36.7, 0.4), 1),
+    RESP_RATE    = round(rnorm(1, 16, 2)), stringsAsFactors = FALSE)
+}
+if (length(uns_rows)) {
+  vital_signs <- rbind(vital_signs, do.call(rbind, uns_rows))
+  vital_signs <- vital_signs[order(vital_signs$SUBJECT_ID, as.Date(vital_signs$VISIT_DATE)), ]
+  row.names(vital_signs) <- NULL
+}
+if (!is.null(.rng_state)) assign(".Random.seed", .rng_state, envir = .GlobalEnv)
+message("  Unscheduled vital rechecks added: ", length(uns_rows))
+
 # Clip physiological bounds
 vital_signs$SYSTOLIC_BP  <- pmax(80,  pmin(200, vital_signs$SYSTOLIC_BP))
 vital_signs$DIASTOLIC_BP <- pmax(50,  pmin(120, vital_signs$DIASTOLIC_BP))

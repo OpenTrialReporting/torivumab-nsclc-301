@@ -34,7 +34,7 @@
 | TR | FINDINGS | 6,136 | 17 | One record per subject per lesion per measurement per visit |
 | TS | TRIAL DESIGN | 59 | 6 | One record per trial summary parameter value |
 | TU | FINDINGS | 9,012 | 16 | One record per subject per lesion per visit (tumor identification) |
-| VS | FINDINGS | 52,864 | 16 | One record per subject per vital sign measurement per visit |
+| VS | FINDINGS | 52,920 | 16 | One record per subject per vital sign measurement per visit |
 | ADAE | OCCURRENCE DATA STRUCTURE | 2,840 | 51 | One record per subject per adverse event |
 | ADCM | OCCURRENCE DATA STRUCTURE | 2,330 | 30 | One record per subject per concomitant medication occurrence |
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
@@ -46,7 +46,7 @@
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 33 | One record per subject |
 | ADTR | BASIC DATA STRUCTURE | 9,255 | 27 | One record per subject per parameter per analysis visit per lesion |
 | ADTTE | BASIC DATA STRUCTURE | 2,377 | 20 | One record per subject per time-to-event parameter |
-| ADVS | BASIC DATA STRUCTURE | 52,864 | 30 | One record per subject per vital-sign parameter per analysis timepoint |
+| ADVS | BASIC DATA STRUCTURE | 52,920 | 30 | One record per subject per vital-sign parameter per analysis timepoint |
 
 ## Standards
 
