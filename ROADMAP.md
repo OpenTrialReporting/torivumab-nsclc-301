@@ -387,20 +387,23 @@ decision, not a value swap: DA mixed standard units (SD0007), treatment-emergent
 time-points (SD0022/SD0021/SD1333), DM expected reference vars, and moving
 non-standard qualifiers (`AEDISCOD`/`CMATC`/`SUPACKYR`) to SUPP-- (SD0058).
 
-### Phase-2 SDTM remediation ✅ (executed 2026-07-19)
+### Phase-2 SDTM remediation ✅ (executed 2026-07-19, CLI-verified)
 
-Picked up the deferred tail (true totals: 18,410 SDTM findings). Created the
-missing **Trial Design domains TS/TA/TE/SE** (clears the only Reject, SD1115),
-derived **EPOCH + `--DY`** across all domains via `17_derive_timing.R`
-(SD1097/SD1077/SD1083/1087/1091), coded **AE MedDRA to 100%** (SD1449) with
-numeric codes (SD0055), populated **DM expected reference vars** (SD0057),
-renamed DA `DASTDTC→DADTC` (SD1073), and cleared the small structural rules
-(SD0009/SD1040/SD1078/SD1101/SD1099/SD1147/SD1201/CT2005/SD1274). The genuinely-
-fixable tail (~6.3K) is addressed; the residual is dominated by the **accepted**
-DA standard-units warning (SD0007, 10,873 — mixed-product units) and SU start
-time-point (SD0022, 1,229). Full detail + accepted-limitation register in
+Picked up the deferred tail and wired up the Community **CLI** (`qc/run_p21.sh`)
+so results are validated, not estimated. **SDTM: 18,410 → 10,981 findings**
+(engine 2508.1, SDTM-IG 3.4 FDA, CT 2026-03-27). Created the missing **Trial
+Design domains TS/TA/TE/SE** (clears the only Reject), added the treatment-
+emergent flag **AETRTEM** to SUPPAE (SD1097, 2,841), coded **AE MedDRA to 100%**
+(SD1449, 2,196), dropped all-null `SU.SUSTDTC` (SD0022, 1,229), fixed negative EX
+study days via `RFSTDTC = min(rand, first dose)` (SD1135, 636), imputed recovered-
+AE end dates (SD0021/SD1333), completed the FDA-required TS parameter set, and
+cleared ~a dozen smaller rules. Of the remaining 10,981, **10,873 is the accepted
+SD0007** DA standard-units warning; the rest (~108) are low-severity (cosmetic
+order, Expected-var notes, synthetic date artifacts). Full register +
+accepted-limitations in
 [`qc/p21-reports/PHASE2-REMEDIATION.md`](qc/p21-reports/PHASE2-REMEDIATION.md).
-Pipeline regenerated and verified at XPT; re-run Pinnacle 21 to confirm.
+ADaM pipeline re-run for the `RFSTDTC` cascade; ADaM CLI validation still needs
+config tuning (spurious SD1005). Re-run: `qc/run_p21.sh sdtm --build`.
 
 ---
 

@@ -63,13 +63,19 @@ raw <- raw |>
     AGE         = as.integer(floor(as.numeric(difftime(ref_dt, birth_dt, units = "days")) / 365.25)),
     AGEU        = "YEARS",
     DMDTC       = as.character(INFORM_CONSENT_DATE),
-    RFSTDTC     = as.character(RAND_DATE),
+    # Reference start = day 1 for study-day math. Use the earlier of randomization
+    # and first dose so a dose given the day before randomization does not produce
+    # negative exposure study days (P21 SD1135).
+    RFSTDTC     = as.character(pmin(suppressWarnings(as.Date(RAND_DATE)),
+                                    suppressWarnings(as.Date(RFXSTDTC)), na.rm = TRUE)),
     RFICDTC     = as.character(INFORM_CONSENT_DATE),
     # Subject reference / participation end: death if died, else last disposition
     # contact (P21 SD0057 RFENDTC/RFPENDTC).
     RFENDTC     = dplyr::coalesce(DTHDTC, disp_end),
     RFPENDTC    = dplyr::coalesce(disp_end, DTHDTC),
-    DTHFL       = ifelse(is.na(DTHFL), "N", DTHFL),
+    # DTHFL is a "No Yes Response (Yes only)" variable — Y or null, never N
+    # (P21 CT2001).
+    DTHFL       = ifelse(is.na(DTHFL), NA_character_, DTHFL),
     ARM         = as.character(TREATMENT_ARM),
     ACTARM      = as.character(TREATMENT_ARM),
     # Planned/actual arm codes (must match TA.ARMCD) — P21 SD0057 ARMCD/ACTARMCD

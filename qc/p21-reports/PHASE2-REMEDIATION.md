@@ -1,62 +1,64 @@
 # Pinnacle 21 SDTM — Phase-2 remediation (the "tail")
 
-Continues the 2026-07-18 remediation (~590K → 5,244 displayed / **18,410 true**
-findings). This pass targets the deferred structural tail. All fixes are in the
-mapping programs (`programs/sdtm/*.R`, `programs/adam/*.R`, `programs/define/`),
-regenerated end-to-end and verified at the **XPT** level (`haven::read_xpt`).
-Pinnacle 21 itself is a manual desktop step — **re-run it** (SDTM-IG 3.4 FDA,
-CDISC CT 2026-03-27, point at `xpt/sdtm/` + `define/define.xml`) to confirm the
-counts below.
+Continues the 2026-07-18 remediation. This pass cleared the deferred structural
+tail and — once the Community **CLI** was wired up (`qc/run_p21.sh`) — was
+iterated against real validator output rather than expectations.
 
-Starting point: latest report `pinnacle21-report-2026-07-18T23-40-20-249.xlsx`
-(true totals from Issue-Summary `Found`, not the 1000-row-capped Details sheet).
+**Validated SDTM result: 18,410 → 10,981 findings** (engine 2508.1, SDTM-IG 3.4
+FDA, CDISC CT 2026-03-27). Of the 10,981, **10,873 are the accepted SD0007** DA
+standard-units warning; the remaining **~108 are low-severity** (cosmetic order,
+Expected-variable notes, synthetic-data date artifacts).
 
-## Fixed (expected to clear on re-validation)
+Re-run any time with: `qc/run_p21.sh sdtm --build`
 
-| Rule | Found | Fix |
+## Cleared (confirmed by CLI re-validation)
+
+| Rule | Was | Fix |
 |---|---:|---|
-| SD1097 | 2,841 | AE treatment-emergent: `EPOCH` derived on AE from the DM treatment window (`17_derive_timing.R`) |
-| SD1449 | 2,196 | MedDRA coded to 100%: modifier-stripping normalisation + LLT→PT match; fixed the unquoted-comma bug in `meddra_oncology_subset.csv` (Respiratory SOC) and added 4 real PTs (`ae.R`) |
-| SD0021 / SD1333 | 410 / 410 | AEENDTC imputed for RECOVERED/RESOLVED AEs (severity-based duration, capped at death/exit) (`ae.R`) |
-| SD0009 | 191 | SAE criteria populated so every serious AE has ≥1 `Y` (`ae.R`) |
+| SD1097 | 2,841 | Treatment-emergent flag `AETRTEM` added to **SUPPAE** (the FDA business rule P21 checks — EPOCH alone did not satisfy it) |
+| SD1449 | 2,196 | AE MedDRA coded to 100%: modifier-stripping normalisation + LLT→PT match; fixed the unquoted-comma bug in the dictionary (Respiratory SOC → also fixed non-numeric codes / SD0055) + 4 real PTs |
+| SD0022 | 1,229 | Dropped the all-null `SU.SUSTDTC` (lifetime substance-use history has no start date) — removed the start-time-point findings entirely |
+| SD1135 | 636 | Negative EX study days: `RFSTDTC = min(randomisation, first dose)` so a dose given the day before randomisation is day 1, not −1 |
+| SD0021 / SD1333 | 410 / 410 | `AEENDTC` imputed for RECOVERED/RESOLVED AEs (severity-based duration, capped at death/exit) |
+| SD0009 | 191 | SAE criteria populated so every serious AE has ≥1 `Y` |
+| CT2001 | 138 | `DM.DTHFL` set to Y/null only (never N — "Yes only" codelist) |
+| SD1132 | 60 | `AESER` promoted to Y when a death/life-threatening criterion is Y |
 | SD1040 | 48 | Dropped redundant `DV.DVSCAT` (1:1 with DVDECOD) and `DD.DDSCAT` |
-| SD1079 | 40 | CDISC variable order in AE/DM; `--DY` placed after `--DTC`, `EPOCH` last (`17_derive_timing.R`) |
-| CT2005 / SD1274 | 1 / 28 | DS "OTHER" → `PHYSICIAN DECISION` (valid NCOMPLT); DSTERM no longer literal "OTHER" (`ds.R`) |
-| SD0057 | 25 | DM `ARMCD/ACTARMCD/DTHDTC/DTHFL/RFXSTDTC/RFXENDTC/RFENDTC/RFPENDTC`; DA `DADTC/VISITNUM` |
-| SD1077 | 11 | `EPOCH` added to all observation domains (`17_derive_timing.R`) |
-| SD1083 / SD1087 / SD1091 | 8 / 6 / 3 | `--DY` study-day variables from `--DTC` + `DM.RFSTDTC` |
-| SD1078 | 7 | AE SAE criteria populated; dropped all-null `SU.SUOCCUR` |
-| SD0055 | 6 | AE MedDRA code variables now numeric |
-| SD0058 | 6 of 7 | Removed non-model vars: `AEDISCOD` (→SUPPAE), `DA.EXTRT`, `DD.DDTERM`, `PE.PENORM`, `SU.SUFREQ` |
-| SD1101 | 2 | Added `CMENTPT` / `MHENTPT` (reference time point for `--ENRTPT`) |
-| SD1073 | 1 | DA `DASTDTC` → `DADTC` (DASTDTC prohibited in DA) |
-| SD1099 / SD1147 | 1 / 1 | SU: added parent `SUCAT`; dropped all-null `SUOCCUR` |
-| SD1201 | 1 | De-duplicated the AE entered twice (kept later end date); mirrored in SUPPAE |
-| SD1111/1112/1113/1115 | 4 | Created Trial Design domains **SE / TA / TE / TS** (`se.R/ta.R/te.R/ts.R`); TS clears the only **Reject** |
+| SD2xxx / CT2002 / CT2003 | ~30 | Completed the FDA-required TS parameter set with exact CDISC decodes (incl. the SD2232 SSTDTC **Reject**, INTMODEL/INTTYPE/PCLAS) |
+| CT2005 / SD1274 | 1 / 28 | DS "OTHER" → `PHYSICIAN DECISION` (valid NCOMPLT) |
+| SD1111/1112/1113/1115 | 4 | Trial Design domains **SE / TA / TE / TS** created (TS clears the only Reject) |
+| SD1077 / SD1083 / SD1087 / SD1091 | ~30 | `EPOCH` + `--DY` study-day variables across all domains |
+| SD0055, SD1073, SD1078, SD1099, SD1101, SD1147, SD1201, SD0057(part) | ~30 | Numeric MedDRA codes, DA `DASTDTC→DADTC`, dropped all-null permissibles, SU `SUCAT`, `CM/MH --ENTPT`, AE de-dup, DM expected reference vars |
 
-New domains registered in `00_run_sdtm.R`, `16_label_domains.R`, and
-`build_define.R` (define now has 38 datasets).
+## Residual (~108, low-severity) — accepted / documented
 
-## Accepted limitations (documented, not fixed)
-
-| Rule | Found | Reason |
+| Rule | Found | Disposition |
 |---|---:|---|
-| **SD0007** | 10,873 | DA standard units legitimately differ by product (BSA-dosed chemo `mg/m2`, flat-dose `mg`, vialed biologic `VIAL`). Warning severity; per user decision, not fabricating BSA / mg-per-vial conversions. |
-| SD0022 | 1,229 | `SU.SUSTDTC` blank — lifetime substance-use history has no collected start date. |
-| SD0061 | 12 | The 12 "missing" datasets are the **ADaM** datasets referenced in the combined SDTM+ADaM `define.xml`. Validation-scoping artifact: run the SDTM engine with both `xpt/sdtm` + `xpt/adam` present, or validate each standard against its own define. Not a data defect. |
-| SD0080 | 14 | AE start after last disposition date — synthetic date-generation artifact. |
-| SD1076 | 3 | `EX.VISIT/VISITNUM` (kept for ADEX joins) + `PE.PECLSIG` — permissible "Note" severity. |
-| SD0058 | 1 | `CM.CMATC` intentionally denormalised for ADaM-join back-compat; SUPPCM is its parallel conformant home. |
-| SD1149 | 1 | `DM.ARMNRS` all-null — every subject is randomised (225/225), so the reason-not-assigned variable is correctly empty. |
-| SD1485 | 1 | `LC` is not an SDTM-IG 3.4 domain; not created. |
+| **SD0007** | 10,873 | **Accepted** — DA standard units legitimately differ by product (mg/m² BSA chemo, mg flat dose, VIAL biologic). Warning; no fabricated conversions. |
+| SD1079 | 32 | Cosmetic variable-order warnings (EPOCH position fixed; residual AECAT/AETOXGR/VISIT positions across domains). |
+| SD0057 | 17 | Expected (not Required) variables absent in this synthetic extract (LBORNRHI/LO, EXDOSFRM, TR method/eval, TS.TSVALCD, ACTARMUD). Adding null columns would only trade for SD1149. |
+| SD1202 / SD0080 / SD1204 | 17 / 14 / 6 | Synthetic date-generation artifacts — a few AE start/end dates fall after the subject's disposition/participation end. |
+| SD0061 | 12 | The combined SDTM+ADaM define lists ADaM datasets; SDTM-only run reports them "missing." Validation-scoping artifact. |
+| SD1076 | 3 | `EX.VISIT/VISITNUM` (kept for ADEX joins) + `PE.PECLSIG` — permissible Note severity. |
+| SD0058 | 2 | `CM.CMATC` + `SU.SUPACKYR` — documented sponsor extensions (conformant home SUPPCM/SUPPSU). |
+| SD0070 / SD1343 | 1 / 1 | The one randomised-but-never-dosed subject. |
+| SD1149 | 1 | `DM.ARMNRS` correctly all-null (everyone randomised, 225/225). |
+| SD1299 | 1 | SU now has no timing variable (SUSTDTC dropped) — acceptable for undated history. |
+| SD1485 | 1 | `LC` is not an SDTM-IG 3.4 domain. |
 
-## Net expectation
+## Tooling
 
-The genuinely-fixable structural tail (~6,300 findings) is addressed; the residual
-is dominated by the **accepted** DA standard-units warning (10,873) and SU start
-time-point (1,229). Re-run Pinnacle 21 to confirm.
+`qc/run_p21.sh [sdtm|adam|both] [--build]` drives the bundled Community CLI
+head-less; `qc/p21_summary.R` prints true per-rule Found totals. Reports land in
+`qc/p21-reports/pinnacle21-cli-<stamp>-<std>.xlsx`.
+
+**ADaM CLI caveat:** the ADaM run currently reports a spurious `SD1005 Invalid
+STUDYID` across every SDTM record (STUDYID is a valid constant, and the SDTM run
+does not flag it — a cross-standard CLI/config artifact, not a data defect). Use
+the desktop app for authoritative ADaM validation, or treat the SDTM CLI run as
+the reliable one until the ADaM invocation is tuned.
 
 ## Cascade
 
-DM/AE/CM/DV changes flow into ADaM — the full ADaM pipeline was re-run
-(`00_run_adam.R`): ADAE = 2,840 (matches AE de-dup), define + XPT rebuilt.
+DM `RFSTDTC` now = min(randomisation, first dose), which shifts study-day math in
+ADaM — the full ADaM pipeline was re-run and regenerated cleanly (ADAE = 2,840).

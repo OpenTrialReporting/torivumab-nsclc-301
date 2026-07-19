@@ -50,8 +50,10 @@ raw <- raw |>
 sdtm_su <- raw |>
   # SUOCCUR (all-missing — SD1078/SD1147) and SUFREQ (not in SU model — SD0058)
   # dropped. SUCAT (parent category) added so the SUSCAT subcategory is valid
-  # (SD1099) without being redundant with SUTRT (SD1039). SUSTDTC is left blank
-  # for lifetime substance-use history (SD0022 accepted limitation).
+  # (SD1099) without being redundant with SUTRT (SD1039). SUSTDTC dropped: it was
+  # all-null for lifetime substance-use history (SD1078; also removes the SD0022
+  # start-time-point findings). SUPACKYR is a documented sponsor extension
+  # (SD0058 accepted; conformant home would be SUPPSU).
   mutate(SUCAT = "SUBSTANCE USE HISTORY") |>
   transmute(
     STUDYID,
@@ -61,7 +63,6 @@ sdtm_su <- raw |>
     SUTRT,
     SUCAT,
     SUSCAT,
-    SUSTDTC,
     SUPACKYR
   )
 

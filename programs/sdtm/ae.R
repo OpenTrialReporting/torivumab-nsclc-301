@@ -216,6 +216,9 @@ sdtm_ae <- raw_coded |>
     AESDTH   = ifelse(str_to_upper(str_trim(as.character(OUTCOME))) %in%
                         c("FATAL", "DEATH") | AESEV == "FATAL", "Y", "N"),
     AESLIFE  = ifelse(AESEV == "LIFE-THREATENING", "Y", "N"),
+    # An AE that is fatal or life-threatening is serious by definition — promote
+    # AESER so no SAE criterion is Y while AESER is not (P21 SD1132).
+    AESER    = ifelse(AESDTH == "Y" | AESLIFE == "Y", "Y", AESER),
     AESDISAB = "N",
     AESMIE   = "N",
     AESCONG  = "N",

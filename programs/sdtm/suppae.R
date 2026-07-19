@@ -37,6 +37,10 @@ map_yn <- function(x) {
   )
 }
 
+# First-dose date per subject for the treatment-emergent flag.
+rfxst <- as.data.frame(read_parquet(file.path(SDTM_DIR, "dm.parquet"))) |>
+  transmute(USUBJID, rfxst = suppressWarnings(as.Date(RFXSTDTC)))
+
 # Re-derive flags per AE record. AE rows are ordered by (USUBJID, AESTDTC)
 # in ae.R, so join raw back on the same key.
 raw_with_flags <- raw |>
@@ -44,6 +48,7 @@ raw_with_flags <- raw |>
   group_by(USUBJID) |>
   mutate(AESEQ = row_number()) |>
   ungroup() |>
+  left_join(rfxst, by = "USUBJID") |>
   transmute(
     USUBJID,
     AESEQ,
@@ -54,13 +59,17 @@ raw_with_flags <- raw |>
         c("DOSE REDUCED", "DOSE INTERRUPTED", "DRUG INTERRUPTED",
           "DRUG WITHDRAWN", "DOSE REDUCTION") ~ "Y",
       TRUE                                    ~ "N"
-    )
+    ),
+    # Treatment-emergent: AE onset on/after first study treatment (P21 SD1097 —
+    # FDA business rule requires a treatment-emergent flag in SUPPAE).
+    AETRTEM = ifelse(!is.na(rfxst) &
+                       suppressWarnings(as.Date(AE_START_DATE)) >= rfxst, "Y", "N")
   )
 
 # Long-form SUPPAE
 supp_long <- raw_with_flags |>
   pivot_longer(
-    cols      = c(IRAEFL, AEDISFL, AEACTFL),
+    cols      = c(IRAEFL, AEDISFL, AEACTFL, AETRTEM),
     names_to  = "QNAM",
     values_to = "QVAL"
   ) |>
@@ -72,7 +81,8 @@ supp_long <- raw_with_flags |>
     QLABEL   = case_when(
       QNAM == "IRAEFL"  ~ "Immune-Related AE Flag",
       QNAM == "AEDISFL" ~ "AE Led to Study Drug Discontinuation",
-      QNAM == "AEACTFL" ~ "Dose Modified Due to AE"
+      QNAM == "AEACTFL" ~ "Dose Modified Due to AE",
+      QNAM == "AETRTEM" ~ "Treatment Emergent Analysis Flag"
     ),
     QORIG    = "DERIVED",
     QEVAL    = ""

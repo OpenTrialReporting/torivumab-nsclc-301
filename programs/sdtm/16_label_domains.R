@@ -74,6 +74,8 @@ DOMAIN_LABELS <- list(
     ELEMENT  = "Description of Element",
     SESTDTC  = "Start Date/Time of Element",
     SEENDTC  = "End Date/Time of Element",
+    SESTDY   = "Study Day of Start of Element",
+    SEENDY   = "Study Day of End of Element",
     TAETORD  = "Planned Order of Element within Arm",
     EPOCH    = "Epoch"
   ),

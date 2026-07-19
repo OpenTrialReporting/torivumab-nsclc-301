@@ -3,7 +3,7 @@
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
 **Generated:** 2026-07-19
 **File:** `define/define.xml`
-**Datasets:** 38  ·  **Variables:** 698
+**Datasets:** 38  ·  **Variables:** 699
 
 ## Datasets
 
@@ -22,9 +22,9 @@
 | PE | FINDINGS | 25,596 | 13 | One record per subject per body system per visit |
 | RELREC | RELATIONSHIP | 12,831 | 7 | One record per related record |
 | RS | FINDINGS | 5,338 | 15 | One record per subject per assessment per visit |
-| SE | SPECIAL PURPOSE | 1,348 | 10 | One record per subject per actual element |
-| SU | INTERVENTIONS | 1,229 | 9 | One record per subject per substance use occurrence |
-| SUPPAE | RELATIONSHIP | 8,520 | 10 | One record per parent record per qualifier |
+| SE | SPECIAL PURPOSE | 1,348 | 12 | One record per subject per actual element |
+| SU | INTERVENTIONS | 1,229 | 8 | One record per subject per substance use occurrence |
+| SUPPAE | RELATIONSHIP | 11,360 | 10 | One record per parent record per qualifier |
 | SUPPCM | RELATIONSHIP | 4,527 | 10 | One record per parent record per qualifier |
 | SUPPDM | RELATIONSHIP | 1,799 | 10 | One record per subject per qualifier |
 | SUPPLB | RELATIONSHIP | 245,202 | 10 | One record per parent record per qualifier |
@@ -32,7 +32,7 @@
 | TA | TRIAL DESIGN | 6 | 10 | One record per planned element per arm |
 | TE | TRIAL DESIGN | 3 | 7 | One record per planned element |
 | TR | FINDINGS | 6,136 | 17 | One record per subject per lesion per measurement per visit |
-| TS | TRIAL DESIGN | 20 | 6 | One record per trial summary parameter value |
+| TS | TRIAL DESIGN | 59 | 6 | One record per trial summary parameter value |
 | TU | FINDINGS | 9,012 | 16 | One record per subject per lesion per visit (tumor identification) |
 | VS | FINDINGS | 52,864 | 16 | One record per subject per vital sign measurement per visit |
 | ADAE | OCCURRENCE DATA STRUCTURE | 2,840 | 51 | One record per subject per adverse event |

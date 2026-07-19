@@ -63,6 +63,7 @@ timing_cfg <- list(
   mh = list(dy = c(MHSTDTC = "MHSTDY"),                     epoch = NA),
   pe = list(dy = c(PEDTC   = "PEDY"),                       epoch = "PEDTC"),
   rs = list(dy = c(RSDTC   = "RSDY"),                       epoch = "RSDTC"),
+  se = list(dy = c(SESTDTC = "SESTDY", SEENDTC = "SEENDY"), epoch = NA),
   tr = list(dy = c(TRDTC   = "TRDY"),                       epoch = "TRDTC"),
   tu = list(dy = c(TUDTC   = "TUDY"),                       epoch = "TUDTC"),
   vs = list(dy = c(VSDTC   = "VSDY"),                       epoch = "VSDTC")
@@ -94,7 +95,8 @@ for (dom in names(timing_cfg)) {
 
   df <- df |> select(-rfst, -fdos, -ldos)
 
-  # Keep CDISC order: place each --DY immediately after its --DTC, EPOCH last.
+  # CDISC Timing order: EPOCH precedes the date variables; each --DY follows its
+  # --DTC. Place --DY after --DTC, then insert EPOCH just before its source date.
   ord <- setdiff(names(df), "EPOCH")
   for (i in seq_along(cfg$dy)) {
     dtc <- names(cfg$dy)[i]; dyv <- cfg$dy[[i]]
@@ -102,7 +104,13 @@ for (dom in names(timing_cfg)) {
       ord <- append(ord[ord != dyv], dyv, after = which(ord == dtc))
     }
   }
-  if ("EPOCH" %in% names(df)) ord <- c(ord, "EPOCH")
+  if ("EPOCH" %in% names(df)) {
+    if (!is.na(cfg$epoch) && cfg$epoch %in% ord) {
+      ord <- append(ord, "EPOCH", after = which(ord == cfg$epoch) - 1)  # before --DTC
+    } else {
+      ord <- c(ord, "EPOCH")
+    }
+  }
   df <- df[, ord]
 
   # Atomic write via temp file + rename (avoids the Windows "user-mapped section"
