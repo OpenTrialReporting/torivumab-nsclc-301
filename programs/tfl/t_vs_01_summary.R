@@ -44,9 +44,9 @@ for (i in seq_len(nrow(PARAMS_DISPLAY))) {
   pl <- PARAMS_DISPLAY$PARAM[i]
   add(pl, "", "", sec = TRUE)
   for (vis in KEY_VISITS) {
-    s_t <- summarise_chg(advs |> filter(PARAMCD == pc, AVISIT == vis,
+    s_t <- summarise_chg(advs |> filter(PARAMCD == pc, AVISIT == vis, ANL01FL == "Y",
                                           TRT01A == "Torivumab + Chemotherapy"))
-    s_p <- summarise_chg(advs |> filter(PARAMCD == pc, AVISIT == vis,
+    s_p <- summarise_chg(advs |> filter(PARAMCD == pc, AVISIT == vis, ANL01FL == "Y",
                                           TRT01A == "Placebo + Chemotherapy"))
     add(sprintf("  Change at %s — Mean (SD)", vis),
         sprintf("%s (n=%d)", fmt_mean_sd(s_t$mean, s_t$sd, 1), s_t$n),

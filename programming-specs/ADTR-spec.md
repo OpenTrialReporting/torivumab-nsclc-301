@@ -41,8 +41,8 @@ ADTR is an intermediate oncology BDS dataset that derives per-visit Sum of Longe
 | 9 | PARAM | Parameter Description | Char | 200 | Derived | — | "Sum of Longest Diameters (mm)" for PARAMCD = "SDIAM" |
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | "SDIAM" (per CDISC RECIST 1.1 supplement) |
 | 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `TR.VISIT` (BASELINE / TUMOR_ASSESS_WKn). Retained for traceability; SDTM `VISITNUM` dropped — TR did not collect it (100% null) |
-| 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
-| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | BASELINE=0; week n from `TUMOR_ASSESS_WKn` (SAP §12.2, `derive_avisitn()`) |
+| 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, ., "TUMOUR")`: nearest RECIST assessment by `ADY` (SAP §12.2 window reference) |
+| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (BASELINE 0, `TUMOR_ASSESS_WKn` n) — SAP §12.2 |
 | 14 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(TR.TRDTC)` |
 | 15 | AVAL | Analysis Value (SLD, mm) | Num | 8 | Derived | — | Sum of `TR.TRSTRESN` for TRTESTCD = "LDIAM" and TRGRPID = "TARGET" per visit |
 | 16 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | Last non-missing SLD on or before TRTSDT |

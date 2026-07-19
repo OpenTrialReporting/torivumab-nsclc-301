@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719131823"
-     CreationDateTime="2026-07-19T13:18:18"
-     AsOfDateTime="2026-07-19T13:18:18"
+     FileOID="CTX-NSCLC-301.20260719163957"
+     CreationDateTime="2026-07-19T16:39:55"
+     AsOfDateTime="2026-07-19T16:39:55"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -718,7 +718,7 @@
           <def:title>adex.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.ADLB" Name="ADLB" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADLB" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADLB" def:StandardOID="STD.ADAM">
+      <ItemGroupDef OID="IG.ADLB" Name="ADLB" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADLB" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis timepoint" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADLB" def:StandardOID="STD.ADAM">
         <Description><TranslatedText xml:lang="en">Laboratory Analysis Dataset</TranslatedText></Description>
         <ItemRef ItemOID="IT.ADLB.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.ADLB.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
@@ -737,7 +737,7 @@
         <ItemRef ItemOID="IT.ADLB.PARAMCD" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.ADLB.LBCAT" OrderNumber="16" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.LBDTC" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.ADT" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ADT" OrderNumber="18" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.ADLB.ADY" OrderNumber="19" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.VISIT" OrderNumber="20" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.VISITNUM" OrderNumber="21" Mandatory="No"/>
@@ -790,7 +790,7 @@
           <def:title>admh.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.ADRS" Name="ADRS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADRS" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADRS" def:StandardOID="STD.ADAM">
+      <ItemGroupDef OID="IG.ADRS" Name="ADRS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADRS" Purpose="Analysis" def:Structure="One record per subject per parameter per analysis timepoint" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADRS" def:StandardOID="STD.ADAM">
         <Description><TranslatedText xml:lang="en">Disease Response Analysis Dataset</TranslatedText></Description>
         <ItemRef ItemOID="IT.ADRS.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.ADRS.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
@@ -804,7 +804,7 @@
         <ItemRef ItemOID="IT.ADRS.TRTEDT" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADRS.PARAM" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADRS.PARAMCD" OrderNumber="12" Mandatory="Yes" KeySequence="3"/>
-        <ItemRef ItemOID="IT.ADRS.ADT" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.ADT" OrderNumber="13" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.ADRS.ADY" OrderNumber="14" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADRS.AVAL" OrderNumber="15" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADRS.AVALC" OrderNumber="16" Mandatory="No"/>
@@ -915,7 +915,7 @@
           <def:title>adtte.xpt</def:title>
         </def:leaf>
       </ItemGroupDef>
-      <ItemGroupDef OID="IG.ADVS" Name="ADVS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADVS" Purpose="Analysis" def:Structure="One record per subject per vital-sign parameter per analysis visit" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADVS" def:StandardOID="STD.ADAM">
+      <ItemGroupDef OID="IG.ADVS" Name="ADVS" Repeating="Yes" IsReferenceData="No" SASDatasetName="ADVS" Purpose="Analysis" def:Structure="One record per subject per vital-sign parameter per analysis timepoint" def:Class="BASIC DATA STRUCTURE" def:ArchiveLocationID="LF.ADVS" def:StandardOID="STD.ADAM">
         <Description><TranslatedText xml:lang="en">Vital Signs Analysis Dataset</TranslatedText></Description>
         <ItemRef ItemOID="IT.ADVS.STUDYID" OrderNumber="1" Mandatory="Yes" KeySequence="1"/>
         <ItemRef ItemOID="IT.ADVS.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
@@ -933,7 +933,7 @@
         <ItemRef ItemOID="IT.ADVS.PARAM" OrderNumber="14" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADVS.PARAMCD" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.ADVS.PARAMN" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADVS.ADT" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADVS.ADT" OrderNumber="17" Mandatory="Yes" KeySequence="5"/>
         <ItemRef ItemOID="IT.ADVS.ADY" OrderNumber="18" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADVS.VISIT" OrderNumber="19" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADVS.VISITNUM" OrderNumber="20" Mandatory="No"/>

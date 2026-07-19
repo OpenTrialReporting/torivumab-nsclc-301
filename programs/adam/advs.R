@@ -35,12 +35,17 @@ advs <- vs |>
     PARAMN   = match(PARAMCD, sort(unique(PARAMCD))),
     ADT      = as.Date(VSDTC),
     ADY      = study_day(ADT, TRTSDT),
-    AVISIT   = VISIT,
-    AVISITN  = derive_avisitn(VISIT, VISITNUM),
     AVAL     = VSSTRESN,
     AVALC    = VSSTRESC,
     AVALU    = VSSTRESU
   )
+
+# Analysis-visit windowing (SAP §12.2): nearest scheduled visit by ADY
+# (TREATMENT stream); EOT/follow-up kept by collected role.
+.win <- derive_avisit_windowed(advs$ADY, advs$VISIT, advs$VISITNUM, "TREATMENT")
+advs$AVISIT  <- .win$AVISIT
+advs$AVISITN <- .win$AVISITN
+advs$ATPTREF <- .win$ATPTREF
 
 # Baseline flag: exactly ONE record per USUBJID/PARAMCD — the last non-missing
 # pre-treatment measurement (P21 AD0154 — no multiple baselines). BASE is that
@@ -64,9 +69,12 @@ advs <- advs |>
   left_join(baseline, by = c("USUBJID", "PARAMCD")) |>
   mutate(
     CHG      = AVAL - BASE,
-    PCHG     = if_else(!is.na(BASE) & BASE != 0, 100 * (AVAL - BASE) / BASE, NA_real_),
-    ANL01FL  = "Y"
-  ) |>
+    PCHG     = if_else(!is.na(BASE) & BASE != 0, 100 * (AVAL - BASE) / BASE, NA_real_)
+  )
+# ANL01FL: one record per USUBJID x PARAMCD x AVISIT, closest to visit target
+# (ties -> later ADT), so windowed records are not double-counted (SAP §12.2).
+advs$ANL01FL <- flag_anl01(advs, "PARAMCD")
+advs <- advs |>
   select(
     STUDYID, USUBJID, SUBJID, SITEID,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,

@@ -63,8 +63,8 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 | 18 | ADY | Analysis Relative Day | Num | 8 | Derived | — | `as.integer(ADT - TRTSDT) + 1` |
 | 19 | VISIT | Visit Name | Char | 40 | Predecessor | — | `VS.VISIT` (retained for traceability) |
 | 20 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `VS.VISITNUM` |
-| 21 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2) |
-| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)`: = SDTM VISITNUM where populated (authoritative; `MAINT_CnD1`→9+n, EOT/FU→900/901/902), else label-derived per the SAP §12.2 scheme (BASELINE→0, MAINT_CnD1→9+n, TUMOR_ASSESS_WKn→n) |
+| 21 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, VISITNUM, "TREATMENT")`: nearest scheduled visit by `ADY` (SAP §12.2 window reference); `EOT`/follow-up kept by collected role |
+| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (SDTM VISITNUM scheme: SCREENING 0, `C1D1…C6D1` 1…7, `MAINT_CnD1` 9+n, `TUMOR_ASSESS_WKn` n, EOT/FU 900/901/902) — SAP §12.2 |
 | 23 | AVAL | Analysis Value | Num | 8 | Derived | — | `VS.VSSTRESN` |
 | 24 | AVALC | Analysis Value (Char) | Char | 40 | Derived | — | `VS.VSSTRESC` |
 | 25 | AVALU | Analysis Value Unit | Char | 10 | Derived | — | `VS.VSSTRESU` |
@@ -72,7 +72,7 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 | 27 | CHG | Change from Baseline | Num | 8 | Derived | — | `AVAL - BASE` |
 | 28 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `100 * (AVAL - BASE) / BASE` (NA if BASE NA or 0) |
 | 29 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | See §Derivations.D1 |
-| 30 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 30 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01()`: `"Y"` on the record closest to the visit target day per `USUBJID × PARAMCD × AVISIT` (ties → later `ADT`) — one analysis record per windowed visit (SAP §12.2) |
 
 ## Derivations
 

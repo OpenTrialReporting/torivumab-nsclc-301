@@ -45,8 +45,6 @@ adlb <- adlb |>
   mutate(
     PARAMCD = LBTESTCD,
     PARAM   = LBTEST,
-    AVISIT  = VISIT,
-    AVISITN = derive_avisitn(VISIT, VISITNUM),
     AVAL    = as.numeric(LBSTRESN),
     AVALC   = as.character(LBORRES),
     AVALU   = LBSTRESU,
@@ -54,6 +52,13 @@ adlb <- adlb |>
     ANRHI   = as.numeric(LBSTNRHI),
     NRIND   = LBNRIND
   )
+
+# 4b. Analysis-visit windowing (SAP §12.2): map each record to its nearest
+# scheduled visit by ADY (TREATMENT stream); EOT/follow-up kept by collected role.
+.win <- derive_avisit_windowed(adlb$ADY, adlb$VISIT, adlb$VISITNUM, "TREATMENT")
+adlb$AVISIT  <- .win$AVISIT
+adlb$AVISITN <- .win$AVISITN
+adlb$ATPTREF <- .win$ATPTREF
 
 # 5. Baseline flag (ABLFL) — last non-missing AVAL on or before TRTSDT
 adlb <- adlb |>
@@ -78,13 +83,12 @@ adlb <- adlb |>
   derive_var_chg() |>
   derive_var_pchg()
 
-# 7. Analysis flags
-adlb <- adlb |>
-  mutate(
-    ANL01FL = if_else(!is.na(AVAL) & ADT > TRTSDT & SAFFL == "Y",
-                      "Y", NA_character_),
-    DTYPE   = NA_character_
-  )
+# 7. Analysis flags — ANL01FL selects one record per USUBJID x PARAMCD x AVISIT,
+# the one closest to the visit target day (ties -> later ADT), so a value that
+# windowed into a visit alongside the scheduled draw is not double-counted
+# (SAP §12.2 windowing selection).
+adlb$ANL01FL <- flag_anl01(adlb, "PARAMCD")
+adlb$DTYPE   <- NA_character_
 
 # 8. CTCAE toxicity grading — NCI CTCAE v5.0
 adlb <- adlb |>

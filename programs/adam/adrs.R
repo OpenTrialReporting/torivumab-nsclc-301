@@ -147,11 +147,16 @@ adrs_cbor <- adsl_vars |>
 #    AVISIT = analysis visit (per-visit OVR records only; BOR/CBOR are
 #    subject-level -> AVISIT NA). VISITNUM is dropped: SDTM.RS did not collect
 #    it (100% NA), so it aids no traceability; AVISITN carries the ordering.
-adrs <- bind_rows(ovr, adrs_bor, adrs_cbor) |>
-  mutate(
-    AVISIT  = VISIT,
-    AVISITN = derive_avisitn(VISIT, VISITNUM)
-  ) |>
+adrs <- bind_rows(ovr, adrs_bor, adrs_cbor)
+# Analysis-visit windowing (SAP §12.2, TUMOUR stream): per-visit response records
+# map to their nearest RECIST assessment by ADY; subject-level BOR/CBOR have no
+# collected visit and keep AVISIT/AVISITN = NA. (ANL01FL is set upstream per
+# record type and is unchanged — tumour assessments produce no windowing dups.)
+.win <- derive_avisit_windowed(adrs$ADY, adrs$VISIT,
+                               rep(NA_integer_, nrow(adrs)), "TUMOUR")
+adrs$AVISIT  <- .win$AVISIT
+adrs$AVISITN <- .win$AVISITN
+adrs <- adrs |>
   select(
     STUDYID, USUBJID,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,

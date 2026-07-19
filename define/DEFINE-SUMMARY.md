@@ -40,13 +40,13 @@
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
 | ADDV | OCCURRENCE DATA STRUCTURE | 337 | 23 | One record per subject per protocol deviation |
 | ADEX | BASIC DATA STRUCTURE | 16,097 | 27 | One record per subject per drug per administration or summary parameter |
-| ADLB | BASIC DATA STRUCTURE | 122,601 | 37 | One record per subject per parameter per analysis visit |
+| ADLB | BASIC DATA STRUCTURE | 122,601 | 37 | One record per subject per parameter per analysis timepoint |
 | ADMH | OCCURRENCE DATA STRUCTURE | 2,061 | 23 | One record per subject per medical history condition |
-| ADRS | BASIC DATA STRUCTURE | 3,569 | 21 | One record per subject per parameter per analysis visit |
+| ADRS | BASIC DATA STRUCTURE | 3,569 | 21 | One record per subject per parameter per analysis timepoint |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 33 | One record per subject |
 | ADTR | BASIC DATA STRUCTURE | 9,255 | 27 | One record per subject per parameter per analysis visit per lesion |
 | ADTTE | BASIC DATA STRUCTURE | 2,377 | 20 | One record per subject per time-to-event parameter |
-| ADVS | BASIC DATA STRUCTURE | 52,864 | 30 | One record per subject per vital-sign parameter per analysis visit |
+| ADVS | BASIC DATA STRUCTURE | 52,864 | 30 | One record per subject per vital-sign parameter per analysis timepoint |
 
 ## Standards
 
