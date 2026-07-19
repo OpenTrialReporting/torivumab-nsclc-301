@@ -93,6 +93,31 @@ mkdir -p "$OUTDIR"
 # git-bash → Windows path (the CLI is a Windows JVM and wants C:\ paths)
 w() { cygpath -w "$1"; }
 
+# -----------------------------------------------------------------------------
+# SD1005 workaround for ADaM validation.
+# SD1005 ("Invalid STUDYID": a STUDYID value must match one in the DM domain) is
+# an SDTM cross-domain lookup. When the SDTM datasets are loaded as supporting
+# data inside an ADaM run, this lookup misfires and flags every non-DM SDTM
+# record (~540K) even though the STUDYID is a valid constant and the standalone
+# SDTM run passes the rule cleanly. We temporarily deactivate SD1005 in the SDTM
+# sub-config for the ADaM run only, and restore it immediately (a trap guarantees
+# restore even on error/interrupt). The rule stays fully active for the SDTM run.
+_SD1005_CFG=""; _SD1005_BAK=""
+restore_sd1005() {
+  if [[ -n "$_SD1005_BAK" && -f "$_SD1005_BAK" ]]; then
+    mv -f "$_SD1005_BAK" "$_SD1005_CFG" 2>/dev/null || true
+  fi
+  _SD1005_BAK=""; _SD1005_CFG=""
+}
+trap restore_sd1005 EXIT INT TERM
+
+patch_sd1005() {   # deactivate SD1005 in the SDTM sub-config (for the ADaM run)
+  _SD1005_CFG="$P21_HOME/configs/$P21_ENGINE/SDTM-IG 3.4 (FDA).xml"
+  [[ -f "$_SD1005_CFG" ]] || { _SD1005_CFG=""; return 0; }
+  _SD1005_BAK="$(mktemp)"; cp "$_SD1005_CFG" "$_SD1005_BAK"
+  sed -i 's#RuleID="SD1005" Active="Yes"#RuleID="SD1005" Active="No"#g' "$_SD1005_CFG"
+}
+
 run_one() {
   local std="$1" ver="$2" config_xml="$3" report="$4"; shift 4
   local config_path="$P21_HOME/configs/$P21_ENGINE/$config_xml"
@@ -101,6 +126,8 @@ run_one() {
   [[ -f "$config_path" ]] || { echo "ERROR: rule config not found: $config_path" >&2; return 1; }
   local extra=()
   [[ -n "$P21_API_KEY" ]] && extra+=(--api.key="$P21_API_KEY")
+  # ADaM validates the linked SDTM data too — suppress the spurious SD1005 there.
+  [[ "$std" == "adam" ]] && patch_sd1005
   local log; log="$(mktemp)"
   ( cd "$P21_HOME" && "$P21_JAVA" -jar "$(basename "$JAR")" \
       --engine.version="$P21_ENGINE" \
@@ -113,6 +140,7 @@ run_one() {
       --report.cutoff=1000000 \
       ${extra[@]+"${extra[@]}"} \
       "$@" 2>&1 ) > "$log" || true
+  restore_sd1005   # restore the SDTM config immediately after the run
   grep -viE "SLF4J|logback|Reflections|^[0-9]{2}:[0-9]{2}:[0-9]{2}" "$log" | grep -iE "error|warn|complete|finish|summary|rule" | head -20 || true
 
   if grep -qiE "expired|CLI\.3\.17|IqException|Expiration date check" "$log"; then

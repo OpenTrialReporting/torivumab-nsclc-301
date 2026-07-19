@@ -402,8 +402,9 @@ SD0007** DA standard-units warning; the rest (~108) are low-severity (cosmetic
 order, Expected-var notes, synthetic date artifacts). Full register +
 accepted-limitations in
 [`qc/p21-reports/PHASE2-REMEDIATION.md`](qc/p21-reports/PHASE2-REMEDIATION.md).
-ADaM pipeline re-run for the `RFSTDTC` cascade; ADaM CLI validation still needs
-config tuning (spurious SD1005). Re-run: `qc/run_p21.sh sdtm --build`.
+ADaM pipeline re-run for the `RFSTDTC` cascade; ADaM CLI validated at **10,931**
+(spurious cross-standard SD1005 auto-suppressed by `run_p21.sh`). Re-run:
+`qc/run_p21.sh both --build`.
 
 ---
 

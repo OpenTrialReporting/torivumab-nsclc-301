@@ -52,11 +52,15 @@ Re-run any time with: `qc/run_p21.sh sdtm --build`
 head-less; `qc/p21_summary.R` prints true per-rule Found totals. Reports land in
 `qc/p21-reports/pinnacle21-cli-<stamp>-<std>.xlsx`.
 
-**ADaM CLI caveat:** the ADaM run currently reports a spurious `SD1005 Invalid
-STUDYID` across every SDTM record (STUDYID is a valid constant, and the SDTM run
-does not flag it — a cross-standard CLI/config artifact, not a data defect). Use
-the desktop app for authoritative ADaM validation, or treat the SDTM CLI run as
-the reliable one until the ADaM invocation is tuned.
+**ADaM run — SD1005 handled.** When SDTM is loaded as supporting data inside an
+ADaM run, the SDTM cross-domain check `SD1005 Invalid STUDYID` (STUDYID must
+match DM) misfires and flags every non-DM SDTM record (~540K) even though the
+STUDYID is a valid constant that the standalone SDTM run passes cleanly.
+`run_p21.sh` works around this by temporarily deactivating SD1005 in the SDTM
+sub-config for the ADaM run only (restored immediately via a trap; the rule stays
+active for the SDTM run). ADaM result: **552,388 → 10,931 findings** — dominated
+by the accepted SD0007 linked-SDTM warning, with the ADaM datasets themselves
+essentially clean (no AD-rule findings). Traceability (ADSL↔DM etc.) still runs.
 
 ## Cascade
 
