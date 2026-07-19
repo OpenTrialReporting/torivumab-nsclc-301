@@ -71,7 +71,10 @@ adcm <- cm |>
         toupper(CMINDC) %in% c("SUBSEQUENT ANTI-CANCER THERAPY",
                                  "ANTINEOPLASTIC AGENTS"),
       "Y", "N"),
-    ANL01FL   = "Y"      # AVAL prohibited in OCCDS (P21 AD0252)
+    # ANL01FL (SAP §12.2): records in this dataset's analysis population.
+    # Concomitant medications are summarised on the SAFETY population.
+    # (No AVAL selection — AVAL is prohibited in OCCDS, P21 AD0252.)
+    ANL01FL   = if_else(SAFFL == "Y", "Y", NA_character_)
   ) |>
   arrange(USUBJID, CMSEQ) |>
   select(

@@ -106,6 +106,15 @@ adlb <- adlb |>
         AVAL <= 20 * ANRHI   ~ "3",
         TRUE                 ~ "4"
       ),
+      # CTCAE v5 "Alkaline phosphatase increased": >ULN-2.5x / >2.5-5x /
+      # >5-20x / >20x ULN
+      PARAMCD == "ALP" & !is.na(AVAL) & !is.na(ANRHI) ~ case_when(
+        AVAL <= ANRHI        ~ "0",
+        AVAL <= 2.5 * ANRHI  ~ "1",
+        AVAL <= 5   * ANRHI  ~ "2",
+        AVAL <= 20  * ANRHI  ~ "3",
+        TRUE                 ~ "4"
+      ),
       PARAMCD == "BILI" & !is.na(AVAL) & !is.na(ANRHI) ~ case_when(
         AVAL <= ANRHI        ~ "0",
         AVAL <= 1.5 * ANRHI  ~ "1",

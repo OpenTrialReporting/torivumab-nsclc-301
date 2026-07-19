@@ -33,7 +33,9 @@ addv <- dv |>
     ADT     = as.Date(DVSTDTC),
     ADY     = study_day(ADT, RANDDT),
     DVSEV   = DVCAT,   # MAJOR / MINOR
-    ANL01FL = "Y"
+    # ANL01FL (SAP §12.2): records in this dataset's analysis population.
+    # Protocol deviations are summarised on all randomised subjects.
+    ANL01FL = if_else(ITTFL == "Y", "Y", NA_character_)
   ) |>
   arrange(USUBJID, DVSEQ) |>
   select(

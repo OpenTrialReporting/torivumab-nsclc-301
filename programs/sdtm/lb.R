@@ -56,7 +56,8 @@ raw <- raw |>
                        "SODIUM", str_to_upper(str_trim(TEST_CODE))),
     # CDISC LBTEST submission values keyed by LBTESTCD (P21 CT2002 + CT2003 pair)
     LBTEST   = dplyr::recode(LBTESTCD,
-                 ALB = "Albumin", ALT = "Alanine Aminotransferase",
+                 ALB = "Albumin", ALP = "Alkaline Phosphatase",
+                 ALT = "Alanine Aminotransferase",
                  AST = "Aspartate Aminotransferase", BILI = "Bilirubin",
                  CREAT = "Creatinine", HGB = "Hemoglobin", K = "Potassium",
                  NEUT = "Neutrophils", PLAT = "Platelets", SODIUM = "Sodium",

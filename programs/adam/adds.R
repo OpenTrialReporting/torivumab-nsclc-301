@@ -41,7 +41,9 @@ adds <- ds |>
       TRUE                                                                    ~ "Other"
     ),
     EOTFL    = if_else(DSCATGY %in% c("Completed", "Discontinued"), "Y", "N"),
-    ANL01FL  = "Y"
+    # ANL01FL (SAP §12.2): records in this dataset's analysis population.
+    # Disposition is summarised on all randomised subjects.
+    ANL01FL  = if_else(ITTFL == "Y", "Y", NA_character_)
   ) |>
   arrange(USUBJID, DSSEQ) |>
   select(

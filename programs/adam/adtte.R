@@ -254,7 +254,9 @@ adtte_ttr   <- add_aval(adtte_ttr,   "TRTSDT")
 # 8. Stack, flag, select
 adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_pfsinv,
                      adtte_dor, adtte_ttr) |>
-  mutate(ANL01FL = "Y") |>
+  # ANL01FL (SAP §12.2): records in this dataset's analysis population.
+  # Time-to-event endpoints are analysed on the ITT population.
+  mutate(ANL01FL = if_else(ITTFL == "Y", "Y", NA_character_)) |>
   select(
     STUDYID, USUBJID,
     SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,

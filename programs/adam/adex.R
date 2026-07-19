@@ -42,7 +42,7 @@ ex_admin <- ex |>
     ADT      = as.Date(EXSTDTC),
     ADY      = study_day(ADT, TRTSDT),
     AEXTRT   = EXTRT,
-    ANL01FL  = "Y"
+    ANL01FL  = if_else(SAFFL == "Y", "Y", NA_character_)
   ) |>
   arrange(USUBJID, AEXTRT, ADT) |>
   group_by(USUBJID, AEXTRT) |>
@@ -77,7 +77,7 @@ ex_cumdose <- ex_admin |>
     AEXSEQ   = NA_integer_,
     VISIT    = NA_character_,
     VISITNUM = NA_real_,
-    ANL01FL  = "Y"
+    ANL01FL  = if_else(SAFFL == "Y", "Y", NA_character_)
   ) |>
   select(STUDYID, USUBJID, SUBJID, SITEID,
          SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
@@ -126,7 +126,7 @@ ex_rdi <- planned_cum |>
     NCYCLE   = n_admin,
     VISIT    = NA_character_,
     VISITNUM = NA_real_,
-    ANL01FL  = "Y"
+    ANL01FL  = if_else(SAFFL == "Y", "Y", NA_character_)
   ) |>
   select(STUDYID, USUBJID, SUBJID, SITEID,
          SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,

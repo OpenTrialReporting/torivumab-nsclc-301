@@ -40,7 +40,9 @@ admh <- mh |>
     ONGOFL     = if_else(MHENRTPT == "ONGOING", "Y", "N"),
     # PRIORFL — resolved before study (predates randomisation and has end date)
     PRIORFL    = if_else(MHENRTPT == "BEFORE", "Y", "N"),
-    ANL01FL    = "Y"
+    # ANL01FL (SAP §12.2): records in this dataset's analysis population.
+    # Medical history is a baseline characteristic — all randomised subjects.
+    ANL01FL    = if_else(ITTFL == "Y", "Y", NA_character_)
   ) |>
   arrange(USUBJID, MHSEQ) |>
   select(

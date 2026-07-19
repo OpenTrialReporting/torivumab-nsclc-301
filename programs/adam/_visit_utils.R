@@ -150,6 +150,11 @@ apply_baseline_visit <- function(df) {
 # than one row per visit — ADTR is one row per LESION per visit, so it passes
 # LNKID; without it only one lesion per visit would be flagged.
 # Requires USUBJID, <param>, AVISIT, ADY, ATPTREF, ADT; returns "Y"/NA per row.
+# Non-by-visit datasets (OCCDS: ADAE/ADCM/ADDS/ADDV/ADMH, plus ADEX/ADTTE) do not
+# use this helper — there is no analysis visit to de-duplicate, so every record in
+# the dataset's analysis population is flagged. They apply the same DEFINITION of
+# ANL01FL ("the records selected for this dataset's primary analysis") via an
+# explicit population predicate rather than a bare "Y" (SAP §12.2).
 flag_anl01 <- function(df, param = "PARAMCD", eligible = !is.na(df$AVAL),
                        extra_key = NULL) {
   n  <- nrow(df)

@@ -67,7 +67,7 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 
 **Unscheduled visits:** off-schedule assessments (SDTM `VISIT="UNSCHEDULED"`, `VISITNUM=998` — e.g. an off-schedule recheck of an abnormal safety lab) are windowed by `ADY` to the nearest scheduled analysis visit (SAP §12.2); `ANL01FL` selects the record closest to the visit target, so an unscheduled recheck becomes the analysis record only when the scheduled draw is missing. The collected `VISIT` is retained for traceability, and unscheduled records still contribute to worst-post-baseline analyses (T-LB-01/02).
 
-**ATOXGR:** NCI CTCAE v5 grading applied to haematology (haemoglobin, neutrophils, platelets, lymphocytes) and chemistry (ALT, AST, bilirubin, creatinine, alkaline phosphatase) panels. Uses `admiral::derive_var_atoxgr_dir()`. CTCAE thresholds stored in a reference codelist (to be loaded via `metacore`).
+**ATOXGR:** NCI CTCAE v5 grading applied to haematology (haemoglobin, neutrophils, platelets, lymphocytes) and chemistry (ALT, AST, bilirubin, creatinine, alkaline phosphatase) panels. Implemented thresholds — `ALT`/`AST` >ULN-3x / >3-5x / >5-20x / >20x; `ALP` >ULN-2.5x / >2.5-5x / >5-20x / >20x; `BILI` >ULN-1.5x / >1.5-3x / >3-10x / >10x; `CREAT` >ULN-1.5x / >1.5-3x / >3-6x / >6x; `HGB` (g/dL) <LLN-10.0 / <10.0-8.0 / <8.0; `NEUT` low-direction per CTCAE. Uses `admiral::derive_var_atoxgr_dir()`. CTCAE thresholds stored in a reference codelist (to be loaded via `metacore`).
 
 **No LOCF:** Per SAP §7 (SAP-D decision on missing data) — no last-observation-carried-forward imputation. DTYPE is not set to "LOCF".
 

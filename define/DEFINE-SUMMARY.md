@@ -17,7 +17,7 @@
 | DS | EVENTS | 1,350 | 11 | One record per subject per disposition event |
 | DV | EVENTS | 337 | 10 | One record per subject per protocol deviation |
 | EX | INTERVENTIONS | 13,403 | 16 | One record per subject per administration |
-| LB | FINDINGS | 124,751 | 24 | One record per subject per lab test per visit |
+| LB | FINDINGS | 136,242 | 24 | One record per subject per lab test per visit |
 | MH | EVENTS | 2,061 | 13 | One record per subject per medical history event |
 | PE | FINDINGS | 25,596 | 14 | One record per subject per body system per visit |
 | RELREC | RELATIONSHIP | 12,831 | 7 | One record per related record |
@@ -27,7 +27,7 @@
 | SUPPAE | RELATIONSHIP | 11,360 | 10 | One record per parent record per qualifier |
 | SUPPCM | RELATIONSHIP | 4,516 | 10 | One record per parent record per qualifier |
 | SUPPDM | RELATIONSHIP | 1,799 | 10 | One record per subject per qualifier |
-| SUPPLB | RELATIONSHIP | 249,502 | 10 | One record per parent record per qualifier |
+| SUPPLB | RELATIONSHIP | 272,484 | 10 | One record per parent record per qualifier |
 | SUPPSU | RELATIONSHIP | 450 | 10 | One record per parent record per qualifier |
 | TA | TRIAL DESIGN | 6 | 10 | One record per planned element per arm |
 | TE | TRIAL DESIGN | 3 | 7 | One record per planned element |
@@ -40,7 +40,7 @@
 | ADDS | OCCURRENCE DATA STRUCTURE | 1,350 | 24 | One record per subject per disposition event |
 | ADDV | OCCURRENCE DATA STRUCTURE | 337 | 23 | One record per subject per protocol deviation |
 | ADEX | BASIC DATA STRUCTURE | 16,097 | 27 | One record per subject per drug per administration or summary parameter |
-| ADLB | BASIC DATA STRUCTURE | 124,751 | 37 | One record per subject per parameter per analysis timepoint |
+| ADLB | BASIC DATA STRUCTURE | 136,242 | 37 | One record per subject per parameter per analysis timepoint |
 | ADMH | OCCURRENCE DATA STRUCTURE | 2,061 | 23 | One record per subject per medical history condition |
 | ADRS | BASIC DATA STRUCTURE | 3,569 | 21 | One record per subject per parameter per analysis timepoint |
 | ADSL | SUBJECT LEVEL ANALYSIS DATASET | 450 | 33 | One record per subject |

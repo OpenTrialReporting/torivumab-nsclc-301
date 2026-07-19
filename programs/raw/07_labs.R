@@ -217,6 +217,47 @@ if (length(uns_rows)) {
 if (!is.null(.rng_state)) assign(".Random.seed", .rng_state, envir = .GlobalEnv)
 message("  Unscheduled recheck rows added: ", length(uns_rows))
 
+# ---------------------------------------------------------------------------
+# Alkaline phosphatase (ALP) — chemistry-panel liver/bone marker, added to the
+# panel after the original simulation. Collected at every scheduled visit that
+# already has chemistry (not at the single-test unscheduled rechecks). Generated
+# in a dedicated RNG stream and appended, so every previously simulated lab value
+# — and every downstream raw program — stays byte-for-byte unchanged.
+# ---------------------------------------------------------------------------
+.rng_state_alp <- if (exists(".Random.seed", envir = .GlobalEnv)) get(".Random.seed", envir = .GlobalEnv) else NULL
+set.seed(20260709)
+alp_spec <- list(name = "Alkaline phosphatase", unit = "U/L",
+                 lo = 40, hi = 130, mu = 85, sd = 25)
+alp_visits <- unique(labs[labs$VISIT_NAME != "UNSCHEDULED",
+                          c("SUBJECT_ID", "VISIT_NAME", "VISIT_DATE")])
+.m   <- nrow(alp_visits)
+.val <- rnorm(.m, alp_spec$mu, alp_spec$sd)
+# ~8% cholestatic / bone-metastatic elevation (1.2-3.5x ULN) so the panel carries
+# a realistic spread of CTCAE-gradable ALP abnormalities.
+.el <- runif(.m) < 0.08
+.val[.el] <- alp_spec$hi * runif(sum(.el), 1.2, 3.5)
+.val <- round(pmax(15, .val))
+alp_rows <- data.frame(
+  SUBJECT_ID    = alp_visits$SUBJECT_ID,
+  VISIT_NAME    = alp_visits$VISIT_NAME,
+  VISIT_DATE    = alp_visits$VISIT_DATE,
+  TEST_CODE     = "ALP",
+  TEST_NAME     = alp_spec$name,
+  RESULT_VALUE  = .val,
+  RESULT_UNIT   = alp_spec$unit,
+  LOWER_NORMAL  = alp_spec$lo,
+  UPPER_NORMAL  = alp_spec$hi,
+  ABNORMAL_FLAG = ifelse(.val < alp_spec$lo, "L",
+                         ifelse(.val > alp_spec$hi, "H", "N")),
+  stringsAsFactors = FALSE
+)
+labs <- rbind(labs, alp_rows)
+labs <- labs[order(labs$SUBJECT_ID, as.Date(labs$VISIT_DATE)), ]
+row.names(labs) <- NULL
+if (!is.null(.rng_state_alp)) assign(".Random.seed", .rng_state_alp, envir = .GlobalEnv)
+message("  ALP rows added: ", nrow(alp_rows),
+        " (H=", sum(alp_rows$ABNORMAL_FLAG == "H"), ")")
+
 assign("labs", labs, envir = .GlobalEnv)
 
 write.csv(labs,

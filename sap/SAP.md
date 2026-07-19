@@ -406,9 +406,25 @@ By-visit summaries filter `ANL01FL = 'Y'`. The baseline flag `ABLFL` (§12.3) is
 derived from the date rather than the window, and identifies the single baseline
 record within the `Baseline` (`AVISITN = 0`) analysis visit.
 
-`ANL01FL` in the **OCCDS** datasets (ADAE, ADCM, ADDS, ADDV, ADMH) and in ADEX /
-ADTTE is a different concept — an occurrence/population flag rather than a
-per-visit record selection — and is set per those datasets' own specifications.
+**Non-by-visit datasets.** `ANL01FL` carries the **same definition** everywhere —
+*the records selected for that dataset's primary analysis*. In the OCCDS datasets
+(ADAE, ADCM, ADDS, ADDV, ADMH) and in ADEX / ADTTE there is no analysis visit to
+de-duplicate, so every record in the dataset's **analysis population** is flagged.
+Each states that population explicitly rather than assigning a bare `"Y"`:
+
+| Dataset | `ANL01FL = 'Y'` when | Population |
+|---|---|---|
+| ADAE | `TRTEMFL = 'Y'` and `SAFFL = 'Y'` | Safety, treatment-emergent |
+| ADCM | `SAFFL = 'Y'` | Safety |
+| ADEX | `SAFFL = 'Y'` | Safety |
+| ADMH | `ITTFL = 'Y'` | All randomised (baseline characteristic) |
+| ADDS | `ITTFL = 'Y'` | All randomised |
+| ADDV | `ITTFL = 'Y'` | All randomised |
+| ADTTE | `ITTFL = 'Y'` | ITT (efficacy) |
+
+So the flag never means "every row in the file": it always identifies the analysis
+set, whether that is one record per visit (above) or one population of records
+(here).
 
 The derivation is implemented once in `programs/adam/_visit_utils.R`
 (`derive_avisit_windowed()` for `AVISIT`/`AVISITN`, `flag_anl01()` for the

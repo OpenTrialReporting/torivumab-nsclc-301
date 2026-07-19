@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719221839"
-     CreationDateTime="2026-07-19T22:18:31"
-     AsOfDateTime="2026-07-19T22:18:31"
+     FileOID="CTX-NSCLC-301.20260719224433"
+     CreationDateTime="2026-07-19T22:44:25"
+     AsOfDateTime="2026-07-19T22:44:25"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -3337,7 +3337,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Analysis Flag 01</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Flag 01 (analysis record per vi</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADRS.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="18">
@@ -3581,7 +3581,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Analysis Flag 01</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Flag 01 (analysis record per vi</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.LNKID" Name="LNKID" SASFieldName="LNKID" DataType="text" Length="8">
