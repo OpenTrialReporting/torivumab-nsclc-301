@@ -28,8 +28,11 @@ add_bounds <- function(df, stream) {
 # Q3W cadence: CnD1 nominal day = 1 + (n-1)*21; MAINT_CmD1 continues (cycle 6+m).
 # Maintenance runs to at least cycle 42 in the data; cover 50 with margin.
 n_maint <- 50L
+# The pre-treatment window (AVISITN 0) is the baseline analysis visit — labelled
+# "Baseline" per CDISC ADaM convention (ADaMIG BDS examples / ADaM Pilot); the
+# ABLFL='Y' record (last value on/before first dose, SAP §12.3) falls in it.
 trt <- data.frame(
-  AVISIT    = c("SCREENING", "C1D1", "C1D15",
+  AVISIT    = c("Baseline", "C1D1", "C1D15",
                 paste0("C", 2:6, "D1"),
                 paste0("MAINT_C", 1:n_maint, "D1")),
   AVISITN   = c(0L, 1L, 2L, 3:7, 9L + (1:n_maint)),
@@ -42,7 +45,7 @@ trt <- data.frame(
 # ---- TUMOUR stream: BASELINE + RECIST assessments (labels are Q6W multiples) ---
 wks <- seq(6, 120, 6)
 tum <- data.frame(
-  AVISIT    = c("BASELINE", paste0("TUMOR_ASSESS_WK", wks)),
+  AVISIT    = c("Baseline", paste0("TUMOR_ASSESS_WK", wks)),
   AVISITN   = c(0L, as.integer(wks)),
   TARGET_DY = c(-14, wks * 7),
   stringsAsFactors = FALSE

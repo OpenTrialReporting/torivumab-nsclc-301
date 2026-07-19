@@ -64,7 +64,7 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 | 19 | VISIT | Visit Name | Char | 40 | Predecessor | — | `VS.VISIT` (retained for traceability) |
 | 20 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `VS.VISITNUM` |
 | 21 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, VISITNUM, "TREATMENT")`: nearest scheduled visit by `ADY` (SAP §12.2 window reference); `EOT`/follow-up kept by collected role |
-| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (SDTM VISITNUM scheme: SCREENING 0, `C1D1…C6D1` 1…7, `MAINT_CnD1` 9+n, `TUMOR_ASSESS_WKn` n, EOT/FU 900/901/902) — SAP §12.2 |
+| 22 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (SDTM VISITNUM scheme: `Baseline` 0, `C1D1…C6D1` 1…7, `MAINT_CnD1` 9+n, `TUMOR_ASSESS_WKn` n, EOT/FU 900/901/902) — SAP §12.2 |
 | 23 | AVAL | Analysis Value | Num | 8 | Derived | — | `VS.VSSTRESN` |
 | 24 | AVALC | Analysis Value (Char) | Char | 40 | Derived | — | `VS.VSSTRESC` |
 | 25 | AVALU | Analysis Value Unit | Char | 10 | Derived | — | `VS.VSSTRESU` |
@@ -78,14 +78,23 @@ ADVS supports the vital-signs summary by visit (T-VS-01) and the change-from-bas
 
 ### D1 — ABLFL (baseline-record flag)
 
-**Rule:** `"Y"` if the record is at a screening or Cycle 1 Day 1 visit AND occurs on or before the first dose; otherwise NA (left blank to align with ADaM convention for baseline flags).
+**Rule:** `"Y"` on the **last non-missing analysis value on or before the first
+dose date** (`ADT ≤ TRTSDT`), taken per `(USUBJID, PARAMCD)` with ties broken by
+the SDTM sequence (`VSSEQ`); otherwise NA. The selection is **date-based, not
+visit-restricted** — the baseline is whichever value is last before treatment,
+regardless of the collected visit. Exactly one baseline per subject × parameter
+(P21 AD0154); if no pre-treatment value exists, `ABLFL` is left null and the
+subject is excluded from CHG/PCHG. `ABLFL = "Y"` records carry
+`AVISIT = "Baseline"`, `AVISITN = 0` (SAP §12.3).
 
 **Pseudocode:**
 ```r
-ABLFL = if_else(
-  AVISIT %in% c("SCREENING", "SCR", "C1D1") & ADT <= TRTSDT,
-  "Y", NA_character_
-)
+advs %>%
+  group_by(USUBJID, PARAMCD) %>%
+  arrange(ADT, VSSEQ) %>%
+  mutate(.pre  = !is.na(AVAL) & ADT <= TRTSDT,
+         ABLFL = if_else(.pre & cumsum(.pre) == sum(.pre) & sum(.pre) > 0L,
+                         "Y", NA_character_))
 ```
 
 ### D2 — BASE (baseline value)

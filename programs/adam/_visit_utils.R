@@ -44,7 +44,7 @@ derive_avisitn <- function(avisit, visitnum) {
   out <- dplyr::case_when(
     !is.na(vn)                               ~ vn,
     is.na(av)                                ~ NA_real_,
-    av == "BASELINE"                         ~ 0,
+    toupper(av) == "BASELINE"                ~ 0,
     grepl("^MAINT_C[0-9]+D1$", av)           ~ 9 + num_from("^MAINT_C([0-9]+)D1$", av),
     grepl("^TUMOR_ASSESS_WK[0-9]+$", av)     ~ num_from("^TUMOR_ASSESS_WK([0-9]+)$", av),
     TRUE                                     ~ NA_real_
@@ -102,14 +102,36 @@ derive_avisit_windowed <- function(ady, collected_visit, visitnum, stream) {
   avisit[is_evt]  <- cv[is_evt]
   avisitn[is_evt] <- vn[is_evt]
   target[is_evt]  <- NA_real_
-  # records with no ADY cannot be windowed -> fall back to collected label
+  # Records with no ADY cannot be windowed (e.g. an untreated subject has no
+  # TRTSDT) -> fall back to the collected visit's SDTM VISITNUM. Re-express the
+  # label in the ANALYSIS vocabulary where the scheme defines one for that number
+  # (VISITNUM 0 -> "Baseline", 1 -> "C1D1", ...), so a given AVISITN always
+  # carries exactly one AVISIT string; otherwise keep the collected label.
   na_d <- is.na(d) & !is_evt & !is_sl
-  avisit[na_d]  <- cv[na_d]
   avisitn[na_d] <- vn[na_d]
+  .lbl <- w$AVISIT[match(vn[na_d], w$AVISITN)]
+  avisit[na_d]  <- ifelse(is.na(.lbl), cv[na_d], .lbl)
   target[na_d]  <- NA_real_
 
   data.frame(AVISIT = avisit, AVISITN = as.integer(avisitn),
              ATPTREF = as.numeric(target), stringsAsFactors = FALSE)
+}
+
+# -----------------------------------------------------------------------------
+# Baseline analysis visit (SAP §12.3)
+# -----------------------------------------------------------------------------
+# Per CDISC ADaM convention the baseline record carries the baseline analysis
+# visit: AVISIT = "Baseline", AVISITN = 0. Day-windowing alone cannot guarantee
+# this — baseline is the last value on/before first dose, and a Cycle 1 Day 1
+# pre-dose draw has ADY ~ 0, so it windows to C1D1 rather than the pre-treatment
+# window. The ABLFL='Y' record is therefore relabelled explicitly, AFTER the
+# baseline flag is derived and BEFORE ANL01FL is selected. Requires ABLFL,
+# AVISIT, AVISITN.
+apply_baseline_visit <- function(df) {
+  is_bl <- !is.na(df$ABLFL) & df$ABLFL == "Y"
+  df$AVISIT[is_bl]  <- "Baseline"
+  df$AVISITN[is_bl] <- 0L
+  df
 }
 
 # One analysis record per subject x parameter x analysis visit: the record
@@ -126,7 +148,14 @@ flag_anl01 <- function(df, param = "PARAMCD", eligible = !is.na(df$AVAL)) {
   key  <- paste(sub$USUBJID, sub[[param]], sub$AVISIT, sep = "\r")
   dist <- ifelse(is.na(sub$ATPTREF), 0, abs(as.numeric(sub$ADY) - sub$ATPTREF))
   adt  <- as.numeric(as.Date(sub$ADT))
-  ord  <- order(key, dist, -adt, seq_along(key))   # per key: nearest, then latest
+  # Within the Baseline visit the analysis record is the baseline record itself
+  # (ABLFL='Y'), not merely the one nearest the nominal target day — so BASE and
+  # the AVISIT="Baseline" analysis value agree (SAP §12.3).
+  bl_pref <- rep(1L, nrow(sub))
+  if (!is.null(sub$ABLFL)) {
+    bl_pref[sub$AVISIT == "Baseline" & !is.na(sub$ABLFL) & sub$ABLFL == "Y"] <- 0L
+  }
+  ord  <- order(key, bl_pref, dist, -adt, seq_along(key))  # baseline, then nearest/latest
   chosen <- !duplicated(key[ord])                  # first row per key in this order
   fl[keep[ord[chosen]]] <- "Y"
   fl

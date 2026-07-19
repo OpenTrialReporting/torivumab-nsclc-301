@@ -120,15 +120,17 @@ adtr <- adtr |>
   )
 
 # 11. Select final variables
-#    AVISIT = analysis visit (BASELINE / TUMOR_ASSESS_WKn). VISITNUM is dropped:
+#    AVISIT = analysis visit (Baseline / TUMOR_ASSESS_WKn). VISITNUM is dropped:
 #    SDTM.TR did not collect it (100% NA); AVISITN carries the numeric ordering.
 # Analysis-visit windowing (SAP §12.2, TUMOUR stream): tumour-result records map
-# to their nearest RECIST assessment by ADY. BASELINE/TUMOR_ASSESS_WKn reproduce
+# to their nearest RECIST assessment by ADY. Baseline/TUMOR_ASSESS_WKn reproduce
 # their nominal week (no windowing dups); ANL01FL is unchanged.
 .win <- derive_avisit_windowed(adtr$ADY, adtr$VISIT,
                                rep(NA_integer_, nrow(adtr)), "TUMOUR")
 adtr$AVISIT  <- .win$AVISIT
 adtr$AVISITN <- .win$AVISITN
+# The ABLFL='Y' record is the baseline analysis visit (SAP §12.3).
+adtr <- apply_baseline_visit(adtr)
 adtr <- adtr |>
   select(
     STUDYID, USUBJID,

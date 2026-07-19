@@ -71,6 +71,11 @@ advs <- advs |>
     CHG      = AVAL - BASE,
     PCHG     = if_else(!is.na(BASE) & BASE != 0, 100 * (AVAL - BASE) / BASE, NA_real_)
   )
+# Baseline analysis visit — the ABLFL='Y' record is the baseline visit
+# (AVISIT="Baseline", AVISITN=0) per CDISC ADaM convention, regardless of the
+# window its ADY falls in (a C1D1 pre-dose reading windows to C1D1). SAP §12.3.
+advs <- apply_baseline_visit(advs)
+
 # ANL01FL: one record per USUBJID x PARAMCD x AVISIT, closest to visit target
 # (ties -> later ADT), so windowed records are not double-counted (SAP §12.2).
 advs$ANL01FL <- flag_anl01(advs, "PARAMCD")

@@ -42,7 +42,7 @@ ADTR is an intermediate oncology BDS dataset that derives per-visit Sum of Longe
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | "SDIAM" (per CDISC RECIST 1.1 supplement) |
 | 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `TR.VISIT` (BASELINE / TUMOR_ASSESS_WKn). Retained for traceability; SDTM `VISITNUM` dropped — TR did not collect it (100% null) |
 | 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, ., "TUMOUR")`: nearest RECIST assessment by `ADY` (SAP §12.2 window reference) |
-| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (BASELINE 0, `TUMOR_ASSESS_WKn` n) — SAP §12.2 |
+| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (`Baseline` 0, `TUMOR_ASSESS_WKn` n) — SAP §12.2 |
 | 14 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(TR.TRDTC)` |
 | 15 | AVAL | Analysis Value (SLD, mm) | Num | 8 | Derived | — | Sum of `TR.TRSTRESN` for TRTESTCD = "LDIAM" and TRGRPID = "TARGET" per visit |
 | 16 | ABLFL | Baseline Record Flag | Char | 1 | Derived | NY | Last non-missing SLD on or before TRTSDT |
@@ -56,7 +56,7 @@ ADTR is an intermediate oncology BDS dataset that derives per-visit Sum of Longe
 
 **SLD computation:** Sum of `TR.TRSTRESN` (longest diameter in mm) across all target lesions (TRGRPID = "TARGET", TRTESTCD = "LDIAM") at each visit. A subject must have ≥1 measurable target lesion at baseline per RECIST 1.1. Visits with missing measurements for any lesion are handled per SAP §4.3 (partial SLD documented with note).
 
-**Baseline:** Last assessment on or before TRTSDT with at least one measurable target lesion. Naïve screen failures without a post-randomisation assessment are retained with ABLFL = NA.
+**Baseline (SAP §12.3):** the last SLD assessment on or before TRTSDT (`ADT ≤ TRTSDT`) with at least one measurable target lesion — date-based, not visit-restricted. The `ABLFL = "Y"` record carries `AVISIT = "Baseline"`, `AVISITN = 0`. Naïve screen failures without a post-randomisation assessment are retained with ABLFL = NA.
 
 **Nadir:** Minimum post-baseline SLD across all on-treatment visits. Used in waterfall figure (best % change = (min(AVAL) − BASE) / BASE × 100) and as denominator in RECIST response thresholds.
 

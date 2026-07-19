@@ -59,11 +59,11 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 28 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01()`: `"Y"` on the record closest to the visit target day per `USUBJID × PARAMCD × AVISIT` (ties → later `ADT`; missing `AVAL` never selected) — one analysis record per windowed visit (SAP §12.2) |
 | 29 | DTYPE | Derivation Type | Char | 8 | Derived | — | NA for observed records; "LOCF" etc. if imputation used (none planned per SAP-D) |
 | 30 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, VISITNUM, "TREATMENT")`: nearest scheduled visit by `ADY` (SAP §12.2 window reference); `EOT`/follow-up kept by collected role |
-| 31 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (SDTM VISITNUM scheme: SCREENING 0, `C1D1…C6D1` 1…7, `MAINT_CnD1` 9+n, `TUMOR_ASSESS_WKn` n, EOT/FU 900/901/902) — SAP §12.2 |
+| 31 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (SDTM VISITNUM scheme: `Baseline` 0, `C1D1…C6D1` 1…7, `MAINT_CnD1` 9+n, `TUMOR_ASSESS_WKn` n, EOT/FU 900/901/902) — SAP §12.2 |
 
 ## Key Derivation Notes
 
-**Baseline definition:** Last non-missing assessment on or before TRTSDT. If no pre-treatment assessment exists, ABLFL is not assigned. Subjects without a baseline are still retained in ADLB but excluded from CHG/PCHG analyses.
+**Baseline definition (SAP §12.3):** the last non-missing assessment on or before TRTSDT (`ADT ≤ TRTSDT`), per `USUBJID × PARAMCD`, ties broken by `LBSEQ` — date-based, not visit-restricted (the baseline may be a Screening or a C1D1 pre-dose draw). Exactly one baseline per subject × parameter (P21 AD0154); the `ABLFL = "Y"` record carries `AVISIT = "Baseline"`, `AVISITN = 0`. If no pre-treatment assessment exists, ABLFL is not assigned and the subject is retained but excluded from CHG/PCHG.
 
 **Unscheduled visits:** off-schedule assessments (SDTM `VISIT="UNSCHEDULED"`, `VISITNUM=998` — e.g. an off-schedule recheck of an abnormal safety lab) are windowed by `ADY` to the nearest scheduled analysis visit (SAP §12.2); `ANL01FL` selects the record closest to the visit target, so an unscheduled recheck becomes the analysis record only when the scheduled draw is missing. The collected `VISIT` is retained for traceability, and unscheduled records still contribute to worst-post-baseline analyses (T-LB-01/02).
 

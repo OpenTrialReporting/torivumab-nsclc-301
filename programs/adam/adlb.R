@@ -83,6 +83,11 @@ adlb <- adlb |>
   derive_var_chg() |>
   derive_var_pchg()
 
+# 6b. Baseline analysis visit — the ABLFL='Y' record is the baseline visit
+# (AVISIT="Baseline", AVISITN=0) per CDISC ADaM convention, regardless of the
+# window its ADY falls in (a C1D1 pre-dose draw windows to C1D1). SAP §12.3.
+adlb <- apply_baseline_visit(adlb)
+
 # 7. Analysis flags — ANL01FL selects one record per USUBJID x PARAMCD x AVISIT,
 # the one closest to the visit target day (ties -> later ADT), so a value that
 # windowed into a visit alongside the scheduled draw is not double-counted

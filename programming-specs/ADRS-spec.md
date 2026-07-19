@@ -51,7 +51,7 @@ ADRS supports all tumour response analyses: ORR (T-EFF-05), DCR (T-EFF-06), BOR 
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OVR / BOR / CBOR / CBDCR |
 | 11 | VISIT | Visit Name | Char | 40 | Predecessor | — | `RS.VISIT` (NA for subject-level BOR/CBOR). Retained for traceability; SDTM `VISITNUM` dropped — RS did not collect it (100% null) |
 | 12 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, ., "TUMOUR")`: nearest RECIST assessment by `ADY` (SAP §12.2); NA for subject-level BOR/CBOR |
-| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (BASELINE 0, `TUMOR_ASSESS_WKn` n) — SAP §12.2 |
+| 13 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | Numeric key of the windowed `AVISIT` (`Baseline` 0, `TUMOR_ASSESS_WKn` n) — SAP §12.2 |
 | 14 | ADT | Analysis Date | Date | — | Derived | — | `admiral::derive_vars_dt(RS.RSDTC)` |
 | 15 | AVAL | Analysis Value (numeric) | Num | 8 | Derived | — | CR=1, PR=2, SD=3, PD=4, NE=5 (ordinal ranking) |
 | 16 | AVALC | Analysis Value (character) | Char | 8 | Derived | NRRESP | CR / PR / SD / PD / NE |
