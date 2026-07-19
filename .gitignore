@@ -16,6 +16,11 @@ renv/staging/
 .DS_Store
 Thumbs.db
 
+# Local env / credentials (machine paths, Pinnacle 21 API key). Template
+# qc/.env.example IS committed; the real .env is not.
+.env
+qc/.env
+
 # clinTrialData release asset (rebuildable from onco_phase3_solid/; maintainer
 # upload script re-zips anyway — the folder is committed, the zip is not).
 onco_phase3_solid.zip

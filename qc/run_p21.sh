@@ -15,11 +15,12 @@
 #   both   run SDTM then ADaM
 #   --build   regenerate xpt/ + define/define.xml first (build_xpt.R + build_define.R)
 #
-# Config (override via env if the install moves):
-#   P21_HOME    dir holding p21-client-*.jar + configs/   (Community "Documents" dir)
-#   P21_JAVA    path to the bundled Java 8 java.exe
-#   P21_ENGINE  engine/config version         (default 2508.1)
-#   P21_CT      CDISC SDTM CT version         (default 2026-03-27)
+# Config (set in qc/.env — git-ignored; copy qc/.env.example. Env vars win):
+#   P21_HOME     dir holding p21-client-*.jar + configs/  (Community "Documents" dir)
+#   P21_JAVA     path to the bundled Java 8 java.exe
+#   P21_ENGINE   engine/config version        (default 2508.1)
+#   P21_CT       CDISC SDTM CT version        (default 2026-03-27)
+#   P21_API_KEY  optional Pinnacle 21 Enterprise API key  (credential — .env only)
 #
 # Prereqs: Java 8 (bundled with Community). MedDRA/SNOMED dictionaries are not
 # installed, so those dictionary checks are skipped (structural MedDRA rules
@@ -29,10 +30,22 @@ set -euo pipefail
 
 PROJ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-P21_HOME="${P21_HOME:-${HOME}/OneDrive/Documents/Pinnacle 21 Community}"
+# Local machine config / credentials live in qc/.env (git-ignored — copy
+# qc/.env.example and fill in). Anything already set in the environment wins.
+if [[ -f "$PROJ/qc/.env" ]]; then
+  set -a; . "$PROJ/qc/.env"; set +a
+fi
+
+# Defaults resolve machine paths via $HOME so nothing user-specific is committed.
+_home="${HOME:-$USERPROFILE}"
+_default_p21_home="$_home/OneDrive/Documents/Pinnacle 21 Community"
+[[ -d "$_default_p21_home" ]] || _default_p21_home="$_home/Documents/Pinnacle 21 Community"
+
+P21_HOME="${P21_HOME:-$_default_p21_home}"
 P21_JAVA="${P21_JAVA:-/c/Program Files (x86)/Pinnacle 21 Community/resources/app.asar.unpacked/components/java64/bin/java.exe}"
 P21_ENGINE="${P21_ENGINE:-2508.1}"
 P21_CT="${P21_CT:-2026-03-27}"
+P21_API_KEY="${P21_API_KEY:-}"   # optional Enterprise API key (kept out of git)
 
 MODE="sdtm"
 BUILD=0
@@ -78,6 +91,8 @@ run_one() {
   echo ""
   echo "== Pinnacle 21 CLI: $std $ver (engine $P21_ENGINE, CT $P21_CT) =="
   [[ -f "$config_path" ]] || { echo "ERROR: rule config not found: $config_path" >&2; return 1; }
+  local extra=()
+  [[ -n "$P21_API_KEY" ]] && extra+=(--api.key="$P21_API_KEY")
   local log; log="$(mktemp)"
   ( cd "$P21_HOME" && "$P21_JAVA" -jar "$(basename "$JAR")" \
       --engine.version="$P21_ENGINE" \
@@ -88,6 +103,7 @@ run_one() {
       --source.define="$(w "$DEFINE")" \
       --report="$(w "$report")" \
       --report.cutoff=1000000 \
+      ${extra[@]+"${extra[@]}"} \
       "$@" 2>&1 ) > "$log" || true
   grep -viE "SLF4J|logback|Reflections|^[0-9]{2}:[0-9]{2}:[0-9]{2}" "$log" | grep -iE "error|warn|complete|finish|summary|rule" | head -20 || true
 
