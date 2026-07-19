@@ -52,6 +52,18 @@ as randomised-untreated and those three findings stay accepted. Populating
 (per-parameter reference-code checks) that cannot be satisfied for a synthetic
 investigational product (no real UNII/SNOMED codes).
 
+## Subsequent work — validated P21-neutral (2026-07-19)
+
+Three further changes landed after the Phase-3 cleanup. None moved the finding
+counts, which is the point of recording them here: the tail stayed clean while the
+datasets changed materially.
+
+| Change | P21 effect |
+|---|---|
+| **Baseline convention** — baseline selection specified (SAP §12.3: last non-missing value on/before first dose, date-based); the `ABLFL='Y'` record carries `AVISIT="Baseline"`, `AVISITN=0` | none |
+| **`ANL01FL` unified** across all 11 ADaM datasets to one definition (per-visit selection for windowed BDS; explicit `SAFFL`/`ITTFL` population elsewhere) | none |
+| **Alkaline phosphatase added** as a full analyte — 11,491 records through raw → SDTM (`LBTESTCD="ALP"`) → ADaM (CTCAE v5) → TFL | none — no new CT, order or conformance findings |
+
 ## Residual (18, low-severity) — accepted / documented
 
 **SDTM 10,891 across 9 rules · ADaM 10,890 across 8 rules** (engine 2508.1).

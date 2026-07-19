@@ -318,7 +318,7 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 out
 
 ## QC layer — Validation strategy + tooling + trackers ✅ IN PLACE
 
-**Status:** Strategy committed, tooling executable, GitHub issues #1–#9 open for execution. **Pinnacle 21 scans (Phases C + E) executed 2026-07-18 — SDTM ~590K→5.2K, ADaM 36,921→~0 findings (see remediation subsection below).**
+**Status:** Strategy committed, tooling executable, GitHub issues #1–#9 open for execution. **Pinnacle 21 scans (Phases C + E) first executed 2026-07-18; remediated and CLI-verified since — current validated state is SDTM 10,891 (9 rules) / ADaM 10,890 (8 rules), of which 10,873 is the accepted SD0007 DA-units warning and every remaining finding is a documented accepted limitation. See the remediation subsections below.**
 
 **Strategy:** [`qc/VALIDATION-PLAN.md`](qc/VALIDATION-PLAN.md) — 11-section SOP covering scope (raw → SDTM → ADaM → Define-XML → TFL), roles (primary / QC / reviewer), layered acceptance criteria, phased execution (15–22 working days), and 11 pre-loaded accepted limitations.
 
@@ -427,6 +427,49 @@ values graded every low HGB as Grade 4 → 3,356 spurious Grade-4 records remove
 L-LB-01 3,644 → 443 rows) and moved the **DD cause of death** to the standard
 `DDORRES`. P21 held at **SDTM 10,981 / ADaM 10,931** throughout; all 43 TFLs
 regenerate. Provenance in RAW/SDTM/ADaM/TFL-PROVENANCE change logs.
+
+### Phase-3 structural cleanup ✅ (2026-07-19, CLI-verified)
+
+Drove the low-severity tail down to nothing but accepted limitations.
+**SDTM 10,981 → 10,891 · ADaM 10,931 → 10,890** — 9 / 8 rules respectively, and
+*every* remaining non-SD0007 finding is documented as accepted.
+
+- **Variable order** aligned to the SDTMIG 3.4 sequence (`SDTM_ORDER` +
+  `apply_order()` in `16_label_domains.R`) — **SD1079** 32 → 0.
+- **AE/CM date integrity** — AE start/end clamped to the subject's
+  disposition-event date, subsequent-therapy start capped at last contact
+  (**SD0080/SD1202/SD1204** 37 → 0). Clamps applied to sampled *results*, never to
+  `sample()` arguments, so the RNG stream — and the rest of the simulated data —
+  is untouched.
+- **Expected variables** added: `EX.EXDOSFRM`, `LB.LBORNRLO/HI`, `LB.LBLOBXFL`,
+  `PE.PESTRESC`, `TR.TRORRESU/TRMETHOD/TREVAL/TRLOBXFL` (**SD0057** 17 → 8).
+- **Define split per standard** — `define/sdtm/define.xml` (SDTM-only) for the
+  SDTM run, combined `define/define.xml` for ADaM (**SD0061** 12 → 0).
+
+Two changes were **evaluated and reverted on evidence**: modelling the never-dosed
+subject as *ASSIGNED, NOT TREATED* (introduced SD1366/1373/1375/2237 + ADaM
+AD1011×60 — a net loss) and populating `TS.TSVALCD/TSVCDREF` (triggered the
+SD2240-series, unsatisfiable without real UNII/SNOMED codes for a synthetic drug).
+
+### Baseline convention, ANL01FL, and ALP ✅ (2026-07-19)
+
+- **Baseline selection is now specified** (SAP §12.3 + ADLB/ADVS/ADTR specs): the
+  last non-missing value on/before first dose (`ADT ≤ TRTSDT`), date-based rather
+  than visit-restricted. The `ABLFL='Y'` record carries `AVISIT="Baseline"`,
+  `AVISITN=0` per CDISC ADaM convention. Fixed a stale ADVS spec whose rule
+  claimed a visit-restricted baseline that never matched the implemented code.
+- **`ANL01FL` unified** across all 11 ADaM datasets to one definition — *the
+  records selected for that dataset's primary analysis*: one record per subject ×
+  parameter × [lesion] × visit for the windowed BDS datasets, and an explicit
+  analysis population (`SAFFL` / `ITTFL`) for the occurrence datasets, which
+  previously assigned a bare `"Y"`.
+- **Alkaline phosphatase added** as a full analyte (raw → SDTM → ADaM → TFL),
+  closing a spec-vs-data gap where `ADLB-spec.md` listed ALP in the CTCAE panel
+  but the analyte was never simulated. 11,491 records, CTCAE v5 graded; generated
+  in a dedicated RNG stream so `labs.csv` was the only raw file to change.
+
+P21 unchanged at **SDTM 10,891 / ADaM 10,890** across all of it; 43 TFLs
+regenerate (T-LB-01 now 12 parameters).
 
 ---
 
