@@ -553,7 +553,37 @@ summary_lines <- c(summary_lines, "",
   "- SDTMIG v3.4 (Final)",
   "- ADaMIG v1.3 (Final)",
   "- CDISC/NCI CT 2024-03-29 (SDTM + ADaM)",
+  "")
+
+# Accepted-limitation annotations, built from the comment registries so the
+# summary stays in sync with the def:CommentDef entries in define.xml.
+ann_targets <- list()
+for (nm in names(DEFINE_COMMENTS))
+  ann_targets[[DEFINE_COMMENTS[[nm]]$oid]] <-
+    c(ann_targets[[DEFINE_COMMENTS[[nm]]$oid]], nm)
+for (nm in names(DEFINE_DATASET_COMMENTS))
+  ann_targets[[DEFINE_DATASET_COMMENTS[[nm]]$oid]] <-
+    c(ann_targets[[DEFINE_DATASET_COMMENTS[[nm]]$oid]], paste0(nm, " (dataset)"))
+oid_text <- list()
+for (cc in c(DEFINE_COMMENTS, DEFINE_DATASET_COMMENTS)) oid_text[[cc$oid]] <- cc$text
+summary_lines <- c(summary_lines,
+  "## Accepted-limitation annotations (def:CommentDef)",
   "",
+  "Accepted Pinnacle 21 findings that have a natural home are documented in",
+  "`define.xml` via a `def:CommentDef` referenced from the variable/dataset below",
+  "(the comment documents the finding; it does not suppress it).",
+  "",
+  "| Comment OID | Finding(s) | Attached to |",
+  "|-------------|-----------|-------------|")
+for (o in names(ann_targets)) {
+  codes <- unique(unlist(regmatches(oid_text[[o]],
+                                    gregexpr("SD[0-9]{4}|CT[0-9]{4}", oid_text[[o]]))))
+  summary_lines <- c(summary_lines, sprintf("| `%s` | %s | %s |",
+    o, paste(codes, collapse = ", "),
+    paste0("`", paste(unique(ann_targets[[o]]), collapse = "`, `"), "`")))
+}
+
+summary_lines <- c(summary_lines, "",
   "## Known limitations (v0.1)",
   "",
   "- Codelist references stubbed; Value-Level Metadata not yet emitted.",

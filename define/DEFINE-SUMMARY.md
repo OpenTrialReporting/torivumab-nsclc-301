@@ -54,6 +54,24 @@
 - ADaMIG v1.3 (Final)
 - CDISC/NCI CT 2024-03-29 (SDTM + ADaM)
 
+## Accepted-limitation annotations (def:CommentDef)
+
+Accepted Pinnacle 21 findings that have a natural home are documented in
+`define.xml` via a `def:CommentDef` referenced from the variable/dataset below
+(the comment documents the finding; it does not suppress it).
+
+| Comment OID | Finding(s) | Attached to |
+|-------------|-----------|-------------|
+| `COM.DA.UNITS` | SD0007 | `DA.DASTRESU`, `DA.DAORRESU` |
+| `COM.CM.ATC` | SD0058 | `CM.CMATC` |
+| `COM.SU.PACKYR` | SD0058 | `SU.SUPACKYR` |
+| `COM.EX.VISIT` | SD1076 | `EX.VISIT`, `EX.VISITNUM` |
+| `COM.PE.CLSIG` | SD1076 | `PE.PECLSIG` |
+| `COM.DM.ARMNRS` | SD1149 | `DM.ARMNRS` |
+| `COM.DM.UNDOSED` | SD0070, SD1343 | `DM.RFXSTDTC` |
+| `COM.AE.DATES` | SD0080, SD1202, SD1204 | `AE.AESTDTC`, `AE.AEENDTC` |
+| `COM.SU.NOTIMING` | SD1299 | `SU (dataset)` |
+
 ## Known limitations (v0.1)
 
 - Codelist references stubbed; Value-Level Metadata not yet emitted.
