@@ -65,6 +65,8 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 
 **Baseline definition:** Last non-missing assessment on or before TRTSDT. If no pre-treatment assessment exists, ABLFL is not assigned. Subjects without a baseline are still retained in ADLB but excluded from CHG/PCHG analyses.
 
+**Unscheduled visits:** off-schedule assessments (SDTM `VISIT="UNSCHEDULED"`, `VISITNUM=998` — e.g. an off-schedule recheck of an abnormal safety lab) are windowed by `ADY` to the nearest scheduled analysis visit (SAP §12.2); `ANL01FL` selects the record closest to the visit target, so an unscheduled recheck becomes the analysis record only when the scheduled draw is missing. The collected `VISIT` is retained for traceability, and unscheduled records still contribute to worst-post-baseline analyses (T-LB-01/02).
+
 **ATOXGR:** NCI CTCAE v5 grading applied to haematology (haemoglobin, neutrophils, platelets, lymphocytes) and chemistry (ALT, AST, bilirubin, creatinine, alkaline phosphatase) panels. Uses `admiral::derive_var_atoxgr_dir()`. CTCAE thresholds stored in a reference codelist (to be loaded via `metacore`).
 
 **No LOCF:** Per SAP §7 (SAP-D decision on missing data) — no last-observation-carried-forward imputation. DTYPE is not set to "LOCF".

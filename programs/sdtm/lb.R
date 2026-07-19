@@ -34,6 +34,7 @@ get_visitnum <- function(visit_name) {
   n <- as.integer(visit_map[v])
   # Unique, complete VISITNUM for visits absent from visit_map (P21 SD0051):
   n[is.na(n) & v == "BASELINE"] <- 0L
+  n[is.na(n) & v == "UNSCHEDULED"] <- 998L           # single UNSCHEDULED<->998 bijection
   m <- is.na(n) & grepl("^MAINT_C[0-9]+D1$", v)      # maintenance cycles -> 9 + cycle
   n[m] <- 9L + as.integer(sub("D1$", "", sub("^MAINT_C", "", v[m])))
   w <- is.na(n) & grepl("ASSESS_WK[0-9]+$", v)       # tumour assessments -> week number

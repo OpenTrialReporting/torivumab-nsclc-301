@@ -83,10 +83,15 @@ visit_map = {
    "SCREENING": 0, "SCR": 0,
    "C1D1": 1, "C1D15": 2, "C2D1": 3, "C3D1": 4, "C4D1": 5,
    "C5D1": 6, "C6D1": 7, "C7D1": 8, "C8D1": 9,
-   "EOT": 99, "END OF TREATMENT": 99,
-   "FU1": 100, "FU2": 101, "FOLLOW-UP 1": 100, "FOLLOW-UP 2": 101
+   "EOT": 900, "END OF TREATMENT": 900,
+   "FU1": 901, "FU2": 902, "FOLLOW-UP 1": 901, "FOLLOW-UP 2": 902
 }
-VISITNUM = visit_map[str_to_upper(str_trim(VISIT_NAME))]   # NA if unmatched
+VISITNUM = visit_map[str_to_upper(str_trim(VISIT_NAME))]
+# label-derived where not in visit_map (unique per VISIT -> P21 SD0051 bijection):
+#   BASELINE            -> 0
+#   MAINT_CnD1          -> 9 + n
+#   TUMOR_ASSESS_WKn    -> n
+#   UNSCHEDULED         -> 998   (single UNSCHEDULED<->998 mapping; date/seq disambiguate)
 ```
 
 See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.

@@ -173,6 +173,50 @@ for (i in seq_len(n)) {
 labs <- do.call(rbind, Filter(Negate(is.null), labs_list))
 row.names(labs) <- NULL
 
+# ---------------------------------------------------------------------------
+# Unscheduled visits (CDISC-realistic collection scenario): an abnormal
+# on-treatment safety-lab result prompts an off-schedule recheck ~1 week later.
+# Captured as VISIT_NAME = "UNSCHEDULED" with the real (off-schedule) date, as an
+# EDC would record it. Generated in a dedicated RNG stream and appended, so the
+# scheduled data — and every downstream raw program — is byte-for-byte unchanged.
+# ---------------------------------------------------------------------------
+.rng_state <- if (exists(".Random.seed", envir = .GlobalEnv)) get(".Random.seed", envir = .GlobalEnv) else NULL
+set.seed(20260707)
+recheck_tests <- c("ALT", "AST", "NEUT", "PLAT", "HGB", "BILI", "CREAT")
+# per-subject collected lab dates: rechecks must be genuinely off-schedule
+# (not on a collected visit date) and within participation (<= last lab date).
+subj_dates <- lapply(split(as.Date(labs$VISIT_DATE), labs$SUBJECT_ID), unique)
+cand <- labs[labs$ABNORMAL_FLAG %in% c("H", "L") &
+             labs$TEST_CODE %in% recheck_tests &
+             labs$VISIT_NAME != "SCREENING", ]
+cand <- cand[runif(nrow(cand)) < 0.10, ]          # ~10% of abnormal safety labs rechecked
+uns_rows <- list()
+for (j in seq_len(nrow(cand))) {
+  r     <- cand[j, ]
+  sd    <- subj_dates[[r$SUBJECT_ID]]
+  rdate <- as.Date(r$VISIT_DATE) + sample(5:10, 1)  # recheck 5-10 days after the abnormal
+  if (rdate %in% sd || rdate > max(sd)) next        # skip collisions / after last visit
+  spec  <- lab_specs[[r$TEST_CODE]]
+  mid   <- (spec$lo + spec$hi) / 2                   # value recovers toward the normal midpoint
+  newv  <- as.numeric(r$RESULT_VALUE) +
+           (mid - as.numeric(r$RESULT_VALUE)) * runif(1, 0.3, 0.7) + rnorm(1, 0, spec$sd * 0.3)
+  newv  <- round(max(spec$lo * 0.30, newv), if (spec$mu < 20) 1 else 0)
+  abn   <- if (newv < spec$lo) "L" else if (newv > spec$hi) "H" else "N"
+  uns_rows[[length(uns_rows) + 1]] <- data.frame(
+    SUBJECT_ID = r$SUBJECT_ID, VISIT_NAME = "UNSCHEDULED",
+    VISIT_DATE = format(rdate, "%Y-%m-%d"),
+    TEST_CODE = r$TEST_CODE, TEST_NAME = r$TEST_NAME, RESULT_VALUE = newv,
+    RESULT_UNIT = r$RESULT_UNIT, LOWER_NORMAL = r$LOWER_NORMAL,
+    UPPER_NORMAL = r$UPPER_NORMAL, ABNORMAL_FLAG = abn, stringsAsFactors = FALSE)
+}
+if (length(uns_rows)) {
+  labs <- rbind(labs, do.call(rbind, uns_rows))
+  labs <- labs[order(labs$SUBJECT_ID, as.Date(labs$VISIT_DATE)), ]
+  row.names(labs) <- NULL
+}
+if (!is.null(.rng_state)) assign(".Random.seed", .rng_state, envir = .GlobalEnv)
+message("  Unscheduled recheck rows added: ", length(uns_rows))
+
 assign("labs", labs, envir = .GlobalEnv)
 
 write.csv(labs,

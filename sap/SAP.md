@@ -371,6 +371,16 @@ determined by protocol role and keep their collected label and SDTM `VISITNUM`.
 **Subject-level parameters** (ADRS `BOR`/`CBOR`, ADEX `CUMDOSE`/`RDI`) carry
 `AVISIT`/`AVISITN` = null.
 
+**Unscheduled visits.** Off-schedule assessments (SDTM `VISIT = "UNSCHEDULED"`,
+`VISITNUM = 998`; e.g. a recheck of an abnormal safety lab) are windowed by
+`ADY` to their nearest scheduled analysis visit like any other record — they are
+*not* treated as a separate `UNSCHEDULED` analysis visit. An unscheduled record
+therefore becomes the analysis record for that visit (`ANL01FL = 'Y'`) only when
+it is closest to the visit target — typically when the scheduled assessment is
+missing; otherwise the scheduled draw keeps `ANL01FL = 'Y'` and the unscheduled
+record is retained (`ANL01FL` = null) for listings and traceability, with its
+collected `VISIT = "UNSCHEDULED"` preserved.
+
 **Multiple records in one window / analysis flag.** When more than one assessment
 windows into the same `USUBJID × PARAMCD × AVISIT` (e.g. a late screening lab
 that falls in the baseline window alongside the scheduled draw), the record

@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719163957"
-     CreationDateTime="2026-07-19T16:39:55"
-     AsOfDateTime="2026-07-19T16:39:55"
+     FileOID="CTX-NSCLC-301.20260719171203"
+     CreationDateTime="2026-07-19T17:12:00"
+     AsOfDateTime="2026-07-19T17:12:00"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -3124,7 +3124,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Analysis Flag 01 (on-treatment records)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Flag 01 (analysis record per vi</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.DTYPE" Name="DTYPE" SASFieldName="DTYPE" DataType="text" Length="1">
@@ -3744,7 +3744,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADVS.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
-        <Description><TranslatedText xml:lang="en">Analysis Flag 01</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Flag 01 (analysis record per vi</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <def:CommentDef OID="COM.DA.UNITS">

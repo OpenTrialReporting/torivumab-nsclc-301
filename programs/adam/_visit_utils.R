@@ -63,7 +63,12 @@ derive_avisitn <- function(avisit, visitnum) {
 # RECIST). derive_avisit_windowed() returns AVISIT, AVISITN and the visit target
 # day (ATPTREF) used by flag_anl01() to pick one record per analysis visit.
 
-EVENT_VISITS <- c("EOT", "FU1", "FU2", "FOLLOW-UP", "UNSCHEDULED")
+# UNSCHEDULED is deliberately NOT an event visit: it is windowed by ADY to the
+# nearest scheduled analysis visit, so an off-schedule recheck contributes to
+# that visit only if it is the record closest to target (else the scheduled draw
+# keeps ANL01FL='Y' and the unscheduled record is retained, ANL01FL=NA, for
+# listings). The collected SDTM VISIT ("UNSCHEDULED") is preserved for traceability.
+EVENT_VISITS <- c("EOT", "FU1", "FU2", "FOLLOW-UP")
 
 .load_visit_windows <- function(stream) {
   path <- file.path("crf", "analysis_visit_windows.csv")
