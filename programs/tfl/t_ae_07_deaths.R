@@ -3,7 +3,7 @@
 # t_ae_07_deaths.R
 # T-AE-07 — Deaths (overall + on-study + within 30 days of last dose, by cause)
 # Population: Safety
-# Sources: ADSL (DTHFL/DTHDT/LSTALVDT/TRTEDT) + SDTM.DD (DDTERM cause)
+# Sources: ADSL (DTHFL/DTHDT/LSTALVDT/TRTEDT) + SDTM.DD (DDORRES cause)
 # =============================================================================
 
 adsl <- load_adam("adsl") |> filter(SAFFL == "Y")
@@ -16,7 +16,7 @@ counts <- list(
 )
 
 deaths <- adsl |> filter(DTHFL == "Y") |>
-  left_join(dd |> select(USUBJID, DDTERM), by = "USUBJID") |>
+  left_join(dd |> select(USUBJID, DDORRES), by = "USUBJID") |>
   mutate(
     days_post_trt = as.integer(as.Date(DTHDT) - as.Date(TRTEDT)),
     on_study      = days_post_trt <= 30,
@@ -37,9 +37,9 @@ n_on_study  <- n_subj_arm(on_study == TRUE)
 n_late      <- n_subj_arm(on_study == FALSE)
 
 # Cause-of-death breakdown (overall)
-cause_levels <- sort(unique(deaths$DDTERM))
+cause_levels <- sort(unique(deaths$DDORRES))
 cause_rows <- lapply(cause_levels, function(cz) {
-  n <- n_subj_arm(DDTERM == cz)
+  n <- n_subj_arm(DDORRES == cz)
   data.frame(
     Label = paste0("  ", cz),
     TRT = fmt_n_pct(n$trt, counts$n_trt),

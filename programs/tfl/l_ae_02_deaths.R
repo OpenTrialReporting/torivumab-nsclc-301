@@ -10,7 +10,7 @@ adsl <- load_adam("adsl") |> filter(SAFFL == "Y", DTHFL == "Y")
 dd   <- as.data.frame(read_parquet("datasets/sdtm/dd.parquet"))
 
 lst <- adsl |>
-  left_join(dd |> select(USUBJID, DDTERM, DDSCAT), by = "USUBJID") |>
+  left_join(dd |> select(USUBJID, DDORRES), by = "USUBJID") |>
   mutate(
     days_post_trt = as.integer(as.Date(DTHDT) - as.Date(TRTEDT)),
     on_study      = ifelse(days_post_trt <= 30, "Yes", "No")
@@ -27,8 +27,7 @@ lst <- adsl |>
     `Death date`         = as.character(DTHDT),
     `Days post last dose` = days_post_trt,
     `Death ≤ 30d?`        = on_study,
-    `Primary cause`      = DDTERM,
-    `Cause detail`       = DDSCAT
+    `Primary cause`      = DDORRES
   )
 
 write_listing_all_formats(

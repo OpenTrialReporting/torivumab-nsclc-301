@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719120859"
-     CreationDateTime="2026-07-19T12:08:55"
-     AsOfDateTime="2026-07-19T12:08:55"
+     FileOID="CTX-NSCLC-301.20260719131823"
+     CreationDateTime="2026-07-19T13:18:18"
+     AsOfDateTime="2026-07-19T13:18:18"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -1251,11 +1251,11 @@
         <Description><TranslatedText xml:lang="en">Death Detail Test Name</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDORRES" Name="DDORRES" SASFieldName="DDORRES" DataType="text" Length="1">
+      <ItemDef OID="IT.DD.DDORRES" Name="DDORRES" SASFieldName="DDORRES" DataType="text" Length="19">
         <Description><TranslatedText xml:lang="en">Result or Finding in Original Units</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.DD.DDSTRESC" Name="DDSTRESC" SASFieldName="DDSTRESC" DataType="text" Length="1">
+      <ItemDef OID="IT.DD.DDSTRESC" Name="DDSTRESC" SASFieldName="DDSTRESC" DataType="text" Length="19">
         <Description><TranslatedText xml:lang="en">Character Result/Finding in Std Format</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>

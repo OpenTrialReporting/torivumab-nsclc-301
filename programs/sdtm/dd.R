@@ -25,16 +25,12 @@ raw <- raw |>
     DDSEQ    = 1L,
     DDTESTCD = "PRCDTH",                 # CDISC DD test code (P21 CT2002)
     DDTEST   = "Primary Cause of Death",
-    DDORRES  = "Y",
-    DDSTRESC = "Y",
-    DDDTC    = as.character(DEATH_DATE),
-    DDCAT    = "PRIMARY CAUSE OF DEATH",
-    DDTERM   = str_to_upper(str_trim(PRIMARY_CAUSE)),
-    DDSCAT   = ifelse(
-      !is.na(CAUSE_DETAIL) & str_trim(as.character(CAUSE_DETAIL)) != "",
-      str_to_upper(str_trim(CAUSE_DETAIL)),
-      NA_character_
-    )
+    # Result of the "Primary Cause of Death" test is the cause itself, carried in
+    # the standard DDORRES/DDSTRESC (previously a "Y" flag with the cause in the
+    # non-standard DDTERM, which was dropped — P21 SD0058).
+    DDORRES  = str_to_upper(str_trim(PRIMARY_CAUSE)),
+    DDSTRESC = str_to_upper(str_trim(PRIMARY_CAUSE)),
+    DDDTC    = as.character(DEATH_DATE)
   )
 
 sdtm_dd <- raw |>

@@ -22,10 +22,10 @@ n_arm <- function(filter_expr) {
 n_major  <- n_arm(DVCAT == "MAJOR")
 n_minor  <- n_arm(DVCAT == "MINOR")
 
-# Detailed breakdown by DVSCAT
-scats <- unique(addv$DVSCAT[!is.na(addv$DVSCAT)])
+# Detailed breakdown by DVDECOD (standardised deviation term)
+scats <- unique(addv$DVDECOD[!is.na(addv$DVDECOD)])
 scat_rows <- lapply(scats, function(s) {
-  n <- n_arm(DVSCAT == s)
+  n <- n_arm(DVDECOD == s)
   data.frame(Label = paste0("  ", s),
              TRT = fmt_n_pct(n$trt, counts$n_trt),
              PBO = fmt_n_pct(n$pbo, counts$n_pbo),
