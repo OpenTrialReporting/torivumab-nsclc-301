@@ -419,6 +419,53 @@ DOMAIN_LABELS <- list(
 )
 
 # -----------------------------------------------------------------------------
+# Master variable ORDER table — SDTMIG v3.4 (FDA) standard variable sequence.
+# Authoritative source: Pinnacle 21 config ItemRef OrderNumber (config 2508.1).
+# Only domains whose physical column order previously tripped SD1079 are listed;
+# any variable absent from the data is skipped, and any extra (non-standard)
+# variable is appended after the ordered block in its existing relative order.
+# Key SDTMIG conventions encoded here:
+#   * VISITNUM, VISIT precede EPOCH and the --DTC/--DY timing block;
+#   * all --DTC precede all --DY  (--STDTC, --ENDTC, --STDY, --ENDY);
+#   * grouping/identifier qualifiers (--GRPID, --LNKID, --CAT) sit early;
+#   * non-standard qualifiers (CMATC) sort last.
+# -----------------------------------------------------------------------------
+SDTM_ORDER <- list(
+  ae = c("STUDYID","DOMAIN","USUBJID","AESEQ","AETERM","AELLT","AELLTCD",
+         "AEDECOD","AEPTCD","AEHLT","AEHLTCD","AEHLGT","AEHLGTCD","AECAT",
+         "AEBODSYS","AEBDSYCD","AESOC","AESOCCD","AESEV","AESER","AEACN",
+         "AEREL","AEOUT","AESCONG","AESDISAB","AESDTH","AESHOSP","AESLIFE",
+         "AESMIE","AETOXGR","EPOCH","AESTDTC","AEENDTC","AESTDY","AEENDY"),
+  cm = c("STUDYID","DOMAIN","USUBJID","CMSEQ","CMTRT","CMDECOD","CMCAT",
+         "CMINDC","CMROUTE","EPOCH","CMSTDTC","CMENDTC","CMSTDY","CMENDY",
+         "CMENRTPT","CMENTPT","CMATC"),
+  ex = c("STUDYID","DOMAIN","USUBJID","EXSEQ","EXTRT","EXDOSE","EXDOSU",
+         "EXROUTE","VISITNUM","VISIT","EPOCH","EXSTDTC","EXENDTC","EXSTDY",
+         "EXENDY"),
+  lb = c("STUDYID","DOMAIN","USUBJID","LBSEQ","LBTESTCD","LBTEST","LBCAT",
+         "LBORRES","LBORRESU","LBSTRESC","LBSTRESN","LBSTRESU","LBSTNRLO",
+         "LBSTNRHI","LBNRIND","LBBLFL","VISITNUM","VISIT","EPOCH","LBDTC","LBDY"),
+  mh = c("STUDYID","DOMAIN","USUBJID","MHSEQ","MHTERM","MHDECOD","MHCAT",
+         "MHPRESP","MHOCCUR","MHSTDTC","MHSTDY","MHENRTPT","MHENTPT"),
+  pe = c("STUDYID","DOMAIN","USUBJID","PESEQ","PETESTCD","PETEST","PEORRES",
+         "PECLSIG","VISITNUM","VISIT","EPOCH","PEDTC","PEDY"),
+  rs = c("STUDYID","DOMAIN","USUBJID","RSSEQ","RSTESTCD","RSTEST","RSCAT",
+         "RSORRES","RSSTRESC","RSEVAL","VISITNUM","VISIT","EPOCH","RSDTC","RSDY"),
+  se = c("STUDYID","DOMAIN","USUBJID","SESEQ","ETCD","ELEMENT","TAETORD",
+         "EPOCH","SESTDTC","SEENDTC","SESTDY","SEENDY"),
+  tr = c("STUDYID","DOMAIN","USUBJID","TRSEQ","TRGRPID","TRLNKID","TRTESTCD",
+         "TRTEST","TRORRES","TRSTRESC","TRSTRESN","TRSTRESU","VISITNUM","VISIT",
+         "EPOCH","TRDTC","TRDY"),
+  tu = c("STUDYID","DOMAIN","USUBJID","TUSEQ","TUGRPID","TULNKID","TUTESTCD",
+         "TUTEST","TUORRES","TULOC","TUMETHOD","VISITNUM","VISIT","EPOCH",
+         "TUDTC","TUDY"),
+  vs = c("STUDYID","DOMAIN","USUBJID","VSSEQ","VSTESTCD","VSTEST","VSORRES",
+         "VSORRESU","VSSTRESC","VSSTRESN","VSSTRESU","VISITNUM","VISIT","EPOCH",
+         "VSDTC","VSDY"),
+  relrec = c("STUDYID","RDOMAIN","USUBJID","IDVAR","IDVARVAL","RELTYPE","RELID")
+)
+
+# -----------------------------------------------------------------------------
 # Helper — apply only labels for variables that exist in the data frame
 # (silently ignores label entries for absent variables)
 # -----------------------------------------------------------------------------
@@ -427,6 +474,17 @@ apply_labels <- function(df, label_list) {
   # var_label<- accepts a named list; only columns present in df are set.
   var_label(df) <- applicable
   df
+}
+
+# -----------------------------------------------------------------------------
+# Helper — reorder columns to SDTMIG standard sequence (SD1079).
+# Ordered vars first (skipping any absent); all remaining columns kept after,
+# in their existing relative order. No-op when the domain has no ORDER entry.
+# -----------------------------------------------------------------------------
+apply_order <- function(df, domain_key) {
+  ord <- SDTM_ORDER[[domain_key]]
+  if (is.null(ord)) return(df)
+  dplyr::select(df, dplyr::any_of(ord), dplyr::everything())
 }
 
 # -----------------------------------------------------------------------------
@@ -453,6 +511,7 @@ for (path in parquet_files) {
   unlabelled  <- setdiff(names(df), names(label_map))
 
   df_labelled <- apply_labels(df, label_map)
+  df_labelled <- apply_order(df_labelled, domain_key)
 
   # Atomic write: temp file in same directory avoids cross-device rename errors
   tmp <- paste0(path, ".tmp")
