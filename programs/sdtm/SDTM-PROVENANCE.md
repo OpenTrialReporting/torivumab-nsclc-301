@@ -64,8 +64,12 @@ regulatory submission.
 | SUPPLB | `programs/sdtm/supplb.R` | 8.4 | 230,788 | Scripted (v0.2 back-fill 2026-05-16) |
 | SUPPSU | `programs/sdtm/suppsu.R` | 8.4 | one SMKSTAT row per tobacco-using subject | Scripted (v0.4 rebuild 2026-05-17; closes AL-01) |
 | RELREC | `programs/sdtm/relrec.R` | 8.5 | deduped per unique relationship | Scripted (v0.2 back-fill 2026-05-16; deduped v0.4 2026-05-17; closes AL-11) |
+| TS — Trial Summary | `programs/sdtm/ts.R` | Trial Design | 59 | Scripted (2026-07-19 P21 remediation; completes FDA-required TS parameter set) |
+| TA — Trial Arms | `programs/sdtm/ta.R` | Trial Design | 6 | Scripted (2026-07-19 P21 remediation) |
+| TE — Trial Elements | `programs/sdtm/te.R` | Trial Design | 3 | Scripted (2026-07-19 P21 remediation) |
+| SE — Subject Elements | `programs/sdtm/se.R` | Special Purpose | 1,348 | Scripted (2026-07-19 P21 remediation) |
 
-**Total: 22 SDTM datasets.**
+**Total: 26 SDTM datasets** — 22 raw-derived subject-data domains (incl. SUPP--/RELREC) plus 4 trial-design domains (TS/TA/TE/SE) added 2026-07-19 during P21 remediation to clear the SDTM-IG Reject.
 
 ---
 
@@ -150,9 +154,9 @@ Rscript programs/sdtm/00_run_sdtm.R
 
 | Document | Relationship |
 |---|---|
-| `programs/sdtm/SDTM-MAPPING-SPEC.md` | **Companion.** Variable-level mapping spec written for independent double programming — covers all 22 SDTM datasets from raw inputs. The R scripts in this directory are one implementation; the spec is the authoritative description. |
+| `programs/sdtm/SDTM-MAPPING-SPEC.md` | **Companion.** Variable-level mapping spec written for independent double programming — covers the 22 raw-derived SDTM datasets (the 4 trial-design domains TS/TA/TE/SE are built from protocol metadata, not raw inputs). The R scripts in this directory are one implementation; the spec is the authoritative description. |
 | `programs/raw/RAW-PROVENANCE.md` | **Parent.** Raw CSVs are the input to these mapping programs. |
-| `datasets/sdtm/` | **Output.** 22 parquet files produced by these programs. |
+| `datasets/sdtm/` | **Output.** 26 parquet files produced by these programs (22 raw-derived + 4 trial-design). |
 | `sap/shells/shells.yaml` | **Sibling.** Shell annotations reference SDTM variables; Phase 2 annotation update will cross-check. |
 | `programs/adam/` | **Downstream.** ADaM programs read from datasets/sdtm/. |
 | `adam/ADAM-PROVENANCE.md` | **Child.** ADaM derivation builds on these SDTM datasets. |

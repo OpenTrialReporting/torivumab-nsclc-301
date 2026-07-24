@@ -2,15 +2,21 @@
 
 See **`VALIDATION-PLAN.md`** for the strategic SOP-style document covering
 scope, roles, tooling, layered approach, phased execution, acceptance
-criteria, and the 12 pre-loaded "accepted limitations" (9 closed as of
-2026-05-17; 3 open — 2 structural + AL-12 IE4 gap).
+criteria, and the pre-loaded "accepted limitations". Those limitations are
+now superseded by the **Pinnacle 21 remediation register**
+(`p21-reports/PHASE2-REMEDIATION.md`), which records the CLI-validated state
+as of 2026-07-19 — SDTM 10,891 / ADaM 10,890 findings, of which 10,873 is the
+accepted SD0007 DA standard-units warning and every remaining finding is a
+documented accepted limitation.
 
 ## What's in this directory
 
 | Path | Purpose |
 |---|---|
 | `VALIDATION-PLAN.md` | Strategic plan (read first) |
-| `SDTM-PROGRAMMING-TRACKER.xlsx` | 22-row SDTM domain tracker |
+| `run_p21.sh` | Runs the Pinnacle 21 Community **CLI** (see Tooling below) — the validated conformance workflow |
+| `p21-reports/` | Pinnacle 21 CLI reports + remediation register (`PHASE2-REMEDIATION.md`) |
+| `SDTM-PROGRAMMING-TRACKER.xlsx` | SDTM domain tracker (22 derivation domains; `datasets/sdtm/` now holds 26 after trial-design TS/TA/TE/SE — regenerate to refresh) |
 | `ADAM-PROGRAMMING-TRACKER.xlsx` | 12-row ADaM dataset tracker |
 | `TFL-PROGRAMMING-TRACKER.xlsx` | 43-row TFL output tracker |
 | `reports/<timestamp>/` | Comparison + reproducibility reports (auto-created) |
@@ -21,6 +27,7 @@ criteria, and the 12 pre-loaded "accepted limitations" (9 closed as of
 
 | Script | What it does |
 |---|---|
+| `qc/run_p21.sh` | Runs the Pinnacle 21 Community **CLI** (`sdtm` / `adam` / `both`; `--build` rebuilds datasets first, engine 2508.1, SDTM-IG 3.4 FDA). Writes timestamped reports to `qc/p21-reports/`. Auto-suppresses the spurious cross-standard SD1005. This is the validated conformance workflow. |
 | `programs/qc/build_trackers.R` | Regenerates the 3 Excel trackers (see warning below) |
 | `programs/qc/run_reproducibility_check.R` | Re-runs the full pipeline into a temp dir and diffs every output. Reports pass/fail per file. Optional `RERUN_RAW=1` and `TFL_REPRO_KEEP_STAGE=1`. |
 | `programs/qc/compare_sdtm.R` | Compares two SDTM directories via `diffdf` + fallback `identical()`. Usage: `Rscript ... <primary_dir> <qc_dir>` |
@@ -38,7 +45,7 @@ file inventory + spec metadata.
 
 | File | Rows | Covers |
 |---|---:|---|
-| `SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | All SDTM domains in `datasets/sdtm/` |
+| `SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | SDTM derivation domains (trial-design TS/TA/TE/SE excluded; `datasets/sdtm/` now holds 26 — regenerate to refresh) |
 | `ADAM-PROGRAMMING-TRACKER.xlsx` | 12 | All ADaM datasets in `datasets/adam/` |
 | `TFL-PROGRAMMING-TRACKER.xlsx`  | 43 | All shells in `sap/shells/shells.yaml` |
 

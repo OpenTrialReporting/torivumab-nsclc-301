@@ -2,8 +2,8 @@
 
 **Document:** ROADMAP.md  
 **Study:** SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301)  
-**Last updated:** 2026-05-17
-**Status:** Phase 6 TFLs COMPLETE (43 outputs); 22 SDTM domains; 12 ADaM datasets (6 efficacy/safety + 6 pharma-standard descriptive); Define-XML v2.1 draft regenerated (34 datasets / 613 variables); 7 accepted limitations closed (AL-02/03/04/07/08/09/10). Phase 7 (CSR) next.
+**Last updated:** 2026-07-19
+**Status:** Phase 6 TFLs COMPLETE (43 outputs); 26 SDTM domains in `datasets/sdtm/` (22 tabulation + 4 trial-design TS/TA/TE/SE added during P21 remediation); 12 ADaM datasets (6 efficacy/safety + 6 pharma-standard descriptive); Define-XML v2.1 regenerated (38 datasets / 708 variables); Pinnacle 21 CLI-validated (SDTM 10,891 / ADaM 10,890 findings — 10,873 the accepted SD0007 DA-units warning, every remaining finding a documented accepted limitation). Phase 7 (CSR) next.
 
 ---
 
@@ -326,7 +326,7 @@ Combined `tfl/TFL-OUTPUTS.html` + `tfl/TFL-OUTPUTS.docx` updated with all 24 out
 
 | File | Rows | Source of truth |
 |---|---|---|
-| `qc/SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | All SDTM domains; 2 pre-loaded with AL notes (SUPPSU, RELREC) |
+| `qc/SDTM-PROGRAMMING-TRACKER.xlsx` | 22 | SDTM derivation domains (trial-design TS/TA/TE/SE excluded); 2 pre-loaded with AL notes (SUPPSU, RELREC) |
 | `qc/ADAM-PROGRAMMING-TRACKER.xlsx` | 12 | All ADaM datasets |
 | `qc/TFL-PROGRAMMING-TRACKER.xlsx`  | 43 | All shells; 2 pre-loaded with AL notes (T-EFF-10, T-DS-03); each row tagged with SAP estimand ID |
 
@@ -511,7 +511,7 @@ regenerate (T-LB-01 now 12 parameters).
 
 ### Define-XML v2.1
 - ✅ v0.1 draft generated 2026-05-16; regenerated 2026-05-17 (`programs/define/build_define.R`)
-- Covers all 22 SDTM domains + 12 ADaM datasets = 34 ItemGroupDefs, 613 variables
+- Covers all 26 SDTM domains + 12 ADaM datasets = 38 ItemGroupDefs, 708 variables
 - Toolchain: `xml2` + `arrow` + `labelled` (pharmaverse `metacore`/`xportr` not required for v0.1)
 - Outputs: `define/define.xml` + `define/DEFINE-SUMMARY.md`
 - **Known gaps (v0.1):** Value-Level Metadata, full CodeListDef references, MethodDef chains, WhereClauseDef blocks — see `define/DEFINE-SUMMARY.md`. PDF rendering deferred (requires CDISC `define2-1-0.xsl` stylesheet transformation).
@@ -591,7 +591,7 @@ Planned enhancements carried over from the working journal. Tracked as GitHub is
 - [x] All 12 ADaM Parquet datasets committed (`datasets/adam/`) — Gate 4 PASSED 2026-04-25 (efficacy/safety); extended to 12 on 2026-05-17 (descriptive)
 - [x] SDTM back-fill complete — DA, RELREC, SUPPAE/CM/LB added (2026-05-16); DV added + SUPPSU rebuilt + RELREC deduped (2026-05-17); 22 domains total
 - [x] Raw simulation v0.3 — Tier A (covariate-driven hazards) + Tier B (Weibull KM shape) (2026-05-16); v0.4 adds protocol deviations + subsequent therapy (2026-05-17)
-- [x] Define-XML v2.1 v0.1 draft generated (covers 34 datasets / 613 vars; VLM/CodeLists deferred)
+- [x] Define-XML v2.1 regenerated (covers 38 datasets / 708 vars; VLM/CodeLists deferred)
 - [x] ADaM re-derived from v0.4 SDTM (admiral 1.4.1) — Cox HR recovers protocol targets: OS 0.567 (target 0.65), PFS BICR 0.568 + PFSINV 0.522 (target 0.55), median OS TRT 21.4m ≈ 21.5m target
 - [x] Double-programming mapping specs: `programs/sdtm/SDTM-MAPPING-SPEC.md` (raw → SDTM, 22 domains) + `programs/adam/ADAM-MAPPING-SPEC.md` (SDTM → ADaM, 12 datasets) — self-contained for independent re-derivation
 - [x] TFLs publication-ready — 43 outputs, no manual edits
@@ -622,14 +622,14 @@ torivumab-nsclc-301/
 │   │   └── 01_demographics.R … 13_physical_exam.R
 │   ├── sdtm/                              Phase 4: map raw → SDTM
 │   │   ├── 00_run_sdtm.R                 (orchestrator)
-│   │   └── dm.R, ae.R, ex.R … dv.R       (22 domain scripts)
+│   │   └── dm.R, ae.R, ex.R … dv.R       (26 domains incl. trial-design ts/ta/te/se.R)
 │   └── adam/                              ✅ Phase 5 COMPLETE (Gate 4 PASSED 2026-04-25; extended 2026-05-17)
 │       ├── 00_run_adam.R                 (orchestrator)
 │       ├── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R   (6 efficacy/safety)
 │       ├── adcm.R, adds.R, addv.R, adex.R, admh.R, advs.R   (6 pharma-standard descriptive)
 │       └── PHASE-5-APPROACH.md
 ├── datasets/                               Outputs only — no code
-│   ├── sdtm/  *.parquet (22 domains)      ✅ SDTMIG v3.4 labelled (v0.2 back-fill 2026-05-16; v0.3 DV 2026-05-17)
+│   ├── sdtm/  *.parquet (26 domains)      ✅ SDTMIG v3.4 labelled (22 raw-derived + 4 trial-design TS/TA/TE/SE)
 │   └── adam/  *.parquet (12 datasets)     ✅ Generated 2026-04-25 (6); extended 2026-05-17 (+6)
 ├── programming-specs/                      ✅ Per-dataset specs (34 total)
 │   ├── README.md                           Inventory + template + standards
@@ -668,4 +668,4 @@ torivumab-nsclc-301/
 ---
 
 *Last updated: 2026-05-17*
-*Phases 1–6 complete (22 SDTM, 12 ADaM, 43 TFL) + Define-XML v0.1 (34/613) + 7 ALs closed — Gates 1–5 all PASSED → Phase 7 CSR next*
+*Phases 1–6 complete (26 SDTM incl. 4 trial-design, 12 ADaM, 43 TFL) + Define-XML v2.1 (38/708) + P21 CLI-validated — Gates 1–5 all PASSED → Phase 7 CSR next*

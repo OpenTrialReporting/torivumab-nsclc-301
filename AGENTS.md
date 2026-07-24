@@ -108,13 +108,13 @@ torivumab-nsclc-301/
 │   │   └── 01_demographics.R … 13_physical_exam.R
 │   ├── sdtm/                                    Phase 4: map raw → SDTM
 │   │   ├── 00_run_sdtm.R (orchestrator)
-│   │   └── dm.R, ae.R, ex.R … dv.R (22 domain scripts)
+│   │   └── dm.R, ae.R, ex.R … dv.R + trial-design ts/ta/te/se.R (26 domains)
 │   └── adam/                                    ✅ Phase 5 COMPLETE (extended 2026-05-17)
 │       ├── 00_run_adam.R (orchestrator)
 │       ├── adsl.R, adae.R, adlb.R, adtr.R, adrs.R, adtte.R   (6 efficacy/safety)
 │       └── adcm.R, adds.R, addv.R, adex.R, admh.R, advs.R   (6 pharma-standard descriptive)
 ├── datasets/                                    Outputs only — no code
-│   ├── sdtm/  *.parquet (22 domains)            ✅ SDTMIG v3.4 labelled (v0.3 incl. DV 2026-05-17)
+│   ├── sdtm/  *.parquet (26 domains)            ✅ SDTMIG v3.4 labelled (22 raw-derived + 4 trial-design TS/TA/TE/SE)
 │   └── adam/  *.parquet (12 datasets)           ✅ Gate 4 PASSED 2026-04-25; extended 2026-05-17
 ├── programming-specs/                           ✅ Per-dataset specs (34: 22 SDTM + 12 ADaM)
 │   ├── README.md                                Inventory + 8-column template
@@ -278,7 +278,7 @@ Phase 3 scripts (complete):
 Phase 4 scripts (complete):
 ├── programs/sdtm/00_run_sdtm.R     # orchestrator
 ├── programs/sdtm/dm.R              # DM + SUPPDM
-└── programs/sdtm/ae.R … dv.R       # 22 SDTM domain scripts (incl. DA, DV, RELREC, SUPP*)
+└── programs/sdtm/ae.R … dv.R       # 26 SDTM domains (incl. DA, DV, RELREC, SUPP*, + trial-design TS/TA/TE/SE)
 
 Phase 5 scripts (complete ✅):
 ├── programs/adam/00_run_adam.R     # orchestrator
@@ -293,7 +293,7 @@ Phase 5 scripts (complete ✅):
 ## Testing & Validation
 
 ### SDTM Validation Checklist
-- [ ] All 22 domains present
+- [ ] All 26 domains present (22 raw-derived + 4 trial-design)
 - [ ] No duplicate records
 - [ ] USUBJID consistency across domains
 - [ ] Variable names match SDTMIG v3.4
@@ -375,7 +375,7 @@ Each phase must pass a Gate Review before proceeding:
 
 **Gate 3 (Simulated Database + SDTM):** ✅ PASSED 2026-04-07; extended 2026-05-16 (back-fill) and 2026-05-17 (DV + SUPPSU rebuild + RELREC dedupe)
 - [x] All domain scripts run successfully (`programs/sdtm/00_run_sdtm.R`)
-- [x] 22 SDTM Parquet files generated and committed (`datasets/sdtm/`)
+- [x] 22 SDTM Parquet files generated and committed (`datasets/sdtm/`) — later extended to 26 with trial-design TS/TA/TE/SE at P21 remediation (2026-07-19)
 - [x] SDTMIG v3.4 variable labels attached to all 22 domains
 - [x] Round-trip label check passed (USUBJID/AGE/RFSTDTC/DTHFL)
 
@@ -442,5 +442,5 @@ For questions about:
 
 ---
 
-*Last updated: 2026-05-17*
-*Phases 1–6 complete (22 SDTM, 12 ADaM, 43 TFL) — Gates 1–5 PASSED → Phase 7 CSR next*
+*Last updated: 2026-07-19*
+*Phases 1–6 complete (26 SDTM incl. 4 trial-design, 12 ADaM, 43 TFL) — Gates 1–5 PASSED → Phase 7 CSR next*
