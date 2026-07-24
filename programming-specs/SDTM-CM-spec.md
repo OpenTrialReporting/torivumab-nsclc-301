@@ -8,7 +8,7 @@
 | **Label** | Concomitant Medications |
 | **Class** | INTERVENTIONS |
 | **Structure** | One record per medication occurrence per subject |
-| **Expected N** | 2,222 |
+| **Expected N** | 2,319 |
 | **Key variables** | `STUDYID`, `USUBJID`, `CMSEQ` |
 | **SDTMIG version** | v3.4 (§6.2) |
 | **Spec version** | 0.1 DRAFT |
@@ -23,7 +23,7 @@ CM captures all non-study-drug medications taken by subjects from informed conse
 
 | Input | Source | Purpose |
 |---|---|---|
-| `raw/conmed.csv` | CDASH CM form + `raw/16_subsequent_therapy.R` appended rows | One row per medication occurrence — verbatim drug, dates, ongoing flag, indication |
+| `raw/conmed.csv` | CDASH CM form + `raw/16_subsequent_therapy.R` appended rows | One row per medication occurrence — verbatim drug, dates, ongoing flag, indication. Subsequent anti-cancer therapy rows are appended upstream with their start date capped at the subject's last-contact date (so a post-discontinuation therapy never starts after the subject's last known contact). |
 | `raw/codelists/atc_conmed.csv` | WHO-ATC subset (~150 drugs) | Verbatim → standardised drug name, ATC code, indication class |
 
 ## Variables
@@ -39,10 +39,14 @@ CM captures all non-study-drug medications taken by subjects from informed conse
 | 7 | CMATC | ATC Classification Code | Char | 8 | Derived | WHO ATC 2024 | See §Derivations.D1 — non-standard SDTM var carried on parent for back-compat; SDTMIG-compliant home is `SUPPCM.QNAM = "CMATC"` |
 | 8 | CMINDC | Indication | Char | 200 | Derived | — | `ATC.INDICATION` if matched; else `str_to_upper(str_trim(raw.INDICATION))` |
 | 9 | CMROUTE | Route of Administration | Char | 20 | Assigned | ROUTE | Constant `"ORAL"` (raw CRF does not carry route — assumption documented in AL-08) |
-| 10 | CMSTDTC | Start Date/Time of Medication | Char | 10 | CRF | — | `START_DATE` (ISO 8601, direct) |
-| 11 | CMENDTC | End Date/Time of Medication | Char | 10 | CRF | — | `END_DATE` (direct; NA if ongoing) |
-| 12 | CMENRTPT | End Relative to Reference Time Point | Char | 20 | Derived | RELTMPT | See §Derivations.D2 |
-| 13 | CMCAT | Category for Medication | Char | 40 | Assigned | — | Constant `"CONCOMITANT MEDICATION"` |
+| 10 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `CMSTDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `CMSTDTC` missing/partial |
+| 11 | CMSTDTC | Start Date/Time of Medication | Char | 10 | CRF | — | `START_DATE` (ISO 8601, direct) |
+| 12 | CMENDTC | End Date/Time of Medication | Char | 10 | CRF | — | `END_DATE` (direct; NA if ongoing) |
+| 13 | CMSTDY | Study Day of Start of Medication | Num | 8 | Derived | — | Study day of `CMSTDTC` vs `DM.RFSTDTC`: `CMSTDTC − RFSTDTC + 1` on/after RFSTDTC, else `CMSTDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 14 | CMENDY | Study Day of End of Medication | Num | 8 | Derived | — | Study day of `CMENDTC` vs `DM.RFSTDTC` (same rule as `CMSTDY`; `17_derive_timing.R`) |
+| 15 | CMENRTPT | End Relative to Reference Time Point | Char | 20 | Derived | RELTMPT | See §Derivations.D2 |
+| 16 | CMENTPT | End Reference Time Point | Char | 40 | Derived | — | `"RANDOMIZATION"` when `CMENRTPT` is non-missing; else NA (names the anchor for `CMENRTPT` — P21 SD1101) |
+| 17 | CMCAT | Category for Medication | Char | 40 | Assigned | — | Constant `"CONCOMITANT MEDICATION"` |
 
 ## Derivations
 
@@ -90,7 +94,7 @@ CMENRTPT = case_when(
 
 ## QC Checks
 
-- [ ] `nrow(cm) == 2222` (±0.1%; ~133 of these are subsequent anti-cancer therapy appended by `raw/16_subsequent_therapy.R`)
+- [ ] `nrow(cm) == 2319` (±0.1%; a subset are subsequent anti-cancer therapy appended by `raw/16_subsequent_therapy.R`, with start dates capped at last contact)
 - [ ] All `USUBJID ∈ DM.USUBJID`
 - [ ] `CMSEQ` strictly increasing per `USUBJID` with no gaps
 - [ ] No duplicate keys `(USUBJID, CMSEQ)`
@@ -114,3 +118,5 @@ SUPPCM (CMATC home, CMIRAEFL) — see `programs/sdtm/SDTM-MAPPING-SPEC.md` §19 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Spec refresh vs `cm.R`: record count 2,222 → 2,319; added `CMENTPT` (RANDOMIZATION anchor for `CMENRTPT`, per P21 SD1101) to the variable table; noted subsequent-therapy start dates are capped at last contact upstream in `raw/16_subsequent_therapy.R`. |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH`, `CMSTDY`, `CMENDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/cm.parquet`. |

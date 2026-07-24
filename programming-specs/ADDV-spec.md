@@ -52,7 +52,7 @@ ADDV is the analysis-ready representation of SDTM.DV. It supports the protocol-d
 | 21 | DVSTDTC | Start Date/Time of Deviation | Char | 20 | Predecessor | — | `DV.DVSTDTC` |
 | 22 | ADT | Analysis Date | Num | 8 | Derived | — | `as.Date(DVSTDTC)` |
 | 23 | ADY | Analysis Relative Day | Num | 8 | Derived | — | `as.integer(ADT - RANDDT) + 1` (relative to randomisation) |
-| 24 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 24 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(ITTFL == "Y", "Y", NA)` — ITT / all randomised subjects (SAP §12.2); NA otherwise |
 
 ## Derivations
 
@@ -96,7 +96,7 @@ adsl <- adsl %>%
 - [ ] `sum(DVSEV == "MAJOR")` ≈ 50 (±10).
 - [ ] `n_distinct(addv$USUBJID[addv$DVSEV == "MAJOR"]) == nrow(adsl) - sum(adsl$PPROTFL == "Y" & adsl$SAFFL == "Y")` (counts reconcile to ADSL.PPROTFL).
 - [ ] `ADT >= RANDDT` for all rows (deviations cannot precede randomisation).
-- [ ] All `ANL01FL == "Y"`; no NAs.
+- [ ] `ANL01FL` ∈ {"Y", NA}; `"Y"` on all ITT (`ITTFL == "Y"`) rows.
 
 ## Traceability
 
@@ -109,3 +109,4 @@ adsl <- adsl %>%
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = ITT population (`ITTFL`) as an explicit Y/null flag (was bare `"Y"`); N confirmed 337. |

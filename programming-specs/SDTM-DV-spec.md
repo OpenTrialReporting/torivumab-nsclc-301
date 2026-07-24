@@ -17,7 +17,7 @@
 
 ## Purpose
 
-DV captures protocol deviations recorded for a subject during the study, classified by severity (`DVCAT ∈ {MAJOR, MINOR}`) and by category (`DVSCAT` — e.g. `ELIGIBILITY VIOLATION`, `VISIT WINDOW VIOLATION`). It is the authoritative source for the per-protocol population flag: a subject with any `DVCAT == "MAJOR"` deviation is excluded from PPROTFL in ADSL. DV also drives the deviation-category breakdown table (T-DV-01). Added 2026-05-17; closes AL-03.
+DV captures protocol deviations recorded for a subject during the study, classified by severity (`DVCAT ∈ {MAJOR, MINOR}`) and by standardized category term (`DVDECOD` — e.g. `ELIGIBILITY VIOLATION`, `VISIT WINDOW VIOLATION`; the separate `DVSCAT` was dropped as 1:1-redundant with `DVDECOD` per P21 SD1040). It is the authoritative source for the per-protocol population flag: a subject with any `DVCAT == "MAJOR"` deviation is excluded from PPROTFL in ADSL. DV also drives the deviation-category breakdown table (T-DV-01). Added 2026-05-17; closes AL-03.
 
 ## Source (Raw / Input)
 
@@ -34,13 +34,13 @@ DV captures protocol deviations recorded for a subject during the study, classif
 | 3  | USUBJID | Unique Subject Identifier                           | Char | 40  | Derived     | —      | `paste(STUDYID, SUBJECT_ID, sep="-")` |
 | 4  | DVSEQ   | Sequence Number                                     | Num  | 8   | Derived     | —      | Per-USUBJID `row_number()` after sort `(USUBJID, DV_DATE)` |
 | 5  | DVTERM  | Reported Term for the Protocol Deviation            | Char | 200 | Predecessor | —      | `trimws(DV_TERM)` |
-| 6  | DVDECOD | Standardized Term for the Protocol Deviation        | Char | 200 | Derived     | DVDECOD| `toupper(trimws(DV_DECODE))` — sponsor-classified term |
+| 6  | DVDECOD | Standardized Term for the Protocol Deviation        | Char | 200 | Derived     | DVDECOD| `toupper(trimws(DV_DECODE))` — sponsor-classified term; also carries the deviation **category** (drives the T-DV-01 breakdown) |
 | 7  | DVCAT   | Category for Protocol Deviation                     | Char | 20  | Derived     | DVCAT  | `toupper(trimws(DV_SEVERITY))` — values `MAJOR`, `MINOR` (drives PPROTFL) |
-| 8  | DVSCAT  | Subcategory for Protocol Deviation                  | Char | 40  | Derived     | DVSCAT | `toupper(trimws(DV_CATEGORY))` — e.g. `ELIGIBILITY VIOLATION`, `VISIT WINDOW VIOLATION` |
+| 8  | EPOCH   | Epoch                                               | Char | 20  | Derived     | EPOCH  | `toupper(trimws(DV_EPOCH))` — `SCREENING` / `TREATMENT` / `FOLLOW-UP` |
 | 9  | DVSTDTC | Start Date/Time of Protocol Deviation               | Char | 10  | Predecessor | ISO8601| `as.character(DV_DATE)` (ISO 8601) |
-| 10 | EPOCH   | Epoch                                               | Char | 20  | Derived     | EPOCH  | `toupper(trimws(DV_EPOCH))` — `SCREENING` / `TREATMENT` / `FOLLOW-UP` |
+| 10 | DVSTDY  | Study Day of Start of Protocol Deviation            | Num  | 8   | Derived     | —      | Study day of `DVSTDTC` vs `DM.RFSTDTC`: `DVSTDTC − RFSTDTC + 1` on/after RFSTDTC, else `DVSTDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
 
-**Note on DVCAT vs DVSCAT.** In this study `DVCAT` is overloaded to carry deviation **severity** (`MAJOR`/`MINOR`) because this is what ADaM consumes for `ADSL.PPROTFL`. `DVSCAT` carries the deviation **category** for T-DV-01 sub-categorical breakdowns. See `programs/sdtm/SDTM-MAPPING-SPEC.md` §22 note.
+**Note on DVCAT and the dropped DVSCAT.** In this study `DVCAT` is overloaded to carry deviation **severity** (`MAJOR`/`MINOR`) because this is what ADaM consumes for `ADSL.PPROTFL`. `DVSCAT` was **dropped** by `dv.R` (P21 SD1040 — it was functionally 1:1 with `DVDECOD`); the deviation **category** is therefore carried by `DVDECOD`, which drives the T-DV-01 sub-categorical breakdown. See `programs/sdtm/SDTM-MAPPING-SPEC.md` §22 note.
 
 ## Derivations
 
@@ -61,7 +61,7 @@ sdtm_dv <- raw |>
     DVTERM  = trimws(DV_TERM),
     DVDECOD = toupper(trimws(DV_DECODE)),
     DVCAT   = toupper(trimws(DV_SEVERITY)),
-    DVSCAT  = toupper(trimws(DV_CATEGORY)),
+    # DVSCAT dropped — functionally 1:1 with DVDECOD (P21 SD1040 redundant)
     DVSTDTC = as.character(DV_DATE),
     EPOCH   = toupper(trimws(DV_EPOCH))
   )
@@ -72,7 +72,7 @@ sdtm_dv <- raw |>
 ## Downstream impact
 
 - `ADSL.PPROTFL = "N"` for any subject with `DV.DVCAT == "MAJOR"`; else `"Y"` (subject to ITT/SAFFL conditions).
-- `T-DV-01` cross-tabulates `DVSCAT × DVCAT` by treatment arm.
+- `T-DV-01` cross-tabulates `DVDECOD × DVCAT` by treatment arm (per `programs/tfl/t_dv_01_deviations.R`).
 
 ## QC Checks
 
@@ -99,3 +99,4 @@ Consolidated mapping reference: `programs/sdtm/SDTM-MAPPING-SPEC.md` §22.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft for the new DV domain that closes AL-03 and drives ADSL.PPROTFL. |
+| 0.2 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Reconciled to `datasets/sdtm/dv.parquet` (10 cols): added study-day `DVSTDY` (`17_derive_timing.R`) and moved `EPOCH` to its real position (before `DVSTDTC`); **removed `DVSCAT`** — `dv.R` drops it as 1:1-redundant with `DVDECOD` (P21 SD1040), so the deviation category is carried by `DVDECOD`; corrected the downstream note (`T-DV-01` cross-tabulates `DVDECOD × DVCAT`, per `t_dv_01_deviations.R`). |

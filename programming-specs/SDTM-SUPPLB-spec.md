@@ -8,7 +8,7 @@
 | **Label** | Supplemental Qualifiers for LB |
 | **Class** | RELATIONSHIP |
 | **Structure** | One record per LB record per QNAM |
-| **Expected N** | 230,788 |
+| **Expected N** | 272,484 |
 | **Key variables** | `STUDYID`, `RDOMAIN`, `USUBJID`, `IDVAR`, `IDVARVAL`, `QNAM` |
 | **SDTMIG version** | v3.4 (§8.4) |
 | **Spec version** | 0.1 DRAFT |
@@ -17,7 +17,7 @@
 
 ## Purpose
 
-SUPPLB carries two sponsor-defined LB-level qualifiers required by the biomarker SAP: a biomarker test indicator (`BIOMRKFL`) that flags PD-L1, EGFR, ALK, ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, and TMB tests; and a central-lab indicator (`CENTRALFL`) that mirrors `BIOMRKFL` because biomarker assays are run centrally in this study while routine labs are local.
+SUPPLB carries two sponsor-defined LB-level qualifiers required by the biomarker SAP: a biomarker test indicator (`BIOMRKFL`) that flags PD-L1, EGFR, ALK, ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, and TMB tests; and a central-lab indicator (`CENTLBFL`) that mirrors `BIOMRKFL` because biomarker assays are run centrally in this study while routine labs are local.
 
 ## Source (Raw / Input)
 
@@ -47,7 +47,7 @@ SUPP-- shape per SDTMIG §8.4 (consolidated in `programs/sdtm/SDTM-MAPPING-SPEC.
 | QNAM | QLABEL | Type | Length | Source | Derivation logic |
 |---|---|---|---|---|---|
 | BIOMRKFL  | Biomarker Test Indicator | Char | 1 | `LB.LBTESTCD` | `"Y"` if `toupper(trim(LBTESTCD))` is in the biomarker code set (see below); else `"N"`. |
-| CENTRALFL | Central Lab Indicator    | Char | 1 | derived from `BIOMRKFL` | Equals `BIOMRKFL` (biomarkers are central; routine labs are local). |
+| CENTLBFL | Central Lab Indicator    | Char | 1 | derived from `BIOMRKFL` | Equals `BIOMRKFL` (biomarkers are central; routine labs are local). |
 
 **Biomarker code set** (case-insensitive match against `LBTESTCD`):
 
@@ -88,18 +88,18 @@ lb_flagged <- lb |>
   mutate(
     LBTESTCD_UP = toupper(trimws(LBTESTCD)),
     BIOMRKFL    = ifelse(LBTESTCD_UP %in% biomarker_codes, "Y", "N"),
-    CENTRALFL   = ifelse(BIOMRKFL == "Y", "Y", "N")
+    CENTLBFL   = ifelse(BIOMRKFL == "Y", "Y", "N")
   )
 
 supplb <- lb_flagged |>
-  pivot_longer(c(BIOMRKFL, CENTRALFL), names_to = "QNAM", values_to = "QVAL") |>
+  pivot_longer(c(BIOMRKFL, CENTLBFL), names_to = "QNAM", values_to = "QVAL") |>
   transmute(
     STUDYID  = "CTX-NSCLC-301", RDOMAIN = "LB", USUBJID,
     IDVAR    = "LBSEQ", IDVARVAL = as.character(LBSEQ),
     QNAM,
     QLABEL   = case_when(
       QNAM == "BIOMRKFL"  ~ "Biomarker Test Indicator",
-      QNAM == "CENTRALFL" ~ "Central Lab Indicator"
+      QNAM == "CENTLBFL" ~ "Central Lab Indicator"
     ),
     QVAL, QORIG = "DERIVED", QEVAL = ""
   ) |>
@@ -110,12 +110,12 @@ supplb <- lb_flagged |>
 
 ## QC Checks
 
-- [ ] `nrow(supplb) == 230788` (= 2 × 115,394 LB rows).
-- [ ] `QNAM ∈ {BIOMRKFL, CENTRALFL}` only; every parent LB record contributes both.
+- [ ] `nrow(supplb) == 272484` (= 2 × 136,242 LB rows).
+- [ ] `QNAM ∈ {BIOMRKFL, CENTLBFL}` only; every parent LB record contributes both.
 - [ ] `QVAL ∈ {"Y","N"}`, no missing.
 - [ ] `RDOMAIN == "LB"`, `IDVAR == "LBSEQ"`, `QORIG == "DERIVED"` for all rows.
 - [ ] For matched parent rows: `BIOMRKFL == "Y"` iff `LBTESTCD` (uppercased) is in the biomarker code set.
-- [ ] `BIOMRKFL == CENTRALFL` for every parent LB record (invariant for this study).
+- [ ] `BIOMRKFL == CENTLBFL` for every parent LB record (invariant for this study).
 - [ ] Sort matches `(USUBJID, as.integer(IDVARVAL), QNAM)`.
 
 ## Traceability
@@ -131,3 +131,4 @@ Consolidated mapping reference: `programs/sdtm/SDTM-MAPPING-SPEC.md` §20.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft (covers v0.2 back-fill of SUPPLB released 2026-05-16). |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refresh to current pipeline: Expected N 230,788 → 272,484 (= 2 × 136,242 LB rows; ALP cascade — LB grew by 11,491 so SUPPLB grew by 22,982, and `IDVARVAL` follows the renumbered `LBSEQ`). Corrected the second QNAM name `CENTRALFL → CENTLBFL` (8-char CDISC-valid name, matches `supplb.R`) in Purpose, QNAM table, derivation code, and QC checks. |

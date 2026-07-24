@@ -8,7 +8,7 @@
 | **Label** | Adverse Event Analysis Dataset |
 | **Class** | BASIC DATA STRUCTURE |
 | **Structure** | One record per subject per adverse event |
-| **Expected N** | ~4,500 records (estimated; ~10 AEs/subject × 450 subjects) |
+| **Expected N** | 2,840 |
 | **Key variables** | `USUBJID`, `AESEQ` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -58,7 +58,7 @@ ADAE supports all safety analyses: overall TEAE incidence (T-AE-01), AE by SOC/P
 | 27 | AECAT | Category for Adverse Event | Char | 40 | Predecessor | — | `AE.AECAT` |
 | 28 | TRTEMFL | Treatment Emergent Analysis Flag | Char | 1 | Derived | NY | `admiral::derive_var_trtemfl()`: ASTDT ≥ TRTSDT and ASTDT ≤ TRTEDT + 30 days |
 | 29 | IRAEFL | Immune-Related Adverse Event Flag | Char | 1 | Derived | NY | `if_else(AECAT == "IMMUNE-RELATED", "Y", "N")` — study-specific, documented in define.xml |
-| 30 | ANL01FL | Analysis Flag 01 (TEAE analysis) | Char | 1 | Derived | NY | `if_else(TRTEMFL == "Y", "Y", NA)` |
+| 30 | ANL01FL | Analysis Flag 01 (TEAE analysis) | Char | 1 | Derived | NY | `if_else(TRTEMFL == "Y" & SAFFL == "Y", "Y", NA)` — treatment-emergent AEs in the safety population (SAP §12.2) |
 | 31 | AVAL | Analysis Value | Num | 8 | Derived | — | `AETOXGRN` (for grade shift analyses) |
 | 32 | AESCONG | Congenital Anomaly/Birth Defect | Char | 1 | Predecessor | NY | `AE.AESCONG` |
 | 33 | AESDTH | Results in Death | Char | 1 | Predecessor | NY | `AE.AESDTH` |
@@ -93,3 +93,4 @@ ADAE supports all safety analyses: overall TEAE incidence (T-AE-01), AE by SOC/P
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial draft. Preliminary — confirm IRAEFL coding with CRF team. |
 | 0.2 | — | — | Confirm after Phase 5 ADaM delivery. |
+| 0.3 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = `TRTEMFL & SAFFL` (treatment-emergent AEs in the safety population); Expected N corrected to 2,840. |

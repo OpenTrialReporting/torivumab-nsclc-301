@@ -7,9 +7,9 @@
 | **Domain** | TR |
 | **Label** | Tumor / Lesion Results |
 | **Class** | FINDINGS |
-| **Structure** | One record per lesion measurement / response observation per visit per subject |
-| **Expected N** | 7,724 |
-| **Key variables** | `STUDYID`, `USUBJID`, `TRSEQ`; group keys `TRLINKID`, `TRTESTCD` |
+| **Structure** | One target-lesion longest-diameter (`LDIAM`) measurement per lesion per visit per subject |
+| **Expected N** | 6,136 |
+| **Key variables** | `STUDYID`, `USUBJID`, `TRSEQ`; group key `TRLNKID` (`TRTESTCD` constant `"LDIAM"`) |
 | **SDTMIG version** | CDISC SDTM Oncology Disease Response Supplement §9.2 (RECIST 1.1, 2023) on SDTMIG v3.4 |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -17,7 +17,9 @@
 
 ## Purpose
 
-TR holds the per-lesion **measurement and response** observations that underpin RECIST 1.1 assessments. Each raw assessment row generates 0–N TR records, partitioned across three TRTESTCD values: `LDIAM` (target lesion longest diameter, mm), `OVRLRESP` (non-target lesion response category), and `NEWLSN` (new-lesion flag). Together with `TU` (identification) and `RS` (overall response), TR is the SDTM substrate for `ADTR` (target-lesion ADaM) and for the BoR / DOR / BoTL derivations in `ADRS` and `ADTTE` (PFS).
+TR holds the per-lesion **target-lesion longest-diameter measurements** (`TRTESTCD == "LDIAM"`, mm) that underpin RECIST 1.1 assessments. Together with `TU` (identification) and `RS` (overall response), TR is the SDTM substrate for `ADTR` (target-lesion ADaM) and for the BoR / DOR / BoTL derivations in `ADRS` and `ADTTE` (PFS).
+
+**Scope — LDIAM only.** `tr.R` retains only target-lesion `LDIAM` records. Non-target **overall response** (`OVRLRESP`) and **new-lesion** (`NEWLSN`) flags are *not* valid TR (Tumor/Lesion Results) test codes — those response assessments belong in `RS`, where the overall response already reflects them. Dropping them keeps TR clean of P21 CT2002 (`TRTESTCD`/`TRTEST`) findings.
 
 This spec follows the CDISC SDTM Oncology Disease Response Supplement convention (RECIST 1.1, 2023).
 
@@ -30,15 +32,15 @@ This spec follows the CDISC SDTM Oncology Disease Response Supplement convention
 
 **Raw columns:** `SUBJECT_ID, ASSESSMENT_DATE, VISIT_NAME, LESION_ID, LESION_TYPE, ANATOMICAL_LOCATION, LONGEST_DIAMETER_MM, RESPONSE_CATEGORY, NEW_LESION`.
 
-## Record Sets (long-form pivot)
+## Record Set (target-lesion measurement)
 
-Each raw row contributes records to up to three TRTESTCD types (logical OR; rows can produce 0, 1, or 2 records, never more given the raw shape):
+TR contains a single record set. A raw row contributes one `LDIAM` record when it is a target lesion with a non-missing longest diameter:
 
 | Set | Filter on raw row | TRTESTCD | TRTEST | TRORRES / TRSTRESC | TRSTRESN | TRSTRESU |
 |---|---|---|---|---|---|---|
 | **Target lesion** | `TRGRPID == "TARGET"` AND `LONGEST_DIAMETER_MM` not NA | `LDIAM` | "Longest Diameter" | `as.character(LONGEST_DIAMETER_MM)` | `as.numeric(LONGEST_DIAMETER_MM)` | `"mm"` |
-| **Non-target response** | `TRGRPID == "NON-TARGET"` AND `RESPONSE_CATEGORY` not NA/blank | `OVRLRESP` | "Overall Response" | trim+upper `RESPONSE_CATEGORY` | NA | NA |
-| **New lesion flag** | `NEW_LESION ∈ {Y, YES, TRUE, 1}` | `NEWLSN` | "New Lesion" | `"Y"` | NA | NA |
+
+Non-target `OVRLRESP` and `NEWLSN` sets described in earlier drafts are **no longer produced** (see §Purpose — they belong in `RS`).
 
 ## Variables
 
@@ -47,18 +49,24 @@ Each raw row contributes records to up to three TRTESTCD types (logical OR; rows
 | 1 | STUDYID | Study Identifier | Char | 20 | Assigned | — | Constant `"CTX-NSCLC-301"` |
 | 2 | DOMAIN | Domain Abbreviation | Char | 2 | Assigned | — | Constant `"TR"` |
 | 3 | USUBJID | Unique Subject Identifier | Char | 40 | Derived | — | `paste(STUDYID, SUBJECT_ID, sep="-")` |
-| 4 | TRSEQ | Sequence Number | Num | 8 | Derived | — | `row_number()` per `USUBJID` after sort `(USUBJID, TRDTC, TRLINKID, TRTESTCD)` |
-| 5 | TRTESTCD | Short Name of Measurement | Char | 8 | Derived | TRTESTCD | Per Record Sets table above |
-| 6 | TRTEST | Name of Measurement | Char | 40 | Derived | TRTEST | Per Record Sets table above |
-| 7 | TRORRES | Result in Original Units | Char | 40 | Derived | — | Per Record Sets table above |
-| 8 | TRSTRESC | Standardised Result (character) | Char | 40 | Derived | — | Per Record Sets table above |
-| 9 | TRSTRESN | Standardised Result (numeric) | Num | 8 | Derived | — | Per Record Sets table above (NA for OVRLRESP, NEWLSN) |
-| 10 | TRSTRESU | Standardised Units | Char | 20 | Derived | UNIT | `"mm"` for LDIAM, NA otherwise |
-| 11 | TRDTC | Date of Assessment | Char | 10 | Predecessor | ISO 8601 | `as.character(ASSESSMENT_DATE)` |
-| 12 | VISITNUM | Visit Number | Num | 8 | Derived | VISITNUM | Shared VISIT lookup on `VISIT_NAME` |
-| 13 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `str_to_upper(str_trim(VISIT_NAME))` |
-| 14 | TRGRPID | Group ID (TARGET / NON-TARGET / NEW) | Char | 40 | Derived | TRGRPID | See §Derivations.D1 — identical mapping to `TU.TUGRPID` |
-| 15 | TRLINKID | Link Identifier (lesion key) | Char | 40 | Predecessor | — | `as.character(LESION_ID)` — joins to `TU.TULINKID` (RELREC Relationship A) |
+| 4 | TRSEQ | Sequence Number | Num | 8 | Derived | — | `row_number()` per `USUBJID` after sort `(USUBJID, TRDTC, TRLNKID, TRTESTCD)` |
+| 5 | TRTESTCD | Short Name of Measurement | Char | 8 | Derived | TRTESTCD | Constant `"LDIAM"` |
+| 6 | TRTEST | Name of Measurement | Char | 40 | Derived | TRTEST | Constant `"Longest Diameter"` |
+| 7 | TRORRES | Result in Original Units | Char | 40 | Derived | — | `as.character(LONGEST_DIAMETER_MM)` |
+| 8 | TRORRESU | Original Units | Char | 20 | Assigned | UNIT | Constant `"mm"` (P21 SD0057) |
+| 9 | TRSTRESC | Standardised Result (character) | Char | 40 | Derived | — | `as.character(LONGEST_DIAMETER_MM)` |
+| 10 | TRSTRESN | Standardised Result (numeric) | Num | 8 | Derived | — | `as.numeric(LONGEST_DIAMETER_MM)` |
+| 11 | TRSTRESU | Standardised Units | Char | 20 | Assigned | UNIT | Constant `"mm"` |
+| 12 | TRMETHOD | Method of Assessment | Char | 40 | Assigned | METHOD | Constant `"CT SCAN"` (RECIST imaging method, P21 SD0057) |
+| 13 | TRLOBXFL | Last Obs Before Exposure Flag | Char | 1 | Derived | NY | `"Y"` when `VISITNUM == 0` (screening = last tumour assessment before first dose), else NA (P21 SD0057) |
+| 14 | TREVAL | Evaluator | Char | 40 | Assigned | EVAL | Constant `"INVESTIGATOR"` (local investigator read, P21 SD0057) |
+| 15 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `TRDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `TRDTC` missing/partial |
+| 16 | TRDTC | Date of Assessment | Char | 10 | Predecessor | ISO 8601 | `as.character(ASSESSMENT_DATE)` |
+| 17 | TRDY | Study Day of Assessment | Num | 8 | Derived | — | Study day of `TRDTC` vs `DM.RFSTDTC`: `TRDTC − RFSTDTC + 1` on/after RFSTDTC, else `TRDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 18 | VISITNUM | Visit Number | Num | 8 | Derived | VISITNUM | Shared VISIT lookup on `VISIT_NAME` |
+| 19 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `str_to_upper(str_trim(VISIT_NAME))` |
+| 20 | TRGRPID | Group ID | Char | 40 | Derived | TRGRPID | See §Derivations.D1 — constant `"TARGET"` (only target lesions retained); identical mapping to `TU.TUGRPID` |
+| 21 | TRLNKID | Link Identifier (lesion key) | Char | 40 | Predecessor | — | `as.character(LESION_ID)` — joins to `TU.TULNKID` (RELREC Relationship A) |
 
 ## Derivations
 
@@ -71,27 +79,20 @@ TRGRPID = case_when(
 )
 ```
 
-### D2 — Long-form pivot pseudocode (full)
+### D2 — Target-lesion record build (pseudocode)
 ```r
-raw <- raw |> mutate(USUBJID, TRDTC = ASSESSMENT_DATE, TRGRPID = <D1>, TRLINKID = as.character(LESION_ID),
-                     new_lesion_flag = str_to_upper(str_trim(NEW_LESION)) %in% c("Y","YES","TRUE","1"))
+raw <- raw |> mutate(USUBJID, TRDTC = ASSESSMENT_DATE, TRGRPID = <D1>, TRLNKID = as.character(LESION_ID))
 
-tr_target    <- raw |> filter(TRGRPID == "TARGET",     !is.na(LONGEST_DIAMETER_MM)) |>
-                       mutate(TRTESTCD="LDIAM",    TRTEST="Longest Diameter",
-                              TRORRES=as.character(LONGEST_DIAMETER_MM),
-                              TRSTRESC=as.character(LONGEST_DIAMETER_MM),
-                              TRSTRESN=as.numeric(LONGEST_DIAMETER_MM), TRSTRESU="mm")
-tr_nontarget <- raw |> filter(TRGRPID == "NON-TARGET", !is.na(RESPONSE_CATEGORY),
-                              str_trim(RESPONSE_CATEGORY) != "") |>
-                       mutate(TRTESTCD="OVRLRESP", TRTEST="Overall Response",
-                              TRORRES=str_to_upper(str_trim(RESPONSE_CATEGORY)),
-                              TRSTRESC=TRORRES, TRSTRESN=NA_real_, TRSTRESU=NA_character_)
-tr_newlesion <- raw |> filter(new_lesion_flag) |>
-                       mutate(TRTESTCD="NEWLSN",   TRTEST="New Lesion",
-                              TRORRES="Y", TRSTRESC="Y", TRSTRESN=NA_real_, TRSTRESU=NA_character_)
+tr_target <- raw |> filter(TRGRPID == "TARGET", !is.na(LONGEST_DIAMETER_MM)) |>
+                    mutate(TRTESTCD="LDIAM",   TRTEST="Longest Diameter",
+                           TRORRES=as.character(LONGEST_DIAMETER_MM), TRORRESU="mm",
+                           TRSTRESC=as.character(LONGEST_DIAMETER_MM),
+                           TRSTRESN=as.numeric(LONGEST_DIAMETER_MM), TRSTRESU="mm",
+                           TRMETHOD="CT SCAN", TREVAL="INVESTIGATOR",
+                           TRLOBXFL=ifelse(VISITNUM == 0L & !is.na(VISITNUM), "Y", NA_character_))
 
-tr <- bind_rows(tr_target, tr_nontarget, tr_newlesion) |>
-      arrange(USUBJID, TRDTC, TRLINKID, TRTESTCD) |>
+tr <- tr_target |>                                  # OVRLRESP / NEWLSN sets no longer produced (belong in RS)
+      arrange(USUBJID, TRDTC, TRLNKID, TRTESTCD) |>
       group_by(USUBJID) |> mutate(TRSEQ = row_number()) |> ungroup()
 ```
 
@@ -99,24 +100,27 @@ tr <- bind_rows(tr_target, tr_nontarget, tr_newlesion) |>
 
 | Variable | CT codelist | Notes |
 |---|---|---|
-| TRTESTCD | C100945 (TRTESTCD, Oncology) | LDIAM, OVRLRESP, NEWLSN |
-| TRTEST | C100946 (TRTEST, Oncology) | "Longest Diameter", "Overall Response", "New Lesion" |
-| TRSTRESC (when TRTESTCD = OVRLRESP) | C99158 (NRRESP, lesion-level) | CR / NON-CR-NON-PD / PD / NE |
-| TRSTRESU | UNIT (C71620) | `mm` only |
-| TRGRPID | Study-specific (RECIST 1.1) | TARGET / NON-TARGET / NEW |
+| TRTESTCD | C100945 (TRTESTCD, Oncology) | `LDIAM` only |
+| TRTEST | C100946 (TRTEST, Oncology) | "Longest Diameter" only |
+| TRORRESU, TRSTRESU | UNIT (C71620) | `mm` only |
+| TRMETHOD | C85492 (METHOD) | `CT SCAN` only |
+| TREVAL | C78735 (EVAL) | `INVESTIGATOR` only |
+| TRLOBXFL | C66742 (NY) | `Y` / null |
+| TRGRPID | Study-specific (RECIST 1.1) | `TARGET` only (non-target/new not retained) |
 | VISIT, VISITNUM | Shared VISIT lookup | — |
 
 ## QC Checks
 
-- [ ] `nrow(tr) ≈ 7,724` (within ±0.1%).
+- [ ] `nrow(tr) ≈ 6,136` (within ±0.1%).
 - [ ] `USUBJID` foreign key into `DM`.
 - [ ] `TRSEQ` strictly increasing per `USUBJID` with no gaps starting at 1.
-- [ ] `TRTESTCD ∈ {LDIAM, OVRLRESP, NEWLSN}` exclusively.
-- [ ] When `TRTESTCD == "LDIAM"`: `TRSTRESN > 0` and `TRSTRESU == "mm"`.
-- [ ] When `TRTESTCD ∈ {OVRLRESP, NEWLSN}`: `TRSTRESN` is NA and `TRSTRESU` is NA.
-- [ ] Every `TRLINKID` exists in `TU.TULINKID` for the same `USUBJID` (RELREC A integrity).
+- [ ] `TRTESTCD == "LDIAM"` for every row (no `OVRLRESP` / `NEWLSN`).
+- [ ] `TRSTRESN > 0`, `TRSTRESU == "mm"`, and `TRORRESU == "mm"` on every row.
+- [ ] `TREVAL == "INVESTIGATOR"` and `TRMETHOD == "CT SCAN"` on every row.
+- [ ] `TRLOBXFL == "Y"` only when `VISITNUM == 0`; null otherwise.
+- [ ] Every `TRLNKID` exists in `TU.TULNKID` for the same `USUBJID` (RELREC A integrity).
 - [ ] `TRDTC` parses as ISO 8601 date.
-- [ ] Sort key `(USUBJID, TRDTC, TRLINKID, TRTESTCD)` reproduces row order.
+- [ ] Sort key `(USUBJID, TRDTC, TRLNKID, TRTESTCD)` reproduces row order.
 - [ ] Variable labels / lengths / types align with this spec via `xportr::xportr_*()`.
 
 ## Traceability
@@ -134,3 +138,5 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §14 for the consolidated cross-domain 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft — spec-first, mapped to `programs/sdtm/tr.R`. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refresh vs current `tr.R`: TR now LDIAM-only (dropped `OVRLRESP`/`NEWLSN` sets → moved to RS); Expected N 7,724 → 6,136; added expected vars `TRORRESU`, `TRMETHOD`, `TREVAL`, `TRLOBXFL` (P21 SD0057); link-id variable named `TRLNKID` (was `TRLINKID`); updated Record Set, D2 pivot, CT and QC accordingly. |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH` and `TRDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/tr.parquet`. |

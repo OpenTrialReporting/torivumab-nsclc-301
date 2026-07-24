@@ -8,7 +8,7 @@
 | **Label** | Supplemental Qualifiers for AE |
 | **Class** | RELATIONSHIP |
 | **Structure** | One record per AE per QNAM |
-| **Expected N** | 8,511 |
+| **Expected N** | 11,360 |
 | **Key variables** | `STUDYID`, `RDOMAIN`, `USUBJID`, `IDVAR`, `IDVARVAL`, `QNAM` |
 | **SDTMIG version** | v3.4 (§8.4) |
 | **Spec version** | 0.1 DRAFT |
@@ -17,14 +17,15 @@
 
 ## Purpose
 
-SUPPAE carries three sponsor-defined AE-level qualifiers that are required by the safety SAP but are not standard SDTM AE variables: an immune-related AE flag, an "AE led to study drug discontinuation" flag, and a "dose modified due to AE" flag. These flags feed ADAE (AETOXGR analysis, irAE subgroup tables T-AE-04/05) and the safety pop summaries.
+SUPPAE carries four sponsor-defined AE-level qualifiers that are required by the safety SAP but are not standard SDTM AE variables: an immune-related AE flag, an "AE led to study drug discontinuation" flag, a "dose modified due to AE" flag, and a treatment-emergent flag (AE onset on/after first study treatment). These flags feed ADAE (AETOXGR analysis, TEAE/irAE subgroup tables T-AE-04/05) and the safety pop summaries.
 
 ## Source (Raw / Input)
 
 | Input | Source | Reason |
 |---|---|---|
 | `datasets/sdtm/ae.parquet` | Parent AE domain | Provides `USUBJID`, parent `AESEQ` for `IDVARVAL` linkage. |
-| `raw/adverse_events.csv` | Raw CRF feed | Provides `AECAT`, `LEADING_TO_DISCONTINUATION`, `ACTION_TAKEN` used to derive flags. |
+| `raw/adverse_events.csv` | Raw CRF feed | Provides `AECAT`, `LEADING_TO_DISCONTINUATION`, `ACTION_TAKEN`, `AE_START_DATE` used to derive flags. |
+| `datasets/sdtm/dm.parquet` | DM domain | Provides `RFXSTDTC` (first study-treatment date) for the `AETRTEM` treatment-emergent flag. |
 
 ## Variables
 
@@ -50,15 +51,24 @@ SUPP-- shape per SDTMIG §8.4 (consolidated in `programs/sdtm/SDTM-MAPPING-SPEC.
 | IRAEFL  | Immune-Related AE Flag                | Char | 1 | `raw.AECAT`                     | `"Y"` if `toupper(trim(AECAT)) == "IMMUNE-RELATED"`; else `"N"`. |
 | AEDISFL | AE Led to Study Drug Discontinuation  | Char | 1 | `raw.LEADING_TO_DISCONTINUATION`| `map_yn(.)`: `"Y"` if value ∈ {Y, YES, TRUE, 1}; else `"N"`. |
 | AEACTFL | Dose Modified Due to AE               | Char | 1 | `raw.ACTION_TAKEN`              | `"Y"` if `toupper(trim(.))` ∈ {DOSE REDUCED, DOSE INTERRUPTED, DRUG INTERRUPTED, DRUG WITHDRAWN, DOSE REDUCTION}; else `"N"`. |
+| AETRTEM | Treatment Emergent Analysis Flag      | Char | 1 | `raw.AE_START_DATE`, `DM.RFXSTDTC` | `"Y"` if first-dose date (`RFXSTDTC`) is non-missing AND `as.Date(AE_START_DATE) >= RFXSTDTC`; else `"N"` (P21 SD1097 — FDA business rule requires a treatment-emergent flag in SUPPAE). |
 
-All three QNAMs are emitted for every parent AE record (long form via `pivot_longer`).
+All four QNAMs are emitted for every parent AE record (long form via `pivot_longer`).
 
 ## Derivations
 
 ```r
 ae  <- read_parquet("datasets/sdtm/ae.parquet")
 raw <- read.csv("raw/adverse_events.csv") |>
-  mutate(USUBJID = paste(STUDYID, SUBJECT_ID, sep = "-"))
+  mutate(USUBJID = paste(STUDYID, SUBJECT_ID, sep = "-")) |>
+  # Mirror ae.R dedup EXACTLY so re-derived AESEQ aligns with parent AE.AESEQ.
+  arrange(USUBJID, AE_START_DATE, AE_VERBATIM_TERM, dplyr::desc(AE_END_DATE)) |>
+  distinct(USUBJID, AE_VERBATIM_TERM, AE_START_DATE, SEVERITY, SERIOUS,
+           ACTION_TAKEN, OUTCOME, .keep_all = TRUE)
+
+# First-dose date per subject for the treatment-emergent flag.
+rfxst <- read_parquet("datasets/sdtm/dm.parquet") |>
+  transmute(USUBJID, rfxst = as.Date(RFXSTDTC))
 
 # Re-derive AESEQ identically to parent AE: arrange (USUBJID, AE_START_DATE),
 # then row_number() per subject. This MUST match parent AE.AESEQ.
@@ -67,6 +77,7 @@ raw_with_flags <- raw |>
   group_by(USUBJID) |>
   mutate(AESEQ = row_number()) |>
   ungroup() |>
+  left_join(rfxst, by = "USUBJID") |>
   transmute(
     USUBJID, AESEQ,
     IRAEFL  = ifelse(toupper(trimws(AECAT)) == "IMMUNE-RELATED", "Y", "N"),
@@ -76,11 +87,12 @@ raw_with_flags <- raw |>
         c("DOSE REDUCED","DOSE INTERRUPTED","DRUG INTERRUPTED",
           "DRUG WITHDRAWN","DOSE REDUCTION") ~ "Y",
       TRUE ~ "N"
-    )
+    ),
+    AETRTEM = ifelse(!is.na(rfxst) & as.Date(AE_START_DATE) >= rfxst, "Y", "N")
   )
 
 supp_long <- raw_with_flags |>
-  pivot_longer(c(IRAEFL, AEDISFL, AEACTFL), names_to = "QNAM", values_to = "QVAL") |>
+  pivot_longer(c(IRAEFL, AEDISFL, AEACTFL, AETRTEM), names_to = "QNAM", values_to = "QVAL") |>
   mutate(
     STUDYID  = "CTX-NSCLC-301",
     RDOMAIN  = "AE",
@@ -89,7 +101,8 @@ supp_long <- raw_with_flags |>
     QLABEL   = case_when(
       QNAM == "IRAEFL"  ~ "Immune-Related AE Flag",
       QNAM == "AEDISFL" ~ "AE Led to Study Drug Discontinuation",
-      QNAM == "AEACTFL" ~ "Dose Modified Due to AE"
+      QNAM == "AEACTFL" ~ "Dose Modified Due to AE",
+      QNAM == "AETRTEM" ~ "Treatment Emergent Analysis Flag"
     ),
     QORIG    = "DERIVED",
     QEVAL    = ""
@@ -102,9 +115,9 @@ supp_long <- raw_with_flags |>
 
 ## QC Checks
 
-- [ ] `nrow(suppae) == 8511` (3 QNAMs × 2,837 AE rows).
+- [ ] `nrow(suppae) == 11360` (4 QNAMs × 2,840 AE rows).
 - [ ] `n_distinct(USUBJID, IDVARVAL)` equals `nrow(ae)`; the re-derived `AESEQ` matches parent `AE.AESEQ` exactly.
-- [ ] `QNAM ∈ {IRAEFL, AEDISFL, AEACTFL}` only and each parent AE has all three.
+- [ ] `QNAM ∈ {IRAEFL, AEDISFL, AEACTFL, AETRTEM}` only and each parent AE has all four.
 - [ ] `QVAL ∈ {"Y", "N"}` with no missing.
 - [ ] `RDOMAIN == "AE"`, `IDVAR == "AESEQ"`, `QORIG == "DERIVED"` for all rows.
 - [ ] Sort matches `(USUBJID, as.integer(IDVARVAL), QNAM)`.
@@ -122,3 +135,4 @@ Consolidated mapping reference: `programs/sdtm/SDTM-MAPPING-SPEC.md` §18.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft (covers v0.2 back-fill of SUPPAE released 2026-05-16). |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Spec refresh vs `suppae.R`: added fourth QNAM `AETRTEM` (treatment-emergent flag, AE onset ≥ `DM.RFXSTDTC`; P21 SD1097); added `dm.parquet` source; record count 8,511 → 11,360 (4 QNAMs × 2,840 AEs); updated derivation, QNAM table, and QC. |

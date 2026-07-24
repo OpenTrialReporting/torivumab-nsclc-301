@@ -8,7 +8,7 @@
 | **Label** | Vital Signs |
 | **Class** | FINDINGS |
 | **Structure** | One record per vital-sign parameter per visit per subject |
-| **Expected N** | 46,095 |
+| **Expected N** | 52,920 |
 | **Key variables** | `STUDYID`, `USUBJID`, `VSSEQ` |
 | **SDTMIG version** | v3.4 (§7.2) |
 | **Spec version** | 0.1 DRAFT |
@@ -40,9 +40,11 @@ VS captures the seven vital-sign parameters (systolic BP, diastolic BP, heart ra
 | 9 | VSSTRESC | Character Result/Finding in Std Format | Char | 40 | CRF | — | `as.character(raw_value)` |
 | 10 | VSSTRESN | Numeric Result/Finding in Std Units | Num | 8 | Derived | — | `suppressWarnings(as.numeric(raw_value))` |
 | 11 | VSSTRESU | Standard Units | Char | 20 | Derived | UNIT | per §Derivations.D1 (same as VSORRESU — no conversion) |
-| 12 | VSDTC | Date/Time of Measurements | Char | 10 | CRF | — | `VISIT_DATE` (ISO 8601, direct) |
-| 13 | VISITNUM | Visit Number | Num | 8 | Derived | — | per shared VISIT lookup (§Derivations.D2) |
-| 14 | VISIT | Visit Name | Char | 40 | CRF | — | `str_to_upper(str_trim(VISIT_NAME))` |
+| 12 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `VSDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `VSDTC` missing/partial |
+| 13 | VSDTC | Date/Time of Measurements | Char | 10 | CRF | — | `VISIT_DATE` (ISO 8601, direct) |
+| 14 | VSDY | Study Day of Measurements | Num | 8 | Derived | — | Study day of `VSDTC` vs `DM.RFSTDTC`: `VSDTC − RFSTDTC + 1` on/after RFSTDTC, else `VSDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 15 | VISITNUM | Visit Number | Num | 8 | Derived | — | per shared VISIT lookup (§Derivations.D2) |
+| 16 | VISIT | Visit Name | Char | 40 | CRF | — | `str_to_upper(str_trim(VISIT_NAME))` |
 
 ## Derivations
 
@@ -78,10 +80,16 @@ visit_map = {
    "SCREENING": 0, "SCR": 0,
    "C1D1": 1, "C1D15": 2, "C2D1": 3, "C3D1": 4, "C4D1": 5,
    "C5D1": 6, "C6D1": 7, "C7D1": 8, "C8D1": 9,
-   "EOT": 99, "END OF TREATMENT": 99,
-   "FU1": 100, "FU2": 101, "FOLLOW-UP 1": 100, "FOLLOW-UP 2": 101
+   "EOT": 900, "END OF TREATMENT": 900,
+   "FU1": 901, "FU2": 902, "FOLLOW-UP 1": 901, "FOLLOW-UP 2": 902
 }
-VISITNUM = visit_map[str_to_upper(str_trim(VISIT_NAME))]   # NA if unmatched
+VISITNUM = visit_map[str_to_upper(str_trim(VISIT_NAME))]
+# label-derived where not in visit_map (unique per VISIT -> P21 SD0051 bijection):
+#   BASELINE            -> 0
+#   MAINT_CnD1          -> 9 + n
+#   TUMOR_ASSESS_WKn    -> n
+#   UNSCHEDULED         -> 998   (single UNSCHEDULED<->998 mapping; an off-schedule
+#                                 safety recheck of an abnormal on-treatment value)
 ```
 
 See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.
@@ -97,7 +105,7 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.
 
 ## QC Checks
 
-- [ ] `nrow(vs) == 46095` (±0.1%)
+- [ ] `nrow(vs) == 52920` (±0.1%)
 - [ ] All `USUBJID ∈ DM.USUBJID`
 - [ ] `VSSEQ` strictly increasing per `USUBJID` with no gaps
 - [ ] No duplicate keys `(USUBJID, VSSEQ)`
@@ -121,3 +129,5 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refresh to current pipeline: Expected N 46,095 → 52,920 (unscheduled safety rechecks now generated raw-first). Corrected the stale D2 VISIT lookup to match `vs.R`: EOT/END OF TREATMENT → 900, FU1/FU2 → 901/902, plus the label-derived `BASELINE→0`, `MAINT_CnD1→9+n`, `TUMOR_ASSESS_WKn→n`, and `UNSCHEDULED→998` bijection (P21 SD0051). |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH` and `VSDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/vs.parquet`. |

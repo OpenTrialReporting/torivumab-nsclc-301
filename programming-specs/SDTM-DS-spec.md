@@ -38,7 +38,9 @@ DS records the protocol milestones and study-discontinuation events that drive A
 | 6 | DSDECOD | Standardized Disposition Term | Char | 200 | Derived | NCOMPLT/DSDECOD | See §Derivations.D1 + `map_disc_decode` |
 | 7 | DSCAT | Category for Disposition Event | Char | 40 | Derived | — | `"PROTOCOL MILESTONE"` (rec A/B) or `"DISPOSITION EVENT"` (rec C) |
 | 8 | DSSCAT | Subcategory for Disposition Event | Char | 40 | Derived | — | NA for milestones; `"STUDY DISCONTINUATION"` for non-completers in rec C; NA for completers |
-| 9 | DSSTDTC | Start Date/Time of Disposition Event | Char | 10 | CRF | — | `INFORM_CONSENT_DATE` (A), `RAND_DATE` (B), `STUDY_COMPLETION_DATE` or `DISC_DATE` (C) |
+| 9 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `DSSTDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `DSSTDTC` missing/partial |
+| 10 | DSSTDTC | Start Date/Time of Disposition Event | Char | 10 | CRF | — | `INFORM_CONSENT_DATE` (A), `RAND_DATE` (B), `STUDY_COMPLETION_DATE` or `DISC_DATE` (C) |
+| 11 | DSSTDY | Study Day of Start of Disposition Event | Num | 8 | Derived | — | Study day of `DSSTDTC` vs `DM.RFSTDTC`: `DSSTDTC − RFSTDTC + 1` on/after RFSTDTC, else `DSSTDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
 
 ## Derivations
 
@@ -128,3 +130,4 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §2 for the consolidated derivation tab
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH` and `DSSTDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/ds.parquet`. |

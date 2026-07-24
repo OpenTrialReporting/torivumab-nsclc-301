@@ -8,7 +8,7 @@
 | **Label** | Laboratory Test Results |
 | **Class** | FINDINGS |
 | **Structure** | One record per lab test per visit per subject |
-| **Expected N** | 115,394 |
+| **Expected N** | 136,242 |
 | **Key variables** | `STUDYID`, `USUBJID`, `LBSEQ` |
 | **SDTMIG version** | v3.4 (§7.2.1) |
 | **Spec version** | 0.1 DRAFT |
@@ -17,7 +17,7 @@
 
 ## Purpose
 
-LB holds every laboratory measurement (haematology, chemistry, biomarkers) collected at scheduled visits including screening, every on-treatment cycle, end-of-treatment, and follow-up. Each row is one (test × visit × subject). Normal-range comparison (`LBNRIND`) is performed at the SDTM layer using `LBSTNRLO/LBSTNRHI` so ADLB can compute CTCAE shifts unambiguously. Biomarker rows (PDL1, EGFR, KRAS, etc.) are flagged via `SUPPLB.BIOMRKFL/CENTRALFL`. Downstream consumers: ADLB (BASETYPE, ANRIND shifts, CTCAE grades), T-LB-01 (mean over visit), T-LB-02 (worst grade shift), T-LB-03 (biomarker subgroup overlay on efficacy).
+LB holds every laboratory measurement (haematology, chemistry, biomarkers) collected at scheduled visits including screening, every on-treatment cycle, end-of-treatment, and follow-up. Each row is one (test × visit × subject). Normal-range comparison (`LBNRIND`) is performed at the SDTM layer using `LBSTNRLO/LBSTNRHI` so ADLB can compute CTCAE shifts unambiguously. Biomarker rows (PDL1, EGFR, KRAS, etc.) are flagged via `SUPPLB.BIOMRKFL/CENTLBFL`. Downstream consumers: ADLB (BASETYPE, ANRIND shifts, CTCAE grades), T-LB-01 (mean over visit), T-LB-02 (worst grade shift), T-LB-03 (biomarker subgroup overlay on efficacy).
 
 ## Source (Raw / Input)
 
@@ -34,20 +34,25 @@ LB holds every laboratory measurement (haematology, chemistry, biomarkers) colle
 | 3 | USUBJID | Unique Subject Identifier | Char | 40 | Derived | — | `paste(STUDYID, SUBJECT_ID, sep="-")` |
 | 4 | LBSEQ | Sequence Number | Num | 8 | Derived | — | Per-USUBJID `row_number()` after sort `(USUBJID, LBDTC, LBTESTCD)` |
 | 5 | LBTESTCD | Lab Test or Examination Short Name | Char | 8 | CRF | LBTESTCD | `str_to_upper(str_trim(TEST_CODE))` |
-| 6 | LBTEST | Lab Test or Examination Name | Char | 40 | CRF | LBTEST | `str_trim(TEST_NAME)` |
+| 6 | LBTEST | Lab Test or Examination Name | Char | 40 | Derived | LBTEST | `dplyr::recode(LBTESTCD, ...)` — CDISC submission values keyed by `LBTESTCD` (ALB=Albumin, **ALP=Alkaline Phosphatase**, ALT, AST, BILI, CREAT, HGB=Hemoglobin, K=Potassium, NEUT, PLAT, SODIUM, WBC=Leukocytes); `.default = str_trim(TEST_NAME)` (P21 CT2002/CT2003 pair) |
 | 7 | LBCAT | Category for Lab Test | Char | 40 | Derived | — | See §Derivations.D1 |
 | 8 | LBORRES | Result or Finding in Original Units | Char | 40 | CRF | — | `as.character(RESULT_VALUE)` |
 | 9 | LBORRESU | Original Units | Char | 40 | CRF | UNIT | `str_trim(RESULT_UNIT)` |
-| 10 | LBSTRESC | Character Result/Finding in Std Format | Char | 40 | CRF | — | `as.character(RESULT_VALUE)` |
-| 11 | LBSTRESN | Numeric Result/Finding in Std Units | Num | 8 | Derived | — | `suppressWarnings(as.numeric(RESULT_VALUE))` |
-| 12 | LBSTRESU | Standard Units | Char | 40 | CRF | UNIT | `str_trim(RESULT_UNIT)` (assumed SI; no unit conversion applied at SDTM layer) |
-| 13 | LBSTNRLO | Reference Range Lower Limit-Std Units | Num | 8 | CRF | — | `as.numeric(LOWER_NORMAL)` |
-| 14 | LBSTNRHI | Reference Range Upper Limit-Std Units | Num | 8 | CRF | — | `as.numeric(UPPER_NORMAL)` |
-| 15 | LBNRIND | Reference Range Indicator | Char | 10 | Derived | NRIND | See §Derivations.D2 |
-| 16 | LBDTC | Date/Time of Specimen Collection | Char | 10 | CRF | — | `VISIT_DATE` (ISO 8601, direct) |
-| 17 | VISITNUM | Visit Number | Num | 8 | Derived | — | per shared VISIT lookup (§Derivations.D3) |
-| 18 | VISIT | Visit Name | Char | 40 | CRF | — | `str_to_upper(str_trim(VISIT_NAME))` |
-| 19 | LBBLFL | Baseline Flag | Char | 1 | Derived | NY | `"Y"` if `VISITNUM == 0` OR `VISIT ∈ {SCREENING, SCR}`; else NA |
+| 10 | LBORNRLO | Reference Range Lower Limit-Orig Units | Char | 40 | CRF | — | `as.character(LOWER_NORMAL)` — CHARACTER as-collected (P21 SD0057); orig-unit range = std-unit range (no SI conversion) |
+| 11 | LBORNRHI | Reference Range Upper Limit-Orig Units | Char | 40 | CRF | — | `as.character(UPPER_NORMAL)` — CHARACTER as-collected (P21 SD0057) |
+| 12 | LBSTRESC | Character Result/Finding in Std Format | Char | 40 | CRF | — | `as.character(RESULT_VALUE)` |
+| 13 | LBSTRESN | Numeric Result/Finding in Std Units | Num | 8 | Derived | — | `suppressWarnings(as.numeric(RESULT_VALUE))` |
+| 14 | LBSTRESU | Standard Units | Char | 40 | CRF | UNIT | `str_trim(RESULT_UNIT)` (assumed SI; no unit conversion applied at SDTM layer) |
+| 15 | LBSTNRLO | Reference Range Lower Limit-Std Units | Num | 8 | CRF | — | `suppressWarnings(as.numeric(LOWER_NORMAL))` |
+| 16 | LBSTNRHI | Reference Range Upper Limit-Std Units | Num | 8 | CRF | — | `suppressWarnings(as.numeric(UPPER_NORMAL))` |
+| 17 | LBNRIND | Reference Range Indicator | Char | 10 | Derived | NRIND | See §Derivations.D2 |
+| 18 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `LBDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `LBDTC` missing/partial |
+| 19 | LBDTC | Date/Time of Specimen Collection | Char | 10 | CRF | — | `VISIT_DATE` (ISO 8601, direct) |
+| 20 | LBDY | Study Day of Specimen Collection | Num | 8 | Derived | — | Study day of `LBDTC` vs `DM.RFSTDTC`: `LBDTC − RFSTDTC + 1` on/after RFSTDTC, else `LBDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 21 | VISITNUM | Visit Number | Num | 8 | Derived | — | per shared VISIT lookup (§Derivations.D3) |
+| 22 | VISIT | Visit Name | Char | 40 | CRF | — | `str_to_upper(str_trim(VISIT_NAME))` |
+| 23 | LBLOBXFL | Last Observation Before Exposure Flag | Char | 1 | Derived | NY | `= LBBLFL` — baseline/screening record is the last observation before first dose (P21 SD0057) |
+| 24 | LBBLFL | Baseline Flag | Char | 1 | Derived | NY | `"Y"` if `VISITNUM == 0` OR `VISIT ∈ {SCREENING, SCR}`; else NA |
 
 ## Derivations
 
@@ -58,7 +63,7 @@ haem_codes = {HGB, NEUT, PLAT, WBC, LYMPH, RBC, HCT, MCH, MCHC, MCV}
 LBCAT = if LBTESTCD in haem_codes then "HAEMATOLOGY" else "CHEMISTRY"
 ```
 
-Biomarker `LBTESTCD` values (PDL1, EGFR, KRAS, ALK, ...) fall under `CHEMISTRY` at the parent layer; the SUPPLB `BIOMRKFL`/`CENTRALFL` qualifiers carry the biomarker / central-lab semantics.
+Biomarker `LBTESTCD` values (PDL1, EGFR, KRAS, ALK, ...) fall under `CHEMISTRY` at the parent layer; the SUPPLB `BIOMRKFL`/`CENTLBFL` qualifiers carry the biomarker / central-lab semantics.
 
 ### D2 — LBNRIND (priority: raw flag, then range comparison)
 
@@ -109,7 +114,7 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.
 
 ## QC Checks
 
-- [ ] `nrow(lb) == 115394` (±0.1%)
+- [ ] `nrow(lb) == 136242` (±0.1%)
 - [ ] All `USUBJID ∈ DM.USUBJID`
 - [ ] `LBSEQ` strictly increasing per `USUBJID` with no gaps
 - [ ] No duplicate keys `(USUBJID, LBSEQ)`
@@ -128,10 +133,12 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` "Shared VISIT lookup" block.
 |---|---|---|
 | `programming-specs/SDTM-LB-spec.md` | `programs/sdtm/lb.R` | `datasets/sdtm/lb.parquet` |
 
-SUPPLB (BIOMRKFL, CENTRALFL) — see `programs/sdtm/SDTM-MAPPING-SPEC.md` §20 / `programs/sdtm/supplb.R`.
+SUPPLB (BIOMRKFL, CENTLBFL) — see `programs/sdtm/SDTM-MAPPING-SPEC.md` §20 / `programs/sdtm/supplb.R`.
 
 ## Change Log
 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refresh to current pipeline: Expected N 115,394 → 136,242 (ALP analyte added, +11,491). Documented ALP in the `LBTESTCD → LBTEST` recode and `LBCAT=CHEMISTRY` default. Added expected variables `LBORNRLO`/`LBORNRHI` (character orig-unit ranges) and `LBLOBXFL` (P21 SD0057). Corrected SUPPLB central-lab QNAM reference `CENTRALFL → CENTLBFL`. `UNSCHEDULED → VISITNUM 998` bijection already documented in D3. |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH` and `LBDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/lb.parquet`. |

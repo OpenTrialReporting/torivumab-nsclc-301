@@ -8,7 +8,7 @@
 | **Label** | Disease Response |
 | **Class** | FINDINGS |
 | **Structure** | One overall-response record per assessment per reader (`RSEVAL`) per subject |
-| **Expected N** | 2,260 |
+| **Expected N** | 5,338 |
 | **Key variables** | `STUDYID`, `USUBJID`, `RSSEQ`; sort grouping `(USUBJID, RSDTC, RSEVAL)` |
 | **SDTMIG version** | CDISC SDTM Oncology Disease Response Supplement §9.3 (RECIST 1.1, 2023) on SDTMIG v3.4 |
 | **Spec version** | 0.1 DRAFT |
@@ -51,10 +51,13 @@ Despite the legacy column name `INVESTIGATOR_RESPONSE`, the column carries the r
 | 8 | RSEVAL | Evaluator (reader stream) | Char | 40 | Derived | RSEVAL | See §Derivations.D1 — `"INVESTIGATOR"` or `"INDEPENDENT ASSESSOR"` |
 | 9 | RSORRES | Result in Original Units | Char | 40 | Predecessor | NRRESP | `str_to_upper(str_trim(INVESTIGATOR_RESPONSE))` |
 | 10 | RSSTRESC | Standardised Result (character) | Char | 40 | Predecessor | NRRESP | `str_to_upper(str_trim(INVESTIGATOR_RESPONSE))` |
-| 11 | RSSTRESN | Standardised Result (numeric) | Num | 8 | Derived | — | See §Derivations.D2 |
+| 11 | EPOCH | Epoch | Char | 20 | Derived | EPOCH | Trial epoch from the treatment window (`17_derive_timing.R`): `SCREENING` before first dose, `TREATMENT` from first dose through last-dose day (inclusive), `FOLLOW-UP` after; assigned from `RSDTC` vs `DM.RFXSTDTC`/`RFXENDTC`; NA when `RSDTC` missing/partial |
 | 12 | RSDTC | Date of Assessment | Char | 10 | Predecessor | ISO 8601 | `as.character(ASSESSMENT_DATE)` |
-| 13 | VISITNUM | Visit Number | Num | 8 | Derived | VISITNUM | Shared VISIT lookup on `VISIT_NAME` |
-| 14 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `str_to_upper(str_trim(VISIT_NAME))` |
+| 13 | RSDY | Study Day of Assessment | Num | 8 | Derived | — | Study day of `RSDTC` vs `DM.RFSTDTC`: `RSDTC − RFSTDTC + 1` on/after RFSTDTC, else `RSDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 14 | VISITNUM | Visit Number | Num | 8 | Derived | VISITNUM | Shared VISIT lookup on `VISIT_NAME` |
+| 15 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `str_to_upper(str_trim(VISIT_NAME))` |
+
+> **Note:** `RSSTRESN` is computed internally in `rs.R` (numeric encoding of response) but is **not** retained in the output dataset — the `transmute()` step keeps only the 13 variables above. Numeric response ordering is reconstructed downstream in `ADRS`.
 
 ## Derivations
 
@@ -68,8 +71,8 @@ RSEVAL = case_when(
 )
 ```
 
-### D2 — RSSTRESN (numeric encoding of response)
-**Rule:** Standard CDISC-aligned numeric ordering for response categories.
+### D2 — RSSTRESN (numeric encoding of response — internal only, not output)
+**Rule:** Standard CDISC-aligned numeric ordering for response categories. Computed in `rs.R` but dropped by the final `transmute()`; retained here for traceability of the downstream `ADRS` encoding.
 
 | RSSTRESC (trim+upper) | RSSTRESN |
 |---|---|
@@ -100,14 +103,13 @@ Both INV and BICR rows for the same `(USUBJID, RSDTC)` co-exist; `RSEVAL` breaks
 
 ## QC Checks
 
-- [ ] `nrow(rs) ≈ 2,260` (within ±0.1%).
+- [ ] `nrow(rs) ≈ 5,338` (within ±0.1%).
 - [ ] `USUBJID` foreign key into `DM`.
 - [ ] `RSSEQ` strictly increasing per `USUBJID`, no gaps starting at 1.
 - [ ] `RSEVAL ∈ {"INVESTIGATOR", "INDEPENDENT ASSESSOR"}` only.
 - [ ] Both reader streams present: `sum(RSEVAL == "INVESTIGATOR") > 0` AND `sum(RSEVAL == "INDEPENDENT ASSESSOR") > 0`.
 - [ ] For most subjects, each `RSDTC` has both an INV row and a BICR row (1:1 paired) — discordance shows up as different `RSSTRESC` on otherwise paired rows, not as missing rows.
 - [ ] `RSSTRESC ∈ {CR, PR, SD, PD, NE}`; no other values.
-- [ ] `RSSTRESN ∈ {1, 2, 3, 4, 5}` aligned to `RSSTRESC` per §D2 (1:1 mapping).
 - [ ] Discordance rate (INV vs BICR response per subject visit) ≈ 10 % overall, with the BICR-conservative bias documented in `programs/raw/10_overall_response.R`.
 - [ ] `RSDTC` parses as ISO 8601 date.
 - [ ] Sort key `(USUBJID, RSDTC, RSEVAL)` reproduces row order.
@@ -134,3 +136,5 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §15 for the consolidated cross-domain 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft — spec-first, mapped to `programs/sdtm/rs.R`. Captures dual-reader (`RSEVAL`) design introduced 2026-05-17 (closes AL-04, AL-07). |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refresh vs current `rs.R`: Expected N 2,260 → 5,338; clarified `RSSTRESN` is computed internally but not retained in the 13-variable output (removed from variable table / QC as an output field). |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain timing variables `EPOCH` and `RSDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/rs.parquet`. |

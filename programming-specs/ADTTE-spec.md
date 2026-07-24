@@ -8,7 +8,7 @@
 | **Label** | Time-to-Event Analysis Dataset |
 | **Class** | BASIC DATA STRUCTURE |
 | **Structure** | One record per subject per TTE parameter |
-| **Expected N** | ~2,250 records (5 parameters × 450 subjects; DoR restricted to confirmed responders) |
+| **Expected N** | 2,377 records (OS, OSWOT, PFS, PFSINV, TTR at 450 subjects each + DOR restricted to confirmed responders) |
 | **Key variables** | `USUBJID`, `PARAMCD` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -16,7 +16,7 @@
 
 ## Purpose
 
-ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSWOT (T-EFF-12, sensitivity estimand E1b), PFS (T-EFF-03, F-EFF-02), DoR (T-EFF-08), TTR (T-EFF-09), and the subgroup forest plots (F-EFF-05). Censoring rules follow FDA 2018 guidance and are fully specified in SAP §4.1–§4.4 and §13.4. Parameters: OS, OSWOT, PFS, DOR, TTR.
+ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSWOT (T-EFF-12, sensitivity estimand E1b), PFS (T-EFF-03, F-EFF-02), DoR (T-EFF-08), TTR (T-EFF-09), and the subgroup forest plots (F-EFF-05). PFS is derived from BICR (Independent Assessor) PD dates for the primary analysis (estimand E2), with PFSINV derived from Investigator PD dates as the sensitivity analysis (estimand E2a). Censoring rules follow FDA 2018 guidance and are fully specified in SAP §4.1–§4.4, §13.4 and §13.5. Parameters: OS, OSWOT, PFS, PFSINV, DOR, TTR.
 
 ## Dependencies
 
@@ -33,7 +33,8 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 |---|---|---|---|---|---|
 | OS | Overall Survival | TRTSDT | Death (any cause) | Last known alive date = max(last contact, last assessment, DCO) | ITT |
 | OSWOT | Overall Survival - While-on-Treatment Sensitivity | TRTSDT | Death on or within 30 days of last study treatment (TRTEDT + 30 days) | min(TRTEDT + 30 days, LSTALVDT). Synthetic data limitation: no subsequent anti-cancer therapy is captured in CM, so the full SAP §13.4 censoring rule (min of TRTEDT + 30d AND subsequent therapy start) reduces to TRTEDT + 30d only. | ITT |
-| PFS | Progression-Free Survival | TRTSDT | Confirmed PD or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
+| PFS | Progression-Free Survival (BICR) | TRTSDT | Confirmed PD (BICR / RSEVAL="INDEPENDENT ASSESSOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
+| PFSINV | Progression-Free Survival (Investigator) | TRTSDT | Confirmed PD (Investigator / RSEVAL="INVESTIGATOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
 | DOR | Duration of Response | First confirmed CR/PR date (RSPDT) | PD or death | Last adequate assessment if no PD/death | Confirmed responders (RSPFL="Y") |
 | TTR | Time to Response | TRTSDT | First confirmed CR/PR | Last adequate assessment if no response | ITT (non-responders censored) |
 
@@ -52,27 +53,30 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 | 9 | TRTSDT | Date of First Dose | Date | — | Derived | — | Merged from ADSL |
 | 10 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL |
 | 11 | PARAM | Parameter Description | Char | 200 | Derived | — | See Parameters table |
-| 12 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OS / OSWOT / PFS / DOR / TTR |
-| 13 | ADT | Analysis Date (event or censor) | Date | — | Derived | — | `admiral::derive_param_tte()` — event or censor date |
-| 14 | AVAL | Analysis Value (days) | Num | 8 | Derived | — | `ADT − TRTSDT` (for OS/PFS/TTR); `ADT − RSPDT` (for DOR); in days |
-| 15 | AVALU | Unit of AVAL | Char | 8 | Derived | — | "DAYS" |
-| 16 | CNSR | Censoring Indicator | Num | 8 | Derived | — | 0 = event, 1 = censored; set by `admiral::derive_param_tte()` |
-| 17 | EVNTDESC | Event or Censoring Description | Char | 200 | Derived | — | e.g. "DEATH", "PROGRESSIVE DISEASE", "CENSORED — LAST KNOWN ALIVE" |
-| 18 | SRCDOM | Source Data Domain | Char | 8 | Derived | — | DD / ADRS / DS / ADSL |
-| 19 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | "Y" for all records; primary analysis population per PARAMCD |
+| 12 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OS / OSWOT / PFS / PFSINV / DOR / TTR |
+| 13 | STARTDT | Time-to-Event Origin Date | Date | — | Derived | — | `TRTSDT` (OS/OSWOT/PFS/PFSINV/TTR); `RSPDT` (DOR); TTE origin per P21 AD0245 |
+| 14 | ADT | Analysis Date (event or censor) | Date | — | Derived | — | Event or censor date, set per parameter |
+| 15 | AVAL | Analysis Value (days) | Num | 8 | Derived | — | `ADT − STARTDT` in days (STARTDT = TRTSDT for OS/OSWOT/PFS/PFSINV/TTR; RSPDT for DOR) |
+| 16 | AVALU | Unit of AVAL | Char | 8 | Derived | — | "DAYS" |
+| 17 | CNSR | Censoring Indicator | Num | 8 | Derived | — | 0 = event, 1 = censored |
+| 18 | EVNTDESC | Event or Censoring Description | Char | 200 | Derived | — | e.g. "DEATH", "PROGRESSIVE DISEASE", "CENSORED - LAST KNOWN ALIVE" |
+| 19 | SRCDOM | Source Data Domain | Char | 8 | Derived | — | DD / ADRS / RS-INV / DS / ADSL |
+| 20 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(ITTFL == "Y", "Y", NA)` — ITT population (SAP §12.2); NA otherwise |
 
 ## Key Derivation Notes
 
-**OS censoring (SAP-D-01):** Last known alive date = max(last study contact date from DS, last response assessment date from RS, data cutoff date). Uses `admiral::derive_param_tte()` with multiple censor_source() inputs. Subjects lost to follow-up before DCO are censored at last known alive date.
+**OS censoring (SAP-D-01):** Last known alive date = max(last study treatment date TRTEDT, last known alive date LSTALVDT from ADSL). Subjects lost to follow-up before DCO are censored at last known alive date. Derived by explicit event/censor logic in `adtte.R` (not `derive_param_tte()`).
+
+**PFS reader (SAP §13.5):** PFS (primary, estimand E2) uses BICR PD dates — earliest `RS.RSDTC` where `RSEVAL = "INDEPENDENT ASSESSOR"` and `RSSTRESC = "PD"`. PFSINV (sensitivity, estimand E2a) uses the same logic on Investigator records (`RSEVAL = "INVESTIGATOR"`). Both censor at the last overall-response assessment date for the matching reader (else the OS censor). BICR vs Investigator discordance is ~10%.
 
 **PFS event hierarchy (SAP-D-02, SAP-D-03):**
-1. Confirmed PD (RSCAT = "OVERALL RESPONSE", AVALC = "PD") on or before DCO
+1. Confirmed PD (RSSTRESC = "PD") on or before DCO
 2. Death without confirmed PD
 3. Censor at: (a) last adequate assessment if new anti-cancer therapy starts (SAP-D-02), or (b) last adequate assessment before ≥2 consecutive missed visits (SAP-D-03), or (c) last adequate assessment
 
 **DOR start date:** Date of first confirmed CR or PR (RSPDT from ADRS, PARAMCD = "CBOR"). Only subjects with RSPFL = "Y" receive a DOR record. Subjects who respond and subsequently have PD/death: event. Subjects who respond but have no PD/death: censored at last adequate response assessment.
 
-**AVAL in days:** `as.numeric(ADT − TRTSDT)` for OS/PFS/TTR; `as.numeric(ADT − RSPDT)` for DOR. Months can be derived as AVAL / 30.4375 in TFL scripts — not stored in ADTTE.
+**AVAL in days:** `as.numeric(ADT − STARTDT)` where STARTDT = TRTSDT for OS/OSWOT/PFS/PFSINV/TTR and STARTDT = RSPDT for DOR. Months can be derived as AVAL / 30.4375 in TFL scripts — not stored in ADTTE.
 
 **Subgroup variables:** Forest plot subgroups (REGION, HISTSCAT, BECOG, PDL1GR) merged from ADSL. These must be present on ADSL before ADTTE is finalised (see ADSL open items: BECOG, PDL1GR).
 
@@ -94,3 +98,4 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial draft. BECOG and PDL1GR must be added to ADSL before subgroup forest plot can be finalised. |
 | 0.2 | — | — | Confirm after Phase 5 ADaM delivery. Validate OS/PFS HR against protocol assumptions (HR 0.65 / 0.55). |
+| 0.3 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: added PFSINV (Investigator sensitivity, RSEVAL split); PFS now BICR-primary; added STARTDT variable; ANL01FL = ITT population; Expected N corrected to 2,377; removed stale `derive_param_tte()` references (code uses explicit logic). |

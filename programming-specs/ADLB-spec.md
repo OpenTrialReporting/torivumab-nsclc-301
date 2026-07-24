@@ -8,7 +8,7 @@
 | **Label** | Laboratory Test Results |
 | **Class** | BASIC DATA STRUCTURE |
 | **Structure** | One record per subject per parameter per analysis timepoint |
-| **Expected N** | ~27,000 records (estimated; ~60 lab parameters × 450 subjects × ~1 record/visit) |
+| **Expected N** | 136,242 records (one per subject × parameter × collected timepoint, incl. windowed unscheduled draws) |
 | **Key variables** | `USUBJID`, `PARAMCD`, `VISITNUM`, `ADT` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -39,9 +39,9 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 8 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL.TRTEDT |
 | 9 | PARAM | Parameter Description | Char | 200 | Derived | — | Mapped from `LB.LBTEST` via PARAMCD lookup |
 | 10 | PARAMCD | Parameter Code | Char | 8 | Derived | — | Mapped from `LB.LBTESTCD` per ADaMIG lab PARAMCD convention |
-| 11 | AVAL | Analysis Value | Num | 8 | Derived | — | `as.numeric(LB.LBORRES)`; SI units preferred |
-| 12 | AVALC | Analysis Value (C) | Char | 16 | Derived | — | `LB.LBORRES` (character) |
-| 13 | AVALU | Analysis Value Units | Char | 16 | Derived | — | `LB.LBORRESU` |
+| 11 | AVAL | Analysis Value | Num | 8 | Derived | — | `as.numeric(LB.LBSTRESN)` — standardised (SI) numeric result |
+| 12 | AVALC | Analysis Value (C) | Char | 16 | Derived | — | `as.character(LB.LBORRES)` |
+| 13 | AVALU | Analysis Value Units | Char | 16 | Derived | — | `LB.LBSTRESU` (standardised unit) |
 | 14 | ANRLO | Analysis Normal Range Lower Limit | Num | 8 | Predecessor | — | `as.numeric(LB.LBSTNRLO)` |
 | 15 | ANRHI | Analysis Normal Range Upper Limit | Num | 8 | Predecessor | — | `as.numeric(LB.LBSTNRHI)` |
 | 16 | LBDTC | Date/Time of Specimen Collection | Char | 20 | Predecessor | — | `LB.LBDTC` |
@@ -54,7 +54,7 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 23 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_pchg()`: (CHG / BASE) × 100 |
 | 24 | BNRIND | Baseline Reference Range Indicator | Char | 8 | Derived | BNRIND | L/N/H based on BASE vs ANRLO/ANRHI |
 | 25 | ANRIND | Analysis Reference Range Indicator | Char | 8 | Derived | ANRIND | L/N/H based on AVAL vs ANRLO/ANRHI |
-| 26 | ATOXGR | Analysis Toxicity Grade | Char | 2 | Derived | NCI CTCAE | `admiral::derive_var_atoxgr_dir()` using NCI CTCAE v5 grading criteria |
+| 26 | ATOXGR | Analysis Toxicity Grade | Char | 2 | Derived | NCI CTCAE | NCI CTCAE v5.0 grade from an explicit `case_when` on `AVAL` vs `ANRHI`/`ANRLO` (see Key Derivation Notes); `ATOXGRN` = `as.integer(ATOXGR)` |
 | 27 | BTOXGR | Baseline Toxicity Grade | Char | 2 | Derived | NCI CTCAE | Toxicity grade at baseline (ABLFL = "Y") record |
 | 28 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01()`: `"Y"` on the record closest to the visit target day per `USUBJID × PARAMCD × AVISIT` (ties → later `ADT`; missing `AVAL` never selected) — one analysis record per windowed visit (SAP §12.2) |
 | 29 | DTYPE | Derivation Type | Char | 8 | Derived | — | NA for observed records; "LOCF" etc. if imputation used (none planned per SAP-D) |
@@ -67,7 +67,7 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 
 **Unscheduled visits:** off-schedule assessments (SDTM `VISIT="UNSCHEDULED"`, `VISITNUM=998` — e.g. an off-schedule recheck of an abnormal safety lab) are windowed by `ADY` to the nearest scheduled analysis visit (SAP §12.2); `ANL01FL` selects the record closest to the visit target, so an unscheduled recheck becomes the analysis record only when the scheduled draw is missing. The collected `VISIT` is retained for traceability, and unscheduled records still contribute to worst-post-baseline analyses (T-LB-01/02).
 
-**ATOXGR:** NCI CTCAE v5 grading applied to haematology (haemoglobin, neutrophils, platelets, lymphocytes) and chemistry (ALT, AST, bilirubin, creatinine, alkaline phosphatase) panels. Implemented thresholds — `ALT`/`AST` >ULN-3x / >3-5x / >5-20x / >20x; `ALP` >ULN-2.5x / >2.5-5x / >5-20x / >20x; `BILI` >ULN-1.5x / >1.5-3x / >3-10x / >10x; `CREAT` >ULN-1.5x / >1.5-3x / >3-6x / >6x; `HGB` (g/dL) <LLN-10.0 / <10.0-8.0 / <8.0; `NEUT` low-direction per CTCAE. Uses `admiral::derive_var_atoxgr_dir()`. CTCAE thresholds stored in a reference codelist (to be loaded via `metacore`).
+**ATOXGR:** NCI CTCAE v5.0 grades derived by an explicit `case_when` on `AVAL` against `ANRHI`/`ANRLO` (hand-coded in `adlb.R` — no `admiral::derive_var_atoxgr_dir()` / `metacore` codelist call). Graded parameters — chemistry `ALT`/`AST` (>ULN-3x / >3-5x / >5-20x / >20x), `ALP` (>ULN-2.5x / >2.5-5x / >5-20x / >20x), `BILI` (>ULN-1.5x / >1.5-3x / >3-10x / >10x), `CREAT` (>ULN-1.5x / >1.5-3x / >3-6x / >6x); haematology `HGB` (g/dL: ≥LLN=0 / <LLN-10.0=1 / <10.0-8.0=2 / <8.0=3 — no lab-based Grade 4 for anaemia) and `NEUT` (≥LLN / <LLN-1.5 / <1.5-1.0 / <1.0-0.5 / <0.5). `ATOXGRN` carries the integer form. **HGB unit-bug fix:** grading now uses g/dL thresholds (data unit); the earlier g/L thresholds (100/80/65) flagged every low haemoglobin as Grade 4 and were corrected.
 
 **No LOCF:** Per SAP §7 (SAP-D decision on missing data) — no last-observation-carried-forward imputation. DTYPE is not set to "LOCF".
 
@@ -86,3 +86,4 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 |---|---|---|---|
 | 0.1 | 2026-04-25 | LG | Initial draft. CTCAE thresholds and unit conversion table deferred to Phase 5. |
 | 0.2 | — | — | Confirm after Phase 5 ADaM delivery. Add PARAMCD codelist mapping. |
+| 0.3 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Reconciled against `adlb.R`: `AVAL`/`AVALU` sourced from `LB.LBSTRESN`/`LBSTRESU`; `ATOXGR` derived by explicit CTCAE v5 `case_when` (added `ALP`; documented `HGB` g/dL unit-bug fix; `ATOXGRN` noted); N corrected to 136,242. Confirmed unified `ANL01FL` (`flag_anl01`, one record per USUBJID×PARAMCD×AVISIT) and date-based baseline (`AVISIT="Baseline"`/`AVISITN=0`). |

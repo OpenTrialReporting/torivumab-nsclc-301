@@ -8,7 +8,7 @@
 | **Label** | Vital Signs Analysis Dataset |
 | **Class** | BDS |
 | **Structure** | One record per subject per parameter per visit |
-| **Expected N** | ~52,864 |
+| **Expected N** | 52,920 |
 | **Key variables** | `STUDYID`, `USUBJID`, `PARAMCD`, `AVISITN` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -124,15 +124,25 @@ PCHG = if_else(!is.na(BASE) & BASE != 0,
 
 **Edge cases:** Where no qualifying baseline record exists (subject missed screening for that parameter), BASE = NA → CHG and PCHG are NA. PCHG is NA where BASE = 0 (avoids divide-by-zero — typical only for derived parameters that ADVS does not currently carry).
 
+### D4 — AVISIT windowing and unscheduled visits
+
+`derive_avisit_windowed(ADY, VISIT, VISITNUM, "TREATMENT")` maps every record to
+its nearest scheduled analysis visit by study day (SAP §12.2); `EOT`/follow-up
+keep their collected role. Off-schedule readings (SDTM `VISIT="UNSCHEDULED"`,
+`VISITNUM=998` — e.g. a recheck of an abnormal on-treatment reading) are windowed
+the same way; `ANL01FL` keeps the scheduled reading closest to the visit target,
+so an unscheduled record becomes the analysis record only when the scheduled one
+is missing. The collected `VISIT` is retained for traceability.
+
 ## QC Checks
 
-- [ ] `nrow(advs)` ≈ 52,864 (±1%).
+- [ ] `nrow(advs)` ≈ 52,920 (±1%).
 - [ ] `PARAMCD` ∈ {SYSBP, DIABP, HR, WEIGHT, HEIGHT, TEMP, RESP}; no others.
 - [ ] `ABLFL` is "Y" or NA only (never "N").
 - [ ] For (USUBJID, PARAMCD) groups with any post-baseline row: `BASE` is non-missing OR no qualifying screening record existed.
 - [ ] `CHG == AVAL - BASE` (where both non-missing).
 - [ ] `PCHG` is NA wherever `BASE` is NA or 0.
-- [ ] All `ANL01FL == "Y"`.
+- [ ] `ANL01FL` ∈ {"Y", NA}; exactly one "Y" per `USUBJID × PARAMCD × AVISIT` (the windowed analysis record); a missing `AVAL` is never flagged.
 - [ ] Variable labels, lengths, types match this spec.
 
 ## Traceability
@@ -146,3 +156,4 @@ PCHG = if_else(!is.na(BASE) & BASE != 0,
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Reconciled against `advs.R`: N corrected to 52,920; `ANL01FL` is one windowed analysis record per `USUBJID × PARAMCD × AVISIT` (`flag_anl01`), not blanket "Y" — QC check updated; documented UNSCHEDULED-visit windowing (D4). Confirmed date-based baseline (`ADT ≤ TRTSDT`) with baseline visit `AVISIT="Baseline"`/`AVISITN=0`. |

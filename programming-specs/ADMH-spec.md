@@ -51,7 +51,7 @@ ADMH supports the medical-history summary table (T-MH-01) and isolates the NSCLC
 | 20 | PCANCFL | Primary Cancer (NSCLC Diagnosis) Flag | Char | 1 | Derived | NY | See §Derivations.D2 |
 | 21 | ONGOFL | Ongoing at Study Start Flag | Char | 1 | Derived | NY | `if_else(MHENRTPT == "ONGOING", "Y", "N")` |
 | 22 | PRIORFL | Resolved Before Study Flag | Char | 1 | Derived | NY | `if_else(MHENRTPT == "BEFORE", "Y", "N")` |
-| 23 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 23 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(ITTFL == "Y", "Y", NA)` — ITT / all randomised subjects (SAP §12.2); NA otherwise |
 
 ## Derivations
 
@@ -84,7 +84,7 @@ PCANCFL = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N")
 
 - [ ] `nrow(admh)` ≈ 2,061 (±5%); `n_distinct(USUBJID) == 450`.
 - [ ] Every subject has exactly one `PCANCFL == "Y"` row.
-- [ ] `PCANCFL`, `ONGOFL`, `PRIORFL`, `ANL01FL` ∈ {"Y", "N"}; no NAs.
+- [ ] `PCANCFL`, `ONGOFL`, `PRIORFL` ∈ {"Y", "N"}; no NAs. `ANL01FL` ∈ {"Y", NA} (`"Y"` on all ITT rows).
 - [ ] `ASTDY` is NA wherever `ASTDT` is NA, and finite elsewhere.
 - [ ] No row has both `ONGOFL == "Y"` AND `PRIORFL == "Y"`.
 - [ ] Variable labels, lengths, types match this spec.
@@ -100,3 +100,4 @@ PCANCFL = if_else(MHCAT == "PRIMARY DIAGNOSIS", "Y", "N")
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = ITT population (`ITTFL`) as an explicit Y/null flag (was bare `"Y"`); N confirmed 2,061. |

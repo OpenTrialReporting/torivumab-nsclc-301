@@ -30,8 +30,8 @@ ADEX supports the exposure summary (T-EX-01) and relative-dose-intensity tables 
 | PARAMCD | PARAM | Granularity | Derivation |
 |---|---|---|---|
 | DOSEAMT | Dose Amount per Administration | One row per SDTM.EX record | `AVAL = as.numeric(EXDOSE)`; `AVALU = EXDOSU`; `NCYCLE = row_number()` per (USUBJID, AEXTRT) ordered by ADT |
-| CUMDOSE | Cumulative Dose — `{AEXTRT}` | One row per (USUBJID, AEXTRT) | `AVAL = sum(DOSEAMT.AVAL)` per group |
-| RDI | Relative Dose Intensity — `{AEXTRT}` (%) | One row per (USUBJID, AEXTRT) | `AVAL = 100 × actual_cumulative / planned_cumulative` |
+| CUMDOSE | Cumulative Dose | One row per (USUBJID, AEXTRT) | `AVAL = sum(DOSEAMT.AVAL)` per group. PARAM is generic — the drug is carried in `AEXTRT` (P21 AD0141) |
+| RDI | Relative Dose Intensity | One row per (USUBJID, AEXTRT) | `AVAL = 100 × actual_cumulative / planned_cumulative`. PARAM is generic — drug in `AEXTRT` (P21 AD0141) |
 
 ### Planned cumulative dose
 
@@ -71,7 +71,7 @@ ADEX supports the exposure summary (T-EX-01) and relative-dose-intensity tables 
 | 22 | NCYCLE | Cycle Number | Num | 8 | Derived | — | `row_number()` per (USUBJID, AEXTRT) for DOSEAMT; `max(NCYCLE)` for CUMDOSE; `n_admin` for RDI |
 | 23 | VISIT | Visit Name | Char | 40 | Predecessor | VISIT | `EX.VISIT` (NA for CUMDOSE/RDI) |
 | 24 | VISITNUM | Visit Number | Num | 8 | Predecessor | — | `EX.VISITNUM` (NA for CUMDOSE/RDI) |
-| 25 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 25 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(SAFFL == "Y", "Y", NA)` — safety population (SAP §12.2); NA otherwise |
 | 26 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `= VISIT` (SAP §12.2); NA for subject-level CUMDOSE/RDI |
 | 27 | AVISITN | Analysis Visit (N) | Num | 8 | Derived | — | `derive_avisitn(VISIT, VISITNUM)` = VISITNUM (SAP §12.2) |
 
@@ -111,7 +111,7 @@ ex_cumdose <- ex_admin %>%
     ADT    = max(ADT),
     .groups = "drop"
   ) %>%
-  mutate(PARAM = paste0("Cumulative Dose — ", AEXTRT), PARAMCD = "CUMDOSE")
+  mutate(PARAM = "Cumulative Dose", PARAMCD = "CUMDOSE")  # generic PARAM; drug in AEXTRT (P21 AD0141)
 ```
 
 ### D3 — RDI (relative dose intensity %)
@@ -149,7 +149,7 @@ planned_cum <- ex_admin %>%
 - [ ] `sum(adex$PARAMCD == "CUMDOSE")` == `sum(adex$PARAMCD == "RDI")`.
 - [ ] `AVAL >= 0` for DOSEAMT and CUMDOSE; `AVAL` ∈ [0, 200] typically for RDI.
 - [ ] `ADT >= TRTSDT` for every DOSEAMT row.
-- [ ] All `ANL01FL == "Y"`.
+- [ ] `ANL01FL` ∈ {"Y", NA}; `"Y"` on all safety-population (`SAFFL == "Y"`) rows.
 - [ ] Variable labels, lengths, types match this spec.
 
 ## Traceability
@@ -163,3 +163,4 @@ planned_cum <- ex_admin %>%
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = safety population (`SAFFL`) as an explicit Y/null flag (was bare `"Y"`); CUMDOSE/RDI PARAM made generic with drug carried in `AEXTRT` (P21 AD0141); N unchanged at 16,097. |

@@ -8,7 +8,7 @@
 | **Label** | Exposure |
 | **Class** | INTERVENTIONS |
 | **Structure** | One record per study-drug administration per subject |
-| **Expected N** | 11,710 |
+| **Expected N** | 13,403 |
 | **Key variables** | `STUDYID`, `USUBJID`, `EXSEQ` |
 | **SDTMIG version** | v3.4 (§6.3) |
 | **Spec version** | 0.1 DRAFT |
@@ -34,14 +34,17 @@ EX captures every administered dose of investigational product (TORIVUMAB or PLA
 | 3 | USUBJID | Unique Subject Identifier | Char | 40 | Derived | — | `paste(STUDYID, SUBJECT_ID, sep="-")` |
 | 4 | EXSEQ | Sequence Number | Num | 8 | Derived | — | Per-USUBJID `row_number()` after sort `(USUBJID, EXSTDTC, EXTRT)` |
 | 5 | EXTRT | Name of Treatment | Char | 40 | CRF | EXTRT | `str_to_upper(str_trim(DRUG_NAME))` — values: `TORIVUMAB`, `PLACEBO`, `CARBOPLATIN`, `PEMETREXED` |
-| 6 | EXDOSE | Dose | Num | 8 | CRF | — | `as.numeric(DOSE_MG)` |
-| 7 | EXDOSU | Dose Units | Char | 10 | CRF | UNIT | `str_to_upper(str_trim(DOSE_UNIT))` — values: `mg`, `mg/m2`, `AUC` |
-| 8 | EXROUTE | Route of Administration | Char | 40 | Assigned | ROUTE | Constant `"INTRAVENOUS"` |
-| 9 | EXSTDTC | Start Date/Time of Treatment | Char | 10 | CRF | — | `START_DATE` (ISO 8601, direct) |
-| 10 | EXENDTC | End Date/Time of Treatment | Char | 10 | CRF | — | `END_DATE` (direct; typically same day as START_DATE for IV bolus/infusion) |
-| 11 | VISITNUM | Visit Number | Num | 8 | Derived | — | See §Derivations.D1 |
-| 12 | VISIT | Visit Name | Char | 20 | Derived | VISIT | See §Derivations.D1 |
-| 13 | EPOCH | Epoch | Char | 20 | Assigned | EPOCH | Constant `"TREATMENT"` (all EX records are on-treatment by definition) |
+| 6 | EXDOSE | Dose | Num | 8 | CRF | — | `if_else(EXTRT == "PLACEBO", 0, as.numeric(DOSE_MG))` — placebo dose set to 0 (P21 SD1249) |
+| 7 | EXDOSU | Dose Units | Char | 10 | CRF | UNIT | `recode(str_to_upper(str_trim(DOSE_UNIT)), "MG"="mg", "MG/M2"="mg/m2")` — CDISC UNIT; values: `mg`, `mg/m2`, `AUC` |
+| 8 | EXDOSFRM | Dose Form | Char | 40 | Assigned | FRM | Constant `"INJECTION, SOLUTION"` (IV infusion — CDISC Dosage Form; expected var per P21 SD0057) |
+| 9 | EXROUTE | Route of Administration | Char | 40 | Assigned | ROUTE | Constant `"INTRAVENOUS"` |
+| 10 | EXSTDTC | Start Date/Time of Treatment | Char | 10 | CRF | — | `START_DATE` (ISO 8601, direct) |
+| 11 | EXENDTC | End Date/Time of Treatment | Char | 10 | CRF | — | `END_DATE` (direct; typically same day as START_DATE for IV bolus/infusion) |
+| 12 | EXSTDY | Study Day of Start of Treatment | Num | 8 | Derived | — | Study day of `EXSTDTC` vs `DM.RFSTDTC`: `EXSTDTC − RFSTDTC + 1` on/after RFSTDTC, else `EXSTDTC − RFSTDTC` (no day 0); NA if missing/partial (`17_derive_timing.R`) |
+| 13 | EXENDY | Study Day of End of Treatment | Num | 8 | Derived | — | Study day of `EXENDTC` vs `DM.RFSTDTC` (same rule as `EXSTDY`; `17_derive_timing.R`) |
+| 14 | VISITNUM | Visit Number | Num | 8 | Derived | — | See §Derivations.D1 |
+| 15 | VISIT | Visit Name | Char | 20 | Derived | VISIT | See §Derivations.D1 |
+| 16 | EPOCH | Epoch | Char | 20 | Assigned | EPOCH | Constant `"TREATMENT"` (all EX records are on-treatment by definition) |
 
 ## Derivations
 
@@ -73,19 +76,21 @@ EXTRT is included in the sort key so that multi-drug visits (e.g., C1D1: TORIVUM
 |---|---|---|
 | EXTRT | Sponsor | Values: `TORIVUMAB`, `PLACEBO`, `CARBOPLATIN`, `PEMETREXED` |
 | EXDOSU | UNIT (C71620) | CDISC CT 2024-03 — `mg`, `mg/m2`, `AUC` |
+| EXDOSFRM | FRM (C66726) | CDISC CT 2024-03 — constant `INJECTION, SOLUTION` |
 | EXROUTE | ROUTE (C66729) | CDISC CT 2024-03 — constant `INTRAVENOUS` |
 | EPOCH | EPOCH (C99079) | CDISC CT 2024-03 — constant `TREATMENT` |
 | VISIT | Sponsor visit codelist | `C1D1`, `C1D15`, `C2D1`, ..., `C8D1` |
 
 ## QC Checks
 
-- [ ] `nrow(ex) == 11710` (±0.1%)
+- [ ] `nrow(ex) == 13403` (±0.1%)
 - [ ] All `USUBJID ∈ DM.USUBJID` AND `USUBJID ∈` (subjects with `ADSL.SAFFL == "Y"`)
 - [ ] `EXSEQ` strictly increasing per `USUBJID` with no gaps
 - [ ] No duplicate keys `(USUBJID, EXSEQ)`
 - [ ] `EXSTDTC` non-missing for all rows; `EXENDTC >= EXSTDTC` where non-missing
 - [ ] `EXTRT ∈ {TORIVUMAB, PLACEBO, CARBOPLATIN, PEMETREXED}` — no other values
-- [ ] `EXDOSE > 0` for all rows (no zero-dose / held rows)
+- [ ] `EXDOSE >= 0` for all rows; `EXDOSE == 0` exactly for `EXTRT == "PLACEBO"` rows, `> 0` for active drugs
+- [ ] `EXDOSFRM == "INJECTION, SOLUTION"` for all rows
 - [ ] `EXROUTE == "INTRAVENOUS"` for all rows
 - [ ] `EPOCH == "TREATMENT"` for all rows
 - [ ] `VISITNUM` non-missing for all rows (every administration occurs on a scheduled visit)
@@ -104,3 +109,5 @@ EX is the source for ADSL.TRTSDT/TRTEDT (see `programming-specs/ADSL-spec.md` §
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Spec refresh vs `ex.R`: record count 11,710 → 13,403; added expected var `EXDOSFRM` = "INJECTION, SOLUTION" (P21 SD0057); corrected `EXDOSE` to set placebo dose = 0 (P21 SD1249) and `EXDOSU` to CDISC-cased units; updated QC accordingly. |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain study-day variables `EXSTDY` and `EXENDY` to the variable table (derived in `17_derive_timing.R`) at their real column positions to match `datasets/sdtm/ex.parquet`. |

@@ -41,11 +41,20 @@ DM holds one subject-level record per randomised subject and provides the demogr
 | 10 | ETHNIC | Ethnicity | Char | 40 | CRF | ETHNIC (C66790) | `str_to_upper(str_trim(ETHNIC))` |
 | 11 | COUNTRY | Country | Char | 3 | CRF | — | `str_to_upper(str_trim(COUNTRY))` (full country name, not ISO-3) |
 | 12 | DMDTC | Date/Time of Collection | Char | 10 | CRF | — | `INFORM_CONSENT_DATE` (ISO 8601, direct) |
-| 13 | RFSTDTC | Subject Reference Start Date/Time | Char | 10 | CRF | — | `RAND_DATE` (direct) |
-| 14 | RFICDTC | Date/Time of Informed Consent | Char | 10 | CRF | — | `INFORM_CONSENT_DATE` (direct) |
-| 15 | ARM | Description of Planned Arm | Char | 40 | CRF | ARM | See §Derivations.D2 |
-| 16 | ACTARM | Description of Actual Arm | Char | 40 | CRF | ARM | Same as ARM (no cross-over) |
-| 17 | ARMNRS | Reason Arm/Epoch Not Collected | Char | 40 | Derived | — | `"SCREEN FAILURE"` if `SCREEN_FAIL ∈ {Y,1,TRUE}`, else NA |
+| 13 | DMDY | Study Day of Collection | Num | 8 | Derived | — | Study day of `DMDTC` vs `DM.RFSTDTC`: `DMDTC − RFSTDTC + 1` on/after RFSTDTC, else `DMDTC − RFSTDTC` (no day 0); NA if partial (`17_derive_timing.R`) |
+| 14 | RFSTDTC | Subject Reference Start Date/Time | Char | 10 | CRF | — | `RAND_DATE` (direct) |
+| 15 | RFENDTC | Subject Reference End Date/Time | Char | 10 | Derived | — | `coalesce(DTHDTC, disp_end)` — death date if the subject died, else latest disposition contact (`max` of `DISC_DATE`/`LAST_CONTACT_DATE`/`STUDY_COMPLETION_DATE` from `raw/disposition.csv`) |
+| 16 | RFXSTDTC | Date/Time of First Study Treatment | Char | 10 | Derived | — | Earliest exposure `START_DATE` per subject (`min` over `raw/exposure.csv`); null for the one randomised-but-undosed subject |
+| 17 | RFXENDTC | Date/Time of Last Study Treatment | Char | 10 | Derived | — | Latest exposure `END_DATE` per subject (`max` over `raw/exposure.csv`) |
+| 18 | RFICDTC | Date/Time of Informed Consent | Char | 10 | CRF | — | `INFORM_CONSENT_DATE` (direct) |
+| 19 | RFPENDTC | Date/Time of End of Participation | Char | 10 | Derived | — | `coalesce(disp_end, DTHDTC)` — latest disposition contact if present, else death date |
+| 20 | DTHDTC | Date/Time of Death | Char | 10 | CRF | — | `DEATH_DATE` from `raw/death.csv` (NA when the subject has no death record) |
+| 21 | DTHFL | Subject Death Flag | Char | 1 | Derived | NY (C66742) | `"Y"` when a death record exists in `raw/death.csv`, else NA — Yes-only response, never `"N"` (P21 CT2001) |
+| 22 | ARMCD | Planned Arm Code | Char | 20 | Derived | — | `recode(TREATMENT_ARM, "Torivumab + Chemotherapy"="TORICHEMO", "Placebo + Chemotherapy"="PBOCHEMO")`; NA for screen failures; must match `TA.ARMCD` (P21 SD0057) |
+| 23 | ARM | Description of Planned Arm | Char | 40 | CRF | ARM | See §Derivations.D2 |
+| 24 | ACTARMCD | Actual Arm Code | Char | 20 | Derived | — | Same as `ARMCD` (no cross-over) |
+| 25 | ACTARM | Description of Actual Arm | Char | 40 | CRF | ARM | Same as ARM (no cross-over) |
+| 26 | ARMNRS | Reason Arm/Epoch Not Collected | Char | 40 | Derived | — | `"SCREEN FAILURE"` if `SCREEN_FAIL ∈ {Y,1,TRUE}`, else NA |
 
 ## Derivations
 
@@ -112,3 +121,4 @@ Subject-level qualifiers (ECOGBSL, PDL1SCR, PDL1GRP, HISTSCAT) are split into `S
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the reference/arm/death and study-day variables `RFENDTC`, `RFXSTDTC`, `RFXENDTC`, `RFPENDTC`, `DTHDTC`, `DTHFL`, `ARMCD`, `ACTARMCD`, `DMDY` to the variable table at their real column positions to match `dm.R` (+ `17_derive_timing.R` for `DMDY`) and `datasets/sdtm/dm.parquet`. |

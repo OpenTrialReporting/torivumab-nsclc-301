@@ -8,7 +8,7 @@
 | **Label** | Medical History |
 | **Class** | EVENTS |
 | **Structure** | One record per medical-history condition per subject |
-| **Expected N** | 2,051 |
+| **Expected N** | 2,061 |
 | **Key variables** | `STUDYID`, `USUBJID`, `MHSEQ` |
 | **SDTMIG version** | v3.4 (§6.4) |
 | **Spec version** | 0.1 DRAFT |
@@ -37,9 +37,11 @@ MH captures every pre-existing or historical condition reported by the subject a
 | 6 | MHDECOD | Dictionary-Derived Term | Char | 200 | Derived | (MedDRA in real studies) | See §Derivations.D1 — simplified title-case in this synthetic build |
 | 7 | MHCAT | Category for Medical History | Char | 40 | Derived | — | See §Derivations.D2 |
 | 8 | MHSTDTC | Start Date/Time of Medical History Event | Char | 10 | CRF | — | `ONSET_DATE` (ISO 8601, direct) |
-| 9 | MHENRTPT | End Relative to Reference Time Point | Char | 20 | Derived | RELTMPT | See §Derivations.D3 |
-| 10 | MHPRESP | Medical History Event Pre-specified | Char | 1 | Assigned | NY | Constant `"Y"` (all conditions are pre-specified by CRF design) |
-| 11 | MHOCCUR | Medical History Occurrence | Char | 1 | Assigned | NY | Constant `"Y"` (only present conditions are captured) |
+| 9 | MHSTDY | Study Day of Start of Medical History Event | Num | 8 | Derived | — | Study day of `MHSTDTC` vs `DM.RFSTDTC`: `MHSTDTC − RFSTDTC + 1` on/after RFSTDTC, else `MHSTDTC − RFSTDTC` (no day 0); NA when `MHSTDTC` is partial (year-only histories yield NA) (`17_derive_timing.R`) |
+| 10 | MHENRTPT | End Relative to Reference Time Point | Char | 20 | Derived | RELTMPT | See §Derivations.D3 |
+| 11 | MHENTPT | End Reference Time Point | Char | 40 | Derived | — | `"RANDOMIZATION"` when `MHENRTPT` is non-missing; else NA (names the anchor for `MHENRTPT` — P21 SD1101) |
+| 12 | MHPRESP | Medical History Event Pre-specified | Char | 1 | Assigned | NY | Constant `"Y"` (all conditions are pre-specified by CRF design) |
+| 13 | MHOCCUR | Medical History Occurrence | Char | 1 | Assigned | NY | Constant `"Y"` (only present conditions are captured) |
 
 ## Derivations
 
@@ -90,7 +92,7 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §7 for the consolidated derivation tab
 
 ## QC Checks
 
-- [ ] `nrow(mh) == 2051` (±0.1%)
+- [ ] `nrow(mh) == 2061` (±0.1%)
 - [ ] All `USUBJID ∈ DM.USUBJID`
 - [ ] `MHSEQ` strictly increasing per `USUBJID` with no gaps
 - [ ] No duplicate keys `(USUBJID, MHSEQ)`
@@ -112,3 +114,5 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §7 for the consolidated derivation tab
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Spec refresh vs `mh.R`: record count 2,051 → 2,061; added `MHENTPT` ("RANDOMIZATION" anchor for `MHENRTPT`, per P21 SD1101) to the variable table to match program output. |
+| 0.3 | 2026-07-25 | LG (w/ Claude Opus 4.8 1M) | Added the cross-domain study-day variable `MHSTDY` to the variable table (derived in `17_derive_timing.R`) at its real column position to match `datasets/sdtm/mh.parquet`. |

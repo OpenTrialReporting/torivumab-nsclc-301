@@ -52,7 +52,7 @@ ADDS rolls up SDTM.DS into the disposition flow used in CONSORT-style figures (F
 | 21 | EOTFL | End-of-Treatment Record Flag | Char | 1 | Derived | NY | See §Derivations.D2 |
 | 22 | ADT | Analysis Date | Num | 8 | Derived | — | `as.Date(DSSTDTC)` |
 | 23 | ADY | Analysis Relative Day | Num | 8 | Derived | — | `as.integer(ADT - TRTSDT) + 1` |
-| 24 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 24 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(ITTFL == "Y", "Y", NA)` — ITT / all randomised subjects (SAP §12.2); NA otherwise |
 
 ## Derivations
 
@@ -87,7 +87,7 @@ EOTFL = if_else(DSCATGY %in% c("Completed", "Discontinued"), "Y", "N")
 - [ ] `nrow(adds)` ≈ 1,350 (within ±5%); `n_distinct(USUBJID) == 450`.
 - [ ] Every subject has exactly one `DSCATGY = "Consent"` record AND one `"Randomisation"` record.
 - [ ] `sum(EOTFL == "Y") == n_distinct(USUBJID[EOTFL == "Y"])` (at most one EOTFL='Y' per subject).
-- [ ] All flags ∈ {"Y", "N"}; no NAs.
+- [ ] `EOTFL` ∈ {"Y", "N"} (no NAs); `ANL01FL` ∈ {"Y", NA} (`"Y"` on all ITT rows).
 - [ ] `ADT >= RFICDT` for non-Consent records (i.e. dispositions follow consent).
 - [ ] Variable labels, lengths, types match this spec.
 
@@ -102,3 +102,4 @@ EOTFL = if_else(DSCATGY %in% c("Completed", "Discontinued"), "Y", "N")
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = ITT population (`ITTFL`) as an explicit Y/null flag (was bare `"Y"`); N confirmed 1,350. |

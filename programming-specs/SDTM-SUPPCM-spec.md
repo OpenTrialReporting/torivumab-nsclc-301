@@ -8,7 +8,7 @@
 | **Label** | Supplemental Qualifiers for CM |
 | **Class** | RELATIONSHIP |
 | **Structure** | One record per CM record per QNAM |
-| **Expected N** | 4,444 |
+| **Expected N** | 4,516 |
 | **Key variables** | `STUDYID`, `RDOMAIN`, `USUBJID`, `IDVAR`, `IDVARVAL`, `QNAM` |
 | **SDTMIG version** | v3.4 (§8.4) |
 | **Spec version** | 0.1 DRAFT |
@@ -92,7 +92,7 @@ suppcm <- bind_rows(supp_atc, supp_irae) |>
 
 ## QC Checks
 
-- [ ] `nrow(suppcm) == 4444`.
+- [ ] `nrow(suppcm) == 4516`.
 - [ ] `QNAM ∈ {CMATC, CMIRAEFL}` only.
 - [ ] CMATC rows: `QVAL` non-blank and matches `CM.CMATC` for the joined `CMSEQ`.
 - [ ] CMIRAEFL rows: `QVAL ∈ {"Y","N"}`, emitted for every parent CM record.
@@ -113,3 +113,4 @@ Consolidated mapping reference: `programs/sdtm/SDTM-MAPPING-SPEC.md` §19.
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft (covers v0.2 back-fill of SUPPCM released 2026-05-16). |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Spec refresh vs `suppcm.R`: updated record count to 4,516 (follows the parent CM record-count change). No structural/derivation changes — QNAMs, sort, and origins unchanged. |

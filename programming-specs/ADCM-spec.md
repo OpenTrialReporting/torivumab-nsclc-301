@@ -8,7 +8,7 @@
 | **Label** | Concomitant Medications Analysis Dataset |
 | **Class** | OCCDS |
 | **Structure** | One record per medication occurrence per subject |
-| **Expected N** | 2,197 |
+| **Expected N** | 2,319 (2,312 ANL01FL-flagged; 7 unflagged con-meds belong to a randomised-but-never-dosed subject outside the safety population) |
 | **Key variables** | `STUDYID`, `USUBJID`, `CMSEQ` |
 | **Spec version** | 0.1 DRAFT |
 | **Spec author** | Lovemore Gakava |
@@ -55,11 +55,11 @@ ADCM supports descriptive concomitant medication summaries (T-CM-01 / T-CM-02) a
 | 23 | ASTDY | Analysis Start Day | Num | 8 | Derived | — | `as.integer(ASTDT - TRTSDT) + 1` |
 | 24 | AENDY | Analysis End Day | Num | 8 | Derived | — | `as.integer(AENDT - TRTSDT) + 1` (NA if AENDT NA) |
 | 25 | PRIORFL | Prior Medication Flag | Char | 1 | Derived | NY | See §Derivations.D1 |
-| 26 | CONFL | Concomitant Medication Flag | Char | 1 | Derived | NY | = ONTRTFL (concomitant ≡ on-treatment in this study) |
-| 27 | ONTRTFL | On-Treatment Medication Flag | Char | 1 | Derived | NY | See §Derivations.D2 |
+| 26 | CONFL | Concomitant Medication Flag | Char | 1 | Derived | NY | = ONTRTFL (concomitant ≡ on-treatment in this study); `"Y"` or null (Y-only flag, P21 AD0269) |
+| 27 | ONTRTFL | On-Treatment Medication Flag | Char | 1 | Derived | NY | See §Derivations.D2; `"Y"` or null (Y-only flag, P21 AD0269) |
 | 28 | CMIRAEFL | irAE-Management Medication Flag | Char | 1 | Derived | NY | SUPPCM QNAM='CMIRAEFL'; default `"N"` if missing |
 | 29 | SUBSQTFL | Subsequent Anti-Cancer Therapy Flag | Char | 1 | Derived | NY | See §Derivations.D3 |
-| 30 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `"Y"` for all records |
+| 30 | ANL01FL | Analysis Flag 01 | Char | 1 | Derived | NY | `if_else(SAFFL == "Y", "Y", NA)` — safety population (SAP §12.2); NA otherwise |
 | 31 | AVAL | Analysis Value | Num | 8 | Derived | — | `NA` (OCCDS — no analysis value) |
 
 ## Derivations
@@ -88,7 +88,7 @@ ONTRTFL = if_else(
   !is.na(ASTDT) & !is.na(TRTSDT) &
     ASTDT <= TRTEDT &
     (is.na(AENDT) | AENDT >= TRTSDT),
-  "Y", "N"
+  "Y", NA_character_          # Y-only flag: Y or null, never "N" (P21 AD0269)
 )
 CONFL = ONTRTFL
 ```
@@ -111,8 +111,8 @@ SUBSQTFL = if_else(
 
 ## QC Checks
 
-- [ ] `nrow(adcm) == 2197` (within ±1%).
-- [ ] All ONTRTFL, PRIORFL, CONFL, CMIRAEFL, SUBSQTFL, ANL01FL ∈ {"Y", "N"}; no NAs.
+- [ ] `nrow(adcm) == 2319` (within ±1%); `sum(ANL01FL == "Y", na.rm = TRUE) == 2312`.
+- [ ] PRIORFL, CMIRAEFL, SUBSQTFL ∈ {"Y", "N"}; ONTRTFL, CONFL, ANL01FL ∈ {"Y", NA} (Y-only flags, P21 AD0269).
 - [ ] `ONTRTFL == "Y"` implies `ASTDT <= TRTEDT`.
 - [ ] `PRIORFL == "Y"` implies `AENDT < TRTSDT`.
 - [ ] `CONFL == ONTRTFL` for every row.
@@ -131,3 +131,4 @@ SUBSQTFL = if_else(
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-05-17 | Lovemore Gakava | Initial draft. |
+| 0.2 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: ANL01FL now = safety population (`SAFFL`) as an explicit Y/null flag (was bare `"Y"`); Expected N corrected to 2,319 (2,312 flagged; 7 belong to a never-dosed subject); ONTRTFL/CONFL documented as Y-only (P21 AD0269). |
