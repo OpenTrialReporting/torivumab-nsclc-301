@@ -59,7 +59,7 @@ Phase 8: ADRG (Analysis Data Reviewer's Guide)
 ### Study Design (LOCKED)
 - **Indication:** Non-Small Cell Lung Cancer (NSCLC)
 - **Phase:** 3, randomised, double-blind, placebo-controlled
-- **Population:** 450 subjects (300 active, 150 placebo), 2:1 ratio
+- **Population:** 450 subjects — as simulated 225 active : 225 placebo (1:1); protocol plans 2:1 (300:150)
 - **Stratification:** PD-L1 TPS (≥50% required), Histology (squamous/non-squamous), Region (NA/EU/APAC)
 - **Primary endpoint:** Overall Survival (OS)
 - **Secondary:** PFS, ORR, Safety
@@ -140,7 +140,7 @@ torivumab-nsclc-301/
 ├── define/                                      ✅ v0.1 draft 2026-05-16 (define.xml + DEFINE-SUMMARY.md)
 ├── programs/define/                             ✅ Define-XML builder (build_define.R)
 ├── csr/                                         ⏳ Phase 7
-├── onco_phase3_solid/                           (Parquet export for clinTrialData)
+├── onco_phase3_solid/                           (Parquet export for clinTrialData — 12 ADaM + 26 SDTM + metadata.json)
 ├── ROADMAP.md (Phase workflow)
 ├── AGENTS.md (this file)
 └── README.md (project overview)

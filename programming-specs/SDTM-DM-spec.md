@@ -105,7 +105,7 @@ See `programs/sdtm/SDTM-MAPPING-SPEC.md` §1 for the consolidated derivation tab
 - [ ] `RFICDTC <= RFSTDTC` (consent precedes or equals randomisation) for all non-screen-failures
 - [ ] `ARM == ACTARM` for all rows (no cross-over in this study)
 - [ ] `ARMNRS` non-NA iff `ARM == "SCREEN FAILURE"` (currently 0 rows)
-- [ ] `count(ARM)`: 300 TORIVUMAB arm, 150 PLACEBO arm (2:1 allocation)
+- [ ] `count(ARM)`: 225 "Torivumab + Chemotherapy", 225 "Placebo + Chemotherapy" — the raw generator (`programs/raw/01_demographics.R`) allocates 1:1, not the protocol's planned 2:1
 - [ ] Variable lengths/labels conform via `xportr::xportr_length()` + `xportr::xportr_label()`
 
 ## Traceability

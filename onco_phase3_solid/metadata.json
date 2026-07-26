@@ -1,6 +1,6 @@
 {
   "source": "onco_phase3_solid",
-  "description": "SIMULATED-TORIVUMAB-2026 (TORIVA-LUNG 301) — fully synthetic Phase 3 randomised, double-blind, placebo-controlled NSCLC trial (torivumab anti-PD-L1, 2:1, N=450). CDISC-conformant: SDTMIG v3.4 (22 domains) and ADaMIG v1.3 (12 datasets). FICTIONAL / educational use only — not for regulatory submission.",
+  "description": "SIMULATED-TORIVUMAB-2026 (TORIVA-LUNG 301, STUDYID CTX-NSCLC-301) - fully synthetic Phase 3 randomised, double-blind, placebo-controlled NSCLC trial (torivumab anti-PD-L1 + platinum chemotherapy vs placebo + chemotherapy, 1:1, N=450). CDISC-conformant: SDTMIG v3.4 (26 domains, incl. trial design TS/TA/TE/SE) and ADaMIG v1.3 (12 datasets); all 708 variables labelled; Pinnacle 21 CLI validated. FICTIONAL / educational use only - not for regulatory submission.",
   "domains": {
     "adam": [
       "adae",
@@ -30,19 +30,23 @@
       "pe",
       "relrec",
       "rs",
+      "se",
       "su",
       "suppae",
       "suppcm",
       "suppdm",
       "supplb",
       "suppsu",
+      "ta",
+      "te",
       "tr",
+      "ts",
       "tu",
       "vs"
     ]
   },
   "n_subjects": 450,
-  "version": "v0.1.1",
+  "version": "v0.1.2",
   "license": "CC BY 4.0",
   "source_url": "https://github.com/OpenTrialReporting/torivumab-nsclc-301"
 }

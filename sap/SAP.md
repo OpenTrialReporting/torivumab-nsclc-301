@@ -42,6 +42,10 @@ CTX-NSCLC-301 is a Phase 3, randomised (2:1), double-blind, placebo-controlled, 
 
 Full design: Protocol §3.
 
+> **As simulated:** the delivered data is **1:1 (225 : 225)**, not the planned 2:1 —
+> see the note at the top of `protocol/synopsis.md`. Analyses are unaffected in
+> specification; only the arm denominators differ from the planned design.
+
 ---
 
 ## 2. Objectives and Hypotheses

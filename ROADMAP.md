@@ -49,7 +49,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | PROVENANCE | ✅ Done | `programs/raw/RAW-PROVENANCE.md` |
 
 **Deliverables locked:**
-- Study design: Phase 3, 2:1 randomisation, 450 subjects (300 active, 150 placebo)
+- Study design: Phase 3, 450 subjects — protocol plans 2:1 (300 active, 150 placebo); **the simulated data is 1:1 (225 : 225)**, see `programs/raw/01_demographics.R`
 - Primary endpoint: Overall Survival (OS)
 - Secondary endpoints: PFS, ORR, Safety
 - Response criteria: RECIST 1.1
@@ -135,7 +135,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 | Script | Seed | Domain | Key outputs |
 |--------|------|--------|-------------|
 | `00_run_all.R` | — | Orchestrator | Runs all scripts in subprocesses; saves `session_info.txt` |
-| `01_dm.R` | 301 | DM + SUPPDM | 450 subjects, 2:1 randomisation, backbone, OS/PFS times |
+| `01_dm.R` | 301 | DM + SUPPDM | 450 subjects, 1:1 randomisation as simulated, backbone, OS/PFS times |
 | `02_ex.R` | 302 | EX | Q3W dosing, dose holds, infusion datetimes |
 | `03_ds.R` | 303 | DS | IC → Randomised → EOT → FU → Death milestones |
 | `04_ae.R` | 304 | AE | 26 AE types; irAEs overrepresented in TOR; MedDRA v27.0; CTCAE v5.0 |
@@ -156,7 +156,7 @@ End-to-end pipeline for generating a synthetic Phase 3 NSCLC clinical trial data
 **Backbone (`subject_backbone.csv`):** output of `01_dm.R` — joined by all downstream scripts; contains C1D1 date, PFS/OS event times, DTHFL, N_CYCLES, stratification variables.
 
 **Key characteristics:**
-- 450 subjects (300 active, 150 placebo), 60 sites, 3 regions
+- 450 subjects (225 active, 225 placebo — 1:1 as simulated), 60 sites, 3 regions
 - 18-month accrual (2022-01-15 → 2023-07-15); data cutoff 2025-01-31
 - OS HR=0.65 (TOR 21.5m vs PBO 14.0m), PFS HR=0.55 (TOR 11.0m vs PBO 6.0m)
 - 10% administrative dropout (MCAR)
@@ -599,7 +599,7 @@ Planned enhancements carried over from the working journal. Tracked as GitHub is
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound
 - [ ] ADRG complete & referenced
-- [x] All 22 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — bundle `onco_phase3_solid/` (34 Parquet + `metadata.json`, N=450) published to the clinTrialData GitHub Release and verified end-to-end from the published URL. **v0.1.1 (2026-07-18)** adds ADaMIG AVISIT/AVISITN to all 5 BDS datasets (issue #24); v0.1.0 fixed ADaM variable labels 333/333 (issue #14). See `onco_phase3_solid/README.md`.
+- [x] All 26 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — bundle `onco_phase3_solid/` (38 Parquet + `metadata.json`, N=450) published to the clinTrialData GitHub Release and verified end-to-end from the published URL. **v0.1.2 (2026-07-26, staged)** rebuilds every dataset: +4 trial-design domains (TS/TA/TE/SE), P21 structural/CT remediation, SAP §12.2 analysis-visit windowing + unified `ANL01FL`, ALP analyte, unscheduled visits. **v0.1.1 (2026-07-18)** adds ADaMIG AVISIT/AVISITN to all 5 BDS datasets (issue #24); v0.1.0 fixed ADaM variable labels 333/333 (issue #14). See `onco_phase3_solid/README.md`.
 - [ ] Repository clean & fully documented on GitHub
 
 ---
@@ -655,8 +655,8 @@ torivumab-nsclc-301/
 │   └── build_define.R
 ├── csr/                                    ⏳ Phase 7
 │   └── csr.pdf
-├── onco_phase3_solid/                          ✅ clinTrialData bundle — published to v0.1.0 Release (2026-07-18)
-│   ├── adam/  *.parquet (12)  ·  sdtm/  *.parquet (22)
+├── onco_phase3_solid/                          ✅ clinTrialData bundle — v0.1.2 staged 2026-07-26 (v0.1.1 published 2026-07-18)
+│   ├── adam/  *.parquet (12)  ·  sdtm/  *.parquet (26)
 │   ├── metadata.json                            (source/domains/n_subjects=450/version/license)
 │   └── README.md                                (release-upload commands)
 ├── ROADMAP.md (this file)
