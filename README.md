@@ -20,7 +20,8 @@ Developed as a contribution to the [`clinTrialData`](https://github.com/Lovemore
 | **Indication** | Advanced/metastatic NSCLC, Stage IIIB/IV |
 | **Population** | First-line, PD-L1 TPS ≥50%, no EGFR/ALK mutations |
 | **Design** | Randomised, double-blind, placebo-controlled, multinational |
-| **N** | 450 subjects — **as simulated: 225 torivumab : 225 placebo (1:1)**; the protocol synopsis plans 2:1 (300:150) |
+| **N** | 450 subjects — 225 torivumab : 225 placebo |
+| **Randomisation** | 1:1 (torivumab : placebo), stratified by histology and region |
 | **Primary Endpoint** | Overall Survival (OS) |
 | **Secondary Endpoints** | PFS, ORR, Safety |
 | **Response Criteria** | RECIST 1.1 |
