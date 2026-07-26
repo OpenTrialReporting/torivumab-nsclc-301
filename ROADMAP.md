@@ -599,7 +599,7 @@ Planned enhancements carried over from the working journal. Tracked as GitHub is
 - [ ] Define-XML v2.1 v1.0 (VLM + full CodeList refs + PDF render)
 - [ ] CSR narratively coherent & statistically sound
 - [ ] ADRG complete & referenced
-- [x] All 26 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — bundle `onco_phase3_solid/` (38 Parquet + `metadata.json`, N=450) published to the clinTrialData GitHub Release and verified end-to-end from the published URL. **v0.1.2 (2026-07-26, staged)** rebuilds every dataset: +4 trial-design domains (TS/TA/TE/SE), P21 structural/CT remediation, SAP §12.2 analysis-visit windowing + unified `ANL01FL`, ALP analyte, unscheduled visits. **v0.1.1 (2026-07-18)** adds ADaMIG AVISIT/AVISITN to all 5 BDS datasets (issue #24); v0.1.0 fixed ADaM variable labels 333/333 (issue #14). See `onco_phase3_solid/README.md`.
+- [x] All 26 SDTM + 12 ADaM datasets submitted to clinTrialData in Parquet format — bundle `onco_phase3_solid/` (38 Parquet + `metadata.json`, N=450) published to the clinTrialData GitHub Release and verified end-to-end from the published URL. **v0.1.2 (2026-07-26, published + verified from the release URL)** rebuilds every dataset: +4 trial-design domains (TS/TA/TE/SE), P21 structural/CT remediation, SAP §12.2 analysis-visit windowing + unified `ANL01FL`, ALP analyte, unscheduled visits. **v0.1.1 (2026-07-18)** adds ADaMIG AVISIT/AVISITN to all 5 BDS datasets (issue #24); v0.1.0 fixed ADaM variable labels 333/333 (issue #14). See `onco_phase3_solid/README.md`.
 - [ ] Repository clean & fully documented on GitHub
 
 ---
@@ -655,7 +655,7 @@ torivumab-nsclc-301/
 │   └── build_define.R
 ├── csr/                                    ⏳ Phase 7
 │   └── csr.pdf
-├── onco_phase3_solid/                          ✅ clinTrialData bundle — v0.1.2 staged 2026-07-26 (v0.1.1 published 2026-07-18)
+├── onco_phase3_solid/                          ✅ clinTrialData bundle — published to the v0.1.2 Release (2026-07-26)
 │   ├── adam/  *.parquet (12)  ·  sdtm/  *.parquet (26)
 │   ├── metadata.json                            (source/domains/n_subjects=450/version/license)
 │   └── README.md                                (release-upload commands)
