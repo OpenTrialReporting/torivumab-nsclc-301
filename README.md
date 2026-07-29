@@ -159,6 +159,40 @@ torivumab-nsclc-301/
 
 ---
 
+## Reproducible Environment (uvr)
+
+This project uses **[uvr](https://github.com/uvr-org/uvr)** for fast, reproducible R package management — a single lockfile pins every dependency at exact versions for regulatory auditability.
+
+### Quick Start
+
+```bash
+# Install uvr (one-time)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone and sync
+git clone https://github.com/OpenTrialReporting/torivumab-nsclc-301.git
+cd torivumab-nsclc-301
+uvr sync
+```
+
+`uvr sync` reads `uvr.lock` and installs all 160 packages (34 direct, 126 transitive) into `.uvr/library/`. The `.Rprofile` auto-links the library on R startup — `library(admiral)` just works.
+
+### Key Commands
+
+| Command | Purpose |
+|---|---|
+| `uvr sync` | Install exact versions from lockfile |
+| `uvr add <pkg>` | Add a new dependency + update lockfile |
+| `uvr scan` | Detect packages used in R/Rmd scripts not yet declared |
+| `uvr tree` | Show full dependency tree |
+| `uvr lock --check` | Verify lockfile is up to date (CI) |
+
+### Lockfile
+
+`uvr.lock` (1,975 lines) is the single source of truth for package versions. It is committed to git and should be reviewed in PRs. The `.uvr/library/` directory is gitignored — each developer runs `uvr sync` to populate it locally.
+
+---
+
 ## License
 
 Synthetic data — educational use only. CC BY 4.0.
