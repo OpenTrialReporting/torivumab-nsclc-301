@@ -1,0 +1,1975 @@
+[r]
+version = "4.6.1"
+
+[[package]]
+name = "Deriv"
+version = "4.3.0"
+source = "cran"
+raw_version = "4.3.0"
+url = "https://cran.r-project.org/src/contrib/Deriv_4.3.0.tar.gz"
+checksum = "md5:379732250a50bde145f56415bda818f6"
+requires = [
+    "Rcpp",
+    "Rcpp",
+]
+
+[[package]]
+name = "Formula"
+version = "1.2.5"
+source = "cran"
+raw_version = "1.2-5"
+url = "https://cran.r-project.org/src/contrib/Formula_1.2-5.tar.gz"
+checksum = "md5:fa5128b436b67051b231e0a8281f36a4"
+
+[[package]]
+name = "MASS"
+version = "7.3.66"
+source = "cran"
+raw_version = "7.3-66"
+url = "https://cran.r-project.org/src/contrib/MASS_7.3-66.tar.gz"
+checksum = "md5:272648f9e6c9f1855417b099ea03ee46"
+
+[[package]]
+name = "Matrix"
+version = "1.7.6"
+source = "cran"
+raw_version = "1.7-6"
+url = "https://cran.r-project.org/src/contrib/Matrix_1.7-6.tar.gz"
+checksum = "md5:92502b5e17bc36390d9e52c0f2c2e0f0"
+requires = ["lattice"]
+
+[[package]]
+name = "MatrixModels"
+version = "0.5.4"
+source = "cran"
+raw_version = "0.5-4"
+url = "https://cran.r-project.org/src/contrib/MatrixModels_0.5-4.tar.gz"
+checksum = "md5:b87060f8af9cd5a82e56c4d14c7624fe"
+requires = [
+    "Matrix",
+    "Matrix",
+]
+
+[[package]]
+name = "R6"
+version = "2.6.1"
+source = "cran"
+raw_version = "2.6.1"
+url = "https://cran.r-project.org/src/contrib/R6_2.6.1.tar.gz"
+checksum = "md5:f01b1787f12797c29194d63c9afd5d70"
+
+[[package]]
+name = "RColorBrewer"
+version = "1.1.3"
+source = "cran"
+raw_version = "1.1-3"
+url = "https://cran.r-project.org/src/contrib/RColorBrewer_1.1-3.tar.gz"
+checksum = "md5:9b687595bbe02a7e43fc195ba33f065c"
+
+[[package]]
+name = "Rcpp"
+version = "1.1.2"
+source = "cran"
+raw_version = "1.1.2"
+url = "https://cran.r-project.org/src/contrib/Rcpp_1.1.2.tar.gz"
+checksum = "md5:353d35176db9c570705a0a324c06fdca"
+
+[[package]]
+name = "RcppArmadillo"
+version = "15.4.2-4.1"
+source = "cran"
+raw_version = "15.4.2-1"
+url = "https://cran.r-project.org/src/contrib/RcppArmadillo_15.4.2-1.tar.gz"
+checksum = "md5:b446a94020b100db656ff06e30d2f52f"
+requires = [
+    "Rcpp",
+    "Rcpp",
+]
+
+[[package]]
+name = "RcppEigen"
+version = "0.3.4-4.0.2"
+source = "cran"
+raw_version = "0.3.4.0.2"
+url = "https://cran.r-project.org/src/contrib/RcppEigen_0.3.4.0.2.tar.gz"
+checksum = "md5:d636083ce19deae8f32883170314f2ea"
+requires = [
+    "Rcpp",
+    "Rcpp",
+]
+
+[[package]]
+name = "Rdpack"
+version = "2.6.6"
+source = "cran"
+raw_version = "2.6.6"
+url = "https://cran.r-project.org/src/contrib/Rdpack_2.6.6.tar.gz"
+checksum = "md5:3259eb847df896eff1d6f9aed7cf7497"
+requires = ["rbibutils"]
+
+[[package]]
+name = "S7"
+version = "0.2.2"
+source = "cran"
+raw_version = "0.2.2"
+url = "https://cran.r-project.org/src/contrib/S7_0.2.2.tar.gz"
+checksum = "md5:6a40d3eae470be0f06a03737b9391269"
+
+[[package]]
+name = "SparseM"
+version = "1.84.2"
+source = "cran"
+raw_version = "1.84-2"
+url = "https://cran.r-project.org/src/contrib/SparseM_1.84-2.tar.gz"
+checksum = "md5:60d64c3f007a57f293abf261e3e6aa58"
+
+[[package]]
+name = "abind"
+version = "1.4.8"
+source = "cran"
+raw_version = "1.4-8"
+url = "https://cran.r-project.org/src/contrib/abind_1.4-8.tar.gz"
+checksum = "md5:7a440111cd1e24356d558ac55a65dc98"
+
+[[package]]
+name = "admiral"
+version = "1.5.0"
+source = "cran"
+raw_version = "1.5.0"
+url = "https://cran.r-project.org/src/contrib/admiral_1.5.0.tar.gz"
+checksum = "md5:1857c28cb76a7f5af921bc2147ffafc0"
+requires = [
+    "admiraldev",
+    "cli",
+    "dplyr",
+    "hms",
+    "lifecycle",
+    "lubridate",
+    "magrittr",
+    "purrr",
+    "rlang",
+    "stringr",
+    "tidyr",
+    "tidyselect",
+]
+
+[[package]]
+name = "admiraldev"
+version = "1.5.0"
+source = "cran"
+raw_version = "1.5.0"
+url = "https://cran.r-project.org/src/contrib/admiraldev_1.5.0.tar.gz"
+checksum = "md5:bbe25bbd5fece2f8f70f1950c19f06a3"
+requires = [
+    "cli",
+    "dplyr",
+    "glue",
+    "lifecycle",
+    "lubridate",
+    "purrr",
+    "rlang",
+    "roxygen2",
+    "stringr",
+    "tidyr",
+    "tidyselect",
+    "withr",
+]
+
+[[package]]
+name = "admiralonco"
+version = "1.4.1"
+source = "cran"
+raw_version = "1.4.1"
+url = "https://cran.r-project.org/src/contrib/admiralonco_1.4.1.tar.gz"
+checksum = "md5:6c088c15c5399d2a961fb64cebadf632"
+requires = [
+    "admiral",
+    "admiraldev",
+    "cli",
+    "dplyr",
+    "lifecycle",
+    "lubridate",
+    "magrittr",
+    "rlang",
+    "tidyselect",
+]
+
+[[package]]
+name = "arrow"
+version = "25.0.0"
+source = "cran"
+raw_version = "25.0.0"
+url = "https://cran.r-project.org/src/contrib/arrow_25.0.0.tar.gz"
+checksum = "md5:ad509e6f67cab44b236d8984fac461c1"
+requires = [
+    "assertthat",
+    "bit64",
+    "glue",
+    "purrr",
+    "R6",
+    "rlang",
+    "tidyselect",
+    "vctrs",
+    "cpp11",
+]
+
+[[package]]
+name = "askpass"
+version = "1.2.1"
+source = "cran"
+raw_version = "1.2.1"
+url = "https://cran.r-project.org/src/contrib/askpass_1.2.1.tar.gz"
+checksum = "md5:fc2c6a61b6a354707586b01950366f37"
+requires = ["sys"]
+
+[[package]]
+name = "assertthat"
+version = "0.2.1"
+source = "cran"
+raw_version = "0.2.1"
+url = "https://cran.r-project.org/src/contrib/assertthat_0.2.1.tar.gz"
+checksum = "md5:9f2eae3d20a9d6b40856a6fed013cb05"
+
+[[package]]
+name = "backports"
+version = "1.5.1"
+source = "cran"
+raw_version = "1.5.1"
+url = "https://cran.r-project.org/src/contrib/backports_1.5.1.tar.gz"
+checksum = "md5:f23f63d1a2a739db18644dfa8c1de7ec"
+
+[[package]]
+name = "base64enc"
+version = "0.1.6"
+source = "cran"
+raw_version = "0.1-6"
+url = "https://cran.r-project.org/src/contrib/base64enc_0.1-6.tar.gz"
+checksum = "md5:2c4ecc969451a673ee05eb2e725fcbaf"
+
+[[package]]
+name = "bit"
+version = "4.6.0"
+source = "cran"
+raw_version = "4.6.0"
+url = "https://cran.r-project.org/src/contrib/bit_4.6.0.tar.gz"
+checksum = "md5:f36540550af63b0db8c78429d7366998"
+
+[[package]]
+name = "bit64"
+version = "4.8.2"
+source = "cran"
+raw_version = "4.8.2"
+url = "https://cran.r-project.org/src/contrib/bit64_4.8.2.tar.gz"
+checksum = "md5:12904714853ba84b8d1808266e5ef943"
+requires = ["bit"]
+
+[[package]]
+name = "boot"
+version = "1.3.32"
+source = "cran"
+raw_version = "1.3-32"
+url = "https://cran.r-project.org/src/contrib/boot_1.3-32.tar.gz"
+checksum = "md5:c883de096f9a6b3afbf461337092a1f3"
+
+[[package]]
+name = "brew"
+version = "1.0.10"
+source = "cran"
+raw_version = "1.0-10"
+url = "https://cran.r-project.org/src/contrib/brew_1.0-10.tar.gz"
+checksum = "md5:c1ebbea7284161a8884ffe9ae5ca451f"
+
+[[package]]
+name = "broom"
+version = "1.0.13"
+source = "cran"
+raw_version = "1.0.13"
+url = "https://cran.r-project.org/src/contrib/broom_1.0.13.tar.gz"
+checksum = "md5:f18019fa804c6a0f47eb5b83c0cc5bb8"
+requires = [
+    "backports",
+    "cli",
+    "dplyr",
+    "generics",
+    "glue",
+    "lifecycle",
+    "purrr",
+    "rlang",
+    "stringr",
+    "tibble",
+    "tidyr",
+]
+
+[[package]]
+name = "bslib"
+version = "0.11.0"
+source = "cran"
+raw_version = "0.11.0"
+url = "https://cran.r-project.org/src/contrib/bslib_0.11.0.tar.gz"
+checksum = "md5:33ff4265fa9789b2b35945be75e61fd0"
+requires = [
+    "base64enc",
+    "cachem",
+    "fastmap",
+    "htmltools",
+    "jquerylib",
+    "jsonlite",
+    "lifecycle",
+    "memoise",
+    "mime",
+    "rlang",
+    "sass",
+]
+
+[[package]]
+name = "cachem"
+version = "1.1.0"
+source = "cran"
+raw_version = "1.1.0"
+url = "https://cran.r-project.org/src/contrib/cachem_1.1.0.tar.gz"
+checksum = "md5:53980eb40dd09b0cd44673d3a6fabe36"
+requires = [
+    "rlang",
+    "fastmap",
+]
+
+[[package]]
+name = "callr"
+version = "3.8.0"
+source = "cran"
+raw_version = "3.8.0"
+url = "https://cran.r-project.org/src/contrib/callr_3.8.0.tar.gz"
+checksum = "md5:6f2cca7ac13cfa5ef90288587f43de6f"
+requires = [
+    "otel",
+    "processx",
+    "R6",
+]
+
+[[package]]
+name = "car"
+version = "3.1.5"
+source = "cran"
+raw_version = "3.1-5"
+url = "https://cran.r-project.org/src/contrib/car_3.1-5.tar.gz"
+checksum = "md5:bcc349a3c28cc57f431bcdcec31df241"
+requires = [
+    "carData",
+    "abind",
+    "Formula",
+    "MASS",
+    "mgcv",
+    "nnet",
+    "pbkrtest",
+    "quantreg",
+    "lme4",
+    "nlme",
+    "scales",
+]
+
+[[package]]
+name = "carData"
+version = "3.0.6"
+source = "cran"
+raw_version = "3.0-6"
+url = "https://cran.r-project.org/src/contrib/carData_3.0-6.tar.gz"
+checksum = "md5:041bf0f955637b1b1b6a44bde20605b5"
+
+[[package]]
+name = "cellranger"
+version = "1.1.0"
+source = "cran"
+raw_version = "1.1.0"
+url = "https://cran.r-project.org/src/contrib/cellranger_1.1.0.tar.gz"
+checksum = "md5:1abcfea6af5ab2e277cb99e86880456f"
+requires = [
+    "rematch",
+    "tibble",
+]
+
+[[package]]
+name = "checkmate"
+version = "2.3.4"
+source = "cran"
+raw_version = "2.3.4"
+url = "https://cran.r-project.org/src/contrib/checkmate_2.3.4.tar.gz"
+checksum = "md5:64da20583ae2453fe1c86df562eb031b"
+requires = ["backports"]
+
+[[package]]
+name = "cli"
+version = "3.6.6"
+source = "cran"
+raw_version = "3.6.6"
+url = "https://cran.r-project.org/src/contrib/cli_3.6.6.tar.gz"
+checksum = "md5:eedc08ba864ae6cd640b05eff1a607ee"
+
+[[package]]
+name = "clipr"
+version = "0.8.1"
+source = "cran"
+raw_version = "0.8.1"
+url = "https://cran.r-project.org/src/contrib/clipr_0.8.1.tar.gz"
+checksum = "md5:e3618a0611ca2dfbc6475975a163ab6a"
+
+[[package]]
+name = "colorspace"
+version = "2.1.3"
+source = "cran"
+raw_version = "2.1-3"
+url = "https://cran.r-project.org/src/contrib/colorspace_2.1-3.tar.gz"
+checksum = "md5:44beb9a1ff66bf35b44663b4fa7ef2ae"
+
+[[package]]
+name = "commonmark"
+version = "2.0.0"
+source = "cran"
+raw_version = "2.0.0"
+url = "https://cran.r-project.org/src/contrib/commonmark_2.0.0.tar.gz"
+checksum = "md5:ac18da7841af62e8c457dd4872cce1ba"
+
+[[package]]
+name = "cowplot"
+version = "1.2.0"
+source = "cran"
+raw_version = "1.2.0"
+url = "https://cran.r-project.org/src/contrib/cowplot_1.2.0.tar.gz"
+checksum = "md5:78d3f716e640c993b3958dab2690bcb6"
+requires = [
+    "ggplot2",
+    "gtable",
+    "rlang",
+    "scales",
+]
+
+[[package]]
+name = "cpp11"
+version = "0.5.5"
+source = "cran"
+raw_version = "0.5.5"
+url = "https://cran.r-project.org/src/contrib/cpp11_0.5.5.tar.gz"
+checksum = "md5:7c4c3f58ffa7adec25b85d0d99c0d7ed"
+
+[[package]]
+name = "crayon"
+version = "1.5.3"
+source = "cran"
+raw_version = "1.5.3"
+url = "https://cran.r-project.org/src/contrib/crayon_1.5.3.tar.gz"
+checksum = "md5:bb290c70d23b2200006187ac7839116f"
+
+[[package]]
+name = "data.table"
+version = "1.18.4"
+source = "cran"
+raw_version = "1.18.4"
+url = "https://cran.r-project.org/src/contrib/data.table_1.18.4.tar.gz"
+checksum = "md5:8802d3e9516d5b38dd4aa1a473e2ac6e"
+
+[[package]]
+name = "desc"
+version = "1.4.3"
+source = "cran"
+raw_version = "1.4.3"
+url = "https://cran.r-project.org/src/contrib/desc_1.4.3.tar.gz"
+checksum = "md5:25e3c3be23e19c0f9164ed251c79f677"
+requires = [
+    "cli",
+    "R6",
+]
+
+[[package]]
+name = "diffdf"
+version = "1.1.2"
+source = "cran"
+raw_version = "1.1.2"
+url = "https://cran.r-project.org/src/contrib/diffdf_1.1.2.tar.gz"
+checksum = "md5:a264b07c5cd172ae41334eca9f24b824"
+requires = [
+    "tibble",
+    "assertthat",
+]
+
+[[package]]
+name = "diffobj"
+version = "0.3.8"
+source = "cran"
+raw_version = "0.3.8"
+url = "https://cran.r-project.org/src/contrib/diffobj_0.3.8.tar.gz"
+checksum = "md5:b9c3f8ec8b020bb807312c6c80d1c78c"
+requires = ["crayon"]
+
+[[package]]
+name = "digest"
+version = "0.6.39"
+source = "cran"
+raw_version = "0.6.39"
+url = "https://cran.r-project.org/src/contrib/digest_0.6.39.tar.gz"
+checksum = "md5:2b7268922b0f86dbc8064ff8e3a1ca1b"
+
+[[package]]
+name = "doBy"
+version = "4.7.2"
+source = "cran"
+raw_version = "4.7.2"
+url = "https://cran.r-project.org/src/contrib/doBy_4.7.2.tar.gz"
+checksum = "md5:24e2764844cfed461a0cd032f9de71ed"
+requires = [
+    "boot",
+    "broom",
+    "cowplot",
+    "Deriv",
+    "dplyr",
+    "forecast",
+    "ggplot2",
+    "MASS",
+    "Matrix",
+    "modelr",
+    "rlang",
+    "purrr",
+    "tibble",
+    "tidyr",
+]
+
+[[package]]
+name = "dplyr"
+version = "1.2.1"
+source = "cran"
+raw_version = "1.2.1"
+url = "https://cran.r-project.org/src/contrib/dplyr_1.2.1.tar.gz"
+checksum = "md5:1c6ba2499c7a08d081bdb530423ab22c"
+requires = [
+    "cli",
+    "generics",
+    "glue",
+    "lifecycle",
+    "magrittr",
+    "pillar",
+    "R6",
+    "rlang",
+    "tibble",
+    "tidyselect",
+    "vctrs",
+]
+
+[[package]]
+name = "emmeans"
+version = "2.0.4"
+source = "cran"
+raw_version = "2.0.4"
+url = "https://cran.r-project.org/src/contrib/emmeans_2.0.4.tar.gz"
+checksum = "md5:5ddcca53290680d7f7753ed71892d887"
+requires = [
+    "estimability",
+    "mvtnorm",
+    "numDeriv",
+    "rlang",
+]
+
+[[package]]
+name = "estimability"
+version = "2.0.0"
+source = "cran"
+raw_version = "2.0.0"
+url = "https://cran.r-project.org/src/contrib/estimability_2.0.0.tar.gz"
+checksum = "md5:a3060510843713ed688963c36d09b441"
+
+[[package]]
+name = "evaluate"
+version = "1.0.5"
+source = "cran"
+raw_version = "1.0.5"
+url = "https://cran.r-project.org/src/contrib/evaluate_1.0.5.tar.gz"
+checksum = "md5:64d96fee3845fd96d1eafaba37adf00e"
+
+[[package]]
+name = "farver"
+version = "2.1.2"
+source = "cran"
+raw_version = "2.1.2"
+url = "https://cran.r-project.org/src/contrib/farver_2.1.2.tar.gz"
+checksum = "md5:1fa98878bb985e28d968630c7e7597b6"
+
+[[package]]
+name = "fastmap"
+version = "1.2.0"
+source = "cran"
+raw_version = "1.2.0"
+url = "https://cran.r-project.org/src/contrib/fastmap_1.2.0.tar.gz"
+checksum = "md5:f53773acd6ba9a86413e8c2dc6441544"
+
+[[package]]
+name = "flextable"
+version = "0.10.0"
+source = "cran"
+raw_version = "0.10.0"
+url = "https://cran.r-project.org/src/contrib/flextable_0.10.0.tar.gz"
+checksum = "md5:78c19699e2ec98011b3b48ff1bf0b4aa"
+requires = [
+    "data.table",
+    "gdtools",
+    "htmltools",
+    "knitr",
+    "officer",
+    "ragg",
+    "rlang",
+    "rmarkdown",
+    "uuid",
+    "xml2",
+]
+
+[[package]]
+name = "fontBitstreamVera"
+version = "0.1.1"
+source = "cran"
+raw_version = "0.1.1"
+url = "https://cran.r-project.org/src/contrib/fontBitstreamVera_0.1.1.tar.gz"
+checksum = "md5:c32821c06d909336ace68f2df3d8710e"
+
+[[package]]
+name = "fontLiberation"
+version = "0.1.0"
+source = "cran"
+raw_version = "0.1.0"
+url = "https://cran.r-project.org/src/contrib/fontLiberation_0.1.0.tar.gz"
+checksum = "md5:7a317aca78d58fc0b2417380cc702864"
+
+[[package]]
+name = "fontawesome"
+version = "0.5.3"
+source = "cran"
+raw_version = "0.5.3"
+url = "https://cran.r-project.org/src/contrib/fontawesome_0.5.3.tar.gz"
+checksum = "md5:95b072a27418b962792410dfb21c3d2b"
+requires = [
+    "rlang",
+    "htmltools",
+]
+
+[[package]]
+name = "fontquiver"
+version = "0.2.1"
+source = "cran"
+raw_version = "0.2.1"
+url = "https://cran.r-project.org/src/contrib/fontquiver_0.2.1.tar.gz"
+checksum = "md5:eddbde07ef14475acfbdc9e82d45385a"
+requires = [
+    "fontBitstreamVera",
+    "fontLiberation",
+]
+
+[[package]]
+name = "forcats"
+version = "1.0.1"
+source = "cran"
+raw_version = "1.0.1"
+url = "https://cran.r-project.org/src/contrib/forcats_1.0.1.tar.gz"
+checksum = "md5:9c4f48673cf195a7c420e32667847958"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "magrittr",
+    "rlang",
+    "tibble",
+]
+
+[[package]]
+name = "forecast"
+version = "9.0.2"
+source = "cran"
+raw_version = "9.0.2"
+url = "https://cran.r-project.org/src/contrib/forecast_9.0.2.tar.gz"
+checksum = "md5:0a7c84e9792cfd6307e25ba1f7ba0f44"
+requires = [
+    "colorspace",
+    "fracdiff",
+    "generics",
+    "ggplot2",
+    "lmtest",
+    "magrittr",
+    "nnet",
+    "Rcpp",
+    "timeDate",
+    "urca",
+    "withr",
+    "zoo",
+    "Rcpp",
+    "RcppArmadillo",
+]
+
+[[package]]
+name = "formatters"
+version = "0.5.12"
+source = "cran"
+raw_version = "0.5.12"
+url = "https://cran.r-project.org/src/contrib/formatters_0.5.12.tar.gz"
+checksum = "md5:5d2e154766f5271b8a7831e0fb4f34da"
+requires = [
+    "checkmate",
+    "htmltools",
+    "lifecycle",
+    "stringi",
+]
+
+[[package]]
+name = "fracdiff"
+version = "1.5.4"
+source = "cran"
+raw_version = "1.5-4"
+url = "https://cran.r-project.org/src/contrib/fracdiff_1.5-4.tar.gz"
+checksum = "md5:963d73ba845fabf38a737b6929abecfd"
+
+[[package]]
+name = "fs"
+version = "2.1.0"
+source = "cran"
+raw_version = "2.1.0"
+url = "https://cran.r-project.org/src/contrib/fs_2.1.0.tar.gz"
+checksum = "md5:6011a5e758c21acc297ed8bbcf97e7d9"
+
+[[package]]
+name = "gdtools"
+version = "0.5.1"
+source = "cran"
+raw_version = "0.5.1"
+url = "https://cran.r-project.org/src/contrib/gdtools_0.5.1.tar.gz"
+checksum = "md5:eb8b6f792f150c2cbccaac67f7b12fda"
+requires = [
+    "fontquiver",
+    "htmltools",
+    "Rcpp",
+    "systemfonts",
+    "Rcpp",
+]
+
+[[package]]
+name = "generics"
+version = "0.1.4"
+source = "cran"
+raw_version = "0.1.4"
+url = "https://cran.r-project.org/src/contrib/generics_0.1.4.tar.gz"
+checksum = "md5:dda54b65216fe3c53571d2adaddc7461"
+
+[[package]]
+name = "ggplot2"
+version = "4.0.3"
+source = "cran"
+raw_version = "4.0.3"
+url = "https://cran.r-project.org/src/contrib/ggplot2_4.0.3.tar.gz"
+checksum = "md5:c50d6864f6226ed9759e5deaa0a25e7f"
+requires = [
+    "cli",
+    "gtable",
+    "isoband",
+    "lifecycle",
+    "rlang",
+    "S7",
+    "scales",
+    "vctrs",
+    "withr",
+]
+
+[[package]]
+name = "glue"
+version = "1.8.1"
+source = "cran"
+raw_version = "1.8.1"
+url = "https://cran.r-project.org/src/contrib/glue_1.8.1.tar.gz"
+checksum = "md5:24e3cd382f52015c929538a5208d11aa"
+
+[[package]]
+name = "gridExtra"
+version = "2.3.1"
+source = "cran"
+raw_version = "2.3.1"
+url = "https://cran.r-project.org/src/contrib/gridExtra_2.3.1.tar.gz"
+checksum = "md5:36945ab8dce4ece13c0b245541bd4785"
+requires = ["gtable"]
+
+[[package]]
+name = "gtable"
+version = "0.3.6"
+source = "cran"
+raw_version = "0.3.6"
+url = "https://cran.r-project.org/src/contrib/gtable_0.3.6.tar.gz"
+checksum = "md5:545f07ada570ec8e3f4b22843974ac6d"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+]
+
+[[package]]
+name = "haven"
+version = "2.5.5"
+source = "cran"
+raw_version = "2.5.5"
+url = "https://cran.r-project.org/src/contrib/haven_2.5.5.tar.gz"
+checksum = "md5:facac99e920be087ad5d1d65e5f74110"
+requires = [
+    "cli",
+    "forcats",
+    "hms",
+    "lifecycle",
+    "readr",
+    "rlang",
+    "tibble",
+    "tidyselect",
+    "vctrs",
+    "cpp11",
+]
+
+[[package]]
+name = "highr"
+version = "0.12.0"
+source = "cran"
+raw_version = "0.12"
+url = "https://cran.r-project.org/src/contrib/highr_0.12.tar.gz"
+checksum = "md5:006fcfa8e16c72ecd1adffdf0cf87e43"
+requires = ["xfun"]
+
+[[package]]
+name = "hms"
+version = "1.1.4"
+source = "cran"
+raw_version = "1.1.4"
+url = "https://cran.r-project.org/src/contrib/hms_1.1.4.tar.gz"
+checksum = "md5:f63240ba5139ec2a20bd1ac56bae8243"
+requires = [
+    "cli",
+    "lifecycle",
+    "pkgconfig",
+    "rlang",
+    "vctrs",
+]
+
+[[package]]
+name = "htmltools"
+version = "0.5.9"
+source = "cran"
+raw_version = "0.5.9"
+url = "https://cran.r-project.org/src/contrib/htmltools_0.5.9.tar.gz"
+checksum = "md5:f4a0cac920fb54b5c5ea94e175e20067"
+requires = [
+    "base64enc",
+    "digest",
+    "fastmap",
+    "rlang",
+]
+
+[[package]]
+name = "isoband"
+version = "0.3.0"
+source = "cran"
+raw_version = "0.3.0"
+url = "https://cran.r-project.org/src/contrib/isoband_0.3.0.tar.gz"
+checksum = "md5:0b811a225740b6e4ae0afcdd64f11407"
+requires = [
+    "cli",
+    "rlang",
+    "cpp11",
+]
+
+[[package]]
+name = "jquerylib"
+version = "0.1.4"
+source = "cran"
+raw_version = "0.1.4"
+url = "https://cran.r-project.org/src/contrib/jquerylib_0.1.4.tar.gz"
+checksum = "md5:3607a34ac45ff420bc325d84eab4b0cb"
+requires = ["htmltools"]
+
+[[package]]
+name = "jsonlite"
+version = "2.0.0"
+source = "cran"
+raw_version = "2.0.0"
+url = "https://cran.r-project.org/src/contrib/jsonlite_2.0.0.tar.gz"
+checksum = "md5:3e54e6fbc0c9063936e3d01e91419c14"
+
+[[package]]
+name = "kableExtra"
+version = "1.4.1"
+source = "cran"
+raw_version = "1.4.1"
+url = "https://cran.r-project.org/src/contrib/kableExtra_1.4.1.tar.gz"
+checksum = "md5:f1274731936bb190b9cdef4445a2be1a"
+requires = [
+    "knitr",
+    "magrittr",
+    "stringr",
+    "xml2",
+    "rmarkdown",
+    "scales",
+    "viridisLite",
+    "htmltools",
+    "rstudioapi",
+    "digest",
+    "svglite",
+]
+
+[[package]]
+name = "knitr"
+version = "1.51.0"
+source = "cran"
+raw_version = "1.51"
+url = "https://cran.r-project.org/src/contrib/knitr_1.51.tar.gz"
+checksum = "md5:79f32f24b572fe198baca8882d6aa87f"
+requires = [
+    "evaluate",
+    "highr",
+    "xfun",
+    "yaml",
+]
+
+[[package]]
+name = "labeling"
+version = "0.4.3"
+source = "cran"
+raw_version = "0.4.3"
+url = "https://cran.r-project.org/src/contrib/labeling_0.4.3.tar.gz"
+checksum = "md5:915e6c823c1d8243641ce97253389f14"
+
+[[package]]
+name = "labelled"
+version = "2.16.0"
+source = "cran"
+raw_version = "2.16.0"
+url = "https://cran.r-project.org/src/contrib/labelled_2.16.0.tar.gz"
+checksum = "md5:a5abc9eb46b27182ef8f696040942870"
+requires = [
+    "haven",
+    "cli",
+    "dplyr",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+    "stringr",
+    "tidyr",
+    "tidyselect",
+]
+
+[[package]]
+name = "lattice"
+version = "0.22.9"
+source = "cran"
+raw_version = "0.22-9"
+url = "https://cran.r-project.org/src/contrib/lattice_0.22-9.tar.gz"
+checksum = "md5:8fda6c7974b190459ad080e467e670c6"
+
+[[package]]
+name = "lifecycle"
+version = "1.0.5"
+source = "cran"
+raw_version = "1.0.5"
+url = "https://cran.r-project.org/src/contrib/lifecycle_1.0.5.tar.gz"
+checksum = "md5:bce35a7a89fe4108f262db3e441cccae"
+requires = [
+    "cli",
+    "rlang",
+]
+
+[[package]]
+name = "lme4"
+version = "2.0.6"
+source = "cran"
+raw_version = "2.0-6"
+url = "https://cran.r-project.org/src/contrib/lme4_2.0-6.tar.gz"
+checksum = "md5:cf60da58c196ac7f2ac8094b6a13b6ce"
+requires = [
+    "Matrix",
+    "MASS",
+    "Rdpack",
+    "boot",
+    "lattice",
+    "minqa",
+    "nlme",
+    "nloptr",
+    "reformulas",
+    "Matrix",
+    "Rcpp",
+    "RcppEigen",
+]
+
+[[package]]
+name = "lmtest"
+version = "0.9.40"
+source = "cran"
+raw_version = "0.9-40"
+url = "https://cran.r-project.org/src/contrib/lmtest_0.9-40.tar.gz"
+checksum = "md5:f3ae15407707b219b2bdc5c72405d21b"
+requires = ["zoo"]
+
+[[package]]
+name = "lubridate"
+version = "1.9.5"
+source = "cran"
+raw_version = "1.9.5"
+url = "https://cran.r-project.org/src/contrib/lubridate_1.9.5.tar.gz"
+checksum = "md5:09977b7de6710ca05886412c6aa3a5a3"
+requires = [
+    "generics",
+    "timechange",
+]
+
+[[package]]
+name = "magrittr"
+version = "2.0.5"
+source = "cran"
+raw_version = "2.0.5"
+url = "https://cran.r-project.org/src/contrib/magrittr_2.0.5.tar.gz"
+checksum = "md5:4ee23a88bc1589527696d777d7e68dfc"
+
+[[package]]
+name = "memoise"
+version = "2.0.1"
+source = "cran"
+raw_version = "2.0.1"
+url = "https://cran.r-project.org/src/contrib/memoise_2.0.1.tar.gz"
+checksum = "md5:89da4ce771967d851db47132b762ce6f"
+requires = [
+    "rlang",
+    "cachem",
+]
+
+[[package]]
+name = "metacore"
+version = "0.3.0"
+source = "cran"
+raw_version = "0.3.0"
+url = "https://cran.r-project.org/src/contrib/metacore_0.3.0.tar.gz"
+checksum = "md5:9da9c134fbeba36561fed46b839350a3"
+requires = [
+    "cli",
+    "dplyr",
+    "lifecycle",
+    "magrittr",
+    "purrr",
+    "R6",
+    "readxl",
+    "rlang",
+    "stringr",
+    "tibble",
+    "tidyr",
+    "tidyselect",
+    "xml2",
+]
+
+[[package]]
+name = "mgcv"
+version = "1.9.4"
+source = "cran"
+raw_version = "1.9-4"
+url = "https://cran.r-project.org/src/contrib/mgcv_1.9-4.tar.gz"
+checksum = "md5:bcf455bf12d6ed0216e767f4911a9af9"
+requires = [
+    "nlme",
+    "Matrix",
+]
+
+[[package]]
+name = "mime"
+version = "0.13.0"
+source = "cran"
+raw_version = "0.13"
+url = "https://cran.r-project.org/src/contrib/mime_0.13.tar.gz"
+checksum = "md5:45c3868fb2f5a7f3817d54d1c75799f9"
+
+[[package]]
+name = "minqa"
+version = "1.2.8"
+source = "cran"
+raw_version = "1.2.8"
+url = "https://cran.r-project.org/src/contrib/minqa_1.2.8.tar.gz"
+checksum = "md5:220bfece6840be5600cce3cb24850cdf"
+requires = [
+    "Rcpp",
+    "Rcpp",
+]
+
+[[package]]
+name = "modelr"
+version = "0.1.11"
+source = "cran"
+raw_version = "0.1.11"
+url = "https://cran.r-project.org/src/contrib/modelr_0.1.11.tar.gz"
+checksum = "md5:ddfa4fdf1446004a7b75289eb81e8548"
+requires = [
+    "broom",
+    "magrittr",
+    "purrr",
+    "rlang",
+    "tibble",
+    "tidyr",
+    "tidyselect",
+    "vctrs",
+]
+
+[[package]]
+name = "mvtnorm"
+version = "1.4.2"
+source = "cran"
+raw_version = "1.4-2"
+url = "https://cran.r-project.org/src/contrib/mvtnorm_1.4-2.tar.gz"
+checksum = "md5:41dff32c7de1b000c61e59595ac6752d"
+
+[[package]]
+name = "nestcolor"
+version = "0.1.3"
+source = "cran"
+raw_version = "0.1.3"
+url = "https://cran.r-project.org/src/contrib/nestcolor_0.1.3.tar.gz"
+checksum = "md5:49e13638567b59078caa00cec28607a3"
+requires = [
+    "checkmate",
+    "ggplot2",
+    "lifecycle",
+]
+
+[[package]]
+name = "nlme"
+version = "3.1.170"
+source = "cran"
+raw_version = "3.1-170"
+url = "https://cran.r-project.org/src/contrib/nlme_3.1-170.tar.gz"
+checksum = "md5:1cca4f944fb0f0da191eeaf965bba912"
+requires = ["lattice"]
+
+[[package]]
+name = "nloptr"
+version = "2.2.1"
+source = "cran"
+raw_version = "2.2.1"
+url = "https://cran.r-project.org/src/contrib/nloptr_2.2.1.tar.gz"
+checksum = "md5:8c5a33535268e9ede837d070b86160eb"
+
+[[package]]
+name = "nnet"
+version = "7.3.20"
+source = "cran"
+raw_version = "7.3-20"
+url = "https://cran.r-project.org/src/contrib/nnet_7.3-20.tar.gz"
+checksum = "md5:7fa3a91bfd92035fffb9d124b52b5e1d"
+
+[[package]]
+name = "numDeriv"
+version = "2016.8.1-4.1"
+source = "cran"
+raw_version = "2016.8-1.1"
+url = "https://cran.r-project.org/src/contrib/numDeriv_2016.8-1.1.tar.gz"
+checksum = "md5:f894081f6d73822a362f156e849c9657"
+
+[[package]]
+name = "officer"
+version = "0.7.6"
+source = "cran"
+raw_version = "0.7.6"
+url = "https://cran.r-project.org/src/contrib/officer_0.7.6.tar.gz"
+checksum = "md5:2aad6ed675b59424b820cf917c9da9e0"
+requires = [
+    "cli",
+    "dplyr",
+    "openssl",
+    "R6",
+    "ragg",
+    "tidyr",
+    "uuid",
+    "xml2",
+    "zip",
+]
+
+[[package]]
+name = "openssl"
+version = "2.4.2"
+source = "cran"
+raw_version = "2.4.2"
+url = "https://cran.r-project.org/src/contrib/openssl_2.4.2.tar.gz"
+checksum = "md5:748b0fa601173da477706803783b6943"
+requires = ["askpass"]
+
+[[package]]
+name = "openxlsx"
+version = "4.2.8-4.1"
+source = "cran"
+raw_version = "4.2.8.1"
+url = "https://cran.r-project.org/src/contrib/openxlsx_4.2.8.1.tar.gz"
+checksum = "md5:0157093efbdd2ea538d22c36deac2507"
+requires = [
+    "Rcpp",
+    "stringi",
+    "zip",
+    "Rcpp",
+]
+
+[[package]]
+name = "openxlsx2"
+version = "1.28.0"
+source = "cran"
+raw_version = "1.28"
+url = "https://cran.r-project.org/src/contrib/openxlsx2_1.28.tar.gz"
+checksum = "md5:578afae48efd64f60f1cf602e4fd1724"
+requires = [
+    "R6",
+    "Rcpp",
+    "stringi",
+    "Rcpp",
+]
+
+[[package]]
+name = "otel"
+version = "0.2.0"
+source = "cran"
+raw_version = "0.2.0"
+url = "https://cran.r-project.org/src/contrib/otel_0.2.0.tar.gz"
+checksum = "md5:cecd0f434a6327dcf5ca0bc2da494d06"
+
+[[package]]
+name = "patchwork"
+version = "1.3.2"
+source = "cran"
+raw_version = "1.3.2"
+url = "https://cran.r-project.org/src/contrib/patchwork_1.3.2.tar.gz"
+checksum = "md5:cd1723c708ead431720bc9652998e325"
+requires = [
+    "ggplot2",
+    "gtable",
+    "rlang",
+    "cli",
+    "farver",
+]
+
+[[package]]
+name = "pbkrtest"
+version = "0.5.5"
+source = "cran"
+raw_version = "0.5.5"
+url = "https://cran.r-project.org/src/contrib/pbkrtest_0.5.5.tar.gz"
+checksum = "md5:8df1c5b2fdd2ddd3237f1a4c07bbb365"
+requires = [
+    "lme4",
+    "broom",
+    "dplyr",
+    "MASS",
+    "numDeriv",
+    "Matrix",
+    "doBy",
+]
+
+[[package]]
+name = "pillar"
+version = "1.11.1"
+source = "cran"
+raw_version = "1.11.1"
+url = "https://cran.r-project.org/src/contrib/pillar_1.11.1.tar.gz"
+checksum = "md5:eb84af558b1ac0d743a4790e99acad6e"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "utf8",
+    "vctrs",
+]
+
+[[package]]
+name = "pkgbuild"
+version = "1.4.8"
+source = "cran"
+raw_version = "1.4.8"
+url = "https://cran.r-project.org/src/contrib/pkgbuild_1.4.8.tar.gz"
+checksum = "md5:7708705f2645a0852f41af6e3a36d8d7"
+requires = [
+    "callr",
+    "cli",
+    "desc",
+    "processx",
+    "R6",
+]
+
+[[package]]
+name = "pkgconfig"
+version = "2.0.3"
+source = "cran"
+raw_version = "2.0.3"
+url = "https://cran.r-project.org/src/contrib/pkgconfig_2.0.3.tar.gz"
+checksum = "md5:7b9ca1d45d941238381cb55d13ff4d68"
+
+[[package]]
+name = "pkgload"
+version = "1.5.3"
+source = "cran"
+raw_version = "1.5.3"
+url = "https://cran.r-project.org/src/contrib/pkgload_1.5.3.tar.gz"
+checksum = "md5:9f38a3a0d87ea2d72d1d9e9b9bfd1106"
+requires = [
+    "cli",
+    "desc",
+    "fs",
+    "glue",
+    "lifecycle",
+    "pkgbuild",
+    "processx",
+    "rlang",
+    "rprojroot",
+]
+
+[[package]]
+name = "prettyunits"
+version = "1.2.0"
+source = "cran"
+raw_version = "1.2.0"
+url = "https://cran.r-project.org/src/contrib/prettyunits_1.2.0.tar.gz"
+checksum = "md5:2e2db8105f214b80d3d4254b8aabb255"
+
+[[package]]
+name = "processx"
+version = "3.9.0"
+source = "cran"
+raw_version = "3.9.0"
+url = "https://cran.r-project.org/src/contrib/processx_3.9.0.tar.gz"
+checksum = "md5:c4e0ed59285d195cdb03c66e3a9cb76d"
+requires = [
+    "ps",
+    "R6",
+]
+
+[[package]]
+name = "progress"
+version = "1.2.3"
+source = "cran"
+raw_version = "1.2.3"
+url = "https://cran.r-project.org/src/contrib/progress_1.2.3.tar.gz"
+checksum = "md5:db78636d2dd5ee346f5caf48bfa69f5e"
+requires = [
+    "crayon",
+    "hms",
+    "prettyunits",
+    "R6",
+]
+
+[[package]]
+name = "ps"
+version = "1.9.3"
+source = "cran"
+raw_version = "1.9.3"
+url = "https://cran.r-project.org/src/contrib/ps_1.9.3.tar.gz"
+checksum = "md5:a965ee358e18f9d6586f594487e1c2cf"
+
+[[package]]
+name = "purrr"
+version = "1.2.2"
+source = "cran"
+raw_version = "1.2.2"
+url = "https://cran.r-project.org/src/contrib/purrr_1.2.2.tar.gz"
+checksum = "md5:1b554060b57fdfe3ba6544c557b0f8d8"
+requires = [
+    "cli",
+    "lifecycle",
+    "magrittr",
+    "rlang",
+    "vctrs",
+    "cli",
+]
+
+[[package]]
+name = "quantreg"
+version = "6.1.0"
+source = "cran"
+raw_version = "6.1"
+url = "https://cran.r-project.org/src/contrib/quantreg_6.1.tar.gz"
+checksum = "md5:838f88ce6e3c7ecfb9e2488b2c498495"
+requires = [
+    "SparseM",
+    "Matrix",
+    "MatrixModels",
+    "survival",
+    "MASS",
+]
+
+[[package]]
+name = "ragg"
+version = "1.5.2"
+source = "cran"
+raw_version = "1.5.2"
+url = "https://cran.r-project.org/src/contrib/ragg_1.5.2.tar.gz"
+checksum = "md5:3913bca155c1e59f2183657a08a30b63"
+requires = [
+    "systemfonts",
+    "textshaping",
+    "systemfonts",
+    "textshaping",
+]
+
+[[package]]
+name = "rappdirs"
+version = "0.3.4"
+source = "cran"
+raw_version = "0.3.4"
+url = "https://cran.r-project.org/src/contrib/rappdirs_0.3.4.tar.gz"
+checksum = "md5:a990a3ddcfa9eb422cd406f78084fbd8"
+
+[[package]]
+name = "rbibutils"
+version = "2.4.1"
+source = "cran"
+raw_version = "2.4.1"
+url = "https://cran.r-project.org/src/contrib/rbibutils_2.4.1.tar.gz"
+checksum = "md5:dad8207e52a80a5a4a11b22339aae112"
+
+[[package]]
+name = "readr"
+version = "2.2.0"
+source = "cran"
+raw_version = "2.2.0"
+url = "https://cran.r-project.org/src/contrib/readr_2.2.0.tar.gz"
+checksum = "md5:3e87b7c88d9853bb2cec2f11eec2bf72"
+requires = [
+    "cli",
+    "clipr",
+    "crayon",
+    "glue",
+    "hms",
+    "lifecycle",
+    "R6",
+    "rlang",
+    "tibble",
+    "vroom",
+    "withr",
+    "cpp11",
+    "tzdb",
+]
+
+[[package]]
+name = "readxl"
+version = "1.5.0"
+source = "cran"
+raw_version = "1.5.0"
+url = "https://cran.r-project.org/src/contrib/readxl_1.5.0.tar.gz"
+checksum = "md5:bd4cffa51566929514856062c026ffb6"
+requires = [
+    "cellranger",
+    "tibble",
+    "cpp11",
+    "progress",
+]
+
+[[package]]
+name = "reformulas"
+version = "0.4.4"
+source = "cran"
+raw_version = "0.4.4"
+url = "https://cran.r-project.org/src/contrib/reformulas_0.4.4.tar.gz"
+checksum = "md5:280fedda4433e3ec798cb36103f75b92"
+requires = [
+    "Matrix",
+    "Rdpack",
+]
+
+[[package]]
+name = "rematch"
+version = "2.0.0"
+source = "cran"
+raw_version = "2.0.0"
+url = "https://cran.r-project.org/src/contrib/rematch_2.0.0.tar.gz"
+checksum = "md5:64ad138fd1cec37d50683cbf2958e47b"
+
+[[package]]
+name = "rlang"
+version = "1.3.0"
+source = "cran"
+raw_version = "1.3.0"
+url = "https://cran.r-project.org/src/contrib/rlang_1.3.0.tar.gz"
+checksum = "md5:b52c165e43f4d7fe5cfa15c5c9467ff4"
+
+[[package]]
+name = "rmarkdown"
+version = "2.31.0"
+source = "cran"
+raw_version = "2.31"
+url = "https://cran.r-project.org/src/contrib/rmarkdown_2.31.tar.gz"
+checksum = "md5:8f7a4eef6b62e7f2284550c3134f28c8"
+requires = [
+    "bslib",
+    "evaluate",
+    "fontawesome",
+    "htmltools",
+    "jquerylib",
+    "jsonlite",
+    "knitr",
+    "tinytex",
+    "xfun",
+    "yaml",
+]
+
+[[package]]
+name = "roxygen2"
+version = "8.0.0"
+source = "cran"
+raw_version = "8.0.0"
+url = "https://cran.r-project.org/src/contrib/roxygen2_8.0.0.tar.gz"
+checksum = "md5:a80e494a7cae9fcaf39ece932da9f3a9"
+requires = [
+    "brew",
+    "cli",
+    "commonmark",
+    "desc",
+    "knitr",
+    "lifecycle",
+    "pkgload",
+    "R6",
+    "rlang",
+    "withr",
+    "xml2",
+    "cpp11",
+]
+
+[[package]]
+name = "rprojroot"
+version = "2.1.1"
+source = "cran"
+raw_version = "2.1.1"
+url = "https://cran.r-project.org/src/contrib/rprojroot_2.1.1.tar.gz"
+checksum = "md5:307fef4f932acc1d8660a857e44d5fb7"
+
+[[package]]
+name = "rstudioapi"
+version = "0.19.0"
+source = "cran"
+raw_version = "0.19.0"
+url = "https://cran.r-project.org/src/contrib/rstudioapi_0.19.0.tar.gz"
+checksum = "md5:4cbb808adec83c594391db9be1f7ebf4"
+
+[[package]]
+name = "rtables"
+version = "0.6.16"
+source = "cran"
+raw_version = "0.6.16"
+url = "https://cran.r-project.org/src/contrib/rtables_0.6.16.tar.gz"
+checksum = "md5:b2cf5c2dc589240b0d0bf4a3345f4438"
+requires = [
+    "formatters",
+    "magrittr",
+    "checkmate",
+    "htmltools",
+    "lifecycle",
+    "stringi",
+]
+
+[[package]]
+name = "sass"
+version = "0.4.10"
+source = "cran"
+raw_version = "0.4.10"
+url = "https://cran.r-project.org/src/contrib/sass_0.4.10.tar.gz"
+checksum = "md5:16054a7117a81ba75893fec17da62209"
+requires = [
+    "fs",
+    "rlang",
+    "htmltools",
+    "R6",
+    "rappdirs",
+]
+
+[[package]]
+name = "scales"
+version = "1.4.0"
+source = "cran"
+raw_version = "1.4.0"
+url = "https://cran.r-project.org/src/contrib/scales_1.4.0.tar.gz"
+checksum = "md5:6dd61123ecc2be3e3777aa77c172261d"
+requires = [
+    "cli",
+    "farver",
+    "glue",
+    "labeling",
+    "lifecycle",
+    "R6",
+    "RColorBrewer",
+    "rlang",
+    "viridisLite",
+]
+
+[[package]]
+name = "stringi"
+version = "1.8.7"
+source = "cran"
+raw_version = "1.8.7"
+url = "https://cran.r-project.org/src/contrib/stringi_1.8.7.tar.gz"
+checksum = "md5:e8d621e4b35873cd406271d3fe8c3281"
+
+[[package]]
+name = "stringr"
+version = "1.6.0"
+source = "cran"
+raw_version = "1.6.0"
+url = "https://cran.r-project.org/src/contrib/stringr_1.6.0.tar.gz"
+checksum = "md5:e6d638f79f82b1c39fc88e7295ba1c9d"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "magrittr",
+    "rlang",
+    "stringi",
+    "vctrs",
+]
+
+[[package]]
+name = "survRM2"
+version = "1.0.4"
+source = "cran"
+raw_version = "1.0-4"
+url = "https://cran.r-project.org/src/contrib/survRM2_1.0-4.tar.gz"
+checksum = "md5:fb69c323518573e676ad1a1603b00111"
+requires = ["survival"]
+
+[[package]]
+name = "survival"
+version = "3.8.9"
+source = "cran"
+raw_version = "3.8-9"
+url = "https://cran.r-project.org/src/contrib/survival_3.8-9.tar.gz"
+checksum = "md5:a89fa5477da46a579392fc3bfef17d57"
+requires = ["Matrix"]
+
+[[package]]
+name = "svglite"
+version = "2.2.2"
+source = "cran"
+raw_version = "2.2.2"
+url = "https://cran.r-project.org/src/contrib/svglite_2.2.2.tar.gz"
+checksum = "md5:c4e710e70a85b84907fbb80d94c30c16"
+requires = [
+    "base64enc",
+    "cli",
+    "lifecycle",
+    "rlang",
+    "systemfonts",
+    "textshaping",
+    "cpp11",
+    "systemfonts",
+    "textshaping",
+]
+
+[[package]]
+name = "sys"
+version = "3.4.3"
+source = "cran"
+raw_version = "3.4.3"
+url = "https://cran.r-project.org/src/contrib/sys_3.4.3.tar.gz"
+checksum = "md5:ffb4244c6d4cacdd4ac8ef187699707c"
+
+[[package]]
+name = "systemfonts"
+version = "1.3.2"
+source = "cran"
+raw_version = "1.3.2"
+url = "https://cran.r-project.org/src/contrib/systemfonts_1.3.2.tar.gz"
+checksum = "md5:57b95280ca9bba2bb18477eb512ac971"
+requires = [
+    "base64enc",
+    "jsonlite",
+    "lifecycle",
+    "cpp11",
+]
+
+[[package]]
+name = "tern"
+version = "0.9.11"
+source = "cran"
+raw_version = "0.9.11"
+url = "https://cran.r-project.org/src/contrib/tern_0.9.11.tar.gz"
+checksum = "md5:ebd4b7b17521054292621efa7d1594a2"
+requires = [
+    "rtables",
+    "broom",
+    "car",
+    "checkmate",
+    "cowplot",
+    "dplyr",
+    "emmeans",
+    "forcats",
+    "formatters",
+    "ggplot2",
+    "gridExtra",
+    "gtable",
+    "labeling",
+    "lifecycle",
+    "MASS",
+    "nestcolor",
+    "Rdpack",
+    "rlang",
+    "scales",
+    "survival",
+    "tibble",
+    "tidyr",
+]
+
+[[package]]
+name = "textshaping"
+version = "1.0.5"
+source = "cran"
+raw_version = "1.0.5"
+url = "https://cran.r-project.org/src/contrib/textshaping_1.0.5.tar.gz"
+checksum = "md5:93771d8cfc50a7ed021df061ce71e07f"
+requires = [
+    "lifecycle",
+    "stringi",
+    "systemfonts",
+    "cpp11",
+    "systemfonts",
+]
+
+[[package]]
+name = "tibble"
+version = "3.3.1"
+source = "cran"
+raw_version = "3.3.1"
+url = "https://cran.r-project.org/src/contrib/tibble_3.3.1.tar.gz"
+checksum = "md5:97ff25ebdd1460ec152d48e9bb54fa43"
+requires = [
+    "cli",
+    "lifecycle",
+    "magrittr",
+    "pillar",
+    "pkgconfig",
+    "rlang",
+    "vctrs",
+]
+
+[[package]]
+name = "tidyr"
+version = "1.3.2"
+source = "cran"
+raw_version = "1.3.2"
+url = "https://cran.r-project.org/src/contrib/tidyr_1.3.2.tar.gz"
+checksum = "md5:f8e976221d4ed9092c734cf86abcdba9"
+requires = [
+    "cli",
+    "dplyr",
+    "glue",
+    "lifecycle",
+    "magrittr",
+    "purrr",
+    "rlang",
+    "stringr",
+    "tibble",
+    "tidyselect",
+    "vctrs",
+    "cpp11",
+]
+
+[[package]]
+name = "tidyselect"
+version = "1.2.1"
+source = "cran"
+raw_version = "1.2.1"
+url = "https://cran.r-project.org/src/contrib/tidyselect_1.2.1.tar.gz"
+checksum = "md5:49c581292e819a2a39aac321f27ab0a8"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+    "vctrs",
+    "withr",
+]
+
+[[package]]
+name = "timeDate"
+version = "4052.112.0"
+source = "cran"
+raw_version = "4052.112"
+url = "https://cran.r-project.org/src/contrib/timeDate_4052.112.tar.gz"
+checksum = "md5:354e0ef7bec83cc6d14d3106529043cc"
+
+[[package]]
+name = "timechange"
+version = "0.4.0"
+source = "cran"
+raw_version = "0.4.0"
+url = "https://cran.r-project.org/src/contrib/timechange_0.4.0.tar.gz"
+checksum = "md5:4cabacecbed68e3beb00e47d42fc9fca"
+requires = ["cpp11"]
+
+[[package]]
+name = "tinytex"
+version = "0.60.0"
+source = "cran"
+raw_version = "0.60"
+url = "https://cran.r-project.org/src/contrib/tinytex_0.60.tar.gz"
+checksum = "md5:c680dc21cfd948a22a4f72427967e3e0"
+requires = ["xfun"]
+
+[[package]]
+name = "tzdb"
+version = "0.5.0"
+source = "cran"
+raw_version = "0.5.0"
+url = "https://cran.r-project.org/src/contrib/tzdb_0.5.0.tar.gz"
+checksum = "md5:a9f89aa8a851f7a2a13856e815c8bb1c"
+requires = ["cpp11"]
+
+[[package]]
+name = "urca"
+version = "1.3.4"
+source = "cran"
+raw_version = "1.3-4"
+url = "https://cran.r-project.org/src/contrib/urca_1.3-4.tar.gz"
+checksum = "md5:9bcc2ab304c406a66f494f34a02ed1d7"
+requires = ["nlme"]
+
+[[package]]
+name = "utf8"
+version = "1.2.6"
+source = "cran"
+raw_version = "1.2.6"
+url = "https://cran.r-project.org/src/contrib/utf8_1.2.6.tar.gz"
+checksum = "md5:12037c186ddded4d9b289762b69fc435"
+
+[[package]]
+name = "uuid"
+version = "1.2.2"
+source = "cran"
+raw_version = "1.2-2"
+url = "https://cran.r-project.org/src/contrib/uuid_1.2-2.tar.gz"
+checksum = "md5:37ebfbe8de2e1275d465cc2f569f1b50"
+
+[[package]]
+name = "vctrs"
+version = "0.7.3"
+source = "cran"
+raw_version = "0.7.3"
+url = "https://cran.r-project.org/src/contrib/vctrs_0.7.3.tar.gz"
+checksum = "md5:d99218820f353c359ff59fd46b52ddb3"
+requires = [
+    "cli",
+    "glue",
+    "lifecycle",
+    "rlang",
+]
+
+[[package]]
+name = "viridisLite"
+version = "0.4.3"
+source = "cran"
+raw_version = "0.4.3"
+url = "https://cran.r-project.org/src/contrib/viridisLite_0.4.3.tar.gz"
+checksum = "md5:ecfcfd15db2d5a79c25b9514748762b5"
+
+[[package]]
+name = "vroom"
+version = "1.7.1"
+source = "cran"
+raw_version = "1.7.1"
+url = "https://cran.r-project.org/src/contrib/vroom_1.7.1.tar.gz"
+checksum = "md5:68e4cfa008bd830c7f6f47b26a1cff0e"
+requires = [
+    "bit64",
+    "cli",
+    "crayon",
+    "glue",
+    "hms",
+    "lifecycle",
+    "rlang",
+    "tibble",
+    "tidyselect",
+    "tzdb",
+    "vctrs",
+    "withr",
+    "cpp11",
+    "progress",
+    "tzdb",
+]
+
+[[package]]
+name = "waldo"
+version = "0.6.2"
+source = "cran"
+raw_version = "0.6.2"
+url = "https://cran.r-project.org/src/contrib/waldo_0.6.2.tar.gz"
+checksum = "md5:0f215c5afc65d5a715181521ea3e79fa"
+requires = [
+    "cli",
+    "diffobj",
+    "glue",
+    "rlang",
+]
+
+[[package]]
+name = "withr"
+version = "3.0.3"
+source = "cran"
+raw_version = "3.0.3"
+url = "https://cran.r-project.org/src/contrib/withr_3.0.3.tar.gz"
+checksum = "md5:121bf3699aadb9d1b47d648964b934f8"
+
+[[package]]
+name = "xfun"
+version = "0.60.0"
+source = "cran"
+raw_version = "0.60"
+url = "https://cran.r-project.org/src/contrib/xfun_0.60.tar.gz"
+checksum = "md5:1bea9ab58602d9b6eac3b5823a95e5e6"
+
+[[package]]
+name = "xml2"
+version = "1.6.0"
+source = "cran"
+raw_version = "1.6.0"
+url = "https://cran.r-project.org/src/contrib/xml2_1.6.0.tar.gz"
+checksum = "md5:4e005569a935f91400a06533cad641e8"
+requires = [
+    "cli",
+    "rlang",
+]
+
+[[package]]
+name = "xportr"
+version = "0.5.0"
+source = "cran"
+raw_version = "0.5.0"
+url = "https://cran.r-project.org/src/contrib/xportr_0.5.0.tar.gz"
+checksum = "md5:f40dd84b9a4fc57ac38715dc931b2bc3"
+requires = [
+    "checkmate",
+    "cli",
+    "dplyr",
+    "glue",
+    "haven",
+    "lifecycle",
+    "magrittr",
+    "purrr",
+    "readr",
+    "rlang",
+    "stringr",
+    "tidyselect",
+]
+
+[[package]]
+name = "yaml"
+version = "2.3.12"
+source = "cran"
+raw_version = "2.3.12"
+url = "https://cran.r-project.org/src/contrib/yaml_2.3.12.tar.gz"
+checksum = "md5:6beea9b09717960f6c79fcbc1e129c41"
+
+[[package]]
+name = "zip"
+version = "3.0.1"
+source = "cran"
+raw_version = "3.0.1"
+url = "https://cran.r-project.org/src/contrib/zip_3.0.1.tar.gz"
+checksum = "md5:9d10f1781a9bc86328c22d92426f4b59"
+requires = ["cli"]
+
+[[package]]
+name = "zoo"
+version = "1.8.15"
+source = "cran"
+raw_version = "1.8-15"
+url = "https://cran.r-project.org/src/contrib/zoo_1.8-15.tar.gz"
+checksum = "md5:fcc3cf2d5eb4e94ecd89ac0fc985bc77"
+requires = ["lattice"]
