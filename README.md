@@ -56,7 +56,7 @@ See [ROADMAP.md](ROADMAP.md) for full details and timelines.
 torivumab-nsclc-301/
 │
 ├── protocol/
-│   └── synopsis.md (v1.1 — locked) ✅
+│   └── synopsis.md (v1.2 — locked; Amendment 1, 2026-09-20) ✅
 │
 ├── crf/                                         ✅ Phase 2 — Gate 2 APPROVED
 │   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx

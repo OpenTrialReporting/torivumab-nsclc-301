@@ -96,7 +96,7 @@ Recommended tools for data generation:
 ```
 torivumab-nsclc-301/
 ├── protocol/
-│   └── synopsis.md (v1.1 — LOCKED)
+│   └── synopsis.md (v1.2 — LOCKED; Amendment 1 = #27, 2026-09-20)
 ├── crf/                                         ✅ Phase 2 complete
 │   ├── CRF-STRATEGY.md (v2.0 — LOCKED)
 │   ├── field_definitions.csv
@@ -326,7 +326,7 @@ If you are an AI assistant working on this project:
 1. **Read this file and the ROADMAP first** — Understand the 8-phase workflow
 2. **Current phase:** Phase 7 (CSR) — Gates 1–5 all PASSED; SDTM/ADaM/TFL all complete (22 / 12 / 43); Phase 7 is unblocked
 3. **Respect the locked decisions:**
-   - Protocol (v1.1) is final — no changes
+   - Protocol (v1.2) is locked — any further change is an amendment: bump the title-page version and date and add a Document History row (see #53)
    - CRF Strategy (v2.0) is final — no changes
    - Visit schedule is locked — no changes
 4. **Standards are non-negotiable:**
