@@ -32,7 +32,7 @@ Run this pair first.
 
 ## Known contradictions — upstream data, do not patch in a table program
 
-### 1. Fatal AEs absent from ADAE
+### 1. Fatal AEs absent from ADAE — issue #29
 
 `SDTM.DD` gives cause `ADVERSE EVENT` for **76 subjects**. Across their 501 ADAE
 records: `AETOXGRN == 5` → 0, `AESDTH == 'Y'` → 0, `AEOUT == 'FATAL'` → 0 (every
@@ -45,11 +45,11 @@ each other and both are `define/arm.xml` deliverables.
 This is why T-AE-01's shell no longer annotates an `AESDTH`-based "any AE → death"
 row — it could not be satisfied. Fix belongs in ADAE derivation, not here.
 
-### 2. AE discontinuations do not reconcile with disposition
+### 2. AE discontinuations do not reconcile with disposition — issue #30
 
 | Source | Basis | Subjects |
 |---|---|---|
-| T-AE-01 "TEAE leading to study drug discontinuation" | `AEACN` contains `DRUG WITHDRAWN` | 261 (57.9%) |
+| T-AE-01 "TEAE leading to study drug discontinuation" | `AEACN` contains `DRUG WITHDRAWN` | 260 (57.9%) |
 | T-DS-01 "Adverse event" | `ADDS.DSDECOD == 'ADVERSE EVENT'` | 71 (15.8%) |
 
 A definitional gap (event-level action vs primary discontinuation reason) would make
