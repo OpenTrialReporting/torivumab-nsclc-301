@@ -23,7 +23,7 @@ adsl <- adsl |>
 dat <- adtte |>
   left_join(adsl |> select(USUBJID, HISTCAT, REGION), by = "USUBJID") |>
   mutate(
-    AVAL_MO = AVAL / 30.4375,
+    AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
     is_trt  = as.integer(TRT01P == "Torivumab + Chemotherapy")
   )
 

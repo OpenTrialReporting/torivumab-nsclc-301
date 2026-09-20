@@ -12,7 +12,7 @@ adtte <- load_adam("adtte") |> filter(PARAMCD == "OS")
 dat <- adtte |>
   left_join(adsl |> select(USUBJID, SEX, AGEGR1, HISTCAT, REGION, ECOG, PDL1CAT),
             by = "USUBJID") |>
-  mutate(AVAL_MO = AVAL / 30.4375,
+  mutate(AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
          is_trt  = as.integer(TRT01P == "Torivumab + Chemotherapy"),
          ECOG_grp = ifelse(ECOG == 0, "ECOG 0", "ECOG 1+"))
 

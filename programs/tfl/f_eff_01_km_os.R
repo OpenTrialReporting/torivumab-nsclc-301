@@ -14,7 +14,7 @@ adtte <- load_adam("adtte") |> filter(PARAMCD == "OS")
 
 dat <- adtte |>
   mutate(
-    AVAL_MO = AVAL / 30.4375,
+    AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
     arm     = factor(TRT01P,
                      levels = c("Torivumab + Chemotherapy", "Placebo + Chemotherapy"),
                      labels = c("Torivumab + Chemo", "Placebo + Chemo"))

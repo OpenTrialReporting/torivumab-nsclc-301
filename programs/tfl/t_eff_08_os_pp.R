@@ -16,7 +16,7 @@ counts <- list(
 
 dat <- adtte |>
   left_join(adsl |> select(USUBJID, HISTCAT, REGION), by = "USUBJID") |>
-  mutate(AVAL_MO = AVAL / 30.4375,
+  mutate(AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
          is_trt  = TRT01P == "Torivumab + Chemotherapy")
 
 km_summary <- function(d) {

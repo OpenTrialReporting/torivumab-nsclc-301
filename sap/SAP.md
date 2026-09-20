@@ -118,7 +118,7 @@ Each endpoint defines: (i) how it is derived from SDTM; (ii) censoring / handlin
 - Start: `RANDDT` (ADSL).
 - Event: `DTHFL = "Y"` in ADSL (date = `DTHDT`). Event date = `DTHDT`.
 - Censoring rule: Subjects without a recorded death are censored at the **last date known to be alive**, defined as `max(last study contact date, last tumour assessment date, data cutoff date)`, bounded above by `DCUTDT = 2025-01-31`.
-- Time to event: `AVAL = DTHDT - RANDDT + 1` (days). `AVAL` is converted to months as `AVAL / 30.4375` for reporting.
+- Time to event: `AVAL = (DTHDT - RANDDT + 1) / 30.4375` (**months**; `AVALU = "MONTHS"`), so the stored value matches the *Variable* attribute in §13.4 rather than being converted at reporting time. OS, PFS and PFSINV anchor to `RANDDT`; OSWOT (estimand E1b, while-on-treatment) anchors to `TRTSDT`, which is what distinguishes it from E1.
 - `CNSR`: 0 if death, 1 if censored.
 
 **ADaM target:** ADTTE `PARAMCD = "OS"`, `PARAM = "Overall Survival (days)"`.

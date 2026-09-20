@@ -11,7 +11,7 @@ adsl  <- load_adam("adsl") |> filter(ITTFL == "Y")
 adtte <- load_adam("adtte") |> filter(PARAMCD == "PFS")
 counts <- adsl_arm_counts(adsl, "ITTFL")
 
-dat <- adtte |> mutate(AVAL_MO = AVAL / 30.4375,
+dat <- adtte |> mutate(AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
                        is_trt  = TRT01P == "Torivumab + Chemotherapy")
 
 LANDMARKS <- c(3, 6, 12, 18, 24)

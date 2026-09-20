@@ -17,7 +17,7 @@ counts <- adsl_arm_counts(adsl, "ITTFL")
 
 dat <- adtte |>
   filter(!is.na(AVAL)) |>           # drop never-dosed subject with NA AVAL
-  mutate(AVAL_MO = AVAL / 30.4375,
+  mutate(AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
          arm_n   = as.integer(TRT01P == "Torivumab + Chemotherapy"))
 
 TAU <- 30  # months — bounded by min(max follow-up per arm) to keep rmst2 stable
