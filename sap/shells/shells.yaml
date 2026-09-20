@@ -1,10 +1,10 @@
 meta:
   study: SIMULATED-TORIVUMAB-2026
   study_short: torivumab-nsclc-301
-  sap_version: '0.1'
+  sap_version: '0.2'
   protocol_version: '1.1'
-  shells_version: '0.1'
-  shells_date: '2026-04-20'
+  shells_version: '0.3'
+  shells_date: '2026-05-17'
   author: Lovemore Gakava
   gate: '3.5'
   ars_alignment: CDISC ARS v1.0 concepts (not yet serialised to ARS JSON)
@@ -1363,7 +1363,7 @@ outputs:
   layout:
     rows: SOC (bold) → PT
     columns: TRT01A
-  notes: Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Sorted by decreasing Torivumab-arm incidence.
+  notes: Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Within SOC, PTs sorted by maximum incidence across arms (descending).
   annotations:
     population: 'ADSL: SAFFL=''Y''  |  analysis by TRT01A'
     primary_dataset: ADAE WHERE TRTEMFL='Y'
@@ -1382,7 +1382,7 @@ outputs:
       dataset: ADAE
       where: TRTEMFL='Y'
       variable: AEDECOD
-      derivation: n(%) subjects with >= 1 occurrence; threshold >= 5% either arm; sorted by Torivumab incidence desc
+      derivation: n(%) subjects with >= 1 occurrence; threshold >= 5% either arm; sorted by max incidence across arms desc
     - row: Exposure-adjusted rate
       dataset: ADAE
       where: TRTEMFL='Y'
@@ -1538,7 +1538,7 @@ outputs:
   layout:
     rows: AESI category × grade
     columns: TRT01A
-  notes: Category flag from MedDRA PT list in Protocol §7.4.
+  notes: 'Category flag from sponsor AESI MedDRA PT codelist `raw/codelists/aesi_meddra_pts.csv` (56 PTs across 12 categories: Pneumonitis, Colitis, Hepatitis, Endocrine, Dermatologic, Renal, Cardiac, Neurologic, Infusion Reaction, Ocular, Hematologic, Musculoskeletal) per Protocol §7.4. Per-PT grade rule: most PTs are AESI at any grade; selected lab/symptom PTs require Grade≥3 (e.g. ALT/AST, AKI, rash, diarrhoea, pruritus); IRR requires Grade≥2.'
   annotations:
     population: 'ADSL: SAFFL=''Y''  |  analysis by TRT01A'
     primary_dataset: 'ADAE WHERE AESI=''Y''  # study-specific'

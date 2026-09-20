@@ -420,7 +420,7 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Layout — rows** | SOC (bold) → PT |
 | **Layout — columns** | TRT01A |
 
-**Notes:** Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Sorted by decreasing Torivumab-arm incidence.
+**Notes:** Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Within SOC, PTs sorted by maximum incidence across arms (descending).
 
 #### T-AE-03 — Grade ≥3 TEAEs by SOC and PT
 
@@ -827,5 +827,5 @@ Distinct variables cited across all shells: **72**.
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-04-20 | Regenerated from `sap/shells/shells.yaml` |
+| 0.3 | 2026-05-17 | Regenerated from `sap/shells/shells.yaml` |
 
