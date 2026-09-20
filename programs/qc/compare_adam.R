@@ -60,8 +60,8 @@ hr_check <- function(adtte_path, label) {
       lo      = s[1, "lower .95"],
       hi      = s[1, "upper .95"],
       n_evt   = sum(sub$CNSR == 0),
-      med_trt = unname(med["is_trt=1"]),   # ADTTE AVAL is months (#27 D1)
-      med_pbo = unname(med["is_trt=0"])
+      med_trt = unname(med["is_trt=1"]) / 30.4375,
+      med_pbo = unname(med["is_trt=0"]) / 30.4375
     )
   }
   out

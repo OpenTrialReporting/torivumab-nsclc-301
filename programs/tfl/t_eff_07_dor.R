@@ -8,7 +8,7 @@
 # =============================================================================
 
 adtte <- load_adam("adtte") |> filter(PARAMCD == "DOR")
-dat <- adtte |> mutate(AVAL_MO = AVAL,  # ADTTE AVAL is months (#27 D1),
+dat <- adtte |> mutate(AVAL_MO = AVAL / 30.4375,
                        is_trt  = TRT01P == "Torivumab + Chemotherapy")
 
 km_summary <- function(d) {

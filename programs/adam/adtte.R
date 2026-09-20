@@ -235,7 +235,7 @@ adtte_ttr <- subj |>
   ) |>
   select(-TTR_EVENT)
 
-# 7. AVAL: months from the parameter's time origin to event/censor
+# 7. AVAL: days from the parameter's time origin to event/censor
 #
 # #27 D1 (signed 2026-09-20). The authority is the M11 protocol, which defines
 # both endpoints itself with a CDISC endpoint code, cited to protocol §6:
@@ -250,16 +250,17 @@ adtte_ttr <- subj |>
 # E1 rather than a duplicate. DOR runs from the response date and TTR from
 # treatment start; neither is in D1's scope and both are unchanged.
 #
-# AVALU is MONTHS, matching the §13.4/§13.5 estimand *Variable* attribute
-# ("time (months) from randomisation ..."). Consumers no longer divide by
-# DAYS_PER_MONTH themselves.
-DAYS_PER_MONTH <- 30.4375
-
+# AVAL stays in DAYS with AVALU = "DAYS". That is the ADaM convention for
+# ADTTE and what ADTTE-spec.md requires — "Months can be derived as
+# AVAL / 30.4375 in TFL scripts, not stored in ADTTE" — so months remain a
+# reporting-layer transformation. The estimand *Variable* in §13.4 is stated in
+# months, but an estimand's reporting unit and a dataset's storage unit are
+# different things and are not in conflict.
 add_aval <- function(dat, start_var, day_offset = 0) {
   dat |> mutate(
     STARTDT  = as.Date(.data[[start_var]]),   # time-to-event origin (P21 AD0245)
-    AVAL     = (as.numeric(as.Date(ADT) - STARTDT) + day_offset) / DAYS_PER_MONTH,
-    AVALU    = "MONTHS"
+    AVAL     = as.numeric(as.Date(ADT) - STARTDT) + day_offset,
+    AVALU    = "DAYS"
   )
 }
 
