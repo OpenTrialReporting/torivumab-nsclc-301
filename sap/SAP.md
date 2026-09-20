@@ -28,7 +28,7 @@ This SAP operationalises the statistical considerations in Protocol v1.1 §8 and
 
 | Downstream artefact | How it uses this SAP |
 |---|---|
-| `tfl/TFL-SHELLS.md` | One T/F/L per analysis defined here |
+| `sap/shells/TFL-SHELLS.md` | One T/F/L per analysis defined here |
 | `programming-specs/AD*-spec.md` | Every ADaM variable traces to an analysis in this SAP or to a TFL shell variable |
 | `adam/*.R` | Derivations implement this SAP's rules |
 | CSR §11 | Efficacy results reference sections here by §number |
@@ -614,7 +614,7 @@ Pre-specified IEs anticipated in this trial, and the default handling strategy p
 
 ## 14. Appendix — Crosswalk to TFL Shells
 
-To be completed in `tfl/TFL-SHELLS.md`. Each numbered SAP method (§5.1 … §5.5, §10, §11) maps to one or more T/F/L outputs. Mapping is listed in the TFL shells document.
+To be completed in `sap/shells/TFL-SHELLS.md`. Each numbered SAP method (§5.1 … §5.5, §10, §11) maps to one or more T/F/L outputs. Mapping is listed in the TFL shells document.
 
 ---
 

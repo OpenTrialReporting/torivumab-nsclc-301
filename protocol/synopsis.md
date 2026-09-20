@@ -29,7 +29,7 @@
 ## TITLE PAGE
 
 **Full Study Title:**
-A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) versus Placebo as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations
+A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) plus Platinum-Pemetrexed Chemotherapy versus Placebo plus Platinum-Pemetrexed Chemotherapy as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations
 
 **Short Title:**
 TORIVA-LUNG 301
@@ -114,14 +114,15 @@ Celindra Therapeutics | EDC Platform: Medidata Rave *(fictional)*
 
 | Parameter | Details |
 |---|---|
-| **Study Title** | [FICTIONAL] TORIVA-LUNG: Torivumab vs Placebo, First-Line Advanced NSCLC, PD-L1 TPS ≥50% |
+| **Study Title** | [FICTIONAL] TORIVA-LUNG: Torivumab + Chemotherapy vs Placebo + Chemotherapy, First-Line Advanced NSCLC, PD-L1 TPS ≥50% |
 | **Protocol Number** | SIMULATED-TORIVUMAB-2026 |
 | **Phase** | 3 |
 | **Sponsor** | Celindra Therapeutics |
 | **Indication** | Advanced or metastatic NSCLC (Stage IIIB/IIIC/IV), PD-L1 TPS ≥50%, no EGFR/ALK mutation |
 | **Study Design** | Randomised, double-blind, placebo-controlled, multinational |
-| **Investigational Product** | Torivumab 200 mg IV Q3W (anti-PD-L1 monoclonal antibody) |
-| **Comparator** | Matching placebo IV Q3W |
+| **Countries / Sites** | 13 countries (AUS, BRA, CAN, DEU, ESP, FRA, GBR, ITA, JPN, KOR, NLD, POL, USA); 15 investigational sites |
+| **Investigational Product** | Torivumab 200 mg IV Q3W (anti-PD-L1 monoclonal antibody), with carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W backbone |
+| **Comparator** | Matching placebo IV Q3W, with identical carboplatin + pemetrexed backbone |
 | **Randomisation Ratio** | 2:1 (torivumab : placebo) |
 | **Stratification Factors** | Histology (squamous vs non-squamous); Geographic region (North America / Europe / Asia-Pacific) |
 | **Target Sample Size** | 450 subjects (300 torivumab; 150 placebo) |
@@ -178,7 +179,7 @@ Despite advances with approved PD-1/PD-L1 inhibitors, clinical challenges persis
 
 In preclinical studies, torivumab demonstrated high-affinity binding to human PD-L1 (KD ~0.3 nM) with potent restoration of T-cell proliferation and cytokine production in co-culture assays. Fc-engineering with an IgG1 LALAPG mutation abolishes Fc receptor binding, reducing the risk of antibody-dependent cellular cytotoxicity (ADCC) against PD-L1-expressing immune cells — a differentiation feature relative to some approved PD-L1 inhibitors. The dose of 200 mg flat dose Q3W is supported by Phase 1 PK/PD modelling (CTX-001) demonstrating sustained receptor occupancy above the efficacious threshold throughout the dosing interval. *(Synthetic — educational simulation only)*
 
-The Phase 3 study CTX-NSCLC-301 is therefore designed to evaluate the efficacy and safety of torivumab 200 mg IV Q3W versus placebo as first-line monotherapy in patients with advanced/metastatic NSCLC and PD-L1 TPS ≥50%, providing data sufficient to support global regulatory registration.
+The Phase 3 study CTX-NSCLC-301 is therefore designed to evaluate the efficacy and safety of torivumab 200 mg IV Q3W added to a carboplatin-pemetrexed backbone, versus placebo added to the identical backbone, as first-line treatment in patients with advanced/metastatic NSCLC and PD-L1 TPS ≥50%, providing data sufficient to support global regulatory registration.
 
 ---
 
@@ -210,7 +211,7 @@ The Phase 3 study CTX-NSCLC-301 is therefore designed to evaluate the efficacy a
 
 ### 3.1 Overview
 
-CTX-NSCLC-301 is a **randomised, double-blind, placebo-controlled, multinational Phase 3** clinical trial. Eligible patients are randomised in a **2:1 ratio** to receive either torivumab 200 mg intravenously every 3 weeks (Q3W) or matching placebo IV Q3W.
+CTX-NSCLC-301 is a **randomised, double-blind, placebo-controlled, multinational Phase 3** clinical trial. Eligible patients are randomised in a **2:1 ratio** to receive either torivumab 200 mg intravenously every 3 weeks (Q3W) or matching placebo IV Q3W, each administered with an identical chemotherapy backbone of carboplatin AUC5 plus pemetrexed 500 mg/m² IV Q3W for up to 6 induction cycles, followed by pemetrexed maintenance Q3W.
 
 ### 3.2 Design Schematic
 
@@ -225,7 +226,7 @@ CTX-NSCLC-301 is a **randomised, double-blind, placebo-controlled, multinational
                                                                    ┌──────────────────────┐
  ┌──────────────┐         ┌───────────────────────────┐            │  POST-TREATMENT       │
  │  ELIGIBILITY │         │  ARM A (n≈300)             │───────────►│  FOLLOW-UP            │
- │  ASSESSMENT  │    ┌───►│  TORIVUMAB 200 mg IV Q3W   │            │  • Tumour assessments │
+ │  ASSESSMENT  │    ┌───►│  TORIVUMAB + CHEMO Q3W     │            │  • Tumour assessments │
  │              │    │    │  Day 1 of each 21-day cycle│            │    until progression  │
  │  • PD-L1 TPS │    │    └───────────────────────────┘            │  • Survival follow-up │
  │    ≥50% (IHC)│    │                                              │    every 12 weeks     │
@@ -242,7 +243,7 @@ CTX-NSCLC-301 is a **randomised, double-blind, placebo-controlled, multinational
         │            │                                               │                      │
         │  Informed  │    ┌───────────────────────────┐             │  Every 12 weeks      │
         │  Consent   └───►│  ARM B (n≈150)             │───────────►│  until death or      │
-        │                 │  PLACEBO IV Q3W            │             │  study close-out     │
+        │                 │  PLACEBO + CHEMO Q3W       │             │  study close-out     │
         ▼                 │  Day 1 of each 21-day cycle│             └──────────────────────┘
   ┌───────────┐           └───────────────────────────┘
   │ ENROLMENT │
@@ -262,6 +263,10 @@ CTX-NSCLC-301 is a **randomised, double-blind, placebo-controlled, multinational
   Key Secondary:       PFS (BICR, RECIST 1.1) · ORR · DoR · DCR · Safety
   Exploratory:         PROs (EORTC QLQ-C30/LC13, EQ-5D-5L) · PD-L1/TMB biomarkers · PK
 ```
+
+Both arms receive the same chemotherapy backbone: carboplatin AUC5 + pemetrexed
+500 mg/m² IV Q3W for up to 6 induction cycles, then pemetrexed maintenance Q3W. Only
+the blinded torivumab/placebo component differs between arms.
 
 Stratification at randomisation:
 - **Factor 1:** Tumour histology — squamous vs non-squamous
@@ -287,6 +292,10 @@ Unblinding provisions:
 |---|---|---|---|---|---|
 | A (Active) | Torivumab | 200 mg | IV infusion over 30 min | Q3W (Day 1 of each 21-day cycle) | Up to 35 cycles (~2 years) |
 | B (Control) | Placebo | Matching volume | IV infusion over 30 min | Q3W (Day 1 of each 21-day cycle) | Up to 35 cycles (~2 years) |
+| Both arms | Carboplatin | AUC5 | IV infusion | Q3W, induction only | Up to 6 cycles |
+| Both arms | Pemetrexed | 500 mg/m² | IV infusion | Q3W (Day 1 of each 21-day cycle) | Induction, then maintenance to PD/toxicity (max 35 cycles total) |
+
+Torivumab and placebo are blinded; the chemotherapy backbone is open-label and identical in both arms.
 
 Treatment continues until disease progression per RECIST 1.1, unacceptable toxicity, withdrawal of consent, or completion of 35 cycles, whichever occurs first.
 
@@ -378,6 +387,8 @@ A patient is **not eligible** for enrolment if ANY of the following criteria app
 |---|---|---|---|
 | Torivumab | Anti-PD-L1 humanised IgG1 mAb | 200 mg/10 mL (20 mg/mL) concentrate for IV infusion | 2°C–8°C, protected from light |
 | Placebo | Matching placebo | Matching volume, identical appearance | 2°C–8°C, protected from light |
+| Carboplatin | Platinum chemotherapy (backbone, open-label) | Per local commercial supply | Per label |
+| Pemetrexed | Antifolate chemotherapy (backbone, open-label) | Per local commercial supply | Per label |
 
 Torivumab is supplied as a sterile, preservative-free, concentrated solution of 200 mg/10 mL (20 mg/mL) in a single-dose vial. Excipients: L-histidine, L-histidine hydrochloride monohydrate, sucrose, polysorbate 80, water for injection. Prior to administration, each vial must be diluted in 0.9% sodium chloride to a final concentration of 2–10 mg/mL and administered as an intravenous infusion over 30 minutes (±10 minutes). Full pharmaceutical specifications, storage conditions, and infusion compatibility data are provided in the Investigator's Brochure (IB) and the IMP Pharmacy Manual. *(Fictional — for simulation purposes)*
 
@@ -385,6 +396,9 @@ Torivumab is supplied as a sterile, preservative-free, concentrated solution of 
 
 - **Torivumab:** 200 mg administered as an intravenous infusion over 30 minutes, on Day 1 of each 21-day cycle.
 - **Placebo:** Matching placebo administered as an intravenous infusion over 30 minutes, on Day 1 of each 21-day cycle.
+- **Carboplatin:** AUC5 IV on Day 1 of each 21-day cycle, induction only (up to 6 cycles).
+- **Pemetrexed:** 500 mg/m² IV on Day 1 of each 21-day cycle, through induction and maintenance.
+- Both chemotherapy agents are given in both arms and are dosed per local label, including standard pemetrexed folate/B12 supplementation and carboplatin renal-function-based dosing.
 - Maximum treatment duration: 35 cycles (~2 years).
 - Pre-medication (e.g., antihistamines, corticosteroids) is not required as routine pre-medication but may be administered at the Investigator's discretion for the management of infusion reactions.
 
@@ -617,13 +631,21 @@ An independent **Safety Monitoring Committee (SMC)**, also referred to as a Data
 
 | Parameter | Value | Source/Basis |
 |---|---|---|
-| Hazard Ratio (HR) for OS | 0.65 | Benchmarked to KEYNOTE-024 (pembrolizumab vs chemotherapy; first-line NSCLC PD-L1 TPS ≥50%) |
+| Hazard Ratio (HR) for OS | 0.65 | Benchmarked to KEYNOTE-024 (pembrolizumab vs chemotherapy; first-line NSCLC PD-L1 TPS ≥50%) — **see note below** |
 | Control arm median OS | 14.0 months | Aligned with contemporary first-line NSCLC placebo/chemotherapy historical data |
 | Experimental arm median OS | 21.5 months | Derived: HR = 0.65 → median OS experimental = 14.0 / 0.65 ≈ 21.5 months |
 | Accrual period | 18 months | Operational assumption based on global site network |
 | Minimum follow-up | 24 months | Post-accrual follow-up to accumulate required events |
 | Total study duration | ~42 months | 18 months accrual + 24 months minimum follow-up |
 | Dropout rate | ~10% | Standard assumption; accounts for withdrawal of consent and loss to follow-up |
+
+> **Note on the KEYNOTE-024 benchmark (#27, D14).** KEYNOTE-024 compared pembrolizumab
+> *monotherapy* against platinum-doublet chemotherapy. This study compares torivumab +
+> chemotherapy against placebo + the identical chemotherapy backbone, so the control arm
+> is not comparable and the HR = 0.65 assumption is not directly transferable. A
+> combination-design benchmark (e.g. a KEYNOTE-189-type chemo-immunotherapy comparison)
+> is the appropriate reference. The sample-size assumptions are retained pending that
+> re-derivation; this note records the mismatch rather than resolving it.
 | Two-sided alpha (α) | 0.05 | — |
 | Power (1−β) | 80% | — |
 | Randomisation ratio | 2:1 | Torivumab : Placebo |
