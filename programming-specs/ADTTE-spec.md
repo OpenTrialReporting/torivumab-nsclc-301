@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per TTE parameter |
 | **Expected N** | 2,377 records (OS, OSWOT, PFS, PFSINV, TTR at 450 subjects each + DOR restricted to confirmed responders) |
 | **Key variables** | `USUBJID`, `PARAMCD` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.4 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-04-25 |
 
@@ -31,10 +31,10 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 
 | PARAMCD | PARAM | Start Date | Event | Censor | Population |
 |---|---|---|---|---|---|
-| OS | Overall Survival | TRTSDT | Death (any cause) | Last known alive date = max(last contact, last assessment, DCO) | ITT |
+| OS | Overall Survival | RANDDT | Death (any cause) | Last known alive date = max(last contact, last assessment, DCO) | ITT |
 | OSWOT | Overall Survival - While-on-Treatment Sensitivity | TRTSDT | Death on or within 30 days of last study treatment (TRTEDT + 30 days) | min(TRTEDT + 30 days, LSTALVDT). Synthetic data limitation: no subsequent anti-cancer therapy is captured in CM, so the full SAP §13.4 censoring rule (min of TRTEDT + 30d AND subsequent therapy start) reduces to TRTEDT + 30d only. | ITT |
-| PFS | Progression-Free Survival (BICR) | TRTSDT | Confirmed PD (BICR / RSEVAL="INDEPENDENT ASSESSOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
-| PFSINV | Progression-Free Survival (Investigator) | TRTSDT | Confirmed PD (Investigator / RSEVAL="INVESTIGATOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
+| PFS | Progression-Free Survival (BICR) | RANDDT | Confirmed PD (BICR / RSEVAL="INDEPENDENT ASSESSOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
+| PFSINV | Progression-Free Survival (Investigator) | RANDDT | Confirmed PD (Investigator / RSEVAL="INVESTIGATOR") or death (whichever first) | Per FDA 2018 hierarchy (SAP-D-02, SAP-D-03) | ITT |
 | DOR | Duration of Response | First confirmed CR/PR date (RSPDT) | PD or death | Last adequate assessment if no PD/death | Confirmed responders (RSPFL="Y") |
 | TTR | Time to Response | TRTSDT | First confirmed CR/PR | Last adequate assessment if no response | ITT (non-responders censored) |
 
@@ -54,9 +54,9 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 | 10 | TRTEDT | Date of Last Dose | Date | — | Derived | — | Merged from ADSL |
 | 11 | PARAM | Parameter Description | Char | 200 | Derived | — | See Parameters table |
 | 12 | PARAMCD | Parameter Code | Char | 8 | Derived | — | OS / OSWOT / PFS / PFSINV / DOR / TTR |
-| 13 | STARTDT | Time-to-Event Origin Date | Date | — | Derived | — | `TRTSDT` (OS/OSWOT/PFS/PFSINV/TTR); `RSPDT` (DOR); TTE origin per P21 AD0245 |
+| 13 | STARTDT | Time-to-Event Origin Date for Subject | Date | — | Derived | — | `RANDDT` (OS/PFS/PFSINV — M11 §3, #27 D1); `TRTSDT` (OSWOT/TTR); `RSPDT` (DOR). Label is the ADaMIG TTE standard label (P21 AD0018) |
 | 14 | ADT | Analysis Date (event or censor) | Date | — | Derived | — | Event or censor date, set per parameter |
-| 15 | AVAL | Analysis Value (days) | Num | 8 | Derived | — | `ADT − STARTDT` in days (STARTDT = TRTSDT for OS/OSWOT/PFS/PFSINV/TTR; RSPDT for DOR) |
+| 15 | AVAL | Analysis Value (days) | Num | 8 | Derived | — | `ADT − STARTDT + 1` in days for OS/PFS/PFSINV (randomisation = day 1); `ADT − STARTDT` for OSWOT/TTR/DOR |
 | 16 | AVALU | Unit of AVAL | Char | 8 | Derived | — | "DAYS" |
 | 17 | CNSR | Censoring Indicator | Num | 8 | Derived | — | 0 = event, 1 = censored |
 | 18 | EVNTDESC | Event or Censoring Description | Char | 200 | Derived | — | e.g. "DEATH", "PROGRESSIVE DISEASE", "CENSORED - LAST KNOWN ALIVE" |
@@ -76,7 +76,7 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 
 **DOR start date:** Date of first confirmed CR or PR (RSPDT from ADRS, PARAMCD = "CBOR"). Only subjects with RSPFL = "Y" receive a DOR record. Subjects who respond and subsequently have PD/death: event. Subjects who respond but have no PD/death: censored at last adequate response assessment.
 
-**AVAL in days:** `as.numeric(ADT − STARTDT)` where STARTDT = TRTSDT for OS/OSWOT/PFS/PFSINV/TTR and STARTDT = RSPDT for DOR. Months can be derived as AVAL / 30.4375 in TFL scripts — not stored in ADTTE.
+**AVAL in days:** `as.numeric(ADT − STARTDT) + 1` for OS/PFS/PFSINV (STARTDT = RANDDT, randomisation day = day 1, per #27 D1); `as.numeric(ADT − STARTDT)` for OSWOT/TTR (STARTDT = TRTSDT) and DOR (STARTDT = RSPDT). Months can be derived as AVAL / 30.4375 in TFL scripts — not stored in ADTTE.
 
 **Subgroup variables:** Forest plot subgroups (REGION, HISTSCAT, BECOG, PDL1GR) merged from ADSL. These must be present on ADSL before ADTTE is finalised (see ADSL open items: BECOG, PDL1GR).
 
@@ -99,3 +99,4 @@ ADTTE supports all time-to-event efficacy analyses: OS (T-EFF-01, F-EFF-01), OSW
 | 0.1 | 2026-04-25 | LG | Initial draft. BECOG and PDL1GR must be added to ADSL before subgroup forest plot can be finalised. |
 | 0.2 | — | — | Confirm after Phase 5 ADaM delivery. Validate OS/PFS HR against protocol assumptions (HR 0.65 / 0.55). |
 | 0.3 | 2026-07-24 | LG (w/ Claude Opus 4.8 1M) | Refreshed to current pipeline: added PFSINV (Investigator sensitivity, RSEVAL split); PFS now BICR-primary; added STARTDT variable; ANL01FL = ITT population; Expected N corrected to 2,377; removed stale `derive_param_tte()` references (code uses explicit logic). |
+| 0.4 | 2026-09-20 | LG (w/ Claude Fable 5.1) | STARTDT label corrected to the ADaMIG TTE standard "Time-to-Event Origin Date for Subject" (P21 AD0018 — the 0.3 label had overridden it via `label_adam.R` spec precedence). Time origin synced to code after #27 D1: RANDDT for OS/PFS/PFSINV (AVAL = ADT − RANDDT + 1), TRTSDT for OSWOT/TTR, RSPDT for DOR. |
