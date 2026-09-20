@@ -55,11 +55,18 @@ ethnic_opts  <- c("Not Hispanic or Latino", "Hispanic or Latino",
 ethnic_probs <- c(0.80, 0.10, 0.06, 0.04)
 ethnic_vals  <- sample(ethnic_opts, N_SUBJECTS, replace = TRUE, prob = ethnic_probs)
 
+# Sites sit inside the protocol's three randomisation regions — North America,
+# Europe, Asia-Pacific (synopsis §3.3). SITE012 was Brazil, which belongs to none
+# of them, so region acquired a fourth de-facto level and histology x region ran
+# to 8 strata instead of 6 (#42). The protocol enumerates no countries at all —
+# the M11 mapping records country as absent from the source and supplied from the
+# trial's records — so the country list is data, while the three regions are
+# design. The data is the side that moves.
 country_map <- c(
   SITE001 = "United States", SITE002 = "United States", SITE003 = "Canada",
   SITE004 = "Germany",       SITE005 = "France",        SITE006 = "United Kingdom",
   SITE007 = "Japan",         SITE008 = "South Korea",   SITE009 = "Australia",
-  SITE010 = "Spain",         SITE011 = "Italy",         SITE012 = "Brazil",
+  SITE010 = "Spain",         SITE011 = "Italy",         SITE012 = "Australia",
   SITE013 = "United States", SITE014 = "Netherlands",   SITE015 = "Poland"
 )
 country_vals <- country_map[subject_site]
