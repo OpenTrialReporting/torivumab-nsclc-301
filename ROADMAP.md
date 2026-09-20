@@ -609,7 +609,7 @@ Planned enhancements carried over from the working journal. Tracked as GitHub is
 ```
 torivumab-nsclc-301/
 ├── protocol/
-│   └── synopsis.md (v1.1) ✅
+│   └── synopsis.md (v1.2) ✅
 ├── crf/                                    ✅ Phase 2 complete (Gate 2 APPROVED 2026-04-01)
 │   ├── CRF-STRATEGY.md (v2.0 — locked)
 │   ├── SIMULATED-TORIVUMAB-2026_CRF.xlsx  (21 sheets)

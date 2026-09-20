@@ -34,9 +34,9 @@ TORIVA-LUNG 301
 
 **Protocol Number:** SIMULATED-TORIVUMAB-2026 *(FICTIONAL EDUCATIONAL PROTOCOL — Do NOT use for any regulatory submission)*
 
-**Protocol Version:** 1.0
+**Protocol Version:** 1.2
 
-**Protocol Date:** 22 March 2026
+**Protocol Date:** 20 September 2026
 
 **Sponsor:**
 Celindra Therapeutics
@@ -983,6 +983,7 @@ The following references are cited in this synopsis. Full citation details will 
 
 | Version | Date | Description of Changes |
 |---|---|---|
+| 1.2 | 20 September 2026 | **Amendment 1 (issue #27, M11/USDM cross-check).** Title, §1.4, §3.5 and §5.1: comparator corrected from placebo monotherapy to **placebo plus platinum-pemetrexed chemotherapy** — torivumab is given as a combination (D14); §8.1 notes that the KEYNOTE-024 monotherapy benchmark therefore no longer matches the design. Synopsis table and title page: 15 sites in 12 countries across NA / EU / APAC, sponsor approval date (G2; #42 removed a site outside the three regions). §7.2: central laboratory with central reference ranges (G5) and the vital-signs collection procedure (G6) added. §8.4: laboratory and vital-signs analyses specified (D11 / G7). Header note records that the simulated data was 1:1 from 2026-07-26 to 2026-09-20 and was regenerated 2:1 as planned here (D15), with Q12W imaging after month 12 (D16) and no Cycle 1 Day 15 visit (D17). Sample-size arithmetic in §8 unchanged. Title-page version also reconciled with this history — it had stayed at 1.0 through the 1.1 identifier update. |
 | 1.1 | 30 March 2026 | ⚠️ CRITICAL: Updated all regulatory identifiers to obviously fictional formats. Added legal notices to prevent accidental regulatory/clinical use. |
 | 1.0 | 22 March 2026 | Initial version — protocol synopsis for SIMULATED-TORIVUMAB-2026 |
 

@@ -3,8 +3,8 @@ meta:
   study_short: torivumab-nsclc-301
   sap_version: '0.2'
   protocol_version: '1.1'
-  shells_version: '0.3'
-  shells_date: '2026-05-17'
+  shells_version: '0.4'
+  shells_date: '2026-09-20'
   author: Lovemore Gakava
   gate: '3.5'
   ars_alignment: CDISC ARS v1.0 concepts (not yet serialised to ARS JSON)
@@ -134,11 +134,11 @@ methods:
   description: Per-responder horizontal lane with response episodes, PD, death markers.
   r_package: ggplot2
 reference_documents:
-- id: PROTO-1.1
-  title: Protocol v1.1
+- id: PROTO-1.2
+  title: Protocol v1.2
   path: protocol/synopsis.md
-- id: SAP-0.2
-  title: Statistical Analysis Plan v0.2
+- id: SAP-0.3
+  title: Statistical Analysis Plan v0.3
   path: sap/SAP.md
 - id: CRF-2.0
   title: CRF Strategy v2.0
@@ -172,8 +172,8 @@ outputs:
   - M-DESCR-CONT
   sap_ref: §3.1
   reference_documents:
-  - SAP-0.2
-  - PROTO-1.1
+  - SAP-0.3
+  - PROTO-1.2
   layout:
     rows: One row per baseline characteristic
     columns: TRT01P arms + Total (three columns)
@@ -256,7 +256,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Screened / Randomised / ITT / Safety / PP / Response Evaluable / Discontinued (by reason) / Completed / Ongoing
       / Died
@@ -324,7 +324,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §3.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Deviation category
     columns: TRT01P + Total
@@ -378,7 +378,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §13.3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Intercurrent event category (matches SAP §13.3 IE taxonomy)
     columns: TRT01P + Total
@@ -449,7 +449,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Median (min–max) treatment duration; mean (SD) cycles received; n (%) with ≥6/≥12/≥24 cycles; relative dose intensity
     columns: TRT01A
@@ -509,8 +509,8 @@ outputs:
   sap_ref: §5.1
   estimand_id: E1
   reference_documents:
-  - SAP-0.2
-  - PROTO-1.1
+  - SAP-0.3
+  - PROTO-1.2
   layout:
     rows: n, events, censored, median OS (95% CI), HR (95% CI), stratified log-rank p
     columns: TRT01P
@@ -580,7 +580,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.1
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Timepoints 6, 12, 18, 24 months
     columns: TRT01P — probability, 95% CI
@@ -638,7 +638,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: n, events, censored, median PFS (95% CI), HR (95% CI), stratified log-rank p
     columns: TRT01P
@@ -707,7 +707,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Timepoints 6, 12, 18, 24 months
     columns: TRT01P — probability, 95% CI
@@ -766,7 +766,7 @@ outputs:
   - M-WILSON
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: N, n responders, ORR % (95% CI), risk difference (95% CI), CMH p; best response breakdown (CR/PR/SD/PD/NE)
     columns: TRT01P
@@ -835,7 +835,7 @@ outputs:
   - M-CLOPPER
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Same as T-EFF-05
     columns: TRT01P
@@ -885,7 +885,7 @@ outputs:
   - M-KM-PROB
   sap_ref: §5.4
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Median DoR (95% CI); proportion with DoR ≥6 mo, ≥12 mo
     columns: TRT01P
@@ -942,7 +942,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §11
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Same as T-EFF-01
     columns: TRT01P
@@ -1000,7 +1000,7 @@ outputs:
   - M-LANDMARK
   sap_ref: §11
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: 12 months, 24 months
     columns: TRT01P probability, difference (95% CI)
@@ -1044,7 +1044,7 @@ outputs:
   - M-RMST
   sap_ref: §11
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: RMST per arm; RMST difference (95% CI)
     columns: TRT01P
@@ -1097,7 +1097,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §4.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Same as T-EFF-03
     columns: TRT01P
@@ -1160,7 +1160,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §13.4
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Same as T-EFF-01; identifies effect attributable to randomised treatment period only
     columns: TRT01P
@@ -1225,7 +1225,7 @@ outputs:
   - M-CLOPPER
   sap_ref: §13.6
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: 'Same as T-EFF-05 but denominator = ITT (450) rather than Response Evaluable.
       Subjects without post-baseline assessment counted as non-responders (composite IE strategy
@@ -1287,7 +1287,7 @@ outputs:
   - M-EAIR
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Any AE, any TEAE, any Grade ≥3 TEAE, any Grade 5 (fatal) TEAE, any SAE, any irAE, any TEAE → discontinuation, any TEAE → dose modification, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate
     columns: TRT01A + Total
@@ -1370,7 +1370,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: SOC (bold) → PT
     columns: TRT01A
@@ -1414,7 +1414,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: SOC → PT
     columns: TRT01A
@@ -1452,7 +1452,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: SOC → PT
     columns: TRT01A
@@ -1491,8 +1491,8 @@ outputs:
   - M-KM-TTE-ONSET
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
-  - PROTO-1.1
+  - SAP-0.3
+  - PROTO-1.2
   layout:
     rows: irAE category (pneumonitis/colitis/hepatitis/endocrinopathies/IRR) × grade
     columns: TRT01A
@@ -1539,8 +1539,8 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
-  - PROTO-1.1
+  - SAP-0.3
+  - PROTO-1.2
   layout:
     rows: AESI category × grade
     columns: TRT01A
@@ -1580,7 +1580,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: All deaths; within 30 days of last dose; due to AE; due to disease progression; other
     columns: TRT01A
@@ -1635,7 +1635,7 @@ outputs:
   - M-SHIFT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Baseline status (Normal/Low/High)
     columns: Worst post-baseline status (Normal/Low/High)
@@ -1677,7 +1677,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: PARAMCD
     columns: TRT01A
@@ -1710,7 +1710,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.1
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     axes: x = time (months), y = survival probability (0–1)
     features: 95% CI bands (log-log); number-at-risk table at 0, 6, 12, 18, 24, 30, 36 months
@@ -1769,7 +1769,7 @@ outputs:
   - M-KM-MEDIAN
   sap_ref: §5.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     axes: x = time (months), y = progression-free probability
     features: Same layout as F-EFF-01
@@ -1828,7 +1828,7 @@ outputs:
   - M-WATERFALL
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     axes: x = subject (sorted), y = best % change from baseline
     features: Reference lines at −30% (PR) and +20% (PD); coloured by TRT01P
@@ -1882,7 +1882,7 @@ outputs:
   - M-SPIDER
   sap_ref: §5.3
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     axes: x = weeks from baseline, y = % change from baseline SLD
     features: One line per subject; coloured by TRT01P; optional faceting by arm
@@ -1937,7 +1937,7 @@ outputs:
   - M-FOREST-SUBGROUP
   sap_ref: §10
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Subgroup levels
     columns: n, events, HR (95% CI), forest plot
@@ -1990,7 +1990,7 @@ outputs:
   - M-SWIMMER
   sap_ref: §5.4
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     axes: x = weeks from randomisation; one lane per responder
     features: Response episodes; markers for PD, death, ongoing
@@ -2054,7 +2054,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: One row per SAE record
     sort: USUBJID, ASTDT
@@ -2133,7 +2133,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: One row per subject with DTHFL='Y'
   notes: 'Computed columns: days from last dose to death; days from randomisation to death.'
@@ -2206,7 +2206,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: One row per AE
   notes: Filtered to AEACN='DRUG WITHDRAWN'.
@@ -2271,7 +2271,7 @@ outputs:
   methods: []
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: One row per lab result
   notes: Filtered to ATOXGR ≥ 3.
@@ -2340,7 +2340,7 @@ outputs:
   methods: []
   sap_ref: §3.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: One row per deviation
   notes: Filtered to DSDECOD='PROTOCOL DEVIATION' AND DSSCAT='MAJOR'. Shows deviation category and description.
@@ -2396,7 +2396,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: ATC indication class (header) + indented PT rows (>=5% in either arm)
     columns: TRT01A
@@ -2426,7 +2426,7 @@ outputs:
   - M-DESCR-CONT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Parameter (header) + indented "Change at <visit> Mean (SD)" rows
     columns: TRT01A
@@ -2448,7 +2448,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: 7 categories from "Loss >=20%" through "Gain >=20%"
     columns: TRT01A
@@ -2470,7 +2470,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §5.5
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: MHCAT header + indented MHDECOD (>=5% in either arm)
     columns: TRT01A
@@ -2492,7 +2492,7 @@ outputs:
   - M-DESCR-CAT
   sap_ref: §3.2
   reference_documents:
-  - SAP-0.2
+  - SAP-0.3
   layout:
     rows: Severity (Major/Minor) + Subcategory breakdown
     columns: TRT01P

@@ -12,17 +12,17 @@
 |---|---|
 | **Document** | `sap/SAP.md` |
 | **Study** | SIMULATED-TORIVUMAB-2026 (torivumab-nsclc-301) — TORIVA-LUNG 301 |
-| **Protocol reference** | Protocol v1.1 (2026-03-30), `protocol/synopsis.md` |
+| **Protocol reference** | Protocol v1.2 (2026-09-20, Amendment 1 — #27), `protocol/synopsis.md` |
 | **Sponsor** | Celindra Therapeutics *(fictional)* |
-| **SAP version** | 0.2 DRAFT |
+| **SAP version** | 0.3 |
 | **SAP author** | Lovemore Gakava |
-| **Date** | 2026-05-16 |
+| **Date** | 2026-09-20 |
 | **Gate** | 3.5 — blocks Phase 5 ADaM |
 | **Finalisation rule** | SAP must be locked *before* database lock and unblinding (ICH E9) |
 
 ### Purpose of this document
 
-This SAP operationalises the statistical considerations in Protocol v1.1 §8 and the SAP-required methods in §11 into analysis-ready specifications. It defines the population flags, endpoint derivations, censoring rules, statistical methods, and subgroup definitions that the downstream ADaM datasets and TFL outputs must implement.
+This SAP operationalises the statistical considerations in Protocol v1.2 §8 and the SAP-required methods in §11 into analysis-ready specifications. It defines the population flags, endpoint derivations, censoring rules, statistical methods, and subgroup definitions that the downstream ADaM datasets and TFL outputs must implement.
 
 ### Dependencies and downstream use
 
