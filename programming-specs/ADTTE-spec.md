@@ -8,7 +8,7 @@
 | **Label** | Time-to-Event Analysis Dataset |
 | **Class** | BASIC DATA STRUCTURE |
 | **Structure** | One record per subject per TTE parameter |
-| **Expected N** | 2,377 records (OS, OSWOT, PFS, PFSINV, TTR at 450 subjects each + DOR restricted to confirmed responders) |
+| **Expected N** | 2,373 records (OS, OSWOT, PFS, PFSINV, TTR at 450 subjects each + DOR restricted to confirmed responders; 2,377 before the 2026-09-20 regeneration) |
 | **Key variables** | `USUBJID`, `PARAMCD` |
 | **Spec version** | 0.4 |
 | **Spec author** | Lovemore Gakava |

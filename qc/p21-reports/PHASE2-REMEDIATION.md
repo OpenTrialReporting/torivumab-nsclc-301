@@ -93,17 +93,55 @@ ADTTE relabelled; define rebuilt. Re-run: **10,890 / 8 — identical to July**.
 Reports: `pinnacle21-cli-20260920T180815-{sdtm,adam}.xlsx` (pre-fix),
 `pinnacle21-cli-20260920T181752-adam.xlsx` (post-fix).
 
-## Residual (18, low-severity) — accepted / documented
+## #27 regeneration (2026-09-20) — validated
 
-**SDTM 10,891 across 9 rules · ADaM 10,890 across 8 rules** (engine 2508.1).
+The single regeneration pass (raw → SDTM → ADaM → define → TFL) covering D1, D3/D5,
+D4/D7, D8/D9, D13, D15–D17, the REGION1 fix (#42) and the half-up rounding rule.
+2:1 re-randomisation touches every subject and D17 shifts the RNG stream, so the
+data diff is wide by design; the P21 finding set is what makes it attributable.
+
+| Run | Pre-regeneration (18:08) | Post-regeneration | Δ |
+|---|---|---|---|
+| SDTM | 10,891 / 9 rules | **11,000 / 7 rules** | SD0007 +111 (DA grew with the 2:1 arm); **SD0070 / SD1343 gone** |
+| ADaM | 10,890 / 8 rules | 11,000 / 9 → **10,999 / 6 rules** | as SDTM, plus one new **SD1152** cleared same pass |
+
+Two findings introduced by the regeneration, both cleared before commit:
+
+- **SD1449 (SDTM, would-be)** — one AE verbatim `"A S T increased"` failed MedDRA coding.
+  The raw CRF-transcription variant that inserts a space before every capital
+  (`04_adverse_events.R`) had never before been drawn for a multi-capital acronym.
+  `normalize_term()` in `ae.R` now collapses letter-spaced acronyms (`A S T` → `AST`,
+  subsuming the old `N O S` special case); coverage back to 100%, `SDTM-AE-spec.md` D2 updated.
+- **SD1152 (ADaM)** — `ADLB` duplicate on the define keys (`STUDYID, USUBJID, PARAMCD, AVISITN, ADT`):
+  subject 0347 has two unscheduled ALT draws on 2023-07-11 (visit 998). Real repeat-test
+  pattern, already keyed by `LBSEQ` in SDTM; `LBSEQ` added to the ADLB keys in
+  `build_define.R` and `ADLB-spec.md`.
+
+Two accepted findings retired because their subject no longer exists: the 2:1 stream
+produced no randomised-but-never-dosed subject, so **SD0070 / SD1343** (and the
+`COM.DM.UNDOSED` define comment) are gone.
+
+A third item surfaced by the acceptance check (`check_alignment.py`, D17): `ADLB` still
+carried an `AVISIT = "C1D15"` for 29 unscheduled draws. `crf/analysis_visit_windows.csv`
+is a generated artefact that PR #34's change to `_build_visit_windows.R` had never
+regenerated, so the day-15 window survived. Rebuilt; `00_run_adam.R` now sources the
+builder on every run so the reference cannot go stale again. ADaM re-scan unchanged
+(10,999 / 6).
+
+Reports: `pinnacle21-cli-20260920T183319-sdtm.xlsx` (final SDTM),
+`pinnacle21-cli-20260920T183319-adam.xlsx` (post-regeneration, pre-SD1152 fix — evidence),
+`pinnacle21-cli-20260920T205010-adam.xlsx` (final ADaM).
+
+## Residual (16, low-severity) — accepted / documented
+
+**SDTM 11,000 across 7 rules · ADaM 10,999 across 6 rules** (engine 2508.1; state at the 2026-09-20 regeneration).
 
 | Rule | Found | Disposition |
 |---|---:|---|
-| **SD0007** | 10,873 | **Accepted** — DA standard units legitimately differ by product (mg/m² BSA chemo, mg flat dose, VIAL biologic). Warning; no fabricated conversions. |
+| **SD0007** | 10,984 | **Accepted** — DA standard units legitimately differ by product (mg/m² BSA chemo, mg flat dose, VIAL biologic). Warning; no fabricated conversions. |
 | SD0057 | 8 | Expected (not Required) variables absent (`DM.ACTARMUD`, `TS.TSVALCD/TSVCDREF`, …). Adding them only trades for SD1149 / SD2240-series. |
 | SD1076 | 3 | `EX.VISIT/VISITNUM` (kept for ADEX joins) + `PE.PECLSIG` — permissible Note severity. |
 | SD0058 | 2 | `CM.CMATC` + `SU.SUPACKYR` — documented sponsor extensions (conformant home SUPPCM/SUPPSU). |
-| SD0070 / SD1343 | 1 / 1 | The one randomised-but-never-dosed subject (0277, died 4 days after screening). |
 | SD1149 | 1 | `DM.ARMNRS` correctly all-null (everyone randomised). |
 | SD1299 | 1 | SU has no timing variable — acceptable for undated lifetime history. |
 | SD1485 | 1 | `LC` is not an SDTM-IG 3.4 domain (SDTM run only). |
@@ -121,7 +159,6 @@ rebuild, P21-verified well-formed):
 | SD0058 | `COM.CM.ATC` / `COM.SU.PACKYR` | `CM.CMATC` / `SU.SUPACKYR` |
 | SD1076 | `COM.EX.VISIT` / `COM.PE.CLSIG` | `EX.VISIT`, `EX.VISITNUM` / `PE.PECLSIG` |
 | SD1149 | `COM.DM.ARMNRS` | `DM.ARMNRS` |
-| SD0070 / SD1343 | `COM.DM.UNDOSED` | `DM.RFXSTDTC` |
 | SD1299 | `COM.SU.NOTIMING` | `SU` dataset (ItemGroupDef) |
 | SD1485 | `COM.LB.NOLC` | `LB` dataset (ItemGroupDef) |
 

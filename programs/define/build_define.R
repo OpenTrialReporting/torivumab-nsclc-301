@@ -135,7 +135,9 @@ DOMAIN_META <- list(
   adlb   = list(class = "BASIC DATA STRUCTURE",
                 structure = "One record per subject per parameter per analysis timepoint",
                 purpose = "Analysis",
-                keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN", "ADT")),
+                # LBSEQ: unscheduled repeat draws of one test on the same day share
+                # ADT + AVISITN (P21 SD1152, 2026-09-20 regeneration)
+                keys = c("STUDYID", "USUBJID", "PARAMCD", "AVISITN", "ADT", "LBSEQ")),
   adtr   = list(class = "BASIC DATA STRUCTURE",
                 structure = "One record per subject per parameter per analysis visit per lesion",
                 purpose = "Analysis",

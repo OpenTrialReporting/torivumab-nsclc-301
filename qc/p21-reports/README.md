@@ -16,8 +16,9 @@ of [`PHASE2-REMEDIATION.md`](PHASE2-REMEDIATION.md).
 - **Engines:** SDTM-IG 3.4 (FDA), ADaM-IG 1.3 (FDA); engine/config 2508.1,
   CDISC CT 2026-03-27.
 
-**Current validated state: SDTM 10,891 (9 rules) / ADaM 10,890 (8 rules)** — of
-which 10,873 is the accepted SD0007 DA standard-units warning. Every remaining
+**Current validated state: SDTM 11,000 (7 rules) / ADaM 10,999 (6 rules)** — of
+which 10,984 is the accepted SD0007 DA standard-units warning (2026-09-20, after the #27
+regeneration). Every remaining
 finding is a documented accepted limitation.
 
 P21 finding IDs and their disposition (fixed vs. accepted synthetic-data
