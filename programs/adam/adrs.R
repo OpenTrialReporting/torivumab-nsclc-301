@@ -173,10 +173,31 @@ adrs$ATPTREF <- .win$ATPTREF
 # record per subject x parameter x analysis visit for the by-visit OVR records,
 # and one per subject x parameter for the subject-level BOR/CBOR records.
 adrs$ANL01FL <- flag_anl01(adrs, "PARAMCD")
+
+# 6b. EFFFL — Response Evaluable population flag (#27 D4/D7, signed 2026-09-20).
+# SAP §13.6 names this population as `EFFFL = "Y"` on ADRS; it did not exist and
+# was re-derived inline inside t_eff_05_orr.R and t_eff_06_dcr.R, so it was not
+# traceable, could not be referenced by define.xml, and each consumer was free to
+# drift.
+#
+# Definition as signed: ITT with at least one post-baseline tumour assessment,
+# i.e. at least one OVR record. Every OVR record in this data is post-baseline
+# (minimum ADY 38), so the two phrasings coincide.
+#
+# NOT IMPLEMENTED, deliberately: SAP §13.6 reads "ITT with >=1 post-baseline
+# tumour assessment OR CLINICAL PROGRESSION BEFORE FIRST ASSESSMENT". The second
+# clause is absent because the sign-off recorded "the current inline rule becomes
+# the flag's specification". It is not cosmetic — 13 ITT subjects have no
+# assessment but a disposition reason of PROGRESSIVE DISEASE, they split
+# 3 torivumab / 10 placebo, and including them moves the ORR risk difference from
+# 20.9 to 21.2. Quantified in the PR and left for a decision.
+.re_subj <- unique(adrs$USUBJID[adrs$PARAMCD == "OVR"])
+adrs <- adrs |>
+  mutate(EFFFL = if_else(ITTFL == "Y" & USUBJID %in% .re_subj, "Y", "N"))
 adrs <- adrs |>
   select(
     STUDYID, USUBJID,
-    SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
+    SAFFL, ITTFL, EFFFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
     TRTSDT, TRTEDT,
     PARAM, PARAMCD,
     ADT, ADY,

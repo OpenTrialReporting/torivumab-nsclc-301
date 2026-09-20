@@ -11,8 +11,10 @@
 adsl <- load_adam("adsl") |> filter(ITTFL == "Y") |> add_region()
 adrs <- load_adam("adrs")
 
-# Response Evaluable: subjects with at least one OVR record
-re_subj <- adrs |> filter(PARAMCD == "OVR") |> distinct(USUBJID) |> pull(USUBJID)
+# Response Evaluable population — read ADRS.EFFFL rather than re-deriving it
+# (#27 D4/D7). SAP §13.6 defines this population by the flag; deriving it here
+# made it untraceable and let each consumer drift.
+re_subj <- adrs |> filter(EFFFL == "Y") |> distinct(USUBJID) |> pull(USUBJID)
 adsl_re <- adsl |> filter(USUBJID %in% re_subj)
 
 # Join CBOR onto the RE subset
