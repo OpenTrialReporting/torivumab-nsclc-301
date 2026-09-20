@@ -10,7 +10,7 @@
 | **Structure** | One record per medication occurrence per subject |
 | **Expected N** | 2,319 (2,312 ANL01FL-flagged; 7 unflagged con-meds belong to a randomised-but-never-dosed subject outside the safety population) |
 | **Key variables** | `STUDYID`, `USUBJID`, `CMSEQ` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 

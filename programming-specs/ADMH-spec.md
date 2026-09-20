@@ -10,7 +10,7 @@
 | **Structure** | One record per medical history condition per subject |
 | **Expected N** | ~2,061 |
 | **Key variables** | `STUDYID`, `USUBJID`, `MHSEQ` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 

@@ -10,7 +10,7 @@
 | **Structure** | One record per deviation per subject |
 | **Expected N** | ~337 records across 190 subjects (~50 MAJOR / ~287 MINOR) |
 | **Key variables** | `STUDYID`, `USUBJID`, `DVSEQ` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 

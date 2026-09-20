@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per adverse event |
 | **Expected N** | 2,840 |
 | **Key variables** | `USUBJID`, `AESEQ` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.3 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-04-25 |
 

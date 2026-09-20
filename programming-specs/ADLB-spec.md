@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per parameter per analysis timepoint |
 | **Expected N** | 136,242 records (one per subject × parameter × collected timepoint, incl. windowed unscheduled draws) |
 | **Key variables** | `USUBJID`, `PARAMCD`, `AVISITN`, `ADT`, `LBSEQ` (LBSEQ separates unscheduled repeat draws of one test on the same day — P21 SD1152) |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.3 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-04-25 |
 

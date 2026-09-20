@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per parameter per visit |
 | **Expected N** | 52,920 |
 | **Key variables** | `STUDYID`, `USUBJID`, `PARAMCD`, `AVISITN` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 
