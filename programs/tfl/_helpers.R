@@ -58,24 +58,54 @@ load_adam <- function(name) {
   as.data.frame(read_parquet(path))
 }
 
+# ---- Rounding --------------------------------------------------------------
+# Half-up rounding, decided on the decimal value a number denotes rather than on
+# the binary double's last bits (#27, signed 2026-09-20).
+#
+# Why this is not left to sprintf(): C's printf rounds the stored double, so a
+# quantity that is mathematically an exact tie can round either way depending on
+# how it was accumulated. T-VS-01 holds a real instance — temperature change at
+# C1D1, placebo, mean exactly 0.05 on n = 58 — which sprintf renders "0.1" and
+# base R's round() renders "0.0" (half-to-even). Neither is wrong; what is wrong
+# is that the convention was never chosen, so the printed value depended on the
+# C library.
+#
+# signif(, 12) absorbs accumulation noise well below any precision this study
+# reports, so a value denoting 0.05 rounds as 0.05 whichever order it was summed
+# in; ties then go away from zero, the convention used in clinical reporting.
+# SAP §12 records the rule.
+ROUND_SIGNIF_DIGITS <- 12L
+
+round_half_up <- function(x, digits = 0) {
+  scaled <- signif(x * 10^digits, ROUND_SIGNIF_DIGITS)
+  out    <- ifelse(scaled < 0, -floor(-scaled + 0.5), floor(scaled + 0.5))
+  out / 10^digits
+}
+
+# Format with the house rounding rule applied first, so sprintf only renders an
+# already-rounded number and never makes a rounding decision of its own.
+fmt_fixed <- function(x, digits = 1)
+  formatC(round_half_up(x, digits), format = "f", digits = digits)
+
 # ---- Number formatters -----------------------------------------------------
 fmt_n_pct <- function(n, denom, digits = 1) {
   if (length(denom) == 1) denom <- rep(denom, length(n))
   p <- 100 * n / denom
   ifelse(is.na(n) | denom == 0, "—",
-         sprintf("%d (%.*f)", as.integer(n), digits, p))
+         paste0(as.integer(n), " (", fmt_fixed(p, digits), ")"))
 }
 fmt_mean_sd <- function(m, s, digits = 1)
-  sprintf("%.*f (%.*f)", digits, m, digits, s)
+  paste0(fmt_fixed(m, digits), " (", fmt_fixed(s, digits), ")")
 fmt_med_range <- function(med, mn, mx, digits = 1)
-  sprintf("%.*f (%.*f, %.*f)", digits, med, digits, mn, digits, mx)
+  paste0(fmt_fixed(med, digits), " (", fmt_fixed(mn, digits), ", ",
+         fmt_fixed(mx, digits), ")")
 fmt_med_ci <- function(med, lo, hi, digits = 1, na_text = "NE")
   sprintf("%s (%s, %s)",
-          ifelse(is.na(med), na_text, sprintf("%.*f", digits, med)),
-          ifelse(is.na(lo),  na_text, sprintf("%.*f", digits, lo)),
-          ifelse(is.na(hi),  na_text, sprintf("%.*f", digits, hi)))
+          ifelse(is.na(med), na_text, fmt_fixed(med, digits)),
+          ifelse(is.na(lo),  na_text, fmt_fixed(lo,  digits)),
+          ifelse(is.na(hi),  na_text, fmt_fixed(hi,  digits)))
 fmt_hr_ci <- function(hr, lo, hi)
-  sprintf("%.3f (%.3f, %.3f)", hr, lo, hi)
+  paste0(fmt_fixed(hr, 3), " (", fmt_fixed(lo, 3), ", ", fmt_fixed(hi, 3), ")")
 fmt_p <- function(p) {
   ifelse(is.na(p), "—",
     ifelse(p < 0.001, "<0.001", sprintf("%.3f", p)))

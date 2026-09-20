@@ -516,6 +516,22 @@ categorical and carry no `BASE`/`ABLFL`.
 - HR and 95% CI to 3 decimals (e.g. 0.652).
 - p-values: < 0.001 shown as `<0.001`; otherwise 3 decimals.
 
+**Rounding at exact ties.** Values are rounded **half away from zero** (0.05 → 0.1,
+−0.05 → −0.1), decided on the decimal value the number denotes rather than on the binary
+double that stores it.
+
+This is stated because it is not the default in either direction. R's `round()` rounds
+half to even (0.05 → 0.0), while C's `sprintf`, which R's formatters call, rounds the
+stored double — so a quantity that is mathematically an exact tie can round either way
+depending on the order it was accumulated in. Both behaviours are defensible; leaving the
+choice unstated is not, because it makes a printed value depend on the C library.
+
+Implemented by `round_half_up()` in `programs/tfl/_helpers.R`, which normalises to 12
+significant digits — far beyond any precision this study reports — before applying the
+rule, so the result does not depend on accumulation order. All display formatters
+(`fmt_n_pct`, `fmt_mean_sd`, `fmt_med_range`, `fmt_med_ci`, `fmt_hr_ci`) round through it
+and pass an already-rounded number to the renderer.
+
 ### 12.5 Software and reproducibility
 
 - R ≥ 4.5.3, pharmaverse stack (`admiral`, `admiralonco`, `tern`, `rtables`), versions pinned in `adam/session_info_install.txt`.
