@@ -17,13 +17,62 @@ Every figure quoted was recomputed from `datasets/` at `c0fb169`.
 
 ---
 
-## D1 — Time-to-event origin: `RANDDT` vs `TRTSDT`
+## D1 — Time-to-event origin: do E1 and E1b remain distinct estimands?
 
 **SAP §13.5** — "Start: `RANDDT` (ADSL)", and `AVAL = DTHDT - RANDDT + 1` (days), converted to months as `AVAL / 30.4375` for reporting.
 
 **`programs/adam/adtte.R:247–250`** — OS, OSWOT, PFS and PFS-INV all call `add_aval(..., "TRTSDT")`. `AVAL = ADT - STARTDT` with no `+ 1`, and `AVALU = "DAYS"` throughout.
 
 So there are three separate divergences: the **origin**, the **`+1` day offset**, and the **reporting units**.
+
+### This is an estimand question, not a programming convention
+
+It was first raised as "`RANDDT` vs `TRTSDT`". That framing understates it, because the
+SAP fixes the origin as an **ICH E9(R1) *Variable* attribute**, not as a derivation detail:
+
+> **§13.4 — Primary estimand (E1)**
+> **Population:** All randomised subjects (ITT; `ITTFL = "Y"`)
+> **Variable:** Time (months) **from randomisation** to death from any cause
+
+> **§13.5 — PFS estimand (E2)**
+> **Variable:** Time (months) **from randomisation** to earliest of documented PD per
+> RECIST 1.1 by BICR, or death from any cause
+
+Changing the origin therefore changes *which estimand is being estimated*, and leaves the
+*Variable* attribute inconsistent with the *Population* attribute directly above it.
+
+**Treatment start is the correct origin in oncology for several purposes, and this
+pipeline already uses it correctly for all of them:**
+
+| Context | Correct origin | Status here |
+|---|---|---|
+| Single-arm trials (no randomisation date exists) | `TRTSDT` | n/a |
+| Safety — TEAE window, exposure-adjusted rates | `TRTSDT` | correct |
+| **While-on-treatment estimands** | `TRTSDT` | **correct — E1b / `OSWOT`** |
+| Randomised ITT efficacy (OS, PFS) | `RANDDT` | **currently `TRTSDT`** |
+
+The repository already defines the treatment-anchored estimand separately. **E1b**
+(§13.8, `PARAMCD = "OSWOT"`) is *OS while-on-treatment*, censoring at subsequent therapy
+or `TRTEDT + 30` days, and exists precisely to quantify the effect during the randomised
+treatment period. Because E1 and E1b currently share the same origin, the distinction the
+SAP draws between them is collapsed in the data.
+
+So the decision is not which origin is right for oncology. It is: **do E1 and E1b remain
+two different estimands, or one?**
+
+### Why the origin matters beyond definitions
+
+Anchoring a randomised ITT endpoint to treatment start breaks randomisation twice:
+
+1. **Immortal time** — a subject must survive from randomisation to first dose to be
+   analysable at all.
+2. **It drops a randomised subject.** `SITE012-0277` has `ITTFL = 'Y'`, no `TRTSDT`, and
+   therefore `AVAL = NA` with `CNSR = 0` — a death contributing nothing to the primary
+   analysis.
+
+The practical effect in this dataset is small: the gap is 0-2 days, median 0, against a
+median OS of 497 days. But that is an argument about magnitude, not about which quantity
+is being estimated.
 
 ### Evidence
 
@@ -41,10 +90,17 @@ STARTDT = NA      AVAL = NA      CNSR = 0
 
 | | Effect |
 |---|---|
-| **Adopt the SAP** — origin `RANDDT`, add `+ 1`, report months | Restores ITT integrity; OS/PFS shift by ≤2 days; every efficacy table, figure and KM regenerates |
-| **Amend the SAP to `TRTSDT`** | No regeneration, but leaves a randomised subject unanalysable and contradicts the ITT estimand in §13.5 |
+| **Adopt the SAP** — origin `RANDDT`, add `+ 1`, report months | E1 and E1b become genuinely distinct, as §13.4/§13.8 intend; restores ITT integrity; OS/PFS shift by ≤2 days; every efficacy table, figure and KM regenerates |
+| **Amend the SAP to `TRTSDT`** | No regeneration, but E1 and E1b collapse into the same estimand, a randomised subject stays unanalysable, and §13.4's *Variable*, §13.5's derivation, §13.8's summary table and the ITT *Population* attribute all need rewriting with a stated rationale for an ITT endpoint measured from treatment |
 
-**Recommendation: adopt the SAP.** The ITT-integrity failure is the deciding factor, not the 2-day shift. Treat the `+1` and the months conversion as part of the same change so the three stop drifting apart.
+**Recommendation: adopt the SAP.** The deciding factor is that E1 and E1b are currently
+the same estimand, not the 2-day shift. Treat the `+1` and the months conversion as part
+of the same change so the three stop drifting apart.
+
+If the organisation's house standard genuinely is treatment-start for randomised oncology
+efficacy, that is a legitimate convention — but it should be recorded as a deliberate,
+reasoned deviation, with E1b redefined so it still asks a different question from E1.
+What should not stand either way is an undocumented gap between the SAP and the code.
 
 ---
 
@@ -165,7 +221,7 @@ The Phase 0 re-baseline (`c0fb169`) reset that cell to `0.1`; **it did not fix t
 
 | Item | Decision | Signatory | Date |
 |---|---|---|---|
-| D1 | adopt SAP / amend SAP | | |
+| D1 | adopt SAP (E1 from `RANDDT`, E1b stays `TRTSDT`) / amend SAP (E1 = E1b origin, with rationale) | | |
 | D13 | stratified MH RD / unstratified RD / common OR | | |
 | D3, D5 | adopt SAP (BICR) / keep Investigator | | |
 | D4, D7 | derive `EFFFL` / amend SAP | | |
