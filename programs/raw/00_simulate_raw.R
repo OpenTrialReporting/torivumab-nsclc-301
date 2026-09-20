@@ -64,6 +64,10 @@ ENROL_START    <- as.Date("2022-03-01")
 ENROL_END      <- as.Date("2023-09-30")
 DATA_CUTOFF    <- as.Date("2025-01-31")
 ARMS           <- c("Torivumab + Chemotherapy", "Placebo + Chemotherapy")
+# Allocation 2:1 (torivumab : placebo) per protocol synopsis §3.1/§3.3 and SAP §6.
+# One permuted block = 2 active + 1 control; 30 subjects/site = 10 whole blocks,
+# giving exactly 20:10 per site and 300:150 overall.
+ALLOC_BLOCK    <- c(ARMS[1], ARMS[1], ARMS[2])
 
 # Survival parameters (embedded — not exposed as columns)
 LAMBDA_OS_TRT  <- log(2) / 21.5   # months

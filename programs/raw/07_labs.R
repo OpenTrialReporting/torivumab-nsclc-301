@@ -2,7 +2,7 @@
 # 07_labs.R
 # Generates raw/labs.csv
 # Panel: HGB, NEUT, PLAT, WBC, ALT, AST, CREAT, BILI, ALB, NA, K
-# Visits: Screening, C1D1, C1D15, C2D1, C3D1, C4D1, C5D1, C6D1,
+# Visits: Screening, C1D1, C2D1, C3D1, C4D1, C5D1, C6D1,
 #         maintenance visits, EOT
 # ~3% missing values
 # Depends on: demographics, rand_dates, is_trt, pfs_days_sim
@@ -53,7 +53,6 @@ visit_schedule <- function(rand_dt, pfs_d, last_obs_dt) {
   visits <- list(
     list(name = "SCREENING", offset_days = -sample(7:28, 1)),
     list(name = "C1D1",  offset_days = 0),
-    list(name = "C1D15", offset_days = 14 + sample(-1:1, 1)),
     list(name = "C2D1",  offset_days = 21 + sample(-1:2, 1)),
     list(name = "C3D1",  offset_days = 42 + sample(-1:2, 1)),
     list(name = "C4D1",  offset_days = 63 + sample(-1:2, 1)),
