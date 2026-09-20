@@ -397,11 +397,11 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Kind** | table |
 | **Analysis set** | Safety (SAFETY) |
 | **Source datasets** | `ADSL`, `ADAE` |
-| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AESDTH`, `AETOXGR`, `IRAEFL`, `AESI`, `TRTDURD` |
+| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AETOXGRN`, `IRAEFL`, `AEACN`, `TRTDURD` |
 | **Methods** | Descriptive — Categorical [M-DESCR-CAT]; Exposure-Adjusted Incidence Rate [M-EAIR] |
 | **SAP reference** | §5.5 |
 | **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
-| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate |
+| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any Grade 5 (fatal) TEAE, any SAE, any irAE, any TEAE → discontinuation, any TEAE → dose modification, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate |
 | **Layout — columns** | TRT01A + Total |
 
 **Notes:** n (%) of subjects. Final three rows are exposure-adjusted (estimand S2); rate numerator counts events, not subjects.
@@ -800,7 +800,7 @@ Distinct variables cited across all shells: **72**.
 
 <details><summary>Full variable list</summary>
 
-`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESDTH`, `AESER`, `AESI`, `AETOXGR`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CHG`, `CMDECOD`, `CMINDC`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `DVCAT`, `DVSCAT`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `MHCAT`, `MHDECOD`, `N_CYCLES`, `ONTRTFL`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
+`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESER`, `AESI`, `AETOXGR`, `AETOXGRN`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CHG`, `CMDECOD`, `CMINDC`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `DVCAT`, `DVSCAT`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `MHCAT`, `MHDECOD`, `N_CYCLES`, `ONTRTFL`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
 
 </details>
 

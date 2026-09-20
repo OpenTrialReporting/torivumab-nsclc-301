@@ -1278,10 +1278,9 @@ outputs:
   - TRT01A
   - TRTEMFL
   - AESER
-  - AESDTH
-  - AETOXGR
+  - AETOXGRN
   - IRAEFL
-  - AESI
+  - AEACN
   - TRTDURD
   methods:
   - M-DESCR-CAT
@@ -1290,7 +1289,7 @@ outputs:
   reference_documents:
   - SAP-0.2
   layout:
-    rows: Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate
+    rows: Any AE, any TEAE, any Grade ≥3 TEAE, any Grade 5 (fatal) TEAE, any SAE, any irAE, any TEAE → discontinuation, any TEAE → dose modification, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate
     columns: TRT01A + Total
   notes: n (%) of subjects. Final three rows are exposure-adjusted (estimand S2); rate numerator counts events, not subjects.
   annotations:
@@ -1309,7 +1308,12 @@ outputs:
       derivation: n(%) with >= 1 TRTEMFL='Y'
     - row: Any Grade >= 3 TEAE
       dataset: ADAE
-      where: TRTEMFL='Y' AND AETOXGR >= 3
+      where: TRTEMFL='Y' AND AETOXGRN >= 3
+      variable: USUBJID
+      derivation: n(%) with >= 1 such event
+    - row: Any Grade 5 (fatal) TEAE
+      dataset: ADAE
+      where: TRTEMFL='Y' AND AETOXGRN = 5
       variable: USUBJID
       derivation: n(%) with >= 1 such event
     - row: Any SAE
@@ -1317,29 +1321,19 @@ outputs:
       where: AESER='Y'
       variable: USUBJID
       derivation: n(%) with >= 1 AESER='Y'
-    - row: Any TEAE -> discontinuation
-      dataset: ADAE
-      where: TRTEMFL='Y' AND AEACN='DRUG WITHDRAWN'
-      variable: USUBJID
-      derivation: n(%)
     - row: Any irAE
       dataset: ADAE
       where: 'IRAEFL=''Y''  # study-specific'
       variable: USUBJID
       derivation: n(%) IRAEFL='Y'
-    - row: Any Grade >= 3 irAE
+    - row: Any TEAE -> discontinuation
       dataset: ADAE
-      where: IRAEFL='Y' AND AETOXGR >= 3
+      where: TRTEMFL='Y' AND AEACN='DRUG WITHDRAWN'
       variable: USUBJID
       derivation: n(%)
-    - row: Any AESI
+    - row: Any TEAE -> dose modification
       dataset: ADAE
-      where: 'AESI=''Y''  # study-specific'
-      variable: USUBJID
-      derivation: n(%) AESI='Y'
-    - row: Any AE -> death
-      dataset: ADAE
-      where: AESDTH='Y'
+      where: TRTEMFL='Y' AND AEACN IN ('DOSE REDUCED','DRUG INTERRUPTED')
       variable: USUBJID
       derivation: n(%)
     - row: Total exposure (patient-years)
