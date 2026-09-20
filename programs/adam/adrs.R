@@ -26,6 +26,10 @@ dir.create(ADAM_DIR, showWarnings = FALSE, recursive = TRUE)
 adsl <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adsl.parquet")))
 adtr <- as.data.frame(read_parquet(file.path(ADAM_DIR, "adtr.parquet")))
 rs   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "rs.parquet")))
+# DS supplies the clinical-progression arm of the EFFFL definition (see 6b).
+# Read from SDTM rather than ADDS because ADRS is built before ADDS in
+# programs/adam/00_run_adam.R.
+ds   <- as.data.frame(read_parquet(file.path(SDTM_DIR, "ds.parquet")))
 
 # 2. ADSL merge variables
 adsl_vars <- adsl |>
@@ -174,24 +178,31 @@ adrs$ATPTREF <- .win$ATPTREF
 # and one per subject x parameter for the subject-level BOR/CBOR records.
 adrs$ANL01FL <- flag_anl01(adrs, "PARAMCD")
 
-# 6b. EFFFL — Response Evaluable population flag (#27 D4/D7, signed 2026-09-20).
-# SAP §13.6 names this population as `EFFFL = "Y"` on ADRS; it did not exist and
-# was re-derived inline inside t_eff_05_orr.R and t_eff_06_dcr.R, so it was not
-# traceable, could not be referenced by define.xml, and each consumer was free to
-# drift.
+# 6b. EFFFL — Response Evaluable population flag (#27 D4/D7, signed 2026-09-20;
+# definition corrected to the M11 protocol 2026-09-20).
 #
-# Definition as signed: ITT with at least one post-baseline tumour assessment,
-# i.e. at least one OVR record. Every OVR record in this data is post-baseline
-# (minimum ADY 38), so the two phrasings coincide.
+# M11 §3.2.2 defines the ORR Secondary Population, citing protocol §8.2:
 #
-# NOT IMPLEMENTED, deliberately: SAP §13.6 reads "ITT with >=1 post-baseline
-# tumour assessment OR CLINICAL PROGRESSION BEFORE FIRST ASSESSMENT". The second
-# clause is absent because the sign-off recorded "the current inline rule becomes
-# the flag's specification". It is not cosmetic — 13 ITT subjects have no
-# assessment but a disposition reason of PROGRESSIVE DISEASE, they split
-# 3 torivumab / 10 placebo, and including them moves the ORR risk difference from
-# 20.9 to 21.2. Quantified in the PR and left for a decision.
-.re_subj <- unique(adrs$USUBJID[adrs$PARAMCD == "OVR"])
+#   Response Evaluable — ITT with >=1 post-baseline tumour assessment, OR
+#   CLINICAL PROGRESSION BEFORE FIRST ASSESSMENT (EFFFL = "Y" on ADRS)
+#
+# Both arms of that definition are implemented. The flag previously carried only
+# the first, because the sign-off row recorded "the current inline rule becomes
+# the flag's specification" — written before §3.2.2 had been read. The M11
+# protocol governs, on the same basis as D1.
+#
+# Clinical progression before first assessment is taken from the subject's
+# disposition event: DSDECOD == "PROGRESSIVE DISEASE" with no OVR record. Those
+# subjects enter the denominator as non-responders, which is what §3.2.2's
+# composite intercurrent-event strategy requires ("no post-baseline assessment
+# -> non-responder"); their CBOR is NE, so they are already counted that way.
+#
+# Subjects with neither an assessment nor a progression event — discontinued for
+# adverse event or physician decision — remain outside the population.
+.clin_pd <- unique(ds$USUBJID[ds$DSCAT == "DISPOSITION EVENT" &
+                                ds$DSDECOD == "PROGRESSIVE DISEASE"])
+.assessed <- unique(adrs$USUBJID[adrs$PARAMCD == "OVR"])
+.re_subj  <- union(.assessed, intersect(.clin_pd, adrs$USUBJID[!adrs$USUBJID %in% .assessed]))
 adrs <- adrs |>
   mutate(EFFFL = if_else(ITTFL == "Y" & USUBJID %in% .re_subj, "Y", "N"))
 adrs <- adrs |>
