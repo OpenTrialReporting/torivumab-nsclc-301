@@ -83,6 +83,27 @@ adlb <- adlb |>
   derive_var_chg() |>
   derive_var_pchg()
 
+# 6a. Reference-range indicators (#27 D8/D9; ADLB-spec rows 24-25).
+# ANRIND classifies AVAL and BNRIND classifies BASE against the same analysis
+# range (ANRLO/ANRHI). Values use the CDISC NRIND controlled terminology —
+# LOW / NORMAL / HIGH — matching the NRIND column copied from SDTM.LBNRIND, so
+# the two are directly comparable and T-LB-01 can key on ANRIND/BNRIND without
+# a vocabulary change. (The spec writes "L/N/H" as shorthand for the concept;
+# the codelist values are the long forms.)
+range_ind <- function(x, lo, hi)
+  dplyr::case_when(
+    is.na(x) | (is.na(lo) & is.na(hi)) ~ NA_character_,
+    !is.na(lo) & x < lo                ~ "LOW",
+    !is.na(hi) & x > hi                ~ "HIGH",
+    TRUE                               ~ "NORMAL"
+  )
+
+adlb <- adlb |>
+  mutate(
+    ANRIND = range_ind(AVAL, ANRLO, ANRHI),
+    BNRIND = range_ind(BASE, ANRLO, ANRHI)
+  )
+
 # 6b. Baseline analysis visit — the ABLFL='Y' record is the baseline visit
 # (AVISIT="Baseline", AVISITN=0) per CDISC ADaM convention, regardless of the
 # window its ADY falls in (a C1D1 pre-dose draw windows to C1D1). SAP §12.3.
@@ -151,6 +172,19 @@ adlb <- adlb |>
     ATOXGRN = suppressWarnings(as.integer(ATOXGR))
   )
 
+# 8a. Baseline toxicity grade (#27 D8/D9; ADLB-spec row 27) — the ATOXGR of the
+# subject's ABLFL='Y' record, carried onto every record for that PARAMCD so a
+# post-baseline row can be compared with its own baseline grade. Parameters with
+# no CTCAE scale keep NA, as ATOXGR does.
+adlb <- adlb |>
+  group_by(STUDYID, USUBJID, PARAMCD) |>
+  mutate(BTOXGR = {
+    b <- ATOXGR[!is.na(ABLFL) & ABLFL == "Y"]
+    if (length(b) >= 1L) b[1L] else NA_character_
+  }) |>
+  ungroup() |>
+  mutate(BTOXGRN = suppressWarnings(as.integer(BTOXGR)))
+
 # 9. Select final variables
 adlb <- adlb |>
   select(
@@ -160,9 +194,9 @@ adlb <- adlb |>
     LBSEQ, PARAM, PARAMCD, LBCAT,
     LBDTC, ADT, ADY,
     VISIT, VISITNUM, AVISIT, AVISITN,
-    AVAL, AVALC, AVALU, ANRLO, ANRHI, NRIND,
-    ABLFL, BASE, CHG, PCHG,
-    ATOXGR, ATOXGRN,
+    AVAL, AVALC, AVALU, ANRLO, ANRHI, NRIND, ANRIND,
+    ABLFL, BASE, BNRIND, CHG, PCHG,
+    ATOXGR, ATOXGRN, BTOXGR, BTOXGRN,
     ANL01FL, DTYPE
   ) |>
   arrange(USUBJID, PARAMCD, ADT, LBSEQ)

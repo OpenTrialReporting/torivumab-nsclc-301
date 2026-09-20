@@ -52,10 +52,10 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 | 21 | BASE | Baseline Value | Num | 8 | Derived | — | `admiral::derive_var_base()` from ABLFL record |
 | 22 | CHG | Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_chg()`: AVAL − BASE |
 | 23 | PCHG | Percent Change from Baseline | Num | 8 | Derived | — | `admiral::derive_var_pchg()`: (CHG / BASE) × 100 |
-| 24 | BNRIND | Baseline Reference Range Indicator | Char | 8 | Derived | BNRIND | L/N/H based on BASE vs ANRLO/ANRHI |
-| 25 | ANRIND | Analysis Reference Range Indicator | Char | 8 | Derived | ANRIND | L/N/H based on AVAL vs ANRLO/ANRHI |
+| 24 | BNRIND | Baseline Reference Range Indicator | Char | 8 | Derived | BNRIND | `LOW`/`NORMAL`/`HIGH` from `BASE` vs `ANRLO`/`ANRHI`; null when `BASE` is null |
+| 25 | ANRIND | Analysis Reference Range Indicator | Char | 8 | Derived | ANRIND | `LOW`/`NORMAL`/`HIGH` from `AVAL` vs `ANRLO`/`ANRHI`; null when `AVAL` is null |
 | 26 | ATOXGR | Analysis Toxicity Grade | Char | 2 | Derived | NCI CTCAE | NCI CTCAE v5.0 grade from an explicit `case_when` on `AVAL` vs `ANRHI`/`ANRLO` (see Key Derivation Notes); `ATOXGRN` = `as.integer(ATOXGR)` |
-| 27 | BTOXGR | Baseline Toxicity Grade | Char | 2 | Derived | NCI CTCAE | Toxicity grade at baseline (ABLFL = "Y") record |
+| 27 | BTOXGR | Baseline Toxicity Grade | Char | 2 | Derived | NCI CTCAE | `ATOXGR` of the `ABLFL='Y'` record, carried to every record of that `USUBJID × PARAMCD`; `BTOXGRN` = `as.integer(BTOXGR)`. Null for ungraded parameters and where no baseline record exists |
 | 28 | ANL01FL | Analysis Flag 01 (analysis record per visit) | Char | 1 | Derived | NY | `flag_anl01()`: `"Y"` on the record closest to the visit target day per `USUBJID × PARAMCD × AVISIT` (ties → later `ADT`; missing `AVAL` never selected) — one analysis record per windowed visit (SAP §12.2) |
 | 29 | DTYPE | Derivation Type | Char | 8 | Derived | — | NA for observed records; "LOCF" etc. if imputation used (none planned per SAP-D) |
 | 30 | AVISIT | Analysis Visit | Char | 40 | Derived | — | `derive_avisit_windowed(ADY, VISIT, VISITNUM, "TREATMENT")`: nearest scheduled visit by `ADY` (SAP §12.2 window reference); `EOT`/follow-up kept by collected role |
@@ -66,6 +66,15 @@ ADLB supports laboratory abnormality analyses: shift tables (T-LB-01) and Grade 
 **Baseline definition (SAP §12.3):** the last non-missing assessment on or before TRTSDT (`ADT ≤ TRTSDT`), per `USUBJID × PARAMCD`, ties broken by `LBSEQ` — date-based, not visit-restricted (the baseline may be a Screening or a C1D1 pre-dose draw). Exactly one baseline per subject × parameter (P21 AD0154); the `ABLFL = "Y"` record carries `AVISIT = "Baseline"`, `AVISITN = 0`. If no pre-treatment assessment exists, ABLFL is not assigned and the subject is retained but excluded from CHG/PCHG.
 
 **Unscheduled visits:** off-schedule assessments (SDTM `VISIT="UNSCHEDULED"`, `VISITNUM=998` — e.g. an off-schedule recheck of an abnormal safety lab) are windowed by `ADY` to the nearest scheduled analysis visit (SAP §12.2); `ANL01FL` selects the record closest to the visit target, so an unscheduled recheck becomes the analysis record only when the scheduled draw is missing. The collected `VISIT` is retained for traceability, and unscheduled records still contribute to worst-post-baseline analyses (T-LB-01/02).
+
+**Reference-range indicators (ANRIND / BNRIND):** `LOW` / `NORMAL` / `HIGH`, the CDISC
+NRIND controlled terminology — the same vocabulary as the `NRIND` column copied from
+`SDTM.LBNRIND`, so the three are directly comparable. (Rows 24-25 above previously wrote
+"L/N/H"; that was shorthand for the concept, not the codelist values.) `ANRIND` classifies
+`AVAL` and `BNRIND` classifies `BASE`, both against the analysis range `ANRLO`/`ANRHI`.
+Derived independently of `SDTM.LBNRIND`: on the delivered data `ANRIND` reproduces `NRIND`
+on all 136,242 records with no mismatches, which is the check that the analysis ranges and
+the site-recorded indicator agree.
 
 **ATOXGR:** NCI CTCAE v5.0 grades derived by an explicit `case_when` on `AVAL` against `ANRHI`/`ANRLO` (hand-coded in `adlb.R` — no `admiral::derive_var_atoxgr_dir()` / `metacore` codelist call). Graded parameters — chemistry `ALT`/`AST` (>ULN-3x / >3-5x / >5-20x / >20x), `ALP` (>ULN-2.5x / >2.5-5x / >5-20x / >20x), `BILI` (>ULN-1.5x / >1.5-3x / >3-10x / >10x), `CREAT` (>ULN-1.5x / >1.5-3x / >3-6x / >6x); haematology `HGB` (g/dL: ≥LLN=0 / <LLN-10.0=1 / <10.0-8.0=2 / <8.0=3 — no lab-based Grade 4 for anaemia) and `NEUT` (≥LLN / <LLN-1.5 / <1.5-1.0 / <1.0-0.5 / <0.5). `ATOXGRN` carries the integer form. **HGB unit-bug fix:** grading now uses g/dL thresholds (data unit); the earlier g/L thresholds (100/80/65) flagged every low haemoglobin as Grade 4 and were corrected.
 
