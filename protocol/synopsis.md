@@ -526,6 +526,20 @@ All adverse events (AEs) will be monitored from the time of informed consent unt
 | AE/SAE assessment | — | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Concomitant medications | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
+**Vital signs procedure (G6).** Blood pressure, heart rate, respiratory rate,
+temperature and weight are measured pre-dose on Day 1 of each cycle, and again
+post-infusion on dosing days, after the patient has been seated at rest for at least
+5 minutes. Site standard calibrated equipment is used; the same method and arm are
+used for a given patient throughout. Height is measured at screening only.
+
+**Laboratory source and reference ranges (G5).** Haematology, chemistry, thyroid
+function, cortisol and urinalysis are analysed at a **central** laboratory, whose
+reference ranges are the source of the reference-range category for each result. Local
+laboratory testing is permitted for clinical management of the patient only, and local
+results are not used in the analysis. PD-L1 TPS is determined centrally by 22C3 pharmDx
+IHC, where the central result governs eligibility. CTCAE v5.0 grading is applied to
+laboratory values programmatically during analysis, not at the site.
+
 [NOTE: Full Schedule of Assessments (SoA) to be presented as a formal table in the final protocol body. The above is a synopsis-level summary. FOCBP = Female of Childbearing Potential.]
 
 ### 7.3 Immune-Related Adverse Events (irAE) Management
@@ -729,6 +743,8 @@ Kaplan-Meier estimates of median OS and survival probability at predefined timep
 - **ORR:** Comparison between arms using Cochran-Mantel-Haenszel (CMH) test stratified by histology and region; 95% CI using Clopper-Pearson method.
 - **DoR and DCR:** Descriptive statistics; Kaplan-Meier for DoR; CMH for DCR.
 - **Safety:** Descriptive summaries of AE incidence by preferred term, system organ class, and CTCAE grade.
+- **Laboratory:** Descriptive. Shift from baseline to worst post-baseline reference-range category; worst post-baseline CTCAE v5.0 grade, with a separate Grade ≥ 3 summary and a listing of all Grade ≥ 3 abnormalities. No hypothesis testing. (SAP §5.6.)
+- **Vital signs:** Descriptive. Value and change from baseline at C1D1, C4D1 and End of Treatment; worst post-baseline percentage change in weight, categorised. No hypothesis testing. (SAP §5.7.)
 
 ### 8.5 Multiplicity Control
 
