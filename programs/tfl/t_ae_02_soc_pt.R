@@ -14,8 +14,8 @@ n_pbo <- sum(adsl$TRT01A == "Placebo + Chemotherapy")
 
 # Subject-level incidence per SOC × PT × ARM (distinct subjects)
 inc <- adae |>
-  filter(!is.na(AESOC), !is.na(AEDECOD)) |>
-  group_by(AESOC, AEDECOD, TRT01A) |>
+  filter(!is.na(AEBODSYS), !is.na(AEDECOD)) |>
+  group_by(AEBODSYS, AEDECOD, TRT01A) |>
   summarise(n = n_distinct(USUBJID), .groups = "drop") |>
   tidyr::pivot_wider(
     names_from = TRT01A, values_from = n,
@@ -29,11 +29,11 @@ inc <- adae |>
     max_pct = pmax(pct_trt, pct_pbo)
   ) |>
   filter(max_pct >= 5) |>
-  arrange(AESOC, desc(max_pct))
+  arrange(AEBODSYS, desc(max_pct))
 
 # SOC-level totals (any PT, distinct subjects in this SOC)
 soc_inc <- adae |>
-  group_by(AESOC, TRT01A) |>
+  group_by(AEBODSYS, TRT01A) |>
   summarise(n = n_distinct(USUBJID), .groups = "drop") |>
   tidyr::pivot_wider(names_from = TRT01A, values_from = n, values_fill = 0) |>
   rename(TRT = `Torivumab + Chemotherapy`,
@@ -55,11 +55,11 @@ add <- function(label, trt_n, pbo_n, is_section = FALSE) {
   else            indent_rows  <<- c(indent_rows,  row_id)
 }
 
-for (soc in sort(unique(inc$AESOC))) {
-  soc_t <- soc_inc$TRT[soc_inc$AESOC == soc]
-  soc_p <- soc_inc$PBO[soc_inc$AESOC == soc]
+for (soc in sort(unique(inc$AEBODSYS))) {
+  soc_t <- soc_inc$TRT[soc_inc$AEBODSYS == soc]
+  soc_p <- soc_inc$PBO[soc_inc$AEBODSYS == soc]
   add(soc, soc_t, soc_p, is_section = TRUE)
-  pts <- inc |> filter(AESOC == soc)
+  pts <- inc |> filter(AEBODSYS == soc)
   for (i in seq_len(nrow(pts))) {
     add(paste0("  ", pts$AEDECOD[i]), pts$TRT[i], pts$PBO[i])
   }
@@ -81,7 +81,7 @@ write_table_all_formats(
     "Includes Preferred Terms with incidence ≥ 5% in either arm.",
     "SOC subtotals = distinct subjects with at least one PT in that SOC.",
     "Within SOC, PTs sorted by maximum incidence across arms (descending).",
-    "Source: datasets/adam/adae.parquet WHERE TRTEMFL='Y'."
+    "Source: datasets/adam/adae.parquet WHERE SAFFL='Y' AND TRTEMFL='Y'; datasets/adam/adsl.parquet WHERE SAFFL='Y' (denominators)."
   )
 )
 message(sprintf("T-AE-02 written: %d PTs across %d SOCs",
