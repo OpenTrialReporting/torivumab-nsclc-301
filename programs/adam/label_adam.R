@@ -103,6 +103,7 @@ SUPPLEMENT <- list(
   ATOXGRN  = "Analysis Toxicity Grade (N)",
   # ADRS
   EFFFL    = "Response Evaluable Population Flag",
+  RSEVAL   = "Evaluator",
   BTOXGRN  = "Baseline Toxicity Grade (N)",
   # ADTR
   LNKID    = "Link ID",

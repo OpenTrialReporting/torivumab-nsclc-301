@@ -53,6 +53,11 @@ ovr <- rs |>
     ADY     = study_day(ADT, TRTSDT),
     PARAMCD = "OVR",
     PARAM   = "Overall Response by BICR (RECIST 1.1)",
+    # Carry the evaluator through from SDTM.RS. Without it the reader cannot be
+    # told from ADRS at all — the dataset merely inherits whichever RSEVAL the
+    # program filtered on, and a reviewer has to read the source to find out
+    # which read produced the response data. Named RSEVAL to match SDTM.
+    RSEVAL  = RSEVAL,
     AVALC   = RSSTRESC,
     # AVAL = ordinal rank derived from the response code (RS.RSSTRESN dropped —
     # a categorical response has no numeric SDTM result; P21 SD1448)
@@ -209,6 +214,7 @@ adrs <- adrs |>
   select(
     STUDYID, USUBJID,
     SAFFL, ITTFL, EFFFL, TRT01P, TRT01A, TRT01PN, TRT01AN,
+    RSEVAL,
     TRTSDT, TRTEDT,
     PARAM, PARAMCD,
     ADT, ADY,
