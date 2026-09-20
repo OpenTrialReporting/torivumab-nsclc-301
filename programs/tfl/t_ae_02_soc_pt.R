@@ -55,6 +55,13 @@ add <- function(label, trt_n, pbo_n, is_section = FALSE) {
   else            indent_rows  <<- c(indent_rows,  row_id)
 }
 
+# Overall "Any TEAE" row heading the SOC/PT hierarchy (shell annotation).
+# Distinct subjects with >= 1 TEAE, independent of the >= 5% PT filter.
+add("Any treatment-emergent AE",
+    n_distinct(adae$USUBJID[adae$TRT01A == "Torivumab + Chemotherapy"]),
+    n_distinct(adae$USUBJID[adae$TRT01A == "Placebo + Chemotherapy"]),
+    is_section = TRUE)
+
 for (soc in sort(unique(inc$AEBODSYS))) {
   soc_t <- soc_inc$TRT[soc_inc$AEBODSYS == soc]
   soc_p <- soc_inc$PBO[soc_inc$AEBODSYS == soc]
@@ -80,9 +87,10 @@ write_table_all_formats(
   notes = c(
     "Includes Preferred Terms with incidence ≥ 5% in either arm.",
     "SOC subtotals = distinct subjects with at least one PT in that SOC.",
+    "\u0027Any treatment-emergent AE\u0027 counts distinct subjects with >= 1 TEAE and is not restricted by the >= 5% Preferred Term filter.",
     "Within SOC, PTs sorted by maximum incidence across arms (descending).",
     "Source: datasets/adam/adae.parquet WHERE SAFFL='Y' AND TRTEMFL='Y'; datasets/adam/adsl.parquet WHERE SAFFL='Y' (denominators)."
   )
 )
 message(sprintf("T-AE-02 written: %d PTs across %d SOCs",
-                length(indent_rows), length(section_rows)))
+                length(indent_rows), length(section_rows) - 1L))
