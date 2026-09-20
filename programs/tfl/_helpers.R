@@ -247,20 +247,17 @@ stratified_logrank <- function(data) {
 
 # Region alias — REGION1 is now derived in ADSL (programs/adam/adsl.R, 2026-05-17).
 # Kept as a thin wrapper so existing TFL code that references REGION continues to work.
+# REGION is the randomisation stratum and is derived once, in ADSL. This used to
+# carry a second copy of the mapping as a fallback, which disagreed with ADSL's
+# and would have been used silently had REGION1 ever been absent. A single
+# definition is the point: the duplicate is how the country-code defect in #42
+# stayed invisible. Missing REGION1 is now an error, not something to recompute.
 add_region <- function(adsl) {
-  if ("REGION1" %in% names(adsl)) {
-    adsl |> mutate(REGION = REGION1)
-  } else {
-    adsl |>
-      mutate(REGION = case_when(
-        toupper(COUNTRY) %in% c("UNITED STATES", "CANADA", "USA")              ~ "NA",
-        toupper(COUNTRY) %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
-                                "ITALY", "NETHERLANDS", "POLAND", "UK")         ~ "EU",
-        toupper(COUNTRY) %in% c("JAPAN", "SOUTH KOREA", "KOREA", "AUSTRALIA")   ~ "APAC",
-        toupper(COUNTRY) %in% c("BRAZIL", "MEXICO", "ARGENTINA", "CHILE")       ~ "LATAM",
-        TRUE                                                                    ~ "OTHER"
-      ))
-  }
+  if (!"REGION1" %in% names(adsl))
+    stop("ADSL has no REGION1 — region is a randomisation stratum and is derived ",
+         "in programs/adam/adsl.R. Re-run the ADaM step rather than deriving it here.",
+         call. = FALSE)
+  adsl |> mutate(REGION = REGION1)
 }
 
 # ---- AE SOC × PT table builder (used by T-AE-02/03/04/05/06) --------------

@@ -98,16 +98,32 @@ adsl <- dm |>
     PDL1CAT = PDL1GRP,
     PDL1SCR = as.numeric(PDL1SCR),
     HISTCAT = HISTSCAT,
-    # REGION1 — geographic region from DM.COUNTRY (SAP §11 forest plot stratum)
+    # REGION1 — geographic region from DM.COUNTRY, the randomisation stratum
+    # (synopsis §3.3, SAP §13.4/§13.6: North America / Europe / Asia-Pacific).
+    #
+    # COUNTRY carries ISO-3166 alpha-3 codes, so the mapping matches on codes.
+    # It previously matched on spelled-out names ("CANADA", "GERMANY", "JAPAN"),
+    # of which only "USA" is also a code — so 360 of 450 subjects fell through to
+    # "OTHER", Canada included, and the protocol's three regions became two (#42).
     REGION1 = case_when(
-      toupper(COUNTRY) %in% c("UNITED STATES", "CANADA", "USA")               ~ "NA",
-      toupper(COUNTRY) %in% c("GERMANY", "FRANCE", "UNITED KINGDOM", "SPAIN",
-                              "ITALY", "NETHERLANDS", "POLAND", "UK")          ~ "EU",
-      toupper(COUNTRY) %in% c("JAPAN", "SOUTH KOREA", "KOREA", "AUSTRALIA")    ~ "APAC",
-      toupper(COUNTRY) %in% c("BRAZIL", "MEXICO", "ARGENTINA", "CHILE")        ~ "LATAM",
-      TRUE                                                                     ~ "OTHER"
+      COUNTRY %in% c("USA", "CAN")                                    ~ "NA",
+      COUNTRY %in% c("DEU", "FRA", "GBR", "ESP", "ITA", "NLD", "POL") ~ "EU",
+      COUNTRY %in% c("JPN", "KOR", "AUS")                             ~ "APAC",
+      TRUE                                                             ~ "OTHER"
     )
   )
+
+# 6b. Region coverage check. Region is a randomisation stratum, so a country
+# landing outside the protocol's three regions is a finding, not a default. It
+# is surfaced rather than silently absorbed into "OTHER" — which is exactly how
+# the country-code defect in #42 stayed invisible.
+.unmapped <- adsl |> filter(REGION1 == "OTHER") |> count(COUNTRY, name = "n")
+if (nrow(.unmapped)) {
+  warning("REGION1: ", sum(.unmapped$n), " subject(s) outside the protocol's ",
+          "three regions (synopsis §3.3): ",
+          paste0(.unmapped$COUNTRY, " n=", .unmapped$n, collapse = ", "),
+          ". Region is a randomisation stratum — see #42.", call. = FALSE)
+}
 
 # 7. Select final variables
 adsl <- adsl |>
