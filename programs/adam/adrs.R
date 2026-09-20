@@ -32,20 +32,23 @@ adsl_vars <- adsl |>
   select(STUDYID, USUBJID, TRTSDT, TRTEDT,
          SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN)
 
-# 3. Overall response (OVR) — per-visit investigator assessments
-# Filter to INVESTIGATOR reader (AL-04 fix 2026-05-17: SDTM.RS now also
-# carries BICR records; ADRS keeps Investigator-based OVR/BOR/CBOR/ORR to
-# preserve established response semantics. BICR is consumed in ADTTE
-# directly for PFS only — a future SAP amendment can flip these to BICR.)
+# 3. Overall response (OVR) — per-visit BICR assessments
+# #27 D3 (signed 2026-09-20): the SAP amendment that AL-04 anticipated. ADRS
+# previously read INVESTIGATOR to preserve established response semantics, with
+# the note that "a future SAP amendment can flip these to BICR". This is that
+# amendment, so OVR/BOR/CBOR/ORR now use the independent central read, matching
+# SAP §4.3 and the M11 protocol's secondary endpoint definition. PFSINV keeps
+# the Investigator read deliberately — it is estimand E2a, the reader
+# sensitivity analysis, and only remains a sensitivity if the reader differs.
 ovr <- rs |>
-  filter(RSEVAL == "INVESTIGATOR") |>
+  filter(RSEVAL == "INDEPENDENT ASSESSOR") |>
   filter(!is.na(RSSTRESC), RSSTRESC %in% c("CR", "PR", "SD", "PD", "NE")) |>
   left_join(adsl_vars, by = c("STUDYID", "USUBJID")) |>
   mutate(
     ADT     = as.Date(RSDTC),
     ADY     = study_day(ADT, TRTSDT),
     PARAMCD = "OVR",
-    PARAM   = "Overall Response by Investigator (RECIST 1.1)",
+    PARAM   = "Overall Response by BICR (RECIST 1.1)",
     AVALC   = RSSTRESC,
     # AVAL = ordinal rank derived from the response code (RS.RSSTRESN dropped —
     # a categorical response has no numeric SDTM result; P21 SD1448)
@@ -102,15 +105,28 @@ adrs_bor <- adsl_vars |>
   select(-BOR_AVAL, -BOR_AVALC, -has_elig_sd, -best_nonsd, -ADT_BOR)
 
 # 5. Confirmed Best Overall Response (CBOR)
-#    CR/PR: confirming response of equal or better >= 28 days later
+#    CR/PR: a confirming assessment of equal or better rank >= 28 days later,
+#           with NO INTERVENING PD between the two (#27 D5, signed 2026-09-20).
 #    SD: same 8-week rule; PD: no confirmation needed
+#
+# AVAL is an ordinal rank (CR < PR < SD < PD < NE), so "AVAL <= aval_i" already
+# restricts a CR index to CR confirmation and a PR index to CR or PR — the
+# RECIST 1.1 rule. What was missing is the intervening-PD clause required by
+# SAP §4.3: progression between the index response and its confirmation breaks
+# the confirmation, because the response did not persist.
 confirm_check <- ovr |>
   group_by(STUDYID, USUBJID) |>
   arrange(ADT) |>
   mutate(
     confirmed = mapply(function(aval_i, adt_i) {
-      later <- AVALC[ADT >= adt_i + 28 & AVAL <= aval_i]
-      length(later) > 0
+      cand <- which(ADT >= adt_i + 28 & AVAL <= aval_i)
+      if (!length(cand)) return(FALSE)
+      # A candidate confirms only if no PD is recorded strictly between the
+      # index assessment and that candidate.
+      any(vapply(cand, function(j) {
+        between_idx <- ADT > adt_i & ADT < ADT[j]
+        !any(AVALC[between_idx] == "PD")
+      }, logical(1)))
     }, AVAL, ADT)
   ) |>
   ungroup()
