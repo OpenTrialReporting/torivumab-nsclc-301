@@ -48,14 +48,28 @@ if (sum(keep) > 0) {
   )
 } else mh <- NULL
 
-# MH gives OR; for risk difference use unstratified per-arm difference + Newcombe CI
-# (mantelhaen.test on 2x2xK gives common OR, not RD; compute RD manually)
-p_trt <- trt_ct / n_re_trt
-p_pbo <- pbo_ct / n_re_pbo
-rd    <- 100 * (p_trt - p_pbo)
-se_rd <- sqrt(p_trt*(1-p_trt)/n_re_trt + p_pbo*(1-p_pbo)/n_re_pbo) * 100
-rd_lo <- rd - 1.96 * se_rd
-rd_hi <- rd + 1.96 * se_rd
+# Stratified MH risk difference (#27 D13, signed 2026-09-20).
+# mantelhaen.test() on a 2 x 2 x K table returns a common ODDS RATIO, so it
+# cannot supply the estimand in SAP §13.6. It is kept above for the CMH p-value
+# only; the effect estimate is the Mantel-Haenszel weighted risk difference with
+# Greenland-Robins variance, computed per stratum over histology x region.
+strata_counts <- dat |>
+  mutate(.strat = paste(HISTCAT, REGION)) |>
+  group_by(.strat) |>
+  summarise(
+    x1 = sum(is_resp & is_trt),  n1 = sum(is_trt),
+    x0 = sum(is_resp & !is_trt), n0 = sum(!is_trt),
+    .groups = "drop"
+  )
+
+mh_rd  <- mh_risk_diff(strata_counts$x1, strata_counts$n1,
+                       strata_counts$x0, strata_counts$n0)
+p_trt  <- trt_ct / n_re_trt   # per-arm proportions, for the completion message
+p_pbo  <- pbo_ct / n_re_pbo
+rd     <- 100 * mh_rd$rd
+rd_lo  <- 100 * mh_rd$lo
+rd_hi  <- 100 * mh_rd$hi
+se_rd  <- 100 * mh_rd$se
 
 # CMH p-value (test of common OR != 1)
 cmh_p <- if (!is.null(mh)) mh$p.value else NA_real_
@@ -78,7 +92,7 @@ rows <- data.frame(
     "  Not Evaluable (NE), n (%)",
     "Objective Response Rate (CR + PR), n (%)",
     "  95% CI (Clopper-Pearson)",
-    "Risk difference TRT − PBO, % (95% CI Wald)",
+    "Risk difference TRT − PBO, % (stratified MH, 95% CI)",
     "p-value (Cochran-Mantel-Haenszel, stratified)"
   ),
   TRT = c(
@@ -90,8 +104,8 @@ rows <- data.frame(
     fmt_n_pct(bor_n("PD", TRUE), n_re_trt),
     fmt_n_pct(bor_n("NE", TRUE), n_re_trt),
     fmt_n_pct(trt_ct, n_re_trt),
-    sprintf("(%.1f, %.1f)", ci_trt[1], ci_trt[2]),
-    sprintf("%.1f (%.1f, %.1f)", rd, rd_lo, rd_hi),
+    paste0("(", fmt_fixed(ci_trt[1], 1), ", ", fmt_fixed(ci_trt[2], 1), ")"),
+    paste0(fmt_fixed(rd, 1), " (", fmt_fixed(rd_lo, 1), ", ", fmt_fixed(rd_hi, 1), ")"),
     fmt_p(cmh_p)
   ),
   PBO = c(
@@ -103,7 +117,7 @@ rows <- data.frame(
     fmt_n_pct(bor_n("PD", FALSE), n_re_pbo),
     fmt_n_pct(bor_n("NE", FALSE), n_re_pbo),
     fmt_n_pct(pbo_ct, n_re_pbo),
-    sprintf("(%.1f, %.1f)", ci_pbo[1], ci_pbo[2]),
+    paste0("(", fmt_fixed(ci_pbo[1], 1), ", ", fmt_fixed(ci_pbo[2], 1), ")"),
     "", ""
   ),
   stringsAsFactors = FALSE, check.names = FALSE
@@ -124,7 +138,8 @@ write_table_all_formats(
     "Response Evaluable = ITT with ≥1 post-baseline tumour assessment.",
     "Confirmed Best Overall Response (CBOR) per RECIST 1.1 — confirmation requires a second CR/PR ≥28 days after the first with no intervening PD.",
     "Per-arm 95% CI for ORR by Clopper-Pearson exact method.",
-    "Stratified Cochran-Mantel-Haenszel test: histology × region.",
+    "Risk difference is the Mantel-Haenszel weighted difference in proportions across histology × region strata, with Greenland-Robins 95% CI. Strata containing no subjects in one arm carry no information about the difference and are excluded.",
+    "Stratified Cochran-Mantel-Haenszel test: histology × region. The CMH procedure tests a common odds ratio; the effect estimate reported above is the risk difference, per SAP §13.6.",
     "SYNTHETIC-DATA NOTE: SAP §13.6 specifies BICR-assessed response; this study simulates only Investigator-assessed RS records.",
     "Source: datasets/adam/adrs.parquet, adsl.parquet."
   )
