@@ -64,6 +64,35 @@ datasets changed materially.
 | **`ANL01FL` unified** across all 11 ADaM datasets to one definition (per-visit selection for windowed BDS; explicit `SAFFL`/`ITTFL` population elsewhere) | none |
 | **Alkaline phosphatase added** as a full analyte — 11,491 records through raw → SDTM (`LBTESTCD="ALP"`) → ADaM (CTCAE v5) → TFL | none — no new CT, order or conformance findings |
 
+## Pre-regeneration baseline (2026-09-20) — CLI re-run at `c18c2a2`
+
+First CLI run since 2026-07-19 and the first against the #27 code. The repository
+was deliberately code-ahead-of-data at this point (committed parquet still 1:1,
+no `ANRIND`/`BNRIND`/`BTOXGR`/`EFFFL`/`RSEVAL` yet), so this run fixes the
+finding set the #27 regeneration will be compared against.
+
+| Run | 2026-07-19 | 2026-09-20 | Δ |
+|---|---|---|---|
+| SDTM | 10,891 / 9 rules | 10,891 / 9 rules | none — rule-for-rule identical |
+| ADaM | 10,890 / 8 rules | 10,891 / 9 rules → **10,890 / 8** after fix | +1 **AD0018**, cleared same day |
+
+**AD0018 `ADTTE.STARTDT`** — dataset label "Time-to-Event Origin Date" vs the
+ADaMIG TTE label "Time-to-Event Origin Date for Subject". A regression, not a new
+gap: the 2026-07-25 spec refresh (`623ab08`) added a STARTDT row to
+`ADTTE-spec.md` carrying the short label; `label_adam.R` lets spec labels beat
+the `SUPPLEMENT` list, which is where the correct label lived; the 2026-09-20
+re-baseline (PR #31, the first pipeline run since) then wrote the short label
+into parquet → XPT → define. The July run was clean only because the spec row did
+not exist yet.
+
+Fix: `STARTDT` moved into `STANDARD` in `label_adam.R` (CDISC label enforced
+regardless of spec wording); `ADTTE-spec.md` row corrected (v0.4 — also synced
+the time origin to the signed #27 D1 code: `RANDDT` for OS/PFS/PFSINV);
+ADTTE relabelled; define rebuilt. Re-run: **10,890 / 8 — identical to July**.
+
+Reports: `pinnacle21-cli-20260920T180815-{sdtm,adam}.xlsx` (pre-fix),
+`pinnacle21-cli-20260920T181752-adam.xlsx` (post-fix).
+
 ## Residual (18, low-severity) — accepted / documented
 
 **SDTM 10,891 across 9 rules · ADaM 10,890 across 8 rules** (engine 2508.1).
