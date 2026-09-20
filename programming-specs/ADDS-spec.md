@@ -10,7 +10,7 @@
 | **Structure** | One record per disposition event per subject |
 | **Expected N** | ~1,350 (~3 records / subject: informed consent + randomisation + disposition event) |
 | **Key variables** | `STUDYID`, `USUBJID`, `DSSEQ` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 

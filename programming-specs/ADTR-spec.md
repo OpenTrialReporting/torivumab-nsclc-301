@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per tumour parameter per lesion per assessment visit (SDIAM: one per subject/visit; LDIAM: one per target lesion/visit) |
 | **Expected N** | 9,255 records (SDIAM one per subject/visit + LDIAM one per target lesion/visit) |
 | **Key variables** | `USUBJID`, `PARAMCD`, `VISITNUM`, `ADT` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.3 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-04-25 |
 

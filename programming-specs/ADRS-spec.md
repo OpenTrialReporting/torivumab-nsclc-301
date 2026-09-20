@@ -10,7 +10,7 @@
 | **Structure** | One record per subject per response parameter per visit (plus one BOR/CBOR record per subject) |
 | **Expected N** | 3,569 records (per-visit OVR + one BOR + one CBOR per subject) |
 | **Key variables** | `USUBJID`, `PARAMCD`, `ADT` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.3 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-04-25 |
 

@@ -123,8 +123,6 @@ Each endpoint defines: (i) how it is derived from SDTM; (ii) censoring / handlin
 
 **ADaM target:** ADTTE `PARAMCD = "OS"`, `PARAM = "Overall Survival (days)"`.
 
-**admiral derivation:** `derive_param_tte()` with `event = death_event`, `censor_conditions = list(lastalive_censor)` from `admiralonco`.
-
 ### 4.2 Progression-Free Survival (PFS) — Secondary S1
 
 **Definition:** Time from randomisation to the earliest of (a) documented radiological progression per RECIST 1.1 by BICR, or (b) death from any cause.
@@ -142,8 +140,6 @@ Each endpoint defines: (i) how it is derived from SDTM; (ii) censoring / handlin
 
 **ADaM target:** ADTTE `PARAMCD = "PFS"`.
 
-**admiral derivation:** `derive_param_tte()` with `event = pd_event` + `death_event`, `censor_conditions = list(lasta_censor, rand_censor)`.
-
 **Sensitivity:** PFS by Investigator assessment (`PARAMCD = "PFSINV"`).
 
 ### 4.3 Objective Response Rate (ORR) — Secondary S2
@@ -151,8 +147,8 @@ Each endpoint defines: (i) how it is derived from SDTM; (ii) censoring / handlin
 **Definition:** Proportion of subjects in the Response Evaluable population with a confirmed Best Overall Response (BOR) of CR or PR per RECIST 1.1 by BICR.
 
 **Derivation:**
-- BOR (unconfirmed): `admiralonco::derive_param_bor()` using RS records with `RSEVAL = "INDEPENDENT ASSESSOR"`.
-- Confirmed BOR: `admiralonco::derive_param_confirmed_bor()` — confirmation = a second CR or PR at a subsequent assessment ≥28 days later with no intervening PD.
+- BOR (unconfirmed): best response across all post-baseline BICR assessments (`RS.RSSTRESC` where `RSEVAL = "INDEPENDENT ASSESSOR"`), ordered CR > PR > SD > PD > NE.
+- Confirmed BOR: a CR or PR counts as response only when confirmed by a second CR or PR at a subsequent assessment ≥28 days later with no intervening PD.
 - `ORR` flag: 1 if confirmed BOR ∈ {CR, PR}, 0 otherwise.
 
 **ADaM target:** ADRS `PARAMCD = "CBOR"` (confirmed BOR); ADSL carries `ORRFL = "Y"/"N"` for the responder/non-responder flag.
@@ -179,7 +175,7 @@ Each endpoint defines: (i) how it is derived from SDTM; (ii) censoring / handlin
 
 Descriptive only; no formal testing.
 
-- **Treatment-Emergent AE (TEAE):** AE with onset date ≥ `TRTSDT` and ≤ `TRTEDT + 30 days`. admiral: `derive_var_trtemfl()`.
+- **Treatment-Emergent AE (TEAE):** AE with onset date ≥ `TRTSDT` and ≤ `TRTEDT + 30 days`.
 - **Serious AE (SAE):** `AESER = "Y"`.
 - **irAE:** AE flagged as immune-related in SUPPAE (`QNAM = "IRAEFL"`, `QVAL = "Y"`).
 - **AESI:** AE with MedDRA PT in the protocol §7.4 AESI list.
@@ -206,7 +202,7 @@ These are flagged in this SAP but **not in scope for Gate 3.5** — no correspon
 - **Test:** Stratified log-rank test, two-sided, α as per alpha-spending (see §9).
 - **Stratification factors:** Histology (squamous / non-squamous); Region (NA / EU / APAC).
 - **Effect estimate:** Stratified Cox proportional hazards model, same strata, yielding HR (torivumab / placebo) and 95% CI.
-- **Kaplan-Meier summaries:** Median OS and 95% CI per arm using the Brookmeyer-Crowley method (R: `survival::survfit` with `conf.type = "log-log"`). Survival probabilities at 12 / 18 / 24 months with Greenwood 95% CI.
+- **Kaplan-Meier summaries:** Median OS and 95% CI per arm using the Brookmeyer-Crowley method (log-log CI transformation). Survival probabilities at 12 / 18 / 24 months with Greenwood 95% CI.
 - **Analysis population:** ITT.
 - **Analysis timing:** When ~320 OS events accrue (event-driven, Protocol §8.1).
 - **Software:** R ≥ 4.5.3, `survival` ≥ 3.7, `tern`.
@@ -309,7 +305,7 @@ Study is event-driven — accrual fixed at 450, follow-up flexed to accumulate 3
 
 | Variable / context | Rule |
 |---|---|
-| OS death date | If only partial date (e.g. YYYY-MM), impute mid-month per ADaM `derive_vars_dt()` with `highest_imputation = "M"`. If fully missing, treat as censored at last known alive date. |
+| OS death date | If only partial date (e.g. YYYY-MM), impute to the 15th of the month. If fully missing, treat as censored at last known alive date. |
 | PFS progression date | Same imputation rule; fully missing → treat as censored (never an event). |
 | Last tumour assessment date | No imputation; use raw date. If entirely absent → censor at `RANDDT`. |
 | ORR with no post-baseline assessment | Subject counted as **non-responder** (pre-specified; see §4.3). |
@@ -476,9 +472,8 @@ So the flag never means "every row in the file": it always identifies the analys
 set, whether that is one record per visit (above) or one population of records
 (here).
 
-The derivation is implemented once in `programs/adam/_visit_utils.R`
-(`derive_avisit_windowed()` for `AVISIT`/`AVISITN`, `flag_anl01()` for the
-selection) and applied by ADLB, ADVS, ADRS and ADTR. Traceability: the SDTM
+The derivation is specified once, here, and applied identically by ADLB, ADVS,
+ADRS and ADTR; the programming specs name the shared implementation. Traceability: the SDTM
 `VISIT` is retained alongside `AVISIT`/`AVISITN` (and `VISITNUM` in ADLB/ADEX/
 ADVS; ADRS/ADTR omit `VISITNUM` as SDTM did not collect it). On this study the
 windowing reproduces the collected visit for 99.7% of finding records; the
@@ -534,7 +529,7 @@ and pass an already-rounded number to the renderer.
 
 ### 12.5 Software and reproducibility
 
-- R ≥ 4.5.3, pharmaverse stack (`admiral`, `admiralonco`, `tern`, `rtables`), versions pinned in `adam/session_info_install.txt`.
+- R 4.6.1; every package version pinned in `uvr.lock` (34 direct dependencies, pharmaverse stack included) and gated by `programs/qc/check_env.R` before any pipeline run.
 - All analyses reproduce from committed SDTM Parquet → ADaM Parquet → TFL via `Rscript` in subprocess (see `programs/raw/00_simulate_raw.R` precedent).
 - Random seeds: no analysis is simulation-based; the synthetic *data* uses seeds 301–316 (`programs/raw/`).
 
@@ -588,7 +583,7 @@ Pre-specified IEs anticipated in this trial, and the default handling strategy p
 | **Intercurrent events** | Treatment policy for all IEs (treatment discontinuation, subsequent anti-cancer therapy, palliative care). Death itself is the event, not an IE. Withdrawal of survival consent → censor at withdrawal date. |
 | **Population-level summary** | Stratified hazard ratio (torivumab / placebo) with 95% CI; strata = histology (squamous/non-squamous) × region (NA/EU/APAC). Supplementary KM medians and 12/18/24-month survival probabilities per arm. |
 
-**Estimator:** Stratified Cox proportional-hazards regression (`survival::coxph(Surv(AVAL, 1-CNSR) ~ TRT01PN + strata(STRAT2, STRAT3), data = adtte_os)`). KM estimates via `survival::survfit` with `conf.type = "log-log"` for medians (Brookmeyer–Crowley) and Greenwood SE for landmark probabilities. Stratified two-sided log-rank for the primary hypothesis test.
+**Estimator:** Stratified Cox proportional-hazards regression with treatment as the single covariate, stratified by histology × region. Kaplan–Meier estimates for medians with log-log 95% CI (Brookmeyer–Crowley) and Greenwood SE for landmark probabilities. Stratified two-sided log-rank for the primary hypothesis test.
 
 **Aligned sensitivity estimands:**
 
@@ -607,7 +602,7 @@ Pre-specified IEs anticipated in this trial, and the default handling strategy p
 | **Intercurrent events** | New anti-cancer therapy before PD → **hypothetical** (censor at last adequate assessment before therapy); ≥2 consecutive missed scheduled assessments before PD → **hypothetical** (censor at last adequate before gap); treatment discontinuation without subsequent therapy → treatment policy (continue PFS follow-up) |
 | **Population-level summary** | Stratified HR (torivumab / placebo) with 95% CI, same strata as OS |
 
-**Estimator:** Stratified Cox PH on ADTTE `PARAMCD = "PFS"`. Censoring rules implemented per `admiral::derive_param_tte()` with FDA-2018-aligned event-/censor-source definitions (`pd_event`, `death_event`, `last_adeq_censor`, `rand_censor`).
+**Estimator:** Stratified Cox PH on ADTTE `PARAMCD = "PFS"`. Censoring rules as §4.2 (FDA 2018 hierarchy: last adequate assessment; new anti-cancer therapy; ≥2 consecutive missed assessments).
 
 **Sensitivity estimand:**
 
@@ -625,7 +620,7 @@ Pre-specified IEs anticipated in this trial, and the default handling strategy p
 | **Intercurrent events** | No post-baseline assessment → **composite** (counted as non-responder); treatment discontinuation before adequate assessment → composite (non-responder); subsequent anti-cancer therapy before adequate assessment → composite (non-responder, pre-specified to avoid attribution bias) |
 | **Population-level summary** | Stratified Mantel–Haenszel risk difference (torivumab − placebo) with 95% CI; strata = histology × region. Supplementary per-arm Clopper–Pearson exact 95% CI for the proportion. |
 
-**Estimator:** `stats::mantelhaen.test()` on the 2 × 2 × stratum table; per-arm proportions via `binom.test()`. Sensitivity using Wilson score CI (`PropCIs::scoreci()`).
+**Estimator:** Stratified Mantel–Haenszel risk difference with Greenland–Robins variance for the 95% CI; Cochran–Mantel–Haenszel test on the 2 × 2 × stratum table for the p-value; per-arm Clopper–Pearson exact 95% CI. Sensitivity: Wilson score CI.
 
 **Sensitivity estimand:**
 
@@ -666,11 +661,11 @@ Pre-specified IEs anticipated in this trial, and the default handling strategy p
 | E2a | PFS — Investigator | ITT | TTE PD (INV) or death | Same as E2 | Stratified HR | Stratified Cox PH |
 | E3 | ORR — primary | Response Evaluable | Confirmed BOR ∈ {CR, PR} | Composite (non-responder) | Stratified MH RD | CMH test |
 | E3a | ORR — ITT denom | ITT | Confirmed BOR ∈ {CR, PR} | Composite | Stratified MH RD | CMH test |
-| E4 | DOR | Confirmed responders | TTE PD or death from first CR/PR | Hypothetical | KM median | `survival::survfit` |
+| E4 | DOR | Confirmed responders | TTE PD or death from first CR/PR | Hypothetical | KM median | Kaplan–Meier |
 | E5 | DCR | Response Evaluable | Confirmed BOR ∈ {CR, PR, SD≥8w} | Composite | Stratified MH RD | CMH test |
 | S1 | TEAE incidence | Safety | Count of subjects with ≥1 TEAE | Treatment policy | n (%) | Descriptive |
 | S2 | Exposure-adjusted TEAE | Safety | TEAE events per 100 PY | While-on-treatment | Rate | Descriptive |
-| S3 | irAE time-to-onset | Safety | TTE first irAE | Treatment policy | KM median | `survival::survfit` |
+| S3 | irAE time-to-onset | Safety | TTE first irAE | Treatment policy | KM median | Kaplan–Meier |
 
 ---
 
@@ -686,3 +681,4 @@ To be completed in `sap/shells/TFL-SHELLS.md`. Each numbered SAP method (§5.1 �
 |---|---|---|---|
 | 0.1 | 2026-04-20 | LG | Initial draft — aligned with Protocol v1.1 §8, §11. Gate 3.5 deliverable. |
 | 0.2 | 2026-05-16 | LG (w/ Claude Opus 4.7) | §13 rewritten with full ICH E9(R1) estimand framework: framework intro + IE-strategy taxonomy (§13.1), shared population/treatment attributes (§13.2–§13.3), per-endpoint estimands with estimators and sensitivity estimands for OS (RMST, while-on-treatment), PFS (Investigator), ORR (ITT denominator), plus DOR/DCR/safety estimands (§13.4–§13.7), and a one-page summary table (§13.8). No changes to analytic methodology — only formalises what §5 already specifies. |
+| 0.3 | 2026-09-20 | LG (w/ Claude Fable 5.1) | Consolidates the #27 amendments (PRs #33–#48: combination design D14; §5.6 laboratory and §5.7 vital-signs analyses D11/G7; stratified MH risk difference D13; Response Evaluable population D4/D7; BICR reader and confirmation rule D3/D5; randomisation time origin D1 with days stored / months reported; lab source and VS procedure G5/G6) and records the 2:1 regeneration (#50). **D2:** implementation references removed — the SAP now states methods only (Cox PH, Kaplan–Meier, stratified MH / CMH, BOR ordering and confirmation rule, date imputation, visit windowing); function-level detail lives in the programming specs. §12.5 points at `uvr.lock`. |

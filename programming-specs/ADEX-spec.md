@@ -10,7 +10,7 @@
 | **Structure** | One record per administration (DOSEAMT) + one summary record per subject per drug per parameter (CUMDOSE, RDI) |
 | **Expected N** | ~16,097 |
 | **Key variables** | `STUDYID`, `USUBJID`, `PARAMCD`, `AEXTRT` |
-| **Spec version** | 0.1 DRAFT |
+| **Spec version** | 0.2 |
 | **Spec author** | Lovemore Gakava |
 | **Date** | 2026-05-17 |
 
