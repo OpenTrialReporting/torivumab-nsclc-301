@@ -1282,15 +1282,17 @@ outputs:
   - AETOXGR
   - IRAEFL
   - AESI
+  - TRTDURD
   methods:
   - M-DESCR-CAT
+  - M-EAIR
   sap_ref: §5.5
   reference_documents:
   - SAP-0.2
   layout:
-    rows: Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death
+    rows: Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate
     columns: TRT01A + Total
-  notes: n (%) of subjects.
+  notes: n (%) of subjects. Final three rows are exposure-adjusted (estimand S2); rate numerator counts events, not subjects.
   annotations:
     population: 'ADSL: SAFFL=''Y''  |  analysis by TRT01A'
     primary_dataset: ADAE WHERE TRTEMFL='Y' + ADSL WHERE SAFFL='Y'
@@ -1340,6 +1342,21 @@ outputs:
       where: AESDTH='Y'
       variable: USUBJID
       derivation: n(%)
+    - row: Total exposure (patient-years)
+      dataset: ADSL
+      where: SAFFL='Y'
+      variable: TRTDURD
+      derivation: sum(TRTDURD) / 365.25; TRTDURD = TRTEDT - TRTSDT + 1
+    - row: TEAE events (n)
+      dataset: ADAE
+      where: TRTEMFL='Y'
+      variable: USUBJID
+      derivation: event count (rows), not distinct subjects
+    - row: Exposure-adjusted TEAE rate
+      dataset: ADAE + ADSL
+      where: TRTEMFL='Y'
+      variable: USUBJID
+      derivation: events per 100 patient-years = 100 * events / sum(TRTDURD)/365.25 (M-EAIR, estimand S2)
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-AE-02
   kind: table
@@ -1383,11 +1400,6 @@ outputs:
       where: TRTEMFL='Y'
       variable: AEDECOD
       derivation: n(%) subjects with >= 1 occurrence; threshold >= 5% either arm; sorted by max incidence across arms desc
-    - row: Exposure-adjusted rate
-      dataset: ADAE
-      where: TRTEMFL='Y'
-      variable: USUBJID
-      derivation: events per 100 person-years (tern::rate_derivation)
     note: Preliminary v0.1 — based on AD*-spec.md; confirm after Phase 5 ADaM delivery.
 - id: T-AE-03
   kind: table

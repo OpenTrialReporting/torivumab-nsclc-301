@@ -397,14 +397,14 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Kind** | table |
 | **Analysis set** | Safety (SAFETY) |
 | **Source datasets** | `ADSL`, `ADAE` |
-| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AESDTH`, `AETOXGR`, `IRAEFL`, `AESI` |
-| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AESDTH`, `AETOXGR`, `IRAEFL`, `AESI`, `TRTDURD` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT]; Exposure-Adjusted Incidence Rate [M-EAIR] |
 | **SAP reference** | §5.5 |
 | **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
-| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death |
+| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate |
 | **Layout — columns** | TRT01A + Total |
 
-**Notes:** n (%) of subjects.
+**Notes:** n (%) of subjects. Final three rows are exposure-adjusted (estimand S2); rate numerator counts events, not subjects.
 
 #### T-AE-02 — TEAEs by SOC and PT (≥5% any arm)
 
