@@ -1,7 +1,7 @@
 # Define-XML v2.1 — Inventory
 
 **Study:** SIMULATED-TORIVUMAB-2026 (CTX-NSCLC-301)
-**Generated:** 2026-07-19
+**Generated:** 2026-09-20
 **File:** `define/define.xml`
 **Datasets:** 38  ·  **Variables:** 708
 

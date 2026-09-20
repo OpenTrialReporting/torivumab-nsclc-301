@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260719225439"
-     CreationDateTime="2026-07-19T22:54:36"
-     AsOfDateTime="2026-07-19T22:54:36"
+     FileOID="CTX-NSCLC-301.20260920163116"
+     CreationDateTime="2026-09-20T16:31:15"
+     AsOfDateTime="2026-09-20T16:31:15"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -3533,7 +3533,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.AVALU" Name="AVALU" SASFieldName="AVALU" DataType="text" Length="2">
-        <Description><TranslatedText xml:lang="en">Analysis Value Unit</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Value Units</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.VISIT" Name="VISIT" SASFieldName="VISIT" DataType="text" Length="18">
@@ -3557,7 +3557,7 @@
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.AVAL" Name="AVAL" SASFieldName="AVAL" DataType="float" Length="8">
-        <Description><TranslatedText xml:lang="en">Analysis Value (SLD, mm)</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Analysis Value (mm)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.BASE" Name="BASE" SASFieldName="BASE" DataType="float" Length="8">
@@ -3585,7 +3585,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.LNKID" Name="LNKID" SASFieldName="LNKID" DataType="text" Length="8">
-        <Description><TranslatedText xml:lang="en">Link ID</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Link ID (lesion identifier)</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTR.N_TGT" Name="N_TGT" SASFieldName="N_TGT" DataType="integer" Length="8">
@@ -3641,7 +3641,7 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.STARTDT" Name="STARTDT" SASFieldName="STARTDT" DataType="integer" Length="8">
-        <Description><TranslatedText xml:lang="en">Time-to-Event Origin Date for Subject</TranslatedText></Description>
+        <Description><TranslatedText xml:lang="en">Time-to-Event Origin Date</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADTTE.ADT" Name="ADT" SASFieldName="ADT" DataType="integer" Length="8">
