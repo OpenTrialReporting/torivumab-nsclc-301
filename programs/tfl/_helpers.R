@@ -209,15 +209,20 @@ add_region <- function(adsl) {
 # n_trt / n_pbo: denominator subject counts per arm.
 # min_pct: threshold for including a PT (≥ this % in either arm).
 build_ae_soc_pt_ft <- function(adae_sub, n_trt, n_pbo, min_pct = 0,
-                                soc_var = "AESOC", pt_var = "AEDECOD",
+                                soc_var = "AEBODSYS", pt_var = "AEDECOD",
                                 col1_w = 4.0) {
   inc <- adae_sub |>
     filter(!is.na(.data[[soc_var]]), !is.na(.data[[pt_var]])) |>
     group_by(.data[[soc_var]], .data[[pt_var]], TRT01A) |>
     summarise(n = n_distinct(USUBJID), .groups = "drop") |>
     tidyr::pivot_wider(names_from = TRT01A, values_from = n, values_fill = 0)
-  names(inc) <- c("SOC", "PT", "TRT", "PBO")
+  # Rename arm columns BY NAME, never by position: group_by() sorts its keys, so
+  # pivot_wider() emits the arms alphabetically (Placebo before Torivumab). A
+  # positional rename here silently swapped the two arms in T-AE-03/04/05.
+  names(inc)[1:2] <- c("SOC", "PT")
   inc <- inc |>
+    rename(TRT = `Torivumab + Chemotherapy`,
+           PBO = `Placebo + Chemotherapy`) |>
     mutate(pct_trt = 100 * TRT / n_trt,
             pct_pbo = 100 * PBO / n_pbo,
             max_pct = pmax(pct_trt, pct_pbo)) |>
@@ -228,7 +233,10 @@ build_ae_soc_pt_ft <- function(adae_sub, n_trt, n_pbo, min_pct = 0,
     group_by(.data[[soc_var]], TRT01A) |>
     summarise(n = n_distinct(USUBJID), .groups = "drop") |>
     tidyr::pivot_wider(names_from = TRT01A, values_from = n, values_fill = 0)
-  names(soc_inc) <- c("SOC", "TRT", "PBO")
+  names(soc_inc)[1] <- "SOC"
+  soc_inc <- soc_inc |>
+    rename(TRT = `Torivumab + Chemotherapy`,
+           PBO = `Placebo + Chemotherapy`)
 
   rows <- list(); section_rows <- integer(0); indent_rows <- integer(0)
   rid <- 0L

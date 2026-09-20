@@ -34,6 +34,34 @@ n_irae    <- n_subj(adae, TRTEMFL == "Y" & IRAEFL == "Y")
 n_disc    <- n_subj(adae, TRTEMFL == "Y" & grepl("WITHDRAWN", AEACN))
 n_dose_mod<- n_subj(adae, TRTEMFL == "Y" & grepl("REDUCED|INTERRUPTED", AEACN))
 
+# ---- Exposure-adjusted TEAE rate ------------------------------------------
+# SAP §5.5 / estimand S2 (§13), shell method M-EAIR: events per 100 patient-
+# years, person-time = TRTDURD summed across the safety population. TRTDURD is
+# TRTEDT - TRTSDT + 1, matching the SAP formula. The numerator is the TEAE
+# event count, not distinct subjects.
+teae <- adae |> filter(TRTEMFL == "Y")
+py <- list(
+  trt = sum(adsl$TRTDURD[adsl$TRT01A == "Torivumab + Chemotherapy"]) / 365.25,
+  pbo = sum(adsl$TRTDURD[adsl$TRT01A == "Placebo + Chemotherapy"]) / 365.25,
+  tot = sum(adsl$TRTDURD) / 365.25
+)
+ev <- list(
+  trt = sum(teae$TRT01A == "Torivumab + Chemotherapy"),
+  pbo = sum(teae$TRT01A == "Placebo + Chemotherapy"),
+  tot = nrow(teae)
+)
+
+make_num_row <- function(label, v, digits = 1) data.frame(
+  Label = label,
+  TRT = formatC(v$trt, format = "f", digits = digits, big.mark = ","),
+  PBO = formatC(v$pbo, format = "f", digits = digits, big.mark = ","),
+  TOT = formatC(v$tot, format = "f", digits = digits, big.mark = ","),
+  stringsAsFactors = FALSE, check.names = FALSE
+)
+
+eair <- lapply(c("trt", "pbo", "tot"), function(a) 100 * ev[[a]] / py[[a]])
+names(eair) <- c("trt", "pbo", "tot")
+
 make_row <- function(label, n) data.frame(
   Label = label,
   TRT = fmt_n_pct(n$trt, counts$n_trt),
@@ -50,7 +78,10 @@ tbl <- rbind(
   make_row("  Serious TEAE",                                n_serious),
   make_row("  Immune-related TEAE",                         n_irae),
   make_row("  TEAE leading to study drug discontinuation",  n_disc),
-  make_row("  TEAE leading to dose modification",           n_dose_mod)
+  make_row("  TEAE leading to dose modification",           n_dose_mod),
+  make_num_row("Total treatment exposure (patient-years)",   py),
+  make_num_row("TEAE events (n)",                            ev, digits = 0),
+  make_num_row("Exposure-adjusted TEAE rate (events per 100 patient-years)", eair)
 )
 names(tbl) <- c(
   " ",
@@ -70,8 +101,10 @@ write_table_all_formats(
     "n (%) = number (percentage) of subjects in the arm with at least one event of the specified type. Multiple events per subject are counted once.",
     "TEAE = AE with onset ≥ TRTSDT and ≤ TRTEDT + 30 days.",
     "Immune-related: ADAE.IRAEFL = 'Y' (derived from SDTM.AE.AECAT = 'IMMUNE-RELATED').",
+    "Exposure-adjusted TEAE rate = TEAE events / total treatment exposure × 100, where exposure (patient-years) = ADSL.TRTDURD (TRTEDT − TRTSDT + 1) summed across the safety population and divided by 365.25. Numerator counts events, not subjects, so a subject with multiple events contributes more than once (SAP §5.5; estimand S2).",
     "Source: datasets/adam/adae.parquet, adsl.parquet."
   )
 )
-message(sprintf("T-AE-01 written: TEAE TRT %d / PBO %d / Total %d",
-                n_teae$trt, n_teae$pbo, n_teae$tot))
+message(sprintf("T-AE-01 written: TEAE TRT %d / PBO %d / Total %d; EAIR %.1f / %.1f / %.1f per 100 PY",
+                n_teae$trt, n_teae$pbo, n_teae$tot,
+                eair$trt, eair$pbo, eair$tot))

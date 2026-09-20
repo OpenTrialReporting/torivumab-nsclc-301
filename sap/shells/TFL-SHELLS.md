@@ -397,14 +397,14 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Kind** | table |
 | **Analysis set** | Safety (SAFETY) |
 | **Source datasets** | `ADSL`, `ADAE` |
-| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AESDTH`, `AETOXGR`, `IRAEFL`, `AESI` |
-| **Methods** | Descriptive — Categorical [M-DESCR-CAT] |
+| **Key variables** | `TRT01A`, `TRTEMFL`, `AESER`, `AETOXGRN`, `IRAEFL`, `AEACN`, `TRTDURD` |
+| **Methods** | Descriptive — Categorical [M-DESCR-CAT]; Exposure-Adjusted Incidence Rate [M-EAIR] |
 | **SAP reference** | §5.5 |
 | **Reference documents** | [Statistical Analysis Plan v0.2](../sap/SAP.md) |
-| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any SAE, any irAE, any AE → discontinuation, any AE → death |
+| **Layout — rows** | Any AE, any TEAE, any Grade ≥3 TEAE, any Grade 5 (fatal) TEAE, any SAE, any irAE, any TEAE → discontinuation, any TEAE → dose modification, total exposure (patient-years), TEAE events, exposure-adjusted TEAE rate |
 | **Layout — columns** | TRT01A + Total |
 
-**Notes:** n (%) of subjects.
+**Notes:** n (%) of subjects. Final three rows are exposure-adjusted (estimand S2); rate numerator counts events, not subjects.
 
 #### T-AE-02 — TEAEs by SOC and PT (≥5% any arm)
 
@@ -420,7 +420,7 @@ Total: 43 outputs (32 tables, 6 figures, 5 listings).
 | **Layout — rows** | SOC (bold) → PT |
 | **Layout — columns** | TRT01A |
 
-**Notes:** Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Sorted by decreasing Torivumab-arm incidence.
+**Notes:** Filtered to TRTEMFL='Y'. Include PTs where incidence ≥5% in either arm. Within SOC, PTs sorted by maximum incidence across arms (descending).
 
 #### T-AE-03 — Grade ≥3 TEAEs by SOC and PT
 
@@ -800,7 +800,7 @@ Distinct variables cited across all shells: **72**.
 
 <details><summary>Full variable list</summary>
 
-`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESDTH`, `AESER`, `AESI`, `AETOXGR`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CHG`, `CMDECOD`, `CMINDC`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `DVCAT`, `DVSCAT`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `MHCAT`, `MHDECOD`, `N_CYCLES`, `ONTRTFL`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
+`ADT`, `ADY`, `AEACN`, `AEBODSYS`, `AEDECOD`, `AENDT`, `AEOUT`, `AEREL`, `AESER`, `AESI`, `AETOXGR`, `AETOXGRN`, `AGE`, `AGEGR1`, `ANRHI`, `ANRIND`, `ANRLO`, `ASTDT`, `ATOXGR`, `AVAL`, `AVALC`, `AVISIT`, `AVISITN`, `BASE`, `BECOG`, `BNRIND`, `CHG`, `CMDECOD`, `CMINDC`, `CNSR`, `CUMDOSE`, `DCRFL`, `DCSREAS`, `DSSTDTC`, `DTHCAUS`, `DTHDT`, `DTHFL`, `DVCAT`, `DVSCAT`, `EFFFL`, `EOSDT`, `EOSSTT`, `ETHNIC`, `HISTSCAT`, `IRAECAT`, `IRAEFL`, `ITTFL`, `MHCAT`, `MHDECOD`, `N_CYCLES`, `ONTRTFL`, `ORRFL`, `PARAMCD`, `PCHG`, `PDL1GR`, `PPROTFL`, `RACE`, `RANDDT`, `REGION1`, `RFICDT`, `SAFFL`, `SEX`, `STRAT1`, `STRAT2`, `STRAT3`, `TRT01A`, `TRT01P`, `TRTDURD`, `TRTEDT`, `TRTEMFL`, `TRTSDT`, `USUBJID`
 
 </details>
 
@@ -827,5 +827,5 @@ Distinct variables cited across all shells: **72**.
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-04-20 | Regenerated from `sap/shells/shells.yaml` |
+| 0.3 | 2026-05-17 | Regenerated from `sap/shells/shells.yaml` |
 
