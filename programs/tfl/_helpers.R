@@ -87,6 +87,36 @@ round_half_up <- function(x, digits = 0) {
 fmt_fixed <- function(x, digits = 1)
   formatC(round_half_up(x, digits), format = "f", digits = digits)
 
+# ---- Stratified Mantel-Haenszel risk difference -----------------------------
+# #27 D13 (signed 2026-09-20). SAP §13.6 specifies a stratified MH risk
+# difference across histology x region. mantelhaen.test() cannot supply it — on a
+# 2 x 2 x K table it returns a common ODDS RATIO — so the estimate is built here
+# with Mantel-Haenszel weights and the Greenland & Robins (1985) variance, and
+# mantelhaen.test() is retained only for the CMH p-value.
+#
+#   w_i  = n1_i * n0_i / N_i                      MH weight per stratum
+#   RD   = sum(w_i * (p1_i - p0_i)) / sum(w_i)
+#   Var  = sum( (x1_i(n1_i-x1_i)n0_i^3 + x0_i(n0_i-x0_i)n1_i^3)
+#               / (n1_i * n0_i * N_i^2) ) / (sum w_i)^2
+#
+# Strata with no subjects in one arm carry no information about the difference
+# and are dropped; the number retained is returned so it can be footnoted.
+mh_risk_diff <- function(x1, n1, x0, n0, conf_level = 0.95) {
+  keep <- n1 > 0 & n0 > 0
+  x1 <- x1[keep]; n1 <- n1[keep]; x0 <- x0[keep]; n0 <- n0[keep]
+  if (!length(n1)) return(list(rd = NA_real_, se = NA_real_, lo = NA_real_,
+                               hi = NA_real_, k = 0L, k_dropped = sum(!keep)))
+  N  <- n1 + n0
+  w  <- n1 * n0 / N
+  rd <- sum(w * (x1 / n1 - x0 / n0)) / sum(w)
+  v  <- sum((x1 * (n1 - x1) * n0^3 + x0 * (n0 - x0) * n1^3) /
+              (n1 * n0 * N^2)) / sum(w)^2
+  se <- sqrt(v)
+  z  <- stats::qnorm(1 - (1 - conf_level) / 2)
+  list(rd = rd, se = se, lo = rd - z * se, hi = rd + z * se,
+       k = length(n1), k_dropped = sum(!keep))
+}
+
 # ---- Number formatters -----------------------------------------------------
 fmt_n_pct <- function(n, denom, digits = 1) {
   if (length(denom) == 1) denom <- rep(denom, length(n))
