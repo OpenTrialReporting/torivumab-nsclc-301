@@ -30,7 +30,6 @@ for (i in seq_len(n)) {
   offsets <- c(
     SCREENING = -sample(7:28, 1),
     C1D1      = 0,
-    C1D15     = 14 + sample(-1:1, 1),
     C2D1      = 21 + sample(-1:2, 1),
     C3D1      = 42 + sample(-1:2, 1),
     C4D1      = 63 + sample(-1:2, 1),

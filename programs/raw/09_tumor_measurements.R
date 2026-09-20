@@ -2,7 +2,7 @@
 # 09_tumor_measurements.R
 # Generates raw/tumor_measurements.csv
 # RECIST 1.1 — target lesions (1-3), non-target lesions (1-2)
-# Assessments every ~6 weeks starting at Week 6
+# Assessments every ~6 weeks to month 12, then every ~12 weeks (protocol §6.1)
 # Depends on: demographics, rand_dates, is_trt, pfs_days_sim, ORR_TRT, ORR_PBO
 ###############################################################################
 
@@ -24,8 +24,12 @@ nontarget_locs <- c("Bone - pelvis", "Pleural effusion", "Pericardial effusion",
                     "Peritoneum", "Skin", "Lymph node - axillary",
                     "Adrenal gland", "Brain")
 
-# ── assessment visit schedule (every 42 days from C3D1) ───────────────────
-tumor_visit_offsets <- seq(42, 42 * 20, by = 42)  # up to ~Week 84
+# ── assessment visit schedule (protocol §6.1) ─────────────────────────────
+# Q6W (42 days) through the first 12 months, then Q12W (84 days) thereafter,
+# to the same ~day 840 horizon as before.
+.q6w  <- seq(42, 336, by = 42)                    # weeks 6..48, within month 12
+.q12w <- seq(max(.q6w) + 84, 840, by = 84)        # weeks 60, 72, ... 120
+tumor_visit_offsets <- c(.q6w, .q12w)
 tumor_visit_names   <- paste0("TUMOR_ASSESS_WK", tumor_visit_offsets / 7)
 
 # =============================================================================

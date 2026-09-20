@@ -236,6 +236,52 @@ Descriptive. For each AE summary:
 
 Analysis population: Safety.
 
+### 5.6 Laboratory evaluations (S5)
+
+Descriptive; no hypothesis testing. Analysis population: Safety. Analysis by `TRT01A`.
+
+**Shift from baseline to worst post-baseline reference-range category.** For each
+parameter, the baseline record (`ABLFL = 'Y'`) supplies the baseline category and the
+most extreme post-baseline record supplies the worst category, on the LOW / NORMAL /
+HIGH classification derived against the central laboratory reference range. Presented as
+a baseline × worst post-baseline cross-tabulation of subject counts per arm. Subjects
+with no baseline or no post-baseline result for a parameter are excluded from that
+parameter's table and the denominator is stated.
+
+**CTCAE toxicity grade.** Worst post-baseline CTCAE v5.0 grade per subject per parameter,
+summarised as n (%) by arm, with a separate summary restricted to Grade ≥ 3. Grading
+follows CTCAE v5.0 for the haematology and chemistry panels; parameters without a CTCAE
+grading scale are reported in the shift table only.
+
+**Listing.** All Grade ≥ 3 laboratory abnormalities are listed individually (subject,
+parameter, visit, value, grade, reference-range category).
+
+Values and change from baseline by visit are reported for parameters where a continuous
+summary is informative; the reference-range and grade summaries above are the primary
+laboratory presentations.
+
+> **Dependency (#27, D8/D9).** The reference-range and baseline-grade variables specified
+> for ADLB — `ANRIND`, `BNRIND`, `BTOXGR` — are not yet derived; the shift table currently
+> classifies on `NRIND`. This section describes the intended analysis. It becomes fully
+> implementable when D8/D9 lands, and the outputs must be re-verified against this text at
+> that point.
+
+### 5.7 Vital signs (S5)
+
+Descriptive; no hypothesis testing. Analysis population: Safety. Analysis by `TRT01A`.
+
+**Change from baseline at key visits.** For each vital-signs parameter, n, mean and
+standard deviation of the value and of the change from baseline, at the protocol-scheduled
+visits C1D1, C4D1 and End of Treatment. Height is collected once at screening and is
+excluded from change-from-baseline summaries.
+
+**Weight change categories.** Worst post-baseline percentage change from baseline in
+weight, categorised and summarised as n (%) by arm.
+
+Vital signs are collected pre-dose on Day 1 of each cycle, after the patient has been
+seated at rest for at least 5 minutes, using the site's standard calibrated equipment
+(G6).
+
 ---
 
 ## 6. Sample Size (reference)

@@ -1,7 +1,7 @@
 ###############################################################################
 # 01_demographics.R
 # Generates raw/demographics.csv
-# 450 subjects, 1:1 randomisation across 15 sites
+# 450 subjects, 2:1 randomisation (torivumab : placebo) across 15 sites
 ###############################################################################
 
 message("  Simulating demographics...")
@@ -14,15 +14,17 @@ subject_site <- sample(subject_site)  # shuffle
 # ── subject IDs ───────────────────────────────────────────────────────────
 subject_ids <- paste0(subject_site, "-", sprintf("%04d", seq_len(N_SUBJECTS)))
 
-# ── treatment arm — strictly alternating then shuffled within site ─────────
-arm_raw <- rep(ARMS, times = N_SUBJECTS / 2)
-# Within each site, randomise order
+# ── treatment arm — 2:1 permuted block randomisation within site ───────────
+# Each block is ALLOC_BLOCK (2 active : 1 control), shuffled independently, so the
+# allocation ratio holds within every site and at every point during enrolment —
+# which a single site-level shuffle of a 2:1 pool would not guarantee.
 arm_assigned <- character(N_SUBJECTS)
 for (site in site_ids) {
-  idx <- which(subject_site == site)
-  n_s <- length(idx)
-  arm_block <- rep(ARMS, times = ceiling(n_s / 2))[1:n_s]
-  arm_assigned[idx] <- sample(arm_block)
+  idx   <- which(subject_site == site)
+  n_s   <- length(idx)
+  n_blk <- ceiling(n_s / length(ALLOC_BLOCK))
+  arm_block <- unlist(lapply(seq_len(n_blk), function(i) sample(ALLOC_BLOCK)))[1:n_s]
+  arm_assigned[idx] <- arm_block
 }
 
 # ── enrolment / consent / rand dates ──────────────────────────────────────
