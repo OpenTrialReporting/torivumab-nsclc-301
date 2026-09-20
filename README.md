@@ -161,13 +161,13 @@ torivumab-nsclc-301/
 
 ## Reproducible Environment (uvr)
 
-This project uses **[uvr](https://github.com/uvr-org/uvr)** for fast, reproducible R package management — a single lockfile pins every dependency at exact versions for regulatory auditability.
+This project uses **[uvr](https://github.com/nbafrank/uvr)** for fast, reproducible R package management — a single lockfile pins every dependency at exact versions for regulatory auditability.
 
 ### Quick Start
 
 ```bash
-# Install uvr (one-time)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Install the uvr CLI (one-time) — installs to ~/.local/bin, checksum-verified
+curl -fsSL https://raw.githubusercontent.com/nbafrank/uvr/main/install.sh | sh
 
 # Clone and sync
 git clone https://github.com/OpenTrialReporting/torivumab-nsclc-301.git
@@ -176,6 +176,47 @@ uvr sync
 ```
 
 `uvr sync` reads `uvr.lock` and installs all 160 packages (34 direct, 126 transitive) into `.uvr/library/`. The `.Rprofile` auto-links the library on R startup — `library(admiral)` just works.
+
+If `~/.local/bin` is not on your `PATH`, the installer prints the line to add.
+
+**Windows:** `irm https://raw.githubusercontent.com/nbafrank/uvr/main/install.ps1 | iex`
+
+### Working from the R console
+
+`.Rprofile` reports library status on startup and suggests `uvr::sync()`. That call
+needs the R companion package, which wraps the CLI:
+
+```r
+pak::pak("nbafrank/uvr-r")
+```
+
+Without it, use the `uvr` CLI from a terminal — the R package is a convenience, not a
+requirement.
+
+### System prerequisites
+
+`zstd` must be on `PATH`. R's binary packages are zstd-compressed, and without it
+installs fail with `tar: Can't initialize filter; unable to run program "zstd -d -qq"`
+— which surfaces as unrelated-looking package errors.
+
+```bash
+brew install zstd        # macOS
+apt-get install zstd     # Debian/Ubuntu
+```
+
+### Verifying the environment
+
+`programs/qc/check_env.R` compares every installed package against `uvr.lock` and
+exits non-zero on any missing package or version drift. Run it before trusting a
+regenerated artefact, and in CI:
+
+```bash
+Rscript programs/qc/check_env.R
+```
+
+Note that `uvr.lock` records two version fields per package: `raw_version` is the true
+CRAN version, `version` is uvr's normalised form. They differ — `openxlsx` is really
+`4.2.8.1`, normalised to `4.2.8-4.1`. Compare against `raw_version`.
 
 ### Key Commands
 
