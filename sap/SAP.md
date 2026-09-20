@@ -42,9 +42,9 @@ CTX-NSCLC-301 is a Phase 3, randomised (2:1), double-blind, placebo-controlled, 
 
 Full design: Protocol §3.
 
-> **As simulated:** the delivered data is **1:1 (225 : 225)**, not the planned 2:1 —
-> see the note at the top of `protocol/synopsis.md`. Analyses are unaffected in
-> specification; only the arm denominators differ from the planned design.
+> **As simulated (resolved 2026-09-20):** the delivered data is **2:1 (300 : 150)** as planned,
+> following the #27 D15 regeneration; between 2026-07-26 and 2026-09-20 it was 1:1 (225 : 225) —
+> see the note at the top of `protocol/synopsis.md`.
 
 ---
 
@@ -260,11 +260,11 @@ Values and change from baseline by visit are reported for parameters where a con
 summary is informative; the reference-range and grade summaries above are the primary
 laboratory presentations.
 
-> **Dependency (#27, D8/D9).** The reference-range and baseline-grade variables specified
-> for ADLB — `ANRIND`, `BNRIND`, `BTOXGR` — are not yet derived; the shift table currently
-> classifies on `NRIND`. This section describes the intended analysis. It becomes fully
-> implementable when D8/D9 lands, and the outputs must be re-verified against this text at
-> that point.
+> **Implemented 2026-09-20 (#27 D8/D9).** `ANRIND`, `BNRIND` and `BTOXGR` are derived in ADLB
+> and T-LB-01 classifies on `BNRIND` (baseline) → worst `ANRIND` as the 3 × 3 LOW / NORMAL /
+> HIGH cross-tabulation described above. Where a subject has both LOW and HIGH post-baseline
+> results, the record furthest outside the reference range (distance beyond the nearer bound,
+> scaled by the range width) supplies the worst category. T-LB-02 and L-LB-01 use `ATOXGR`.
 
 ### 5.7 Vital signs (S5)
 

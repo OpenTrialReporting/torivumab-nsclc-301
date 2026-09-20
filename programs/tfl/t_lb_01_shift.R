@@ -3,61 +3,61 @@
 # t_lb_01_shift.R
 # T-LB-01 — Laboratory Abnormalities Shift Table (Baseline → Worst Post-Baseline)
 # Population: Safety
-# Source: ADLB
+# Source: ADLB (BNRIND, ANRIND, ABLFL) — SAP §5.6, #27 D8/D9
+#
+# Baseline category  : BNRIND on the ABLFL = 'Y' record
+# Worst post-baseline: ANRIND of the most extreme post-baseline record. Any
+#                      abnormal (LOW / HIGH) record beats NORMAL; when a subject
+#                      has both LOW and HIGH post-baseline results, the record
+#                      furthest outside the reference range — distance beyond
+#                      the nearer bound, scaled by the range width — supplies
+#                      the category (ties: earliest ADT).
+# Layout             : per parameter, the 3 × 3 baseline × worst cross-tab
+#                      (NORMAL / LOW / HIGH) as long-form rows; the parameter
+#                      header row carries the per-arm denominator = subjects
+#                      with both a baseline and a post-baseline result.
 # =============================================================================
 
 adsl <- load_adam("adsl") |> filter(SAFFL == "Y")
-adlb <- load_adam("adlb") |> filter(SAFFL == "Y", !is.na(NRIND))
+adlb <- load_adam("adlb") |> filter(SAFFL == "Y")
 
-# Baseline NRIND per subject per parameter
-baseline <- adlb |> filter(ABLFL == "Y") |>
-  select(USUBJID, PARAMCD, PARAM, base_nrind = NRIND)
+CATS <- c("NORMAL", "LOW", "HIGH")
 
-# Worst post-baseline (worst = HIGH or LOW; if any abnormal across visits, use that)
-nrind_order <- c("LOW" = 1, "HIGH" = 1, "NORMAL" = 0)
+# Baseline reference-range category per subject per parameter
+baseline <- adlb |>
+  filter(ABLFL == "Y", !is.na(BNRIND)) |>
+  distinct(USUBJID, PARAMCD, PARAM, base_cat = BNRIND)
+
+# Worst post-baseline category per subject per parameter
 post_bl <- adlb |>
-  filter(is.na(ABLFL) | ABLFL != "Y") |>
-  mutate(score = nrind_order[NRIND]) |>
-  group_by(USUBJID, PARAMCD) |>
-  summarise(
-    worst_score = max(score, na.rm = TRUE),
-    worst_nrind = first(NRIND[score == max(score, na.rm = TRUE)]),
-    .groups = "drop"
+  filter(is.na(ABLFL) | ABLFL != "Y", !is.na(ANRIND), !is.na(AVAL)) |>
+  mutate(
+    width = ANRHI - ANRLO,
+    dev   = case_when(
+      ANRIND == "HIGH" & !is.na(width) & width > 0 ~ (AVAL - ANRHI) / width,
+      ANRIND == "LOW"  & !is.na(width) & width > 0 ~ (ANRLO - AVAL) / width,
+      ANRIND %in% c("HIGH", "LOW")                 ~ 1,      # abnormal, width unknown
+      TRUE                                         ~ 0       # NORMAL
+    )
   ) |>
-  mutate(worst_nrind = ifelse(worst_score == 0, "NORMAL", worst_nrind))
+  arrange(USUBJID, PARAMCD, desc(dev), ADT) |>
+  group_by(USUBJID, PARAMCD) |>
+  summarise(worst_cat = first(ANRIND), .groups = "drop")
 
 shifts <- baseline |>
-  inner_join(post_bl, by = c("USUBJID","PARAMCD")) |>
+  inner_join(post_bl, by = c("USUBJID", "PARAMCD")) |>
   left_join(adsl |> select(USUBJID, TRT01A), by = "USUBJID")
 
-# Build wide shift counts per parameter × arm
 PARAMS_DISPLAY <- shifts |> distinct(PARAMCD, PARAM) |> arrange(PARAMCD)
-
-categories <- c("NORMAL → NORMAL", "NORMAL → ABNORMAL",
-                "ABNORMAL → NORMAL", "ABNORMAL → ABNORMAL")
-
-classify <- function(bn, wn) {
-  bn_a <- bn != "NORMAL"
-  wn_a <- wn != "NORMAL"
-  case_when(
-    !bn_a & !wn_a ~ "NORMAL → NORMAL",
-    !bn_a &  wn_a ~ "NORMAL → ABNORMAL",
-     bn_a & !wn_a ~ "ABNORMAL → NORMAL",
-     bn_a &  wn_a ~ "ABNORMAL → ABNORMAL"
-  )
-}
-
-shifts <- shifts |>
-  mutate(category = classify(base_nrind, worst_nrind))
 
 # Per-arm denominators per parameter = subjects with baseline + post-baseline
 denoms <- shifts |>
   group_by(PARAMCD, TRT01A) |>
   summarise(n = n_distinct(USUBJID), .groups = "drop")
 
-count_shift <- function(pcode, cat, arm_full) {
-  sum(shifts$PARAMCD == pcode & shifts$category == cat &
-        shifts$TRT01A == arm_full)
+count_shift <- function(pcode, bcat, wcat, arm_full) {
+  sum(shifts$PARAMCD == pcode & shifts$base_cat == bcat &
+        shifts$worst_cat == wcat & shifts$TRT01A == arm_full)
 }
 denom_of <- function(pcode, arm_full) {
   d <- denoms$n[denoms$PARAMCD == pcode & denoms$TRT01A == arm_full]
@@ -86,10 +86,10 @@ for (i in seq_len(nrow(PARAMS_DISPLAY))) {
   pbo_d <- denom_of(pc, "Placebo + Chemotherapy")
   add(sprintf("%s (n with baseline + post-baseline)", pl),
       trt_d, n_trt_all, pbo_d, n_pbo_all, sec = TRUE)
-  for (cat in categories) {
-    add(paste0("  ", cat),
-        count_shift(pc, cat, "Torivumab + Chemotherapy"), trt_d,
-        count_shift(pc, cat, "Placebo + Chemotherapy"),   pbo_d)
+  for (bc in CATS) for (wc in CATS) {
+    add(sprintf("  Baseline %s \u2192 worst %s", bc, wc),
+        count_shift(pc, bc, wc, "Torivumab + Chemotherapy"), trt_d,
+        count_shift(pc, bc, wc, "Placebo + Chemotherapy"),   pbo_d)
   }
 }
 
@@ -103,13 +103,13 @@ ft <- ft |> bold_section_ft(section_rows) |> indent_ft(indent_rows, levels = 1)
 
 write_table_all_formats(
   ft, id = "T-LB-01",
-  title = "Laboratory Abnormalities — Baseline → Worst Post-Baseline Shift",
+  title = "Laboratory Abnormalities \u2014 Baseline \u2192 Worst Post-Baseline Shift",
   population = pop_label(nrow(adsl), "SAFFL"),
   notes = c(
-    "Shift = baseline reference-range indicator → worst post-baseline indicator per subject per parameter.",
-    "NORMAL = within reference range; ABNORMAL = HIGH or LOW.",
-    "Section header rows show the per-arm denominator (subjects with both baseline and post-baseline values for that parameter); cell percentages use that denominator.",
-    "Source: datasets/adam/adlb.parquet (NRIND, ABLFL)."
+    "Shift = baseline reference-range category (BNRIND, ABLFL = 'Y' record) \u2192 worst post-baseline category (ANRIND) per subject per parameter; categories LOW / NORMAL / HIGH against the central-laboratory reference range (SAP \u00a75.6).",
+    "Worst post-baseline = the most extreme post-baseline record: any LOW or HIGH result beats NORMAL; where both LOW and HIGH occur, the record furthest outside the reference range (distance beyond the nearer bound, scaled by the range width) supplies the category.",
+    "Section header rows show the per-arm denominator (subjects with both a baseline and a post-baseline result for that parameter); cell percentages use that denominator.",
+    "Source: datasets/adam/adlb.parquet (BNRIND, ANRIND, ABLFL)."
   )
 )
 message(sprintf("T-LB-01 written: %d parameters", nrow(PARAMS_DISPLAY)))

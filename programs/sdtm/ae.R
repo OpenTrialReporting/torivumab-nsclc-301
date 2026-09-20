@@ -46,7 +46,10 @@ raw <- raw |>
 normalize_term <- function(x) {
   s <- str_to_upper(str_trim(x))
   s <- gsub("\\s+", " ", s)
-  s <- gsub("N O S", "NOS", s)                 # de-space the "N O S" data artifact
+  # collapse letter-spaced acronyms produced by the CRF transcription variant
+  # ("A S T INCREASED" -> "AST INCREASED", "N O S" -> "NOS"): a run of single
+  # capitals separated by single spaces is one token
+  s <- gsub("\\b([A-Z]) (?=[A-Z]\\b)", "\\1", s, perl = TRUE)
   # strip trailing status / grade decorations (loop until stable)
   repeat {
     s2 <- s

@@ -77,7 +77,7 @@ Total delivered to end of 6c: **24 / 43 outputs**. (Phase 6d adds 14, Phase 6e a
 | T-AE-05 | Table | Immune-Related AEs | ADAE IRAEFL=Y |
 | T-AE-06 | Table | Adverse Events of Special Interest (AESI) | ADAE INNER JOIN `raw/codelists/aesi_meddra_pts.csv` (56 PTs / 12 categories; per-PT grade rule) |
 | T-AE-07 | Table | Deaths (overall + cause) | ADSL DTHFL=Y + SDTM.DD |
-| T-LB-01 | Table | Lab abnormalities shift (baseline → worst) | ADLB NRIND |
+| T-LB-01 | Table | Lab abnormalities shift (baseline → worst), 3 × 3 LOW/NORMAL/HIGH | ADLB BNRIND (ABLFL=Y) → worst ANRIND |
 | T-LB-02 | Table | Lab CTCAE Grade ≥3 worst post-baseline | ADLB ATOXGRN |
 | L-AE-01 | Listing | Serious Adverse Events | ADAE AESER=Y |
 | L-AE-02 | Listing | Deaths | ADSL DTHFL=Y + SDTM.DD |
@@ -264,3 +264,4 @@ All 43 production outputs delivered. Two structural accepted limitations remain:
 ---
 
 *Last updated: 2026-07-19*
+| 0.8 | 2026-09-20 | LG (w/ Claude Fable 5.1) | **#27 regeneration — all 43 outputs rebuilt on the 2:1 data (300 : 150).** One pass covering D1 (RANDDT origin), D3/D5 (BICR + confirmation), D4/D7 (`EFFFL`), D8/D9 (`ANRIND`/`BNRIND`/`BTOXGR`), D13 (stratified MH risk difference), D15–D17 (2:1, Q12W imaging after month 12, no C1D15), the REGION1 fix (#42) and the half-up rounding rule. TFL program edits: **T-LB-01** repointed from `NRIND` to `BNRIND` (baseline) → worst `ANRIND` and re-laid out as the SAP §5.6 3 × 3 LOW/NORMAL/HIGH cross-tabulation (12 parameters, 121 rows; worst = most extreme post-baseline record, distance beyond the nearer bound scaled by range width); **L-LB-01** range-indicator column now `ANRIND`. Headline results moved with the re-randomisation: OS HR 0.626 (0.495, 0.793), median 20.0 vs 15.5 months; PFS HR 0.623 (0.501, 0.775); ORR 35.6% vs 12.1%, stratified MH risk difference 23.2 (15.7, 30.8). T-AE-01 still reports 0 Grade 5 TEAEs (#29 open). |

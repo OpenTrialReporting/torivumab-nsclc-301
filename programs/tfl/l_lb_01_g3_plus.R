@@ -25,7 +25,7 @@ lst <- adlb |>
     `Units`           = AVALU,
     `Range`           = sprintf("(%.2f, %.2f)", ANRLO, ANRHI),
     `CTCAE Grade`     = ATOXGR,
-    `Range indicator` = NRIND,
+    `Range indicator` = ANRIND,
     `Baseline value`  = BASE,
     `Change`          = CHG
   )

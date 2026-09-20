@@ -59,7 +59,7 @@ Phase 8: ADRG (Analysis Data Reviewer's Guide)
 ### Study Design (LOCKED)
 - **Indication:** Non-Small Cell Lung Cancer (NSCLC)
 - **Phase:** 3, randomised, double-blind, placebo-controlled
-- **Population:** 450 subjects — as simulated 225 active : 225 placebo (1:1); protocol plans 2:1 (300:150)
+- **Population:** 450 subjects — 300 active : 150 placebo (2:1), matching the protocol since the 2026-09-20 regeneration (#27 D15; the data was 1:1 before that)
 - **Stratification:** PD-L1 TPS (≥50% required), Histology (squamous/non-squamous), Region (NA/EU/APAC)
 - **Primary endpoint:** Overall Survival (OS)
 - **Secondary:** PFS, ORR, Safety

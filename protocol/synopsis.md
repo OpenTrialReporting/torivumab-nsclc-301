@@ -12,13 +12,11 @@
 
 ---
 
-> **As-simulated deviation from this protocol.** This synopsis is locked and states a
-> **2:1** randomisation ratio (300 torivumab : 150 placebo). The simulated study data
-> shipped in `datasets/` — and therefore SDTM, ADaM, the TFLs, and the
-> `onco_phase3_solid` clinTrialData bundle — was generated **1:1 (225 : 225)** by
-> `programs/raw/01_demographics.R`. Where the planned design and the delivered data
-> disagree, the data is 1:1. The sample-size arithmetic in Section 8 below reflects the
-> planned 2:1 design and was not re-derived for 1:1.
+> **As-simulated note (resolved 2026-09-20).** From 2026-07-26 to 2026-09-20 the simulated data
+> in `datasets/` was **1:1 (225 : 225)** while this synopsis planned **2:1 (300 : 150)**. Issue
+> #27 (D15) decided that the documents govern: `programs/raw/01_demographics.R` now allocates
+> 2:1 and the study was regenerated on 2026-09-20, so SDTM, ADaM and the TFLs match this
+> synopsis. The `onco_phase3_solid` clinTrialData bundle remains 1:1 until its next release.
 
 ---
 

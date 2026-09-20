@@ -80,7 +80,7 @@ This sort key MUST be identical to the one used in `programs/sdtm/suppae.R` so t
 
 ### D2 — MedDRA coding (AELLT/AEDECOD/AEHLT/AEHLGT/AEBODSYS/AESOC + numeric codes)
 
-The collected verbatim terms carry severity/status decorations (e.g. `"GRADE 3 NEUTROPENIA"`, `"MILD NAUSEA NOS"`, `"DYSPNOEA (ONGOING)"`). `normalize_term()` strips these leading/trailing modifiers (loop until stable) to recover the base medical concept, then matches LLT first and falls back to PT. This deterministic normalisation replaces the old fuzzy `agrep` and takes coverage from ~23% to **100%** against the curated oncology subset — every concept resolves to a real dictionary LLT/PT with a **numeric** code (P21 SD1449 population; SD0055 numeric codes).
+The collected verbatim terms carry severity/status decorations (e.g. `"GRADE 3 NEUTROPENIA"`, `"MILD NAUSEA NOS"`, `"DYSPNOEA (ONGOING)"`). `normalize_term()` first collapses letter-spaced acronyms from the CRF transcription variant (`"A S T increased"` → `AST INCREASED`, `"N O S"` → `NOS`; a run of single capitals separated by single spaces is one token), then strips these leading/trailing modifiers (loop until stable) to recover the base medical concept, then matches LLT first and falls back to PT. This deterministic normalisation replaces the old fuzzy `agrep` and takes coverage from ~23% to **100%** against the curated oncology subset — every concept resolves to a real dictionary LLT/PT with a **numeric** code (P21 SD1449 population; SD0055 numeric codes).
 
 ```
 base <- normalize_term(AE_VERBATIM_TERM)          # strip grade/severity/status

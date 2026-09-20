@@ -6,9 +6,9 @@
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      ODMVersion="1.3.2"
      FileType="Snapshot"
-     FileOID="CTX-NSCLC-301.20260920181752"
-     CreationDateTime="2026-09-20T18:17:49"
-     AsOfDateTime="2026-09-20T18:17:49"
+     FileOID="CTX-NSCLC-301.20260920183708"
+     CreationDateTime="2026-09-20T18:37:06"
+     AsOfDateTime="2026-09-20T18:37:06"
      Originator="Lovemore Gakava (synthetic dataset author)"
      def:Context="Submission">
   <Study OID="STUDY.CTX-NSCLC-301">
@@ -741,7 +741,7 @@
         <ItemRef ItemOID="IT.ADLB.TRT01AN" OrderNumber="10" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.TRTSDT" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.TRTEDT" OrderNumber="12" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.LBSEQ" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.LBSEQ" OrderNumber="13" Mandatory="Yes" KeySequence="6"/>
         <ItemRef ItemOID="IT.ADLB.PARAM" OrderNumber="14" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.PARAMCD" OrderNumber="15" Mandatory="Yes" KeySequence="3"/>
         <ItemRef ItemOID="IT.ADLB.LBCAT" OrderNumber="16" Mandatory="No"/>
@@ -758,14 +758,18 @@
         <ItemRef ItemOID="IT.ADLB.ANRLO" OrderNumber="27" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.ANRHI" OrderNumber="28" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADLB.NRIND" OrderNumber="29" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.ABLFL" OrderNumber="30" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.BASE" OrderNumber="31" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.CHG" OrderNumber="32" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.PCHG" OrderNumber="33" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.ATOXGR" OrderNumber="34" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.ATOXGRN" OrderNumber="35" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.ANL01FL" OrderNumber="36" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADLB.DTYPE" OrderNumber="37" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ANRIND" OrderNumber="30" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ABLFL" OrderNumber="31" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.BASE" OrderNumber="32" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.BNRIND" OrderNumber="33" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.CHG" OrderNumber="34" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.PCHG" OrderNumber="35" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ATOXGR" OrderNumber="36" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ATOXGRN" OrderNumber="37" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.BTOXGR" OrderNumber="38" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.BTOXGRN" OrderNumber="39" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.ANL01FL" OrderNumber="40" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADLB.DTYPE" OrderNumber="41" Mandatory="No"/>
         <def:leaf ID="LF.ADLB" xlink:href="adlb.xpt">
           <def:title>adlb.xpt</def:title>
         </def:leaf>
@@ -805,23 +809,25 @@
         <ItemRef ItemOID="IT.ADRS.USUBJID" OrderNumber="2" Mandatory="Yes" KeySequence="2"/>
         <ItemRef ItemOID="IT.ADRS.SAFFL" OrderNumber="3" Mandatory="No"/>
         <ItemRef ItemOID="IT.ADRS.ITTFL" OrderNumber="4" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRT01P" OrderNumber="5" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRT01A" OrderNumber="6" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRT01PN" OrderNumber="7" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRT01AN" OrderNumber="8" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRTSDT" OrderNumber="9" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.TRTEDT" OrderNumber="10" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.PARAM" OrderNumber="11" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.PARAMCD" OrderNumber="12" Mandatory="Yes" KeySequence="3"/>
-        <ItemRef ItemOID="IT.ADRS.ADT" OrderNumber="13" Mandatory="Yes" KeySequence="5"/>
-        <ItemRef ItemOID="IT.ADRS.ADY" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.AVAL" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.AVALC" OrderNumber="16" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.RSPFL" OrderNumber="17" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.ANL01FL" OrderNumber="18" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.VISIT" OrderNumber="19" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.AVISIT" OrderNumber="20" Mandatory="No"/>
-        <ItemRef ItemOID="IT.ADRS.AVISITN" OrderNumber="21" Mandatory="Yes" KeySequence="4"/>
+        <ItemRef ItemOID="IT.ADRS.EFFFL" OrderNumber="5" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRT01P" OrderNumber="6" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRT01A" OrderNumber="7" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRT01PN" OrderNumber="8" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRT01AN" OrderNumber="9" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.RSEVAL" OrderNumber="10" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRTSDT" OrderNumber="11" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.TRTEDT" OrderNumber="12" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.PARAM" OrderNumber="13" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.PARAMCD" OrderNumber="14" Mandatory="Yes" KeySequence="3"/>
+        <ItemRef ItemOID="IT.ADRS.ADT" OrderNumber="15" Mandatory="Yes" KeySequence="5"/>
+        <ItemRef ItemOID="IT.ADRS.ADY" OrderNumber="16" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.AVAL" OrderNumber="17" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.AVALC" OrderNumber="18" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.RSPFL" OrderNumber="19" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.ANL01FL" OrderNumber="20" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.VISIT" OrderNumber="21" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.AVISIT" OrderNumber="22" Mandatory="No"/>
+        <ItemRef ItemOID="IT.ADRS.AVISITN" OrderNumber="23" Mandatory="Yes" KeySequence="4"/>
         <def:leaf ID="LF.ADRS" xlink:href="adrs.xpt">
           <def:title>adrs.xpt</def:title>
         </def:leaf>
@@ -3144,6 +3150,10 @@
         <Description><TranslatedText xml:lang="en">Reference Range Indicator</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
+      <ItemDef OID="IT.ADLB.ANRIND" Name="ANRIND" SASFieldName="ANRIND" DataType="text" Length="6">
+        <Description><TranslatedText xml:lang="en">Analysis Reference Range Indicator</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.ADLB.ABLFL" Name="ABLFL" SASFieldName="ABLFL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Baseline Record Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
@@ -3151,6 +3161,10 @@
       <ItemDef OID="IT.ADLB.BASE" Name="BASE" SASFieldName="BASE" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Baseline Value</TranslatedText></Description>
         <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADLB.BNRIND" Name="BNRIND" SASFieldName="BNRIND" DataType="text" Length="6">
+        <Description><TranslatedText xml:lang="en">Baseline Reference Range Indicator</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.CHG" Name="CHG" SASFieldName="CHG" DataType="float" Length="8">
         <Description><TranslatedText xml:lang="en">Change from Baseline</TranslatedText></Description>
@@ -3167,6 +3181,14 @@
       <ItemDef OID="IT.ADLB.ATOXGRN" Name="ATOXGRN" SASFieldName="ATOXGRN" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Analysis Toxicity Grade (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADLB.BTOXGR" Name="BTOXGR" SASFieldName="BTOXGR" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Baseline Toxicity Grade</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
+      <ItemDef OID="IT.ADLB.BTOXGRN" Name="BTOXGRN" SASFieldName="BTOXGRN" DataType="integer" Length="8">
+        <Description><TranslatedText xml:lang="en">Baseline Toxicity Grade (N)</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
       </ItemDef>
       <ItemDef OID="IT.ADLB.ANL01FL" Name="ANL01FL" SASFieldName="ANL01FL" DataType="text" Length="1">
         <Description><TranslatedText xml:lang="en">Analysis Flag 01 (analysis record per vi</TranslatedText></Description>
@@ -3284,6 +3306,10 @@
         <Description><TranslatedText xml:lang="en">Intent-To-Treat Population Flag</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
+      <ItemDef OID="IT.ADRS.EFFFL" Name="EFFFL" SASFieldName="EFFFL" DataType="text" Length="1">
+        <Description><TranslatedText xml:lang="en">Response Evaluable Population Flag</TranslatedText></Description>
+        <def:Origin Type="Derived"/>
+      </ItemDef>
       <ItemDef OID="IT.ADRS.TRT01P" Name="TRT01P" SASFieldName="TRT01P" DataType="text" Length="24">
         <Description><TranslatedText xml:lang="en">Planned Treatment for Period 01</TranslatedText></Description>
         <def:Origin Type="Derived"/>
@@ -3300,6 +3326,10 @@
         <Description><TranslatedText xml:lang="en">Actual Treatment for Period 01 (N)</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
+      <ItemDef OID="IT.ADRS.RSEVAL" Name="RSEVAL" SASFieldName="RSEVAL" DataType="text" Length="20">
+        <Description><TranslatedText xml:lang="en">Evaluator</TranslatedText></Description>
+        <def:Origin Type="Collected"/>
+      </ItemDef>
       <ItemDef OID="IT.ADRS.TRTSDT" Name="TRTSDT" SASFieldName="TRTSDT" DataType="integer" Length="8">
         <Description><TranslatedText xml:lang="en">Date of First Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
@@ -3308,7 +3338,7 @@
         <Description><TranslatedText xml:lang="en">Date of Last Exposure to Treatment</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADRS.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="45">
+      <ItemDef OID="IT.ADRS.PARAM" Name="PARAM" SASFieldName="PARAM" DataType="text" Length="44">
         <Description><TranslatedText xml:lang="en">Parameter Description</TranslatedText></Description>
         <def:Origin Type="Derived"/>
       </ItemDef>
@@ -3396,7 +3426,7 @@
         <Description><TranslatedText xml:lang="en">Country</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
-      <ItemDef OID="IT.ADSL.REGION1" Name="REGION1" SASFieldName="REGION1" DataType="text" Length="5">
+      <ItemDef OID="IT.ADSL.REGION1" Name="REGION1" SASFieldName="REGION1" DataType="text" Length="4">
         <Description><TranslatedText xml:lang="en">Geographic Region 1</TranslatedText></Description>
         <def:Origin Type="Collected"/>
       </ItemDef>
