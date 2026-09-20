@@ -10,7 +10,8 @@
 adsl <- load_adam("adsl") |> filter(ITTFL == "Y") |> add_region()
 adrs <- load_adam("adrs")
 
-re_subj <- adrs |> filter(PARAMCD == "OVR") |> distinct(USUBJID) |> pull(USUBJID)
+# Response Evaluable population from ADRS.EFFFL (#27 D4/D7), not re-derived
+re_subj <- adrs |> filter(EFFFL == "Y") |> distinct(USUBJID) |> pull(USUBJID)
 adsl_re <- adsl |> filter(USUBJID %in% re_subj)
 
 # CBOR

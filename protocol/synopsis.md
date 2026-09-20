@@ -120,7 +120,7 @@ Celindra Therapeutics | EDC Platform: Medidata Rave *(fictional)*
 | **Sponsor** | Celindra Therapeutics |
 | **Indication** | Advanced or metastatic NSCLC (Stage IIIB/IIIC/IV), PD-L1 TPS ≥50%, no EGFR/ALK mutation |
 | **Study Design** | Randomised, double-blind, placebo-controlled, multinational |
-| **Countries / Sites** | 13 countries (AUS, BRA, CAN, DEU, ESP, FRA, GBR, ITA, JPN, KOR, NLD, POL, USA); 15 investigational sites |
+| **Countries / Sites** | 12 countries (AUS, CAN, DEU, ESP, FRA, GBR, ITA, JPN, KOR, NLD, POL, USA); 15 investigational sites |
 | **Investigational Product** | Torivumab 200 mg IV Q3W (anti-PD-L1 monoclonal antibody), with carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W backbone |
 | **Comparator** | Matching placebo IV Q3W, with identical carboplatin + pemetrexed backbone |
 | **Randomisation Ratio** | 2:1 (torivumab : placebo) |

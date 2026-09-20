@@ -101,6 +101,8 @@ SUPPLEMENT <- list(
   LBCAT    = "Category for Lab Test",
   NRIND    = "Reference Range Indicator",
   ATOXGRN  = "Analysis Toxicity Grade (N)",
+  # ADRS
+  EFFFL    = "Response Evaluable Population Flag",
   BTOXGRN  = "Baseline Toxicity Grade (N)",
   # ADTR
   LNKID    = "Link ID",
