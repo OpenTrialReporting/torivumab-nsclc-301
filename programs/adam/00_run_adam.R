@@ -82,6 +82,13 @@ run_adam <- function(dataset) {
 
 start_time <- proc.time()
 
+# ── Rebuild the analysis-visit window reference first ─────────────────────────
+# crf/analysis_visit_windows.csv is a generated artefact read by _visit_utils.R;
+# regenerating it here keeps it in step with _build_visit_windows.R (it went
+# stale once — the C1D15 window survived PR #34 until the 2026-09-20 regeneration).
+message("Running: programs/adam/_build_visit_windows.R")
+source(file.path("programs", "adam", "_build_visit_windows.R"), local = new.env(parent = globalenv()))
+
 for (ds in adam_programs) {
   run_adam(ds)
 }

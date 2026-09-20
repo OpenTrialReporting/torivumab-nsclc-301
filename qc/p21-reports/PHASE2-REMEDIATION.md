@@ -121,8 +121,16 @@ Two accepted findings retired because their subject no longer exists: the 2:1 st
 produced no randomised-but-never-dosed subject, so **SD0070 / SD1343** (and the
 `COM.DM.UNDOSED` define comment) are gone.
 
-Reports: `pinnacle21-cli-20260920T183319-{sdtm,adam}.xlsx` (post-regeneration, ADaM
-pre-SD1152-fix), `pinnacle21-cli-20260920T183708-adam.xlsx` (final).
+A third item surfaced by the acceptance check (`check_alignment.py`, D17): `ADLB` still
+carried an `AVISIT = "C1D15"` for 29 unscheduled draws. `crf/analysis_visit_windows.csv`
+is a generated artefact that PR #34's change to `_build_visit_windows.R` had never
+regenerated, so the day-15 window survived. Rebuilt; `00_run_adam.R` now sources the
+builder on every run so the reference cannot go stale again. ADaM re-scan unchanged
+(10,999 / 6).
+
+Reports: `pinnacle21-cli-20260920T183319-sdtm.xlsx` (final SDTM),
+`pinnacle21-cli-20260920T183319-adam.xlsx` (post-regeneration, pre-SD1152 fix — evidence),
+`pinnacle21-cli-20260920T205010-adam.xlsx` (final ADaM).
 
 ## Residual (16, low-severity) — accepted / documented
 
