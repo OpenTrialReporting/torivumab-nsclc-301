@@ -235,21 +235,43 @@ adtte_ttr <- subj |>
   ) |>
   select(-TTR_EVENT)
 
-# 7. AVAL: days from start to event/censor
-add_aval <- function(dat, start_var) {
+# 7. AVAL: days from the parameter's time origin to event/censor
+#
+# #27 D1 (signed 2026-09-20). The authority is the M11 protocol, which defines
+# both endpoints itself with a CDISC endpoint code, cited to protocol §6:
+#
+#   Primary   C25212  "Time from randomisation to death from any cause"
+#   Secondary C25212  "Time from randomisation to the first documented disease
+#                      progression per RECIST 1.1 (BICR) or death"
+#
+# so OS, PFS and PFSINV anchor to RANDDT with the +1 day convention (the day of
+# randomisation is day 1). OSWOT is estimand E1b, OS *while on treatment*, and
+# deliberately keeps TRTSDT — that is what makes it a different estimand from
+# E1 rather than a duplicate. DOR runs from the response date and TTR from
+# treatment start; neither is in D1's scope and both are unchanged.
+#
+# AVAL stays in DAYS with AVALU = "DAYS". That is the ADaM convention for
+# ADTTE and what ADTTE-spec.md requires — "Months can be derived as
+# AVAL / 30.4375 in TFL scripts, not stored in ADTTE" — so months remain a
+# reporting-layer transformation. The estimand *Variable* in §13.4 is stated in
+# months, but an estimand's reporting unit and a dataset's storage unit are
+# different things and are not in conflict.
+add_aval <- function(dat, start_var, day_offset = 0) {
   dat |> mutate(
     STARTDT  = as.Date(.data[[start_var]]),   # time-to-event origin (P21 AD0245)
-    AVAL     = as.numeric(as.Date(ADT) - STARTDT),
+    AVAL     = as.numeric(as.Date(ADT) - STARTDT) + day_offset,
     AVALU    = "DAYS"
   )
 }
 
-adtte_os    <- add_aval(adtte_os,    "TRTSDT")
-adtte_oswot <- add_aval(adtte_oswot, "TRTSDT")
-adtte_pfs    <- add_aval(adtte_pfs,    "TRTSDT")
-adtte_pfsinv <- add_aval(adtte_pfsinv, "TRTSDT")
-adtte_dor   <- add_aval(adtte_dor,   "RSPDT")
-adtte_ttr   <- add_aval(adtte_ttr,   "TRTSDT")
+# RANDDT-anchored, +1 day (D1)
+adtte_os     <- add_aval(adtte_os,     "RANDDT", day_offset = 1)
+adtte_pfs    <- add_aval(adtte_pfs,    "RANDDT", day_offset = 1)
+adtte_pfsinv <- add_aval(adtte_pfsinv, "RANDDT", day_offset = 1)
+# Unchanged origins: E1b is while-on-treatment; DOR runs from response
+adtte_oswot  <- add_aval(adtte_oswot,  "TRTSDT")
+adtte_dor    <- add_aval(adtte_dor,    "RSPDT")
+adtte_ttr    <- add_aval(adtte_ttr,    "TRTSDT")
 
 # 8. Stack, flag, select
 adtte <- bind_rows(adtte_os, adtte_oswot, adtte_pfs, adtte_pfsinv,
